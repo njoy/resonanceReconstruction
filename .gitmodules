@@ -1,0 +1,9 @@
+[submodule "dependencies/ENDFtk"]
+	path = dependencies/ENDFtk
+	url = https://github.com/njoy/ENDFtk.git
+[submodule "dependencies/dimwits"]
+	path = dependencies/dimwits
+	url = https://github.com/njoy/dimensionalanalysis.git
+[submodule "dependencies/interpolation"]
+	path = dependencies/interpolation
+	url = https://github.com/njoy/interpolation.git
