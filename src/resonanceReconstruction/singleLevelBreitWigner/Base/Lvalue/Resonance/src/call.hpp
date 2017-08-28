@@ -1,12 +1,10 @@
 template< typename PsiChi >
-CrossSection operator()( const Quantity<ElectronVolts> energy,
-                         const Quantity<InvRootBarns> waveNumber,
-                         const double penetrationFactor,
-                         const double shiftFactor,
-                         const double sin,
-                         const double cos,
-                         const Quantity<ElectronVolts> competitiveWidth,
-                         const PsiChi& kernel ) const {
+auto operator()( const double penetrationFactor,
+                 const double shiftFactor,
+                 const double sin,
+                 const double cos,
+                 const Quantity<ElectronVolts> competitiveWidth,
+                 const PsiChi& kernel ) const {
   const auto neutronWidth =
     this->neutronWidth
     * penetrationFactor
@@ -19,33 +17,28 @@ CrossSection operator()( const Quantity<ElectronVolts> energy,
            + competitiveWidth );
 
   const auto primedResonanceEnergy =
-    0.5 * this->energy
-    + this->neutronWidth
-    * this->inversePenetrationFactor
-    * ( this->shiftFactor - shiftFactor );
+    this->energy
+    + 0.5 * this->neutronWidth
+          * this->inversePenetrationFactor
+          * ( this->shiftFactor - shiftFactor );
     
-  const auto maximumOffset =
-    4.0 * pi 
-    * this->statisticalFactor
-    * neutronWidth
-    * inverseTotalWidth
-    / ( waveNumber * waveNumber );
+  const auto scaling =
+    this->statisticalFactor * neutronWidth * inverseTotalWidth;
 
   const auto psichi =
-    kernel( energy, primedResonanceEnergy, inverseTotalWidth );
+    kernel( primedResonanceEnergy, inverseTotalWidth );
   
   const auto& psi = psichi[0];
   const auto& chi = psichi[1];
 
-  const auto scattering =
-    maximumOffset
-    * ( ( cos - 1. + neutronWidth * inverseTotalWidth ) * psi + sin * chi );
+  double scattering =
+    scaling * ( ( cos - 1. + neutronWidth * inverseTotalWidth ) * psi + sin * chi );
     
-  const auto capture =
-    maximumOffset * this->captureWidth * psi * inverseTotalWidth;
+  double capture =
+    ( scaling * psi * inverseTotalWidth ) * this->captureWidth;
 
-  const auto fission =
-    maximumOffset * this->fissionWidth * psi * inverseTotalWidth;
+  double fission =
+    ( scaling * psi * inverseTotalWidth ) * this->fissionWidth;
     
-  return { scattering, capture, fission };
+  return pack( scattering, capture, fission );
 }

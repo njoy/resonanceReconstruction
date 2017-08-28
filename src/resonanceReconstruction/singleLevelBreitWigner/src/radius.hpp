@@ -55,9 +55,8 @@ inline auto radius( const ENDFtk::TAB1& tab1 ){
 
   using ENDFvariant = decltype(tables)::value_type;
   
-  auto table = Table< table::Vector< ENDFvariant > >{ std::move( tables ) };
-  return
-    [ table = std::move(table), token = table.cachedSearch() ]
-    ( const Quantity< ElectronVolts > energy ) mutable
-  { return table( energy, token ); };
+  auto table = Table< table::Vector< ENDFvariant >,
+                      table::left::interval::Throws,
+                      table::right::interval::Throws >{ std::move( tables ) };
+  return table;
 }

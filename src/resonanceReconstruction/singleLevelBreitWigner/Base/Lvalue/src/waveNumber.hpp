@@ -1,11 +1,9 @@
 auto waveNumber( Quantity<ElectronVolts> energy ) const {
-  constexpr auto neutronMass = 1.674927471E-21 * kilo(grams);
-
   using Units4Constant =
     decltype( pow( Barns() * ElectronVolts(), Ratio<-1,2> ) );
-  
-  const Quantity< Units4Constant >
-    neutronConstant = sqrt( 2.0 * neutronMass ) / constant::dirac;
+
+  constexpr Quantity< Units4Constant >
+    neutronConstant = 5.787793139E-14 * root( kilo(grams) ) / constant::dirac;
   
   return this->target2CompoundWeightRatio
          * neutronConstant

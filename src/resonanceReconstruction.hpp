@@ -22,6 +22,7 @@ constexpr  Quantity< RootBarn > rootBarns = rootBarn;
 
 constexpr double pi = 3.141592653589793;
 
+#include "resonanceReconstruction/pack.hpp" 
 #include "resonanceReconstruction/singleLevelBreitWigner.hpp" 
 
 }

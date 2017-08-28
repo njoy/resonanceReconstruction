@@ -1,6 +1,10 @@
 
 add_executable( resonanceReconstruction.singleLevelBreitWigner.test
+                channelRadius.test.cpp
+                neutronWaveNumber.test.cpp
                 penetrationShift.test.cpp
+                phaseShift.test.cpp
+                radius.test.cpp
                 singleLevelBreitWigner.test.cpp )
 target_compile_options( resonanceReconstruction.singleLevelBreitWigner.test PRIVATE ${${PREFIX}_common_flags}
 $<$<BOOL:${strict}>:${${PREFIX}_strict_flags}>$<$<CONFIG:DEBUG>:

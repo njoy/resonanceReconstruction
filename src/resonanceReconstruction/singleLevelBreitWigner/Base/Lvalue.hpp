@@ -1,5 +1,4 @@
-struct Lvalue {
-  
+struct Lvalue {  
   #include "resonanceReconstruction/singleLevelBreitWigner/Base/Lvalue/Resonance.hpp"
   std::vector< Resonance > resonances;
   

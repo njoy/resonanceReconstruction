@@ -1,11 +1,17 @@
-inline auto neutronWaveNumber( double atomicWeightRatio ){
-  constexpr auto neutronMass = 1.674927471E-21 * kilo(grams);
+template< typename T >
+constexpr auto root( T t ){
+  using Root = decltype( pow( typename decltype( 1.0 * t )::Units(), Ratio<1,2> ) );
+  Quantity< Root > r; r.value = 1.0;
+  return r;
+}
 
+inline auto neutronWaveNumber( const double atomicWeightRatio ){
+  /* sqrt( 2.0 * neutron mass ) */
   using Units4Constant =
     decltype( pow( Barns() * ElectronVolts(), Ratio<-1,2> ) );
   
-  const Quantity< Units4Constant >
-    neutronConstant = sqrt( 2.0 * neutronMass ) / constant::dirac;
+  constexpr Quantity< Units4Constant >
+    neutronConstant = 5.787793139E-14 * root( kilo(grams) ) / constant::dirac;
   
   const auto weightFraction =
     atomicWeightRatio / ( atomicWeightRatio + 1.0 );
@@ -13,5 +19,7 @@ inline auto neutronWaveNumber( double atomicWeightRatio ){
   return
     [ constant = weightFraction * neutronConstant ]
     ( Quantity<ElectronVolts> energy )
-    { return constant * sqrt( std::abs( energy ) ); };
+    {
+      return constant * sqrt( std::abs( energy ) );
+    };
 }

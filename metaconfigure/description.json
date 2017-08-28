@@ -367,18 +367,13 @@
   },
   "header files": [
     "src/resonanceReconstruction.hpp",
+    "src/resonanceReconstruction/pack.hpp",
     "src/resonanceReconstruction/singleLevelBreitWigner.hpp",
     "src/resonanceReconstruction/singleLevelBreitWigner/Base.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/CRTP.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/ENDF.hpp",
     "src/resonanceReconstruction/singleLevelBreitWigner/Factory.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/make.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/penetrationFactor.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/shiftFactor.hpp",
     "src/resonanceReconstruction/singleLevelBreitWigner/Type.hpp",
     "src/resonanceReconstruction/singleLevelBreitWigner/Base/CrossSection.hpp",
     "src/resonanceReconstruction/singleLevelBreitWigner/Base/Lvalue.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/Base/Resonance.hpp",
     "src/resonanceReconstruction/singleLevelBreitWigner/Base/Lvalue/Resonance.hpp",
     "src/resonanceReconstruction/singleLevelBreitWigner/Base/Lvalue/Resonances.hpp",
     "src/resonanceReconstruction/singleLevelBreitWigner/Base/Lvalue/Resonance/src/call.hpp",
@@ -390,14 +385,14 @@
     "src/resonanceReconstruction/singleLevelBreitWigner/Base/Lvalue/src/withCompetitiveWidth.hpp",
     "src/resonanceReconstruction/singleLevelBreitWigner/Base/Lvalue/src/withoutCompetitiveWidth.hpp",
     "src/resonanceReconstruction/singleLevelBreitWigner/Base/src/call.hpp",
+    "src/resonanceReconstruction/singleLevelBreitWigner/Base/src/makePsiChi.hpp",
+    "src/resonanceReconstruction/singleLevelBreitWigner/Base/src/psiChi.hpp",
     "src/resonanceReconstruction/singleLevelBreitWigner/Factory/ENDF.hpp",
     "src/resonanceReconstruction/singleLevelBreitWigner/src/channelRadius.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/src/hardSphere.hpp",
     "src/resonanceReconstruction/singleLevelBreitWigner/src/neutronWaveNumber.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/src/neutronWidth.hpp",
     "src/resonanceReconstruction/singleLevelBreitWigner/src/penetrationShift.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/src/radius.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/src/statisticalFactor.hpp"
+    "src/resonanceReconstruction/singleLevelBreitWigner/src/phaseShift.hpp",
+    "src/resonanceReconstruction/singleLevelBreitWigner/src/radius.hpp"
   ],
   "ignore pattern": "$^",
   "implementation files": [],
@@ -416,8 +411,25 @@
   "test pattern": "test$",
   "tests": {
     "resonanceReconstruction.singleLevelBreitWigner": [
+      "src/resonanceReconstruction/singleLevelBreitWigner/test/channelRadius.test.cpp",
+      "src/resonanceReconstruction/singleLevelBreitWigner/test/neutronWaveNumber.test.cpp",
       "src/resonanceReconstruction/singleLevelBreitWigner/test/penetrationShift.test.cpp",
+      "src/resonanceReconstruction/singleLevelBreitWigner/test/phaseShift.test.cpp",
+      "src/resonanceReconstruction/singleLevelBreitWigner/test/radius.test.cpp",
       "src/resonanceReconstruction/singleLevelBreitWigner/test/singleLevelBreitWigner.test.cpp"
+    ],
+    "resonanceReconstruction.singleLevelBreitWigner.Base": [
+      "src/resonanceReconstruction/singleLevelBreitWigner/Base/test/Base.test.cpp"
+    ],
+    "resonanceReconstruction.singleLevelBreitWigner.Base.Lvalue": [
+      "src/resonanceReconstruction/singleLevelBreitWigner/Base/Lvalue/test/call.test.cpp",
+      "src/resonanceReconstruction/singleLevelBreitWigner/Base/Lvalue/test/Lvalue.test.cpp",
+      "src/resonanceReconstruction/singleLevelBreitWigner/Base/Lvalue/test/penetrationShift.test.cpp",
+      "src/resonanceReconstruction/singleLevelBreitWigner/Base/Lvalue/test/phaseShift.test.cpp",
+      "src/resonanceReconstruction/singleLevelBreitWigner/Base/Lvalue/test/waveNumber.test.cpp"
+    ],
+    "resonanceReconstruction.singleLevelBreitWigner.Base.Lvalue.Resonance": [
+      "src/resonanceReconstruction/singleLevelBreitWigner/Base/Lvalue/Resonance/test/Resonance.test.cpp"
     ]
   },
   "update": true

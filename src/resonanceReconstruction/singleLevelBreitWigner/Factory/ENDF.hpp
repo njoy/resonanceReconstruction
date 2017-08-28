@@ -33,8 +33,8 @@ class Factory< ENDFtk::resonanceParameters::resolved::SLBW > {
           penetrationShift( list.L1(), channelRatio )[0];
         
         return ranges::accumulate( chuck | ranges::view::slice(3,6),
-                                   chunk[2], ranges::minus{} )
-               / penetrationFactor;
+                                   chunk[2],
+                                   ranges::minus{} ) / penetrationFactor;
       }();
   
       const auto channelRadius = radius( std::abs(energy) );
