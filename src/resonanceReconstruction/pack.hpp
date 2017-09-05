@@ -1,10 +1,4 @@
 template< typename... Ts >
-struct Pack;
-
-template< typename... Ts >
-auto pack( Ts&&... ts ) -> Pack< std::decay_t<Ts>... >;
-
-template< typename... Ts >
 struct Pack {
   std::tuple<Ts...> data;
 
@@ -51,6 +45,6 @@ struct Pack {
 };
 
 template< typename... Ts >
-auto pack( Ts&&... ts ) -> Pack< std::decay_t<Ts>... > {
+auto pack( Ts&&... ts ) {
   return Pack< std::decay_t<Ts>... >{ std::forward<Ts>(ts)... };
 }

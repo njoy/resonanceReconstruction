@@ -1,0 +1,16 @@
+Type( Quantity< ElectronVolts > energy,
+      Quantity< ElectronVolts > neutronWidth,
+      Quantity< ElectronVolts > captureWidth,
+      Quantity< ElectronVolts > fissionWidth,
+      Quantity< ElectronVolts > weightedCompetitiveWidth,
+      double inversePenetrationFactor,
+      double shiftFactor,
+      double statisticalFactor ) :
+  energy( energy ),
+  neutronWidth( neutronWidth ),
+  captureWidth( captureWidth ),
+  fissionWidth( fissionWidth ),
+  weightedCompetitiveWidth( weightedCompetitiveWidth ),
+  inversePenetrationFactor( inversePenetrationFactor ),
+  shiftFactor( shiftFactor ),
+  statisticalFactor( statisticalFactor ){}

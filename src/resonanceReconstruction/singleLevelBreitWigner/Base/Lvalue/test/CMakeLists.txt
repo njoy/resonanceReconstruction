@@ -1,8 +1,8 @@
 
 add_executable( resonanceReconstruction.singleLevelBreitWigner.Base.Lvalue.test
+                penetrationShift.test.cpp
                 call.test.cpp
                 Lvalue.test.cpp
-                penetrationShift.test.cpp
                 phaseShift.test.cpp
                 waveNumber.test.cpp )
 target_compile_options( resonanceReconstruction.singleLevelBreitWigner.Base.Lvalue.test PRIVATE ${${PREFIX}_common_flags}

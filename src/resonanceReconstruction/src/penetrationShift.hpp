@@ -31,7 +31,6 @@ penetrationShift( const int l, const double channelRatio ){
     } default: throw std::exception();
     }
   }();
-
   if ( channelRatio < 0 ){ pair[0] = 0.0; }
   return pair;
 }
