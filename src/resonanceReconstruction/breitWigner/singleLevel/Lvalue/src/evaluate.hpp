@@ -1,8 +1,8 @@
 template< typename PsiChi, typename CompetitiveWidth = ZeroWidth >
-double evaluate( const PsiChi& kernel,
-                 const double channelRatio,
-                 const double scatteringRatio,
-                 const CompetitiveWidth& competitiveWidth = {} ) const {
+auto evaluate( const PsiChi& kernel,
+               const double channelRatio,
+               const double scatteringRatio,
+               const CompetitiveWidth& competitiveWidth = {} ) const {
   const auto penetrationShift = this->penetrationShift( channelRatio );
   const auto& penetrationFactor = penetrationShift[0];
   const auto& shiftFactor = penetrationShift[1];
@@ -27,7 +27,7 @@ double evaluate( const PsiChi& kernel,
                           competitiveWidth( resonance ),
                           kernel ); } );
 
-  const double potentialScattering =
+  const auto potentialScattering =
     pack( trig[0] * ( 2. * orbitalAngularMomentum + 1. ), 0.0, 0.0 );
 
   return ranges::accumulate( crossSections, potentialScattering );
