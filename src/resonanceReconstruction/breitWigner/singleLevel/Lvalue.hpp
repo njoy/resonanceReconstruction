@@ -6,7 +6,6 @@ class Lvalue : public lvalue::Type {
   Lvalue( Lvalue&& ) = delete;
 
   #include "resonanceReconstruction/breitWigner/singleLevel/Lvalue/src/resonances.hpp"
-  #include "resonanceReconstruction/breitWigner/singleLevel/Lvalue/src/competitiveWidth.hpp"
   #include "resonanceReconstruction/breitWigner/singleLevel/Lvalue/src/evaluate.hpp"
 
 public:

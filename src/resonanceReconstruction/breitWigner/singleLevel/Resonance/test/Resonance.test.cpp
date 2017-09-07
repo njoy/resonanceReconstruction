@@ -42,8 +42,8 @@ SCENARIO("a SLBW resonance reconstruction"){
 
     return resonance( penetrationFactor,
                       shiftFactor,
+                      trig[0],
                       trig[1],
-                      trig[2],
                       0.0 * electronVolts,
                       psiChi );
   };

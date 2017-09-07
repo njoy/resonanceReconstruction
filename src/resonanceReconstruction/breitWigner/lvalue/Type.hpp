@@ -7,5 +7,6 @@ protected:
 public:
   #include "resonanceReconstruction/breitWigner/lvalue/Type/src/penetrationShift.hpp"
   #include "resonanceReconstruction/breitWigner/lvalue/Type/src/phaseShift.hpp"
+  #include "resonanceReconstruction/breitWigner/lvalue/Type/src/competitiveWidth.hpp"
   #include "resonanceReconstruction/breitWigner/lvalue/Type/src/ctor.hpp"
 };

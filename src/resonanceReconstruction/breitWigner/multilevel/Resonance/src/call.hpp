@@ -24,7 +24,7 @@ auto operator()( const double penetrationFactor,
   const double& chi = psichi[1];
   
   const double widthRatio = neutronWidth * inverseTotalWidth;
-  const double scattering = pack( psi, chi ) * ( 2 * widthRatio );
+  const double scattering = pack( psi, chi ) * widthRatio;
 
   const auto scaling = psi * inverseTotalWidth * widthRatio;
   const double capture = scaling * this->captureWidth;
