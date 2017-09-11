@@ -4,9 +4,9 @@ Type( std::vector< lvalue::Type >&& lvalues,
       int nucleonNumber,
       ChannelRadius&& channelRadius,
       ScatteringRadius&& scatteringRadius ) :
-  Base( std::move(lvalues),
-        atomicWeightRatio,
-        energyRange,
-        nucleonNumber ),
+  Parent( std::move(lvalues),
+          atomicWeightRatio,
+          energyRange,
+          nucleonNumber ),
   channelRadius( std::move( channelRadius ) ),
   scatteringRadius( std::move( scatteringRadius ) ){}

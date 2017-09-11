@@ -1,8 +1,7 @@
-template< typename PsiChi >
 auto operator()( const double penetrationFactor,
                  const double shiftFactor,
                  const Quantity< ElectronVolts > competitiveWidth,
-                 const PsiChi& kernel ) const {
+                 const ResonanceShape& kernel ) const {
   const auto weightedWidth =
     this->neutronWidth * this->inversePenetrationFactor;
   
@@ -24,7 +23,7 @@ auto operator()( const double penetrationFactor,
   const double& chi = psichi[1];
   
   const double widthRatio = neutronWidth * inverseTotalWidth;
-  const double scattering = pack( psi, chi ) * widthRatio;
+  const auto scattering = pack( psi, chi ) * widthRatio;
 
   const auto scaling = psi * inverseTotalWidth * widthRatio;
   const double capture = scaling * this->captureWidth;

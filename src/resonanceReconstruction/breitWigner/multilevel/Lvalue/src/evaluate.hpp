@@ -1,5 +1,5 @@
-template< typename PsiChi, typename CompetitiveWidth = ZeroWidth >
-auto evaluate( const PsiChi& kernel,
+template< typename CompetitiveWidth = ZeroWidth >
+auto evaluate( const ResonanceShape& kernel,
                const double channelRatio,
                const double scatteringRatio,
                const double targetSpin,
@@ -46,7 +46,7 @@ auto evaluate( const PsiChi& kernel,
         const auto fission = std::get<2>( Jsum );
         
         return pack( scattering, capture, fission )
-               * Jvalue.front().statisticalFactor;
+               * Jresonances.front().statisticalFactor;
       } );
 
   const auto potentialScattering =

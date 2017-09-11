@@ -9,7 +9,6 @@ protected:
   
   double targetSpin;
   
-  #include "resonanceReconstruction/breitWigner/multilevel/Base/src/psiChi.hpp"
   #include "resonanceReconstruction/breitWigner/multilevel/Base/src/lvalues.hpp"
   #include "resonanceReconstruction/breitWigner/multilevel/Base/src/evaluate.hpp"
   #include "resonanceReconstruction/breitWigner/multilevel/Base/src/order.hpp"

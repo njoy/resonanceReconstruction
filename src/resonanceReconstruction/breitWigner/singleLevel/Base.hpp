@@ -7,7 +7,6 @@ protected:
     return static_cast< const Derived& >( *this );
   }
   
-  #include "resonanceReconstruction/breitWigner/singleLevel/Base/src/psiChi.hpp"
   #include "resonanceReconstruction/breitWigner/singleLevel/Base/src/lvalues.hpp"
   #include "resonanceReconstruction/breitWigner/singleLevel/Base/src/evaluate.hpp"
 

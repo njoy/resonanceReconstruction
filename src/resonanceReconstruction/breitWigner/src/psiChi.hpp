@@ -1,4 +1,4 @@
-auto psiChi( const Quantity<ElectronVolts> energy ){
+inline auto psiChi( const Quantity<ElectronVolts> energy ){
   return [ energy ]( const Quantity< ElectronVolts > primedResonanceEnergy,
                      const Quantity< InvElectronVolts > inverseTotalWidth ) {
     const double x =

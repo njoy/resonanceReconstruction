@@ -3,8 +3,8 @@ Type( std::vector< lvalue::Type >&& lvalues,
       EnergyRange energyRange,
       int nucleonNumber,
       Radius&& radius ) :
-  Base( std::move(lvalues),
-        atomicWeightRatio,
-        energyRange,
-        nucleonNumber ),
+  Parent( std::move(lvalues),
+          atomicWeightRatio,
+          energyRange,
+          nucleonNumber ),
   radius( std::move( radius ) ){}

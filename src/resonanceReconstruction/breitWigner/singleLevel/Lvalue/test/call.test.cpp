@@ -6,14 +6,6 @@ using namespace dimwits;
 
 breitWigner::lvalue::Type makeLvalue( int l );
 
-namespace {
-
-struct SLBW : breitWigner::singleLevel::Base {
-  using breitWigner::singleLevel::Base::psiChi;
-};
-
-};
-
 SCENARIO("call"){
   auto base = makeLvalue( 0 );
 
@@ -32,7 +24,7 @@ SCENARIO("call"){
     | ranges::view::transform( [&]( double d ){ return d * electronVolts; } );
 
   auto evaluate = [&]( auto&& energy ){
-    auto psiChi = SLBW::psiChi( energy );
+    auto psiChi = breitWigner::psiChi( energy );
     auto channelRatio = a(energy) * k(energy);
     auto scatteringRatio = ap(energy) * k(energy);
     return std::get<2>( lValue( energy,

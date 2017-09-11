@@ -8,7 +8,7 @@ class Type< Radius > : public Base< Type< Radius > > {
 protected:
   friend Base< Type< Radius > >;
   using Parent = Base< Type< Radius > >;  
-  #include "resonanceReconstruction/breitWigner/multievel/Type/src/evaluate1.hpp"
+  #include "resonanceReconstruction/breitWigner/multilevel/Type/src/evaluate1.hpp"
 
 public:
   #include "resonanceReconstruction/breitWigner/multilevel/Type/src/ctor1.hpp"
