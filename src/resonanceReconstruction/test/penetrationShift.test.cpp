@@ -5,7 +5,7 @@
 
 using namespace njoy::resonanceReconstruction;
 
-SCENARIO("penetration shift"){  
+SCENARIO( "penetration shift" ){  
   auto trial =
     ranges::view::cartesian_product
     ( ranges::view::iota(0,5), ranges::view::linear_distribute( 0., 5., 21 ) )
@@ -128,4 +128,59 @@ SCENARIO("penetration shift"){
     REQUIRE( trial[1] == Approx( reference[1] ) );
   }  
  
+}
+
+SCENARIO( "penetration shift factory" ){
+  auto channelRatios = ranges::view::linear_distribute( 0., 5., 21 );
+
+  SECTION( "l = 0" ){
+    auto ps = penetrationShift( Integer<0>{} );
+    RANGES_FOR( const auto channelRatio, channelRatios ){
+      njoy::Log::debug("{}", channelRatio );
+      auto trial = ps( channelRatio );
+      auto reference = penetrationShift( 0, channelRatio );
+      REQUIRE( trial[0] == Approx( reference[0] ) );
+      REQUIRE( trial[1] == Approx( reference[1] ) );
+    }
+  }
+
+  SECTION( "l = 1" ){
+    auto ps = penetrationShift( Integer<1>{} );
+    RANGES_FOR( const auto channelRatio, channelRatios ){
+      auto trial = ps( channelRatio );
+      auto reference = penetrationShift( 1, channelRatio );
+      REQUIRE( trial[0] == Approx( reference[0] ) );
+      REQUIRE( trial[1] == Approx( reference[1] ) );
+    }
+  }
+
+  SECTION( "l = 2" ){
+    auto ps = penetrationShift( Integer<2>{} );
+    RANGES_FOR( const auto channelRatio, channelRatios ){
+      auto trial = ps( channelRatio );
+      auto reference = penetrationShift( 2, channelRatio );
+      REQUIRE( trial[0] == Approx( reference[0] ) );
+      REQUIRE( trial[1] == Approx( reference[1] ) );
+    }
+  }
+
+  SECTION( "l = 3" ){
+    auto ps = penetrationShift( Integer<3>{} );
+    RANGES_FOR( const auto channelRatio, channelRatios ){
+      auto trial = ps( channelRatio );
+      auto reference = penetrationShift( 3, channelRatio );
+      REQUIRE( trial[0] == Approx( reference[0] ) );
+      REQUIRE( trial[1] == Approx( reference[1] ) );
+    }
+  }
+
+  SECTION( "l = 4" ){
+    auto ps = penetrationShift( Integer<4>{} );
+    RANGES_FOR( const auto channelRatio, channelRatios ){
+      auto trial = ps( channelRatio );
+      auto reference = penetrationShift( 4, channelRatio );
+      REQUIRE( trial[0] == Approx( reference[0] ) );
+      REQUIRE( trial[1] == Approx( reference[1] ) );
+    }
+  }
 }
