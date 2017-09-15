@@ -1,4 +1,4 @@
-template< typename PsiChi, typename ChannelRadius, typename WaveNumber >
+template< typename PsiChi, typename ChannelRadius >
 auto evaluate( const Quantity< ElectronVolts > energy,
                const PsiChi& kernel,
                const Quantity< RootBarn > channelRadius,
@@ -20,7 +20,6 @@ auto evaluate( const Quantity< ElectronVolts > energy,
                                              kernel,
                                              channelRatio,
                                              scatteringRatio,
-                                             channelRadius,
                                              rho ); } );
   
   const auto scaling = 4.0 * pi / ( waveNumber * waveNumber );

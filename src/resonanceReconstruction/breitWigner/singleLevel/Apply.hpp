@@ -1,5 +1,7 @@
 class Apply {
-  static int nucleonNumber( const ENDF::resolved::SLBW& slbw ){ 
+protected:
+  template< template BreitWigner >
+  static int nucleonNumber( const BreitWigner& slbw ){ 
     constexpr double neutronAMU = 1.00866491588;
     return std::lround( slbw.LStates().front().AWRI() * neutronAMU );
   }

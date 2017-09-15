@@ -14,7 +14,7 @@ protected:
 
 public:
   template< typename... Args >
-  auto operator()( const Args&&... args ) const {
+  auto operator()( Args&&... args ) const {
     return this->derived().evaluate( std::forward< Args >( args )... );
   }
 };

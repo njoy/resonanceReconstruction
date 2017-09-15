@@ -8,5 +8,5 @@ auto evaluate( const Quantity<ElectronVolts> energy,
                            kernel,
                            channelRadius,
                            scatteringRadius,
-                           this->radius );
+                           this->channelRadius );
 }

@@ -502,6 +502,9 @@
     "resonanceReconstruction.breitWigner.multilevel.Resonance": [
       "src/resonanceReconstruction/breitWigner/multilevel/Resonance/test/Resonance.test.cpp"
     ],
+    "resonanceReconstruction.breitWigner.singleLevel.Apply": [
+      "src/resonanceReconstruction/breitWigner/singleLevel/Apply/test/Apply.test.cpp"
+    ],
     "resonanceReconstruction.breitWigner.singleLevel.Lvalue": [
       "src/resonanceReconstruction/breitWigner/singleLevel/Lvalue/test/call.test.cpp",
       "src/resonanceReconstruction/breitWigner/singleLevel/Lvalue/test/Lvalue.test.cpp",

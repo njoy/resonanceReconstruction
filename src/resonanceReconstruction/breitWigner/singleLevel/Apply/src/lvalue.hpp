@@ -38,13 +38,14 @@ static auto lvalue( const ENDF::resolved::SLBW::LState& lstate,
   throw std::exception();
 }
 
-template< typename ChannelRatio,
+template< typename BreitWigner,
+          typename ChannelRatio,
           typename StatisticalFactor >
-static auto lvalues( const ENDF::resolved::SLBW& slbw,
+static auto lvalues( const BreitWigner& bw,
                      ChannelRatio&& rho,
                      StatisticalFactor&& g ){
   return
-    slbw.LStates()
+    bw.LStates()
     | ranges::view::transform
       ( [&]( auto&& lstate ){ return lvalue( lstate, rho, g ); } )
     | ranges::to_vector;
