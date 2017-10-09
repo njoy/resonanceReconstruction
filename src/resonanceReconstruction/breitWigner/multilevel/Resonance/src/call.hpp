@@ -4,7 +4,7 @@ auto operator()( const double penetrationFactor,
                  const ResonanceShape& kernel ) const {
   const auto weightedWidth =
     this->neutronWidth * this->inversePenetrationFactor;
-  
+
   const auto neutronWidth = weightedWidth * penetrationFactor;
 
   const auto inverseTotalWidth =
@@ -18,16 +18,16 @@ auto operator()( const double penetrationFactor,
     + 0.5 * weightedWidth * ( this->shiftFactor - shiftFactor );
 
   const auto psichi = kernel( primedResonanceEnergy, inverseTotalWidth );
-  
+
   const double& psi = psichi[0];
   const double& chi = psichi[1];
-  
   const double widthRatio = neutronWidth * inverseTotalWidth;
+
   const auto scattering = pack( psi, chi ) * widthRatio;
 
   const auto scaling = psi * inverseTotalWidth * widthRatio;
   const double capture = scaling * this->captureWidth;
   const double fission = scaling * this->fissionWidth;
-    
-  return pack( scattering, capture, fission ); 
+
+  return pack( scattering, capture, fission );
 }

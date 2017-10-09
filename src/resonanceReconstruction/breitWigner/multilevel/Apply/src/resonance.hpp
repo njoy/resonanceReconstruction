@@ -1,7 +1,7 @@
 template< typename ChannelRatio,
           typename StatisticalFactor,
           typename PenetrationShift >
-static auto resonance( const ENDF::resolved::SLBW::Lvalue::Resonance& resonance,
+static auto resonance( const ENDF::resolved::SLBW::LState::Resonance& resonance,
                        ChannelRatio&& rho,
                        StatisticalFactor&& g,
                        PenetrationShift&& penetrationShift ){
@@ -32,7 +32,7 @@ template< typename ChannelRatio,
           typename StatisticalFactor,
           typename PenetrationShift,
           typename CompetitiveWidth >
-static auto resonance( const ENDF::resolved::SLBW::Lvalue::Resonance& resonance,
+static auto resonance( const ENDF::resolved::SLBW::LState::Resonance& resonance,
                        ChannelRatio&& rho,
                        StatisticalFactor&& g,
                        PenetrationShift&& penetrationShift,
@@ -64,4 +64,3 @@ template< typename Range, typename Factory >
 static auto resonances( Range&& rs, Factory&& factory ){
   return rs | ranges::view::transform( factory ) | ranges::to_vector;
 }
- 

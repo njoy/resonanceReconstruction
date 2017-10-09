@@ -370,6 +370,7 @@
     "src/resonanceReconstruction/breitWigner.hpp",
     "src/resonanceReconstruction/EnergyRange.hpp",
     "src/resonanceReconstruction/pack.hpp",
+    "src/resonanceReconstruction/reichMoore.hpp",
     "src/resonanceReconstruction/singleLevelBreitWigner.hpp",
     "src/resonanceReconstruction/ZeroWidth.hpp",
     "src/resonanceReconstruction/breitWigner/CrossSection.hpp",
@@ -389,13 +390,19 @@
     "src/resonanceReconstruction/breitWigner/lvalue/Type/src/ctor.hpp",
     "src/resonanceReconstruction/breitWigner/lvalue/Type/src/penetrationShift.hpp",
     "src/resonanceReconstruction/breitWigner/lvalue/Type/src/phaseShift.hpp",
+    "src/resonanceReconstruction/breitWigner/lvalue/Type/src/statisticalFactorSummation.hpp",
     "src/resonanceReconstruction/breitWigner/lvalue/Type/src/waveNumber.hpp",
     "src/resonanceReconstruction/breitWigner/lvalue/Type/src/withCompetitiveWidth.hpp",
     "src/resonanceReconstruction/breitWigner/lvalue/Type/src/withoutCompetitiveWidth.hpp",
+    "src/resonanceReconstruction/breitWigner/multilevel/Apply.hpp",
     "src/resonanceReconstruction/breitWigner/multilevel/Base.hpp",
     "src/resonanceReconstruction/breitWigner/multilevel/Lvalue.hpp",
     "src/resonanceReconstruction/breitWigner/multilevel/Resonance.hpp",
     "src/resonanceReconstruction/breitWigner/multilevel/Type.hpp",
+    "src/resonanceReconstruction/breitWigner/multilevel/Apply/src/build.hpp",
+    "src/resonanceReconstruction/breitWigner/multilevel/Apply/src/call.hpp",
+    "src/resonanceReconstruction/breitWigner/multilevel/Apply/src/competitiveWidth.hpp",
+    "src/resonanceReconstruction/breitWigner/multilevel/Apply/src/resonance.hpp",
     "src/resonanceReconstruction/breitWigner/multilevel/Base/src/ctor.hpp",
     "src/resonanceReconstruction/breitWigner/multilevel/Base/src/evaluate.hpp",
     "src/resonanceReconstruction/breitWigner/multilevel/Base/src/lvalues.hpp",
@@ -443,6 +450,15 @@
     "src/resonanceReconstruction/breitWigner/Type/src/ctor.hpp",
     "src/resonanceReconstruction/breitWigner/Type/src/isTemperature.hpp",
     "src/resonanceReconstruction/breitWigner/Type/src/neutronWaveNumber.hpp",
+    "src/resonanceReconstruction/reichMoore/Base.hpp",
+    "src/resonanceReconstruction/reichMoore/Lvalue.hpp",
+    "src/resonanceReconstruction/reichMoore/Resonance.hpp",
+    "src/resonanceReconstruction/reichMoore/Type.hpp",
+    "src/resonanceReconstruction/reichMoore/Lvalue/src/ap.hpp",
+    "src/resonanceReconstruction/reichMoore/Lvalue/src/ctor.hpp",
+    "src/resonanceReconstruction/reichMoore/Lvalue/src/penetrationShift.hpp",
+    "src/resonanceReconstruction/reichMoore/Lvalue/src/phaseShift.hpp",
+    "src/resonanceReconstruction/reichMoore/Resonance/src/ctor.hpp",
     "src/resonanceReconstruction/singleLevelBreitWigner/Base.hpp",
     "src/resonanceReconstruction/singleLevelBreitWigner/Factory.hpp",
     "src/resonanceReconstruction/singleLevelBreitWigner/Type.hpp",
@@ -499,8 +515,14 @@
       "src/resonanceReconstruction/test/radius.test.cpp",
       "src/resonanceReconstruction/test/resonanceReconstruction.test.cpp"
     ],
+    "resonanceReconstruction.breitWigner.multilevel.Apply": [
+      "src/resonanceReconstruction/breitWigner/multilevel/Apply/test/Apply.test.cpp"
+    ],
     "resonanceReconstruction.breitWigner.multilevel.Resonance": [
       "src/resonanceReconstruction/breitWigner/multilevel/Resonance/test/Resonance.test.cpp"
+    ],
+    "resonanceReconstruction.breitWigner.multilevel.Type": [
+      "src/resonanceReconstruction/breitWigner/multilevel/Type/test/Type.test.cpp"
     ],
     "resonanceReconstruction.breitWigner.singleLevel.Apply": [
       "src/resonanceReconstruction/breitWigner/singleLevel/Apply/test/Apply.test.cpp"

@@ -20,11 +20,12 @@ auto evaluate( const ResonanceShape& kernel,
   const auto Jgroups =
     this->resonances()
     | ranges::view::group_by( []( const auto& reference, const auto& trial ){
-        return reference.statisticalFactor == trial.statisticalFactor; } );
+        return reference.statisticalFactor == trial.statisticalFactor;
+      } );
 
-  const auto base = pack( pack( -sinSquaredPhi, 0.5 * sin2Phi ), 0.0, 0.0 );
-  
-  const auto crossSections = 
+  const auto zero = pack( pack( 0., 0. ), 0., 0. );
+
+  const auto crossSections =
     Jgroups
     | ranges::view::transform( [&]( const auto& Jgroup ){
         const auto Jresonances =
@@ -35,22 +36,28 @@ auto evaluate( const ResonanceShape& kernel,
                                   shiftFactor,
                                   competitiveWidth( resonance ),
                                   kernel ); } );
-        
-        const auto Jsum = ranges::accumulate( Jresonances, base ).data;
-        const auto& scatteringComponents = std::get<0>( Jsum );
+
+        const auto Jsum = ranges::accumulate( Jresonances, zero ).data;
+
+        const auto& scatteringComponents = std::get<0>( Jsum ).data;
         const auto& first = std::get<0>( scatteringComponents );
         const auto& second = std::get<1>( scatteringComponents );
-        
-        const auto scattering = ( first * first + second * second );
+
+        const auto scattering = first * ( first - 2 * sinSquaredPhi )
+                                + second * ( second + sin2Phi );
         const auto capture = std::get<1>( Jsum );
         const auto fission = std::get<2>( Jsum );
-        
+
         return pack( scattering, capture, fission )
-               * Jresonances.front().statisticalFactor;
+               * Jgroup.front().statisticalFactor;
       } );
 
-  const auto potentialScattering =
-    pack( this->D( targetSpin ) * sinSquaredPhi, 0., 0. );
-  
+  const double scatteringBase =
+    this->D( targetSpin ) * sinSquaredPhi
+    + this->statisticalFactorSum
+      * ( sinSquaredPhi * sinSquaredPhi + 0.25 * sin2Phi * sin2Phi );
+
+  const auto potentialScattering = pack( scatteringBase, 0., 0. );
+
   return ranges::accumulate( crossSections, potentialScattering );
-} 
+}

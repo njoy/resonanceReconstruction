@@ -1,7 +1,7 @@
 template< typename Radius >
 static auto build( const ENDF::resolved::SLBW& slbw, Radius&& radius ){
-  const double atomicWeightRatio = slbw.LStates().front().AWRI();
-  
+  const double atomicWeightRatio = slbw.lValues().front().AWRI();
+
   const auto rho =
     [ &, k = neutronWaveNumber( atomicWeightRatio ) ]
     ( const Quantity< ElectronVolts > energy ){
@@ -11,9 +11,9 @@ static auto build( const ENDF::resolved::SLBW& slbw, Radius&& radius ){
   const auto g =
     [ denominator = 1. / ( 4 * slbw.SPI() + 2. ) ]
     ( const double J ){ return ( 2 * J + 1. ) * denominator; };
-  
-  auto lstates = lvalues( slbw, rho, g );
-  
+
+  auto lstates = lvalues( slbw, rho, g, slbw.SPI() ); 
+
   return Type< std::decay_t< Radius > >
     ( std::move(lstates),
       atomicWeightRatio,
@@ -28,8 +28,8 @@ static auto build( const ENDF::resolved::SLBW& slbw,
                    ChannelRadius&& channelRadius,
                    ScatteringRadius&& scatteringRadius ){
 
-  const double atomicWeightRatio = slbw.LStates().front().AWRI();
-  
+  const double atomicWeightRatio = slbw.lValues().front().AWRI();
+
   const auto rho =
     [ &, k = neutronWaveNumber( atomicWeightRatio ) ]
     ( const Quantity< ElectronVolts > energy ){
@@ -39,9 +39,9 @@ static auto build( const ENDF::resolved::SLBW& slbw,
   const auto g =
     [ denominator = 1. / ( 4 * slbw.SPI() + 2. ) ]
     ( const double J ){ return ( 2 * J + 1. ) * denominator; };
-  
-  auto lstates = lvalues( slbw, rho, g );
-  
+
+  auto lstates = lvalues( slbw, rho, g, slbw.SPI() );
+
   return Type< std::decay_t< ChannelRadius >,
                std::decay_t< ScatteringRadius > >
     ( std::move(lstates),

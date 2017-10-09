@@ -5,13 +5,17 @@
 #include "interpolation.hpp"
 #include "dimwits.hpp"
 
+//#include <Eigen/Dense>
+
 namespace njoy {
 namespace resonanceReconstruction {
 
+using namespace dimwits;
+//using std::complex_literals;
+
 constexpr double pi = 3.141592653589793;
 
-using namespace dimwits;
-
+//using Matrix3x3 = Eigen::Matrix3cd;
 using RootBarn = decltype( unit::sqrt( Barns() ) );
 using RootBarns = RootBarn;
 using InvRootBarn = decltype( pow( RootBarn(), Ratio<-1> ) );

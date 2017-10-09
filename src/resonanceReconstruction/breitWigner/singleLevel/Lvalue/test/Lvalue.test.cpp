@@ -8,12 +8,12 @@ using namespace dimwits;
 
 breitWigner::lvalue::Type makeLvalue( int l ){
   auto awr = 2.360045E+2;
-  
+
   auto a = channelRadius( awr );
   auto ap = radius( 9.309000E-1 );
   auto k = neutronWaveNumber( awr );
 
-  std::vector< double > resonanceBlock = 
+  std::vector< double > resonanceBlock =
   {  -1.000000E+1, 5.000000E-1, 6.217000E-2, 1.581000E-2, 4.500000E-2, 1.360000E-3,
      -4.000000E-1, 5.000000E-1, 4.670000E-2, 3.400000E-4, 4.500000E-2, 1.360000E-3,
       2.855000E+0, 5.000000E-1, 3.808600E-2, 7.470000E-5, 3.680000E-2, 1.211000E-3,
@@ -36,14 +36,14 @@ breitWigner::lvalue::Type makeLvalue( int l ){
     const auto neutronWidth = chunk[3] * electronVolts;
     const auto captureWidth = chunk[4] * electronVolts;
     const auto fissionWidth = chunk[5] * electronVolts;
-      
+
     const auto waveNumber = neutronWaveNumber( awr );
-    
+
     const auto weightedCompetitiveWidth = 0.0 * electronVolts;
-  
+
     const auto channelRadius = a( std::abs(energy) );
     const auto channelRatio  = channelRadius * waveNumber( energy );
-      
+
     const auto ps = penetrationShift( l, channelRatio );
     const auto& penetrationFactor = ps[0];
     const auto& shiftFactor = ps[1];
@@ -63,5 +63,5 @@ breitWigner::lvalue::Type makeLvalue( int l ){
                     | ranges::view::transform( processResonance )
                     | ranges::to_vector;
 
-  return { std::move(resonances), l };
+  return { std::move(resonances), l, 0.0 };
 }

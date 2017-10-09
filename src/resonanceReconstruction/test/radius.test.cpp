@@ -33,9 +33,9 @@ SCENARIO("radius"){
         std::make_tuple( std::vector< double >{ 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 },
                          std::vector< double >{ 3.0, 4.0, 5.0, 6.0, 7.0, 8.0 } );
   
-      return njoy::ENDFtk::UnivariateTabulation( 1.0, 2.0, 3ul, 4ul,
-                                                 std::move( regionPairs ),
-                                                 std::move( orderedPairs ) );
+      return njoy::ENDFtk::TabulationRecord( 1.0, 2.0, 3ul, 4ul,
+                                             std::move( regionPairs ),
+                                             std::move( orderedPairs ) );
     }();
     
     auto trial = ranges::view::linear_distribute( 1.0, 6.0, 11 )

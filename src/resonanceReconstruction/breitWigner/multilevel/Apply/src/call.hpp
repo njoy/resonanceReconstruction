@@ -6,7 +6,7 @@ operator()( const ENDF::resolved::MLBW& mlbw, Functor&& callback ) const {
     switch( mlbw.NAPS() ){
     case 0:
       return callback( build( mlbw,
-                              channelRadius( mlbw.LStates().front().AWRI() ),
+                              channelRadius( mlbw.lValues().front().AWRI() ),
                               radius( mlbw.AP() ) ) );
     case 1:
       return callback( build( mlbw, radius( mlbw.AP() ) ) );
@@ -15,7 +15,7 @@ operator()( const ENDF::resolved::MLBW& mlbw, Functor&& callback ) const {
     switch( mlbw.NAPS() ){
     case 0:
       return callback( build( mlbw,
-                              channelRadius( mlbw.LStates().front().AWRI() ),
+                              channelRadius( mlbw.lValues().front().AWRI() ),
                               radius( mlbw.APE() ) ) );
     case 1:
       return callback( build( mlbw, radius( mlbw.APE() ) ) );
@@ -24,5 +24,5 @@ operator()( const ENDF::resolved::MLBW& mlbw, Functor&& callback ) const {
                               radius( mlbw.AP() ),
                               radius( mlbw.APE() ) ) );
     }
-  } 
+  }
 }

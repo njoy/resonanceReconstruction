@@ -13,5 +13,6 @@ using TemperatureDependentResonanceShape =
 #include "resonanceReconstruction/breitWigner/multilevel/Lvalue.hpp"
 #include "resonanceReconstruction/breitWigner/multilevel/Base.hpp"
 #include "resonanceReconstruction/breitWigner/multilevel/Type.hpp"
+#include "resonanceReconstruction/breitWigner/multilevel/Apply.hpp"
 
 }

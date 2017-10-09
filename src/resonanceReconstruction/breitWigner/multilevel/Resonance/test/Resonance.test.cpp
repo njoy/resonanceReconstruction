@@ -6,6 +6,7 @@
 using namespace njoy::resonanceReconstruction;
 using namespace dimwits;
 
+/*
 namespace {
 
 struct SLBW : breitWigner::singleLevel::Base {
@@ -13,6 +14,7 @@ struct SLBW : breitWigner::singleLevel::Base {
 };
 
 };
+*/
 
 SCENARIO("a MLBW resonance reconstruction"){
   auto a = channelRadius( 2.360045E+2 );
@@ -38,7 +40,7 @@ SCENARIO("a MLBW resonance reconstruction"){
       return {{ sinSquared, sin2, cos2 }};
     }();
 
-    auto psiChi = SLBW::psiChi( energy );
+    auto psiChi = breitWigner::psiChi( energy );
 
     return resonance( penetrationFactor,
                       shiftFactor,

@@ -11,9 +11,9 @@ SCENARIO("call"){
 
   const auto& lValue =
     static_cast< const breitWigner::singleLevel::Lvalue& >( base );
-  
+
   auto awr = 2.360045E+2;
-  
+
   auto a = channelRadius( awr );
   auto ap = radius( 9.309000E-1 );
   auto k = neutronWaveNumber( awr );
