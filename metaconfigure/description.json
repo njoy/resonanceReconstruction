@@ -371,7 +371,6 @@
     "src/resonanceReconstruction/EnergyRange.hpp",
     "src/resonanceReconstruction/pack.hpp",
     "src/resonanceReconstruction/reichMoore.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner.hpp",
     "src/resonanceReconstruction/ZeroWidth.hpp",
     "src/resonanceReconstruction/breitWigner/CrossSection.hpp",
     "src/resonanceReconstruction/breitWigner/CRTP.hpp",
@@ -459,31 +458,6 @@
     "src/resonanceReconstruction/reichMoore/Lvalue/src/penetrationShift.hpp",
     "src/resonanceReconstruction/reichMoore/Lvalue/src/phaseShift.hpp",
     "src/resonanceReconstruction/reichMoore/Resonance/src/ctor.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/Base.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/Factory.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/Type.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/Base/CrossSection.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/Base/Lvalue.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/Base/Lvalue/Resonance.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/Base/Lvalue/Resonances.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/Base/Lvalue/Resonance/src/call.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/Base/Lvalue/Resonances/src/call.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/Base/Lvalue/src/call.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/Base/Lvalue/src/penetrationShift.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/Base/Lvalue/src/phaseShift.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/Base/Lvalue/src/waveNumber.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/Base/Lvalue/src/withCompetitiveWidth.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/Base/Lvalue/src/withoutCompetitiveWidth.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/Base/src/call.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/Base/src/evaluate.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/Base/src/isTemperature.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/Base/src/psiChi.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/Factory/ENDF.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/src/channelRadius.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/src/neutronWaveNumber.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/src/penetrationShift.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/src/phaseShift.hpp",
-    "src/resonanceReconstruction/singleLevelBreitWigner/src/radius.hpp",
     "src/resonanceReconstruction/src/channelRadius.hpp",
     "src/resonanceReconstruction/src/neutronWaveNumber.hpp",
     "src/resonanceReconstruction/src/penetrationShift.hpp",
@@ -538,27 +512,6 @@
     ],
     "resonanceReconstruction.breitWigner.singleLevel.Type": [
       "src/resonanceReconstruction/breitWigner/singleLevel/Type/test/Type.test.cpp"
-    ],
-    "resonanceReconstruction.singleLevelBreitWigner": [
-      "src/resonanceReconstruction/singleLevelBreitWigner/test/channelRadius.test.cpp",
-      "src/resonanceReconstruction/singleLevelBreitWigner/test/neutronWaveNumber.test.cpp",
-      "src/resonanceReconstruction/singleLevelBreitWigner/test/penetrationShift.test.cpp",
-      "src/resonanceReconstruction/singleLevelBreitWigner/test/phaseShift.test.cpp",
-      "src/resonanceReconstruction/singleLevelBreitWigner/test/radius.test.cpp",
-      "src/resonanceReconstruction/singleLevelBreitWigner/test/singleLevelBreitWigner.test.cpp"
-    ],
-    "resonanceReconstruction.singleLevelBreitWigner.Base": [
-      "src/resonanceReconstruction/singleLevelBreitWigner/Base/test/Base.test.cpp"
-    ],
-    "resonanceReconstruction.singleLevelBreitWigner.Base.Lvalue": [
-      "src/resonanceReconstruction/singleLevelBreitWigner/Base/Lvalue/test/call.test.cpp",
-      "src/resonanceReconstruction/singleLevelBreitWigner/Base/Lvalue/test/Lvalue.test.cpp",
-      "src/resonanceReconstruction/singleLevelBreitWigner/Base/Lvalue/test/penetrationShift.test.cpp",
-      "src/resonanceReconstruction/singleLevelBreitWigner/Base/Lvalue/test/phaseShift.test.cpp",
-      "src/resonanceReconstruction/singleLevelBreitWigner/Base/Lvalue/test/waveNumber.test.cpp"
-    ],
-    "resonanceReconstruction.singleLevelBreitWigner.Base.Lvalue.Resonance": [
-      "src/resonanceReconstruction/singleLevelBreitWigner/Base/Lvalue/Resonance/test/Resonance.test.cpp"
     ]
   },
   "update": true
