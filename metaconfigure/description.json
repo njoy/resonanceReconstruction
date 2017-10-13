@@ -449,15 +449,38 @@
     "src/resonanceReconstruction/breitWigner/Type/src/ctor.hpp",
     "src/resonanceReconstruction/breitWigner/Type/src/isTemperature.hpp",
     "src/resonanceReconstruction/breitWigner/Type/src/neutronWaveNumber.hpp",
+    "src/resonanceReconstruction/reichMoore/Apply.hpp",
     "src/resonanceReconstruction/reichMoore/Base.hpp",
+    "src/resonanceReconstruction/reichMoore/Inspector.hpp",
     "src/resonanceReconstruction/reichMoore/Lvalue.hpp",
     "src/resonanceReconstruction/reichMoore/Resonance.hpp",
     "src/resonanceReconstruction/reichMoore/Type.hpp",
+    "src/resonanceReconstruction/reichMoore/Apply/src/build.hpp",
+    "src/resonanceReconstruction/reichMoore/Apply/src/call.hpp",
+    "src/resonanceReconstruction/reichMoore/Apply/src/lvalue.hpp",
+    "src/resonanceReconstruction/reichMoore/Apply/src/resonance.hpp",
+    "src/resonanceReconstruction/reichMoore/Base/Inspector.hpp",
+    "src/resonanceReconstruction/reichMoore/Base/src/ctor.hpp",
+    "src/resonanceReconstruction/reichMoore/Base/src/evaluate.hpp",
+    "src/resonanceReconstruction/reichMoore/Base/src/Inspector.hpp",
+    "src/resonanceReconstruction/reichMoore/Base/src/neutronWaveNumber.hpp",
+    "src/resonanceReconstruction/reichMoore/Base/src/order.hpp",
     "src/resonanceReconstruction/reichMoore/Lvalue/src/ap.hpp",
+    "src/resonanceReconstruction/reichMoore/Lvalue/src/call.hpp",
     "src/resonanceReconstruction/reichMoore/Lvalue/src/ctor.hpp",
+    "src/resonanceReconstruction/reichMoore/Lvalue/src/hasFission.hpp",
     "src/resonanceReconstruction/reichMoore/Lvalue/src/penetrationShift.hpp",
     "src/resonanceReconstruction/reichMoore/Lvalue/src/phaseShift.hpp",
+    "src/resonanceReconstruction/reichMoore/Lvalue/src/rFunctionSolve.hpp",
+    "src/resonanceReconstruction/reichMoore/Lvalue/src/rMatrixSolve.hpp",
+    "src/resonanceReconstruction/reichMoore/Lvalue/src/solveRfunction.hpp",
+    "src/resonanceReconstruction/reichMoore/Lvalue/src/solveRmatrix.hpp",
+    "src/resonanceReconstruction/reichMoore/Resonance/src/call.hpp",
     "src/resonanceReconstruction/reichMoore/Resonance/src/ctor.hpp",
+    "src/resonanceReconstruction/reichMoore/Type/src/ctor1.hpp",
+    "src/resonanceReconstruction/reichMoore/Type/src/ctor2.hpp",
+    "src/resonanceReconstruction/reichMoore/Type/src/evaluate1.hpp",
+    "src/resonanceReconstruction/reichMoore/Type/src/evaluate2.hpp",
     "src/resonanceReconstruction/src/channelRadius.hpp",
     "src/resonanceReconstruction/src/neutronWaveNumber.hpp",
     "src/resonanceReconstruction/src/penetrationShift.hpp",
@@ -512,6 +535,12 @@
     ],
     "resonanceReconstruction.breitWigner.singleLevel.Type": [
       "src/resonanceReconstruction/breitWigner/singleLevel/Type/test/Type.test.cpp"
+    ],
+    "resonanceReconstruction.reichMoore.Apply": [
+      "src/resonanceReconstruction/reichMoore/Apply/test/Apply.test.cpp"
+    ],
+    "resonanceReconstruction.reichMoore.Type": [
+      "src/resonanceReconstruction/reichMoore/Type/test/Type.test.cpp"
     ]
   },
   "update": true
