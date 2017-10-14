@@ -4,6 +4,7 @@ neutronWaveNumber( const Quantity< ElectronVolts > energy ) const {
     decltype( pow( Barns() * ElectronVolts(), Ratio<-1,2> ) );
 
   constexpr Quantity< Units4Constant >
+    // sqrt( 2. * neutronMass ) / constant::dirac;
     neutronConstant = 5.787793139E-14 * root( kilo(grams) ) / constant::dirac;
 
   return this->target2CompoundWeightRatio
@@ -16,6 +17,7 @@ auto neutronWaveNumber() const {
     decltype( pow( Barns() * ElectronVolts(), Ratio<-1,2> ) );
 
   constexpr Quantity< Units4Constant >
+    // sqrt( 2. * neutronMass ) / constant::dirac;
     neutronConstant = 5.787793139E-14 * root( kilo(grams) ) / constant::dirac;
 
   return
