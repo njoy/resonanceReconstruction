@@ -7,3 +7,6 @@
 [submodule "dependencies/interpolation"]
 	path = dependencies/interpolation
 	url = https://github.com/njoy/interpolation.git
+[submodule "dependencies/eigen-adapter"]
+	path = dependencies/eigen-adapter
+	url = https://github.com/njoy/eigen-adapter.git
