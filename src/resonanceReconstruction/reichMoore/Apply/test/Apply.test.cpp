@@ -72,8 +72,7 @@ resonances(){
   auto& material = *( tape.begin() );
 
   auto MAT = material.MAT();
-  long lineNumber = 1;
   return material
          .fileNumber(2)
-         .sectionNumber(151).parse<2>( lineNumber, MAT );
+         .sectionNumber(151).parse<2>();
 }
