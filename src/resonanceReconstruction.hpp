@@ -7,7 +7,10 @@
 #include "interpolation.hpp"
 #include "dimwits.hpp"
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-variable"
 #include <Eigen/Dense>
+#pragma GCC diagnostic pop
 
 namespace njoy {
 namespace resonanceReconstruction {

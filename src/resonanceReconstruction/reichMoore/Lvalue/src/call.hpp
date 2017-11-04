@@ -14,26 +14,35 @@ auto operator()( const Quantity<ElectronVolts> energy,
   const auto sin2Phi = std::sin( 2. * phaseShift );
   const auto cos2Phi = std::cos( 2. * phaseShift );
 
-  const auto crossSections =
-    this->resonances
-    | ranges::view::group_by( []( auto&& left, auto&& right ){
-        return left.flaggedStatisticalFactor == right.flaggedStatisticalFactor; } )
-    | ranges::view::transform( [&]( const auto& group ){
+  const auto groupByStatisticalFactor =
+    ranges::view::group_by( []( auto&& left, auto&& right ){
+        return left.flaggedStatisticalFactor == right.flaggedStatisticalFactor;
+      } );
+
+  const auto evaluateJgroups =
+    ranges::view::transform( [&]( const auto& group ){
         Matrix3x3 rMatrix = Matrix3x3::Zero();
 
-        const bool hasFission =
-          ranges::accumulate
-          ( group | ranges::view::transform( [&]( const auto& resonance ) {
+        const auto evaluateResonances =
+          ranges::view::transform( [&]( const auto& resonance ) {
               return resonance( energy, rootPenetrationFactor, rMatrix );
-            } ), false, std::logical_or<>{} );
+            } );
+
+        const bool hasFission =
+          ranges::accumulate( group | evaluateResonances,
+                              false, std::logical_or<>{} );
 
         const double statisticalFactor =
           std::abs( group.front().flaggedStatisticalFactor );
 
         return ( hasFission ) ?
           solveRmatrix( rMatrix, cos2Phi, sin2Phi, statisticalFactor ) :
-          solveRfunction( rMatrix, cos2Phi, sin2Phi, statisticalFactor, phaseShift );
+          solveRfunction
+          ( rMatrix, cos2Phi, sin2Phi, statisticalFactor, phaseShift );
       } );
+
+  const auto crossSections =
+    this->resonances | groupByStatisticalFactor | evaluateJgroups;
 
   const auto sum =
     ranges::accumulate( crossSections, pack( 0., 0., 0., 0. ) ).data;
