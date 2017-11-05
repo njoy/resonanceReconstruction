@@ -8,7 +8,8 @@ using namespace dimwits;
 
 SCENARIO("a SLBW resonance reconstruction"){
   auto a = channelRadius( 2.360045E+2 );
-  auto ap = radius( 9.309000E-1 );
+  // unused but nice for reference
+  // auto ap = radius( 9.309000E-1 );
   auto k = neutronWaveNumber( 2.360045E+2 );
   int l = 0;
   

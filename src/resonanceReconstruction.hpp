@@ -8,7 +8,7 @@
 #include "dimwits.hpp"
 
 #pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-variable"
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 #include <Eigen/Dense>
 #pragma GCC diagnostic pop
 
