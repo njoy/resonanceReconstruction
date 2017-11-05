@@ -12,7 +12,7 @@ public:
   #include "resonanceReconstruction/reichMoore/Lvalue/src/ap.hpp"
   #include "resonanceReconstruction/reichMoore/Lvalue/src/penetrationShift.hpp"
   #include "resonanceReconstruction/reichMoore/Lvalue/src/phaseShift.hpp"
-  #include "resonanceReconstruction/reichMoore/Lvalue/src/solveRMatrix.hpp"
+  #include "resonanceReconstruction/reichMoore/Lvalue/src/solveRmatrix.hpp"
   #include "resonanceReconstruction/reichMoore/Lvalue/src/solveRfunction.hpp"
   #include "resonanceReconstruction/reichMoore/Lvalue/src/call.hpp"
 };

@@ -1,5 +1,7 @@
 #define CATCH_CONFIG_MAIN
 
+#include <chrono>
+
 #include "catch.hpp"
 #include "resonanceReconstruction.hpp"
 
@@ -45,7 +47,12 @@ SCENARIO( "Integration test" ){
 
     auto& testData = std::get<1>( Fe56 );
 
+    auto start = std::chrono::high_resolution_clock::now();
     reichMoore::Apply{}( rm, test( testData ) );
+    auto finish = std::chrono::high_resolution_clock::now();
+    auto milliseconds =
+      std::chrono::duration_cast<std::chrono::milliseconds>(finish-start);
+    std::cout << milliseconds.count() << " ms\n" << std::endl;
   }
 
   SECTION( "Uranium-235" ){
@@ -66,7 +73,12 @@ SCENARIO( "Integration test" ){
 
     auto& testData = std::get<1>( U235 );
 
+    auto start = std::chrono::high_resolution_clock::now();
     reichMoore::Apply{}( rm, test( testData ) );
+    auto finish = std::chrono::high_resolution_clock::now();
+    auto milliseconds =
+      std::chrono::duration_cast<std::chrono::milliseconds>(finish-start);
+    std::cout << milliseconds.count() << " ms\n" << std::endl;
   }
 
   SECTION( "Uranium-238" ){
@@ -87,7 +99,12 @@ SCENARIO( "Integration test" ){
 
     auto& testData = std::get<1>( U238 );
 
+    auto start = std::chrono::high_resolution_clock::now();
     reichMoore::Apply{}( rm, test( testData ) );
+    auto finish = std::chrono::high_resolution_clock::now();
+    auto milliseconds =
+      std::chrono::duration_cast<std::chrono::milliseconds>(finish-start);
+    std::cout << milliseconds.count() << " ms\n" << std::endl;
   }
 }
 
@@ -95,12 +112,19 @@ std::pair< njoy::ENDFtk::section::Type<2>, std::vector< double > >
 resonances( const std::string& id ){
   auto testData = [&]{
     std::vector< double > data;
-    std::ifstream tupleFile( id + "-tuples.txt" );
+    std::ifstream tupleFile( id + "-tuple.txt" );
+
+    if ( not tupleFile.is_open() ){
+      njoy::Log::error( "Could not open file " + id + "-tuple.txt" );
+      throw std::exception();
+    }
+
     for ( std::istream_iterator< double > it( tupleFile );
           it != std::istream_iterator< double >();
           ++it ){
       data.push_back( *it );
     }
+
     return data;
   };
 
@@ -115,10 +139,9 @@ resonances( const std::string& id ){
     auto& material = *( tape.begin() );
 
     auto MAT = material.MAT();
-    long lineNumber = 1;
     return material
            .fileNumber(2)
-           .sectionNumber(151).parse<2>( lineNumber, MAT );
+           .sectionNumber(151).parse<2>();
   };
 
   return std::make_pair( section151(), testData() );

@@ -122,7 +122,7 @@ resonances( const std::string& id ){
     long lineNumber = 1;
     return material
            .fileNumber(2)
-           .sectionNumber(151).parse<2>( lineNumber, MAT );
+           .sectionNumber(151).parse<2>();
   };
 
   return std::make_pair( section151(), testData() );

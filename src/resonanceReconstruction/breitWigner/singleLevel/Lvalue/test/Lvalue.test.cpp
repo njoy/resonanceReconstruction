@@ -10,8 +10,9 @@ breitWigner::lvalue::Type makeLvalue( int l ){
   auto awr = 2.360045E+2;
 
   auto a = channelRadius( awr );
-  auto ap = radius( 9.309000E-1 );
-  auto k = neutronWaveNumber( awr );
+  // unused but nice for reference
+  // auto ap = radius( 9.309000E-1 );
+  // auto k = neutronWaveNumber( awr );
 
   std::vector< double > resonanceBlock =
   {  -1.000000E+1, 5.000000E-1, 6.217000E-2, 1.581000E-2, 4.500000E-2, 1.360000E-3,
