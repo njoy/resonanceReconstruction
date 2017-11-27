@@ -34,7 +34,6 @@ SCENARIO( "Integration test" ){
   SECTION( "Cobalt-58" ){
     auto Co58 = resonances("Co-58");
 
-    auto start = std::chrono::high_resolution_clock::now();
     auto& section151 = std::get<0>( Co58 );
     auto& isotope = section151.isotopes.front();
     auto& energyRange = isotope.energyRanges().front();
@@ -50,6 +49,7 @@ SCENARIO( "Integration test" ){
 
     auto& testData = std::get<1>( Co58 );
 
+    auto start = std::chrono::high_resolution_clock::now();
     breitWigner::multilevel::Apply{}( mlbw, test( testData ) );
     auto finish = std::chrono::high_resolution_clock::now();
     auto microseconds =
@@ -61,7 +61,6 @@ SCENARIO( "Integration test" ){
   SECTION( "Tulium-168" ){
     auto Tm168 = resonances("Tm-168");
 
-    auto start = std::chrono::high_resolution_clock::now();
     auto& section151 = std::get<0>( Tm168 );
     auto& isotope = section151.isotopes.front();
     auto& energyRange = isotope.energyRanges().front();
@@ -77,6 +76,7 @@ SCENARIO( "Integration test" ){
 
     auto& testData = std::get<1>( Tm168 );
 
+    auto start = std::chrono::high_resolution_clock::now();
     breitWigner::multilevel::Apply{}( mlbw, test( testData ) );
     auto finish = std::chrono::high_resolution_clock::now();
     auto microseconds =
@@ -88,7 +88,6 @@ SCENARIO( "Integration test" ){
   SECTION( "Neptunium-238" ){
     auto Np238 = resonances("Np-238");
 
-    auto start = std::chrono::high_resolution_clock::now();
     auto& section151 = std::get<0>( Np238 );
     auto& isotope = section151.isotopes.front();
     auto& energyRange = isotope.energyRanges().front();
@@ -104,6 +103,7 @@ SCENARIO( "Integration test" ){
 
     auto& testData = std::get<1>( Np238 );
 
+    auto start = std::chrono::high_resolution_clock::now();
     breitWigner::multilevel::Apply{}( mlbw, test( testData ) );
     auto finish = std::chrono::high_resolution_clock::now();
     auto microseconds =

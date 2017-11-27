@@ -23,13 +23,15 @@ const std::vector< double >& elastic();
 const std::vector< double >& capture();
 
 SCENARIO( "Integration test" ){
-  auto start = std::chrono::high_resolution_clock::now();
   const auto Rh105 = resonances();
   const auto& isotope = Rh105.isotopes.front();
   const auto& energyRange = isotope.energyRanges().front();
   const auto& slbw = std::experimental::get< 1 >( energyRange );
 
-  const auto type = Apply().build( slbw, channelRadius( 104. ), radius( 0.62 ) );
+  auto start = std::chrono::high_resolution_clock::now();
+  const auto type = Apply().build( slbw, 
+                                  channelRadius( 104. ), 
+                                  radius( 0.62 ) );
   auto finish = std::chrono::high_resolution_clock::now();
   auto microseconds =
     std::chrono::duration_cast<std::chrono::microseconds>(finish-start);

@@ -32,7 +32,6 @@ SCENARIO( "Integration test" ){
   SECTION( "Iron-56" ){
     const auto Fe56 = resonances("Fe-56");
 
-    auto start = std::chrono::high_resolution_clock::now();
     const auto& section151 = std::get<0>( Fe56 );
     const auto& isotope = section151.isotopes.front();
     const auto& energyRange = isotope.energyRanges().front();
@@ -48,6 +47,7 @@ SCENARIO( "Integration test" ){
 
     auto& testData = std::get<1>( Fe56 );
 
+    auto start = std::chrono::high_resolution_clock::now();
     reichMoore::Apply{}( rm, test( testData ) );
     auto finish = std::chrono::high_resolution_clock::now();
     auto milliseconds =
@@ -59,7 +59,6 @@ SCENARIO( "Integration test" ){
   SECTION( "Uranium-235" ){
     const auto U235 = resonances("U-235");
 
-    auto start = std::chrono::high_resolution_clock::now();
     const auto& section151 = std::get<0>( U235 );
     const auto& isotope = section151.isotopes.front();
     const auto& energyRange = isotope.energyRanges().front();
@@ -75,6 +74,7 @@ SCENARIO( "Integration test" ){
 
     auto& testData = std::get<1>( U235 );
 
+    auto start = std::chrono::high_resolution_clock::now();
     reichMoore::Apply{}( rm, test( testData ) );
     auto finish = std::chrono::high_resolution_clock::now();
     auto milliseconds =
@@ -86,7 +86,6 @@ SCENARIO( "Integration test" ){
   SECTION( "Uranium-238" ){
     const auto U238 = resonances("U-238");
 
-    auto start = std::chrono::high_resolution_clock::now();
     const auto& section151 = std::get<0>( U238 );
     const auto& isotope = section151.isotopes.front();
     const auto& energyRange = isotope.energyRanges().front();
@@ -102,6 +101,7 @@ SCENARIO( "Integration test" ){
 
     auto& testData = std::get<1>( U238 );
 
+    auto start = std::chrono::high_resolution_clock::now();
     reichMoore::Apply{}( rm, test( testData ) );
     auto finish = std::chrono::high_resolution_clock::now();
     auto milliseconds =
