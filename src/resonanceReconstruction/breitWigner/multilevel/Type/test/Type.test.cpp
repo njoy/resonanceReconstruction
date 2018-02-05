@@ -139,12 +139,7 @@ SCENARIO( "Timing test" ){
     auto& mlbw = std::experimental::get< 2 >( energyRange );
 
     njoy::Log::info("\n Cobalt-58 "
-                    "\n --------------- "
-                    "\n LRU: {}"
-                    "\n LRF: {}"
-                    "\n NRO: {}"
-                    "\n NAPS: {}\n",
-                    mlbw.LRU(), mlbw.LRF(), mlbw.NRO(), mlbw.NAPS() );
+                    "\n --------------- ");
 
     auto& testData = std::get<1>( Co58 );
 
@@ -176,12 +171,7 @@ SCENARIO( "Timing test" ){
     auto& mlbw = std::experimental::get< 2 >( energyRange );
 
     njoy::Log::info("\n Tulium-168 "
-                    "\n --------------- "
-                    "\n LRU: {}"
-                    "\n LRF: {}"
-                    "\n NRO: {}"
-                    "\n NAPS: {}\n",
-                    mlbw.LRU(), mlbw.LRF(), mlbw.NRO(), mlbw.NAPS() );
+                    "\n --------------- ");
 
     auto& testData = std::get<1>( Tm168 );
 
@@ -213,12 +203,7 @@ SCENARIO( "Timing test" ){
     auto& mlbw = std::experimental::get< 2 >( energyRange );
 
     njoy::Log::info( "\n Neptunium-238 "
-                     "\n --------------- "
-                     "\n LRU: {}"
-                     "\n LRF: {}"
-                     "\n NRO: {}"
-                     "\n NAPS: {}\n",
-                     mlbw.LRU(), mlbw.LRF(), mlbw.NRO(), mlbw.NAPS() );
+                     "\n --------------- ");
 
     auto& testData = std::get<1>( Np238 );
 
