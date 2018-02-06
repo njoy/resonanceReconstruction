@@ -44,6 +44,25 @@ auto timingTestInclusive( const std::vector< double >& testData ){
   };
 }
 
+auto timingTest( const std::vector< double >& testData, 
+                 std::chrono::microseconds& elapsedTime ){
+  return [ &testData, &elapsedTime ]( auto&& xs ){
+    auto energies = testData | ranges::view::stride( 4 );
+    
+    auto start = std::chrono::high_resolution_clock::now();
+
+    auto accumulation = 0.0*barns;
+    RANGES_FOR( auto energy, energies ){
+      accumulation += xs( energy*electronVolts ).elastic;
+    }
+    escape( &accumulation );
+
+    auto finish = std::chrono::high_resolution_clock::now();
+    elapsedTime =
+      std::chrono::duration_cast<std::chrono::microseconds>(finish-start);
+  };
+}
+
 auto timingTestExclusive( const std::vector< double >& testData ){
   return [ &testData ]( auto&& xs ){
     auto energies = testData | ranges::view::stride( 4 );
@@ -147,13 +166,14 @@ SCENARIO( "Timing test" ){
       njoy::Log::info( "inclusive timing" );
       auto start = std::chrono::high_resolution_clock::now();
 
-      breitWigner::multilevel::Apply{}( mlbw, timingTestInclusive( testData ) );
+      std::chrono::microseconds elapsedTime{};
+      breitWigner::multilevel::Apply{}( mlbw, timingTest( testData, elapsedTime ) );
 
       auto finish = std::chrono::high_resolution_clock::now();
       auto microseconds =
         std::chrono::duration_cast<std::chrono::microseconds>(finish-start);
-      njoy::Log::info( "Approximately {} microseconds passed while 'Apply'-ing",
-                      microseconds.count() );
+      njoy::Log::info( "inclusive time {} microseconds", microseconds.count() );
+      njoy::Log::info( "Exclusive time {} microseconds", elapsedTime.count() );
     }
 
     SECTION( "\nExclusive timing" ){
