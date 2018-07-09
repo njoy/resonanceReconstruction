@@ -55,7 +55,7 @@ public:
    *  in which ma and mb are the atomic mass values of the particles in the
    *  particle pair.
    */
-  double reducedMass() const {
+  AtomicMass reducedMass() const {
 
     auto ma = this->particle().mass();
     auto mb = this->particle().mass();
@@ -73,7 +73,7 @@ public:
    *
    *  @param energy   the energy at which the wave number needs to be evaluated
    */
-  double waveNumber( double energy ) const {
+  WaveNumber waveNumber( const Energy& energy ) const {
 
     auto mu = this->reducedMass();
     auto ma = this->particle().mass();
@@ -82,9 +82,9 @@ public:
   }
 
   /**
-   *  @brief Return the permeability of the particle pair at a given energy
+   *  @brief Return the value of eta for the particle pair at a given energy
    *
-   *  The permeability eta is an energy dependent quantity defined as follows:
+   *  The parameter eta is an energy dependent quantity defined as follows:
    *     eta = za * zb * mu / hbar / k
    *  in which za and zb are the electrical charge of the particles in the 
    *  particle pair, mu is the reduced mass of the particle pair, hbar is the 
@@ -92,7 +92,7 @@ public:
    *
    *  @param energy   the energy at which the permeability needs to be evaluated
    */
-  double permeability( double energy ) const {
+  EtaParameter permeability( const Energy& energy ) const {
 
     auto za = this->particle().charge();
     auto zb = this->particle().charge();

@@ -10,15 +10,6 @@ namespace rmatrix {
   #include "resonanceReconstruction/rmatrix/src/possibleChannelSpinValues.hpp"
   #include "resonanceReconstruction/rmatrix/src/possibleChannelTotalAngularMomentumValues.hpp"
 
-  // physical quantities
-  using AtomicMass = double;
-  using ElectricalCharge = double;
-  using Energy = double;
-  using QValue = double;
-
-  // physical constants
-  const double hbar = 1.0;
-
   // R-Matrix boundary condition used in calculating the shift
   using BoundaryCondition = double;
 

@@ -51,6 +51,25 @@ namespace ENDF = ENDFtk::resonanceParameters;
 #include "resonanceReconstruction/breitWigner.hpp"
 #include "resonanceReconstruction/reichMoore.hpp"
 
+// physical constants and quantities
+
+// physical units
+using ElectronVoltSecond = decltype( ElectronVolts() * Seconds() );
+using ElectronVoltSeconds = ElectronVoltSecond;
+using CoulombSquaredSecondPerMeter = decltype( Coulomb() * Coulomb() *
+                                               Seconds() / Meters() );
+
+// hbar constant in eV s - taken from 2014 CODATA 
+constexpr Quantity< ElectronVoltSecond > hbar = 6.582119514e-16 * electronVolt * second;
+
+// physical quantities
+using AtomicMass = Quantity< Dalton >;
+using ElectricalCharge = Quantity< Coulomb >;
+using Energy = Quantity< ElectronVolt >;
+using QValue = Quantity< ElectronVolt >;
+using WaveNumber = Quantity< InvRootBarn >; // aka 1 / fm
+using EtaParameter = Quantity< CoulombSquaredSecondPerMeter >;
+
 #include "resonanceReconstruction/rmatrix.hpp"
 }
 }
