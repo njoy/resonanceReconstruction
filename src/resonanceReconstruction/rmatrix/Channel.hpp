@@ -1,6 +1,9 @@
 /**
  *  @class
  *  @brief A reaction channel
+ *
+ *  The Channel class is used to used to store or calculate all channel specific
+ *  data.
  */
 class Channel {
 
@@ -8,10 +11,10 @@ class Channel {
   ChannelID id_;
   const ParticlePair& pair_; // pairs can be shared among channels
   ChannelQuantumNumbers numbers_;
+  ChannelRadii radii_;
   BoundaryCondition boundary_;
+  ChannelType type_;
 
-  //! @todo the channel is of a certain type (neutron, photon, fission, charged)
-  //!       which determine the default P, S and phi functions to use
   //! @todo the channel has radii for P, S and phi which can be shared with
   //!       other channels
   //! @todo the boundary condition may be dependent on the channel radius (see
@@ -28,8 +31,11 @@ public:
   Channel( const ChannelID& id,
            const ParticlePair& pair,
            const ChannelQuantumNumbers& numbers,
-           const BoundaryCondition& boundary ) :
-    id_( id ), pair_( pair ), numbers_( numbers ), boundary_( boundary ) {}
+           const ChannelRadii& radii,
+           const BoundaryCondition& boundary,
+           const ChannelType& type ) :
+    id_( id ), pair_( pair ), numbers_( numbers ), radii_( radii ),
+    boundary_( boundary ), type_( type ) {}
 
   /**
    *  @brief Return the unique channel ID
@@ -47,9 +53,19 @@ public:
   const ChannelQuantumNumbers& quantumNumbers() const { return this->numbers_; }
 
   /**
+   *  @brief Return the channel radii
+   */
+  const ChannelRadii& radii() const { return this->radii_; }
+
+  /**
    *  @brief Return the channel boundary condition
    */
   const BoundaryCondition& boundaryCondition() const { return this->boundary_; }
+
+  /**
+   *  @brief Return the channel type
+   */
+  const ChannelType& type() const { return this->type_; }
 
   /**
    *  @brief Return the statistical spin factor
@@ -70,6 +86,36 @@ public:
     auto ia = this->particlePair().particle().spin();
     auto ib = this->particlePair().residual().spin();
     return  ( 2. * J + 1. ) / ( 2. * ia + 1. ) / ( 2. * ib + 1. );
+  }
+
+  /**
+   *  @brief Return the penetrability for this channel as a function of energy
+   *
+   *  @param[in] energy   the energy at which the penetrability is needed
+   */
+  double penetrability( const Energy& energy ) const {
+    auto function = [&]( auto type ){
+      const double ratio = this->particlePair().waveNumber( energy ) *
+                           this->radii().penetrabilityRadius();
+      const unsigned int l = this->quantumNumbers().orbitalAngularMomentum();
+      return calculatePenetrability< decltype( type ) >( l, ratio );
+    };
+    return std::visit( function, this->type_ );
+  }
+
+  /**
+   *  @brief Return the coulomb phase shift for this channel as a function of
+   *         energy
+   *
+   *  @param[in] energy   the energy at which the penetrability is needed
+   */
+  double coulombPhaseShift( const Energy& energy ) const {
+    auto function = [&]( auto type ){
+      const double eta = this->particlePair().etaParameter( energy ).value;
+      const unsigned int l = this->quantumNumbers().orbitalAngularMomentum();
+      return calculateCoulombPhaseShift< decltype( type ) >( l, eta );
+    };
+    return std::visit( function, this->type_ );
   }
 
   //! @todo the channel P, S, phi as a function of energy

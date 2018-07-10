@@ -7,7 +7,7 @@ class ResonanceTable {
   /* fields */
   std::vector< ChannelID > channels_;
   std::vector< Energy > energies__;
-  std::vector< std::vector< ResonanceWidth > > widths__;
+  std::vector< std::vector< ReducedWidth > > widths__;
 
 public:
 

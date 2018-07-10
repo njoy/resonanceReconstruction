@@ -58,7 +58,7 @@ public:
   AtomicMass reducedMass() const {
 
     auto ma = this->particle().mass();
-    auto mb = this->particle().mass();
+    auto mb = this->residual().mass();
     return ma * mb / ( ma + mb );
   }
 
@@ -92,10 +92,10 @@ public:
    *
    *  @param energy   the energy at which the permeability needs to be evaluated
    */
-  EtaParameter permeability( const Energy& energy ) const {
+  EtaParameter etaParameter( const Energy& energy ) const {
 
     auto za = this->particle().charge();
-    auto zb = this->particle().charge();
+    auto zb = this->residual().charge();
     auto mu = this->reducedMass();
     auto k = this->waveNumber( energy );
     return ( za * zb * mu ) / ( hbar * k ) ;
