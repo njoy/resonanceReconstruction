@@ -12,6 +12,7 @@
  *
  *  @return the possible values for the total angular momentum of the channel
  */
+//template < typename Spin >
 inline auto
 getPossibleChannelTotalAngularMomentumValues( const OrbitalAngularMomentum& l,
                                               const Spin& i,

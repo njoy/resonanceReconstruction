@@ -30,5 +30,8 @@ namespace rmatrix {
   #include "resonanceReconstruction/rmatrix/ChannelQuantumNumbers.hpp"
   #include "resonanceReconstruction/rmatrix/ChannelRadii.hpp"
   #include "resonanceReconstruction/rmatrix/Channel.hpp"
+  #include "resonanceReconstruction/rmatrix/ResonanceTable.hpp"
+  #include "resonanceReconstruction/rmatrix/SpinGroup.hpp"
 
 }
+

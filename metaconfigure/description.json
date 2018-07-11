@@ -491,8 +491,14 @@
     "src/resonanceReconstruction/rmatrix/Particle.hpp",
     "src/resonanceReconstruction/rmatrix/ParticlePair.hpp",
     "src/resonanceReconstruction/rmatrix/ResonanceTable.hpp",
+    "src/resonanceReconstruction/rmatrix/ChannelRadii.hpp",
+    "src/resonanceReconstruction/rmatrix/ChannelType.hpp",
     "src/resonanceReconstruction/rmatrix/src/possibleChannelSpinValues.hpp",
-    "src/resonanceReconstruction/rmatrix/src/possibleChannelTotalAngularMomentumValues.hpp"
+    "src/resonanceReconstruction/rmatrix/src/possibleChannelTotalAngularMomentumValues.hpp",
+    "src/resonanceReconstruction/rmatrix/src/calculateCoulombPhaseShift.hpp",
+    "src/resonanceReconstruction/rmatrix/src/calculatePenetrability.hpp",
+    "src/resonanceReconstruction/rmatrix/src/calculatePhaseShift.hpp",
+    "src/resonanceReconstruction/rmatrix/src/calculateShiftFactor.hpp"
   ],
   "ignore pattern": "$^",
   "implementation files": [],
@@ -550,7 +556,8 @@
     ],
     "resonanceReconstruction.rmatrix": [
       "src/resonanceReconstruction/rmatrix/test/possibleChannelSpinValues.test.cpp",
-      "src/resonanceReconstruction/rmatrix/test/possibleChannelTotalAngularMomentumValues.test.cpp"
+      "src/resonanceReconstruction/rmatrix/test/possibleChannelTotalAngularMomentumValues.test.cpp",
+      "src/resonanceReconstruction/rmatrix/test/calculateCoulombPhaseShift.test.cpp"
     ]
   },
   "update": true

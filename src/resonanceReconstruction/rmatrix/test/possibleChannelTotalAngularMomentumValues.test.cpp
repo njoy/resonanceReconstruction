@@ -2,6 +2,7 @@
 #include "resonanceReconstruction.hpp"
 
 using namespace njoy::resonanceReconstruction;
+using namespace njoy::resonanceReconstruction::rmatrix;
 
 // convenience typedefs
 using OrbitalAngularMomentum = rmatrix::OrbitalAngularMomentum;

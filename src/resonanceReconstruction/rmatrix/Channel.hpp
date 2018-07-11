@@ -17,6 +17,7 @@ class Channel {
 
   //! @todo the channel has radii for P, S and phi which can be shared with
   //!       other channels
+  //! @todo P, S and phi can be overriden with user defined functions
   //! @todo the boundary condition may be dependent on the channel radius (see
   //!       equation d.41 in the ENDF manual)
   //! @todo the default P, S, phi functions can be overridden
@@ -96,9 +97,39 @@ public:
   double penetrability( const Energy& energy ) const {
     auto function = [&]( auto type ){
       const double ratio = this->particlePair().waveNumber( energy ) *
-                           this->radii().penetrabilityRadius();
+                           this->radii().penetrabilityRadius( energy );
       const unsigned int l = this->quantumNumbers().orbitalAngularMomentum();
       return calculatePenetrability< decltype( type ) >( l, ratio );
+    };
+    return std::visit( function, this->type_ );
+  }
+
+  /**
+   *  @brief Return the shift factor for this channel as a function of energy
+   *
+   *  @param[in] energy   the energy at which the shift factor is needed
+   */
+  double shiftFactor( const Energy& energy ) const {
+    auto function = [&]( auto type ){
+      const double ratio = this->particlePair().waveNumber( energy ) *
+                           this->radii().shiftFactorRadius( energy );
+      const unsigned int l = this->quantumNumbers().orbitalAngularMomentum();
+      return calculateShiftFactor< decltype( type ) >( l, ratio );
+    };
+    return std::visit( function, this->type_ );
+  }
+
+  /**
+   *  @brief Return the phase shift for this channel as a function of energy
+   *
+   *  @param[in] energy   the energy at which the phase shift is needed
+   */
+  double phaseShift( const Energy& energy ) const {
+    auto function = [&]( auto type ){
+      const double ratio = this->particlePair().waveNumber( energy ) *
+                           this->radii().phaseShiftRadius( energy );
+      const unsigned int l = this->quantumNumbers().orbitalAngularMomentum();
+      return calculatePhaseShift< decltype( type ) >( l, ratio );
     };
     return std::visit( function, this->type_ );
   }

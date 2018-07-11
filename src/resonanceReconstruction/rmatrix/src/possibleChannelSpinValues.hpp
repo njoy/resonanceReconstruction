@@ -21,3 +21,5 @@ possibleChannelSpinValues( const Spin& i, const Spin& I ) {
   }
   return values;
 }
+
+// use ranges::view::iota similar to ranges::view::closed_indices

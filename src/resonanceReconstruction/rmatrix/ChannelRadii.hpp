@@ -39,22 +39,21 @@ public:
   /**
    *  @brief Return the channel radius for the penetrability P
    */
-  const ChannelRadius& penetrabilityRadius( /*const Energy& energy*/ ) const {
+  const ChannelRadius& penetrabilityRadius( const Energy& ) const {
     return this->penetrability_;
   }
 
   /**
    *  @brief Return the channel radius for the shift factor S
    */
-  const ChannelRadius& shiftFactorRadius( /*const Energy& energy*/ ) const {
+  const ChannelRadius& shiftFactorRadius( const Energy& ) const {
     return this->shiftFactor_;
   }
 
   /**
    *  @brief Return the channel radius for the phase shift phi
    */
-  const ChannelRadius& phaseShiftRadius( /*const Energy& energy*/ ) const {
+  const ChannelRadius& phaseShiftRadius( const Energy& ) const {
     return this->phaseShift_;
   }
-
 };
