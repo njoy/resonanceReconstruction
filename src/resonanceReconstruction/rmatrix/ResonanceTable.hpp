@@ -9,8 +9,7 @@ class ResonanceTable {
 
   /* fields */
   std::vector< ChannelID > channels_;
-  std::vector< Energy > energies_;
-  std::vector< std::vector< ReducedWidth > > widths_;
+  std::vector< Resonance > widths_;
 
   //! @todo store index for a channel at construction of the table
 
@@ -33,37 +32,45 @@ public:
    *                        (ne arrays of nc values)
    */
   ResonanceTable( std::vector< ChannelID >&& channels,
-                  std::vector< Energy >&& energies,
-                  std::vector< std::vector< ReducedWidth > >&& widths ) :
+                  std::vector< Resonance >&& widths ) :
       channels_( std::move( channels ) ),
-      energies_( std::move( energies ) ),
       widths_( std::move( widths ) ) {}
+
+  /**
+   *  @brief Return the number of channels
+   */
+  unsigned int numberChannels() const {
+    return this->channels_.size();
+  }
+
+  /**
+   *  @brief Return the number of resonances
+   */
+  unsigned int numberResonances() const {
+    return this->widths_.size();
+  }
+
+  /**
+   *  @brief Return the channel IDs
+   */
+  auto channels() const {
+    return ranges::make_iterator_range( this->channels_.begin(),
+                                        this->channels_.end() );
+  }
+
+  /**
+   *  @brief Return the resonances
+   */
+  auto resonances() const {
+    return ranges::view::all( this->widths_ );
+  }
 
   /**
    *  @brief Return the resonance energies
    */
   auto energies() const {
-    return ranges::make_iterator_range( this->energies_.begin(),
-                                        this->energies_.end() );
-  }
-
-  /**
-   *  @brief Return the reduced widths for a specific channel
-   *
-   *  @param[in] channel   the channel ID
-   */
-  auto reducedWidths( const ChannelID& channel ) const {
-    unsigned int index = std::distance( this->channels_.begin(),
-                                        std::find( this->channels_.begin(),
-                                                   this->channels_.end(),
-                                                   channel ) );
-    if ( index != this->channels_.size() ) {
-      return this->widths_ 
-               | ranges::view::transform( [&index] ( const auto& array )
-                                                   { return array[index]; } );
-    }
-    else {
-      throw std::exception();
-    }
+    return this->resonances()
+             | ranges::view::transform( [] ( const auto& resonance )
+                                           { return resonance.energy(); } );
   }
 };

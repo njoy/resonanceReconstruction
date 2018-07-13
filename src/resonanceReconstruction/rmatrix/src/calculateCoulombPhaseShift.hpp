@@ -6,7 +6,7 @@
  */
 template < typename Type >
 inline
-double calculateCoulombPhaseShift( const unsigned int, const double ) {
+double calculateCoulombPhaseShift( const int, const double ) {
   return 0.0;
 }
 
@@ -28,26 +28,12 @@ double calculateCoulombPhaseShift( const unsigned int, const double ) {
  */
 template <> 
 inline
-double calculateCoulombPhaseShift< ChargedParticle >( const unsigned int l,
+double calculateCoulombPhaseShift< ChargedParticle >( const int l,
                                                       const double eta ) {
   return ranges::accumulate(
-             ranges::view::indices( 1, static_cast< int >( l + 1 ) )
+             ranges::view::indices( 1, l + 1 )
                | ranges::view::transform(
                      [&] ( int n ) -> double
                          { return 1. / std::tan( eta / n ); } ), 0.0 );
 }
 
-// assert in body to check positive value, use 
-/*
-inline
-double calculateCoulombPhaseShift< ChargedParticle >( const unsigned int l,
-                                                      const double eta ) {
-    return ranges::accumulate(
-               ranges::view::indices( 1, static_cast< int >( l + 1) )
-                 | ranges::view::transform(
-                       [&] ( int n ) -> double
-                           { return 1. / std::tan( eta / n ); } ), 0.0 );
-}
-
-template + inline = redundant
-*/

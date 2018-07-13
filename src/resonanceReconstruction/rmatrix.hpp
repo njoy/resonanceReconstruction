@@ -24,12 +24,16 @@ namespace rmatrix {
   using ReactionID = std::string;
   using ChannelID = std::string;
 
+  // matrix
+  template < typename T > using Matrix = Eigen::Matrix< T, Eigen::Dynamic, Eigen::Dynamic >;
+
   // spin group and channel components
   #include "resonanceReconstruction/rmatrix/Particle.hpp"
   #include "resonanceReconstruction/rmatrix/ParticlePair.hpp"
   #include "resonanceReconstruction/rmatrix/ChannelQuantumNumbers.hpp"
   #include "resonanceReconstruction/rmatrix/ChannelRadii.hpp"
   #include "resonanceReconstruction/rmatrix/Channel.hpp"
+  #include "resonanceReconstruction/rmatrix/Resonance.hpp"
   #include "resonanceReconstruction/rmatrix/ResonanceTable.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup.hpp"
 

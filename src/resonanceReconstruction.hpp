@@ -62,6 +62,9 @@ using CoulombSquaredSecondPerMeter = decltype( Coulomb() * Coulomb() *
 // hbar constant in eV s - taken from 2014 CODATA 
 constexpr Quantity< ElectronVoltSecond > hbar = 6.582119514e-16 * electronVolt * second;
 
+constexpr Quantity< RootElectronVolt > rootElectronVolt = sqrt( 1.0 * electronVolt );
+constexpr Quantity< RootElectronVolt > rootElectronVolts = rootElectronVolt;
+
 // physical quantities
 using AtomicMass = Quantity< Dalton >;
 using ElectricalCharge = Quantity< Coulomb >;
