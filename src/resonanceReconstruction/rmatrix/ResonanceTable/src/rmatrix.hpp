@@ -44,12 +44,6 @@ Matrix< std::complex< double > > rmatrix( const Energy& energy ) const {
                          [&] ( const auto& resonance )
                              { return resonance.rmatrix( energy ); } );
 
-  // range with the R-matrices for each resonance
-  auto rmatrices = this->resonanceTable().resonances()
-                     | ranges::view::transform(
-                         [&] ( const auto& resonance )
-                             { return resonance.rmatrix( energy ); } );
-
   // accumulate the R-matrix
   auto matrixView =
     ranges::view::cartesian_product( ranges::view::indices( 0, size ),

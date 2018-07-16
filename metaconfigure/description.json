@@ -565,6 +565,9 @@
       "src/resonanceReconstruction/rmatrix/test/possibleChannelTotalAngularMomentumValues.test.cpp",
       "src/resonanceReconstruction/rmatrix/test/calculateCoulombPhaseShift.test.cpp"
     ],
+    "resonanceReconstruction.rmatrix.Particle": [
+      "src/resonanceReconstruction/rmatrix/Particle/test/Particle.test.cpp"
+    ],
     "resonanceReconstruction.rmatrix.Resonance": [
       "src/resonanceReconstruction/rmatrix/Resonance/test/Resonance.test.cpp",
       "src/resonanceReconstruction/rmatrix/Resonance/test/rmatrix.test.cpp"

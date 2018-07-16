@@ -18,7 +18,7 @@ public:
   /**
    *  @brief Return the resonance energy (in eV)
    */
-  auto energy() const {
+  const Energy& energy() const {
 
     return this->energy_;
   }
@@ -26,7 +26,7 @@ public:
   /**
    *  @brief Return the eliminated capture width (in sqrt(eV))
    */
-  auto eliminatedWidth() const {
+  const ReducedWidth& eliminatedWidth() const {
 
     return this->eliminated_;
   }
