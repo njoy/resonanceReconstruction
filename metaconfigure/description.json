@@ -493,17 +493,18 @@
     "src/resonanceReconstruction/rmatrix/ResonanceTable.hpp",
     "src/resonanceReconstruction/rmatrix/ChannelRadii.hpp",
     "src/resonanceReconstruction/rmatrix/ChannelType.hpp",
-    "src/resonanceReconstruction/rmatrix/SpinGroup.hpp",
     "src/resonanceReconstruction/rmatrix/Resonance.hpp",
+    "src/resonanceReconstruction/rmatrix/SpinGroup.hpp",
     "src/resonanceReconstruction/rmatrix/src/possibleChannelSpinValues.hpp",
     "src/resonanceReconstruction/rmatrix/src/possibleChannelTotalAngularMomentumValues.hpp",
     "src/resonanceReconstruction/rmatrix/src/calculateCoulombPhaseShift.hpp",
     "src/resonanceReconstruction/rmatrix/src/calculatePenetrability.hpp",
     "src/resonanceReconstruction/rmatrix/src/calculatePhaseShift.hpp",
     "src/resonanceReconstruction/rmatrix/src/calculateShiftFactor.hpp",
-    "src/resonanceReconstruction/rmatrix/Resonance/src/generateProducts.hpp",
     "src/resonanceReconstruction/rmatrix/Resonance/src/ctor.hpp",
-    "src/resonanceReconstruction/rmatrix/Resonance/src/rmatrix.hpp"
+    "src/resonanceReconstruction/rmatrix/Resonance/src/rmatrix.hpp",
+    "src/resonanceReconstruction/rmatrix/ResonanceTable/src/ctor.hpp",
+    "src/resonanceReconstruction/rmatrix/ResonanceTable/src/rmatrix.hpp"
   ],
   "ignore pattern": "$^",
   "implementation files": [],
@@ -567,6 +568,10 @@
     "resonanceReconstruction.rmatrix.Resonance": [
       "src/resonanceReconstruction/rmatrix/Resonance/test/Resonance.test.cpp",
       "src/resonanceReconstruction/rmatrix/Resonance/test/rmatrix.test.cpp"
+    ],
+    "resonanceReconstruction.rmatrix.ResonanceTable": [
+      "src/resonanceReconstruction/rmatrix/ResonanceTable/test/rmatrix.test.cpp",
+      "src/resonanceReconstruction/rmatrix/ResonanceTable/test/ResonanceTable.test.cpp"
     ]
   },
   "update": true

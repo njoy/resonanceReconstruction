@@ -10,10 +10,6 @@
  *  Because the eliminated channel is a capture channel, the value of \Gamma
  *  is energy dependent and does not require a penetrability value.
  *
- *  The matrix returned from this function is an upper triangular matrix only
- *  as the R-matrix is symmetrical. To obtain the full R-matrix, symmetry must
- *  be applied.
- *
  *  @param[in] energy   the energy at which the resonance must be evaluated
  */
 auto rmatrix( const Energy& energy ) const {
@@ -30,9 +26,9 @@ auto rmatrix( const Energy& energy ) const {
   const int size = widths.size();
   return ranges::view::cartesian_product( widths, widths )
            | ranges::view::transform(
-                 [] ( auto&& widths ) -> Energy
-                    { return std::get< 0 >( widths ) *
-                             std::get< 1 >( widths ); } )
+                 [] ( auto&& pair ) -> Energy
+                    { return std::get< 0 >( pair ) *
+                             std::get< 1 >( pair ); } )
            | ranges::view::transform(
                  [] ( auto&& square ) -> double
                     { return square / electronVolt; } )

@@ -15,7 +15,12 @@ SCENARIO( "Resonance.rmatrix( energy )" ) {
                            1.000000e-5 * rootElectronVolt }, 
                          3.933600e-1 * rootElectronVolt );
 
-    Resonance resonance2( 1.825230e+5 * electronVolt,
+    Resonance resonance2( 1.150980e+5 * electronVolt,
+                          { 4.307780e+0 * rootElectronVolt,
+                            0.0 * rootElectronVolt }, 
+                          7.390000e-1 * rootElectronVolt );
+
+    Resonance resonance3( 1.825230e+5 * electronVolt,
                          { 1.759740e+3 * rootElectronVolt,
                            4.000000e-1 * rootElectronVolt }, 
                          7.451500e-1 * rootElectronVolt );
@@ -37,6 +42,20 @@ SCENARIO( "Resonance.rmatrix( energy )" ) {
       REQUIRE( 1.717146E-15 == Approx( rmatrix[1][1].imag() ) );
 
       rmatrix = resonance2.rmatrix( 1e+4 * electronVolt );
+
+      REQUIRE( rmatrix.size() == 2 );
+      REQUIRE( rmatrix.front().size() == 2 );
+
+      REQUIRE( 1.765682E-04 == Approx( rmatrix[0][0].real() ) );
+      REQUIRE( 9.175020E-10 == Approx( rmatrix[0][0].imag() ) );
+      REQUIRE( 0.0 == Approx( rmatrix[0][1].real() ) );
+      REQUIRE( 0.0 == Approx( rmatrix[0][1].imag() ) );
+      REQUIRE( 0.0 == Approx( rmatrix[1][0].real() ) );
+      REQUIRE( 0.0 == Approx( rmatrix[1][0].imag() ) );
+      REQUIRE( 0.0 == Approx( rmatrix[1][1].real() ) );
+      REQUIRE( 0.0 == Approx( rmatrix[1][1].imag() ) );
+
+      rmatrix = resonance3.rmatrix( 1e+4 * electronVolt );
 
       REQUIRE( rmatrix.size() == 2 );
       REQUIRE( rmatrix.front().size() == 2 );

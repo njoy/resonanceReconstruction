@@ -10,8 +10,6 @@ class Resonance {
   std::vector< ReducedWidth > widths_;
   ReducedWidth eliminated_;
 
-  /* auxiliary functions */
-
 public:
 
   /* constructor */
