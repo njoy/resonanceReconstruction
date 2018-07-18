@@ -17,11 +17,7 @@ class ChannelQuantumNumbers {
 public:
 
   /* constructor */
-  ChannelQuantumNumbers( const OrbitalAngularMomentum& l,
-                         const Spin& s,
-                         const TotalAngularMomentum& J,
-                         const Parity& parity ) :
-    l_( l ), s_( s ), J_( J ), parity_( parity ) {}
+  #include "resonanceReconstruction/rmatrix/ChannelQuantumNumbers/src/ctor.hpp"
 
   /**
    *  @brief Return the orbital angular momentum l of the channel
