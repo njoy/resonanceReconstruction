@@ -71,8 +71,8 @@ using AtomicMass = Quantity< Dalton >;
 using ElectricalCharge = Quantity< Coulomb >;
 using Energy = Quantity< ElectronVolt >;
 using QValue = Quantity< ElectronVolt >;
-using WaveNumber = Quantity< InvRootBarn >; // aka 1 / fm
-using ChannelRadius = Quantity< RootBarn >; // aka fm
+using WaveNumber = Quantity< InvRootBarn >;
+using ChannelRadius = Quantity< RootBarn >;
 using EtaParameter = Quantity< CoulombSquaredSecondPerMeter >;
 using ReducedWidth = Quantity< RootElectronVolt >;
 

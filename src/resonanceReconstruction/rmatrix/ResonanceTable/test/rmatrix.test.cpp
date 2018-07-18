@@ -34,14 +34,14 @@ SCENARIO( "Resonance.rmatrix( energy )" ) {
       REQUIRE( rmatrix.rows() == 2 );
       REQUIRE( rmatrix.cols() == 2 );
 
-/*      REQUIRE( 1.876492E+01 == Approx( rmatrix[0][0].real() ) );
-      REQUIRE( 5.993566E-05 == Approx( rmatrix[0][0].imag() ) );
-      REQUIRE( 4.080050E-03 == Approx( rmatrix[0][1].real() ) );
-      REQUIRE( 1.313122E-08 == Approx( rmatrix[0][1].imag() ) );
-      REQUIRE( 4.080050E-03 == Approx( rmatrix[1][0].real() ) );
-      REQUIRE( 1.313122E-08 == Approx( rmatrix[1][0].imag() ) );
-      REQUIRE( 9.274126E-07 == Approx( rmatrix[1][1].real() ) );
-      REQUIRE( 9.274126E-07 == Approx( rmatrix[1][1].imag() ) );*/
+      REQUIRE( 1.876492E+01 == Approx( rmatrix( 0, 0 ).real() ) );
+      REQUIRE( 5.993566E-05 == Approx( rmatrix( 0, 0 ).imag() ) );
+      REQUIRE( 4.080050E-03 == Approx( rmatrix( 0, 1 ).real() ) );
+      REQUIRE( 1.313122E-08 == Approx( rmatrix( 0, 1 ).imag() ) );
+      REQUIRE( 4.080050E-03 == Approx( rmatrix( 1, 0 ).real() ) );
+      REQUIRE( 1.313122E-08 == Approx( rmatrix( 1, 0 ).imag() ) );
+      REQUIRE( 9.274126E-07 == Approx( rmatrix( 1, 1 ).real() ) );
+      REQUIRE( 9.274126E-07 == Approx( rmatrix( 1, 1 ).imag() ) );
     }
   } // GIVEN
 } // SCENARIO

@@ -5,7 +5,8 @@ Matrix< std::complex< double > > rmatrix( const Energy& energy ) const {
 
   // initialise the rmatrix
   const unsigned int size = this->numberChannels();
-  Matrix< std::complex< double > > rMatrix( size, size );
+  Matrix< std::complex< double > > rMatrix =
+      Matrix< std::complex< double > >::Zero( size, size );
 
   // range with the R-matrices for each resonance
   auto rmatrices = this->resonances()

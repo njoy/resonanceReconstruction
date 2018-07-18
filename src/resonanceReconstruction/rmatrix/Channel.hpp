@@ -148,7 +148,4 @@ public:
     };
     return std::visit( function, this->type_ );
   }
-
-  //! @todo the channel P, S, phi as a function of energy
-
 };

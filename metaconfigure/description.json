@@ -575,6 +575,9 @@
     "resonanceReconstruction.rmatrix.ResonanceTable": [
       "src/resonanceReconstruction/rmatrix/ResonanceTable/test/rmatrix.test.cpp",
       "src/resonanceReconstruction/rmatrix/ResonanceTable/test/ResonanceTable.test.cpp"
+    ],
+    "resonanceReconstruction.rmatrix.SpinGroup": [
+      "src/resonanceReconstruction/rmatrix/SpinGroup/test/SpinGroup.test.cpp"
     ]
   },
   "update": true
