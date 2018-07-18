@@ -9,7 +9,7 @@ class Channel {
 
   /* fields */
   ChannelID id_;
-  const ParticlePair& pair_; // pairs can be shared among channels
+  ParticlePair pair_;
   ChannelQuantumNumbers numbers_;
   ChannelRadii radii_;
   BoundaryCondition boundary_;
@@ -26,17 +26,8 @@ class Channel {
 
 public:
 
-  //! @todo use only move semantics in the constructor?
-
   /* constructor */
-  Channel( const ChannelID& id,
-           const ParticlePair& pair,
-           const ChannelQuantumNumbers& numbers,
-           const ChannelRadii& radii,
-           const BoundaryCondition& boundary,
-           const ChannelType& type ) :
-    id_( id ), pair_( pair ), numbers_( numbers ), radii_( radii ),
-    boundary_( boundary ), type_( type ) {}
+  #include "resonanceReconstruction/rmatrix/Channel/src/ctor.hpp"
 
   /**
    *  @brief Return the unique channel ID
@@ -68,84 +59,9 @@ public:
    */
   const ChannelType& type() const { return this->type_; }
 
-  /**
-   *  @brief Return the statistical spin factor
-   *
-   *  The statistical spin factor g of a channel is defined as follows:
-   *     g = ( 2 * J + 1 ) / ( 2 * ia + 1 ) / ( 2 * ib + 1 )
-   *  in which J is the total angular momentum of the channel and ia and ib 
-   *  are the spins of the particles in the particle pair.
-   *
-   *  For a particle pair involving a neutron (for which the particle spin is 
-   *  0.5), this reduces to:
-   *    g = ( 2 * J + 1 ) / ( 2 * I + 1 ) / 2
-   *  in which I is the target nucleus spin value.
-   */
-  double statisticalSpinFactor() const {
-
-    auto J = this->quantumNumbers().totalAngularMomentum();
-    auto ia = this->particlePair().particle().spin();
-    auto ib = this->particlePair().residual().spin();
-    return  ( 2. * J + 1. ) / ( 2. * ia + 1. ) / ( 2. * ib + 1. );
-  }
-
-  /**
-   *  @brief Return the penetrability for this channel as a function of energy
-   *
-   *  @param[in] energy   the energy at which the penetrability is needed
-   */
-  double penetrability( const Energy& energy ) const {
-    auto function = [&]( auto type ){
-      const double ratio = this->particlePair().waveNumber( energy ) *
-                           this->radii().penetrabilityRadius( energy );
-      const unsigned int l = this->quantumNumbers().orbitalAngularMomentum();
-      return calculatePenetrability< decltype( type ) >( l, ratio );
-    };
-    return std::visit( function, this->type_ );
-  }
-
-  /**
-   *  @brief Return the shift factor for this channel as a function of energy
-   *
-   *  @param[in] energy   the energy at which the shift factor is needed
-   */
-  double shiftFactor( const Energy& energy ) const {
-    auto function = [&]( auto type ){
-      const double ratio = this->particlePair().waveNumber( energy ) *
-                           this->radii().shiftFactorRadius( energy );
-      const unsigned int l = this->quantumNumbers().orbitalAngularMomentum();
-      return calculateShiftFactor< decltype( type ) >( l, ratio );
-    };
-    return std::visit( function, this->type_ );
-  }
-
-  /**
-   *  @brief Return the phase shift for this channel as a function of energy
-   *
-   *  @param[in] energy   the energy at which the phase shift is needed
-   */
-  double phaseShift( const Energy& energy ) const {
-    auto function = [&]( auto type ){
-      const double ratio = this->particlePair().waveNumber( energy ) *
-                           this->radii().phaseShiftRadius( energy );
-      const unsigned int l = this->quantumNumbers().orbitalAngularMomentum();
-      return calculatePhaseShift< decltype( type ) >( l, ratio );
-    };
-    return std::visit( function, this->type_ );
-  }
-
-  /**
-   *  @brief Return the coulomb phase shift for this channel as a function of
-   *         energy
-   *
-   *  @param[in] energy   the energy at which the penetrability is needed
-   */
-  double coulombPhaseShift( const Energy& energy ) const {
-    auto function = [&]( auto type ){
-      const double eta = this->particlePair().etaParameter( energy ).value;
-      const unsigned int l = this->quantumNumbers().orbitalAngularMomentum();
-      return calculateCoulombPhaseShift< decltype( type ) >( l, eta );
-    };
-    return std::visit( function, this->type_ );
-  }
+  #include "resonanceReconstruction/rmatrix/Channel/src/statisticalSpinFactor.hpp"
+  #include "resonanceReconstruction/rmatrix/Channel/src/penetrability.hpp"
+  #include "resonanceReconstruction/rmatrix/Channel/src/shiftFactor.hpp"
+  #include "resonanceReconstruction/rmatrix/Channel/src/phaseShift.hpp"
+  #include "resonanceReconstruction/rmatrix/Channel/src/coulombPhaseShift.hpp"
 };

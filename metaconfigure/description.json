@@ -510,7 +510,13 @@
     "src/resonanceReconstruction/rmatrix/ParticlePair/src/waveNumber.hpp",
     "src/resonanceReconstruction/rmatrix/ParticlePair/src/etaParameter.hpp",
     "src/resonanceReconstruction/rmatrix/ParticlePair/src/reducedMass.hpp",
-    "src/resonanceReconstruction/rmatrix/ChannelQuantumNumbers/src/ctor.hpp"
+    "src/resonanceReconstruction/rmatrix/ChannelQuantumNumbers/src/ctor.hpp",
+    "src/resonanceReconstruction/rmatrix/Channel/src/ctor.hpp",
+    "src/resonanceReconstruction/rmatrix/Channel/src/statisticalSpinFactor.hpp",
+    "src/resonanceReconstruction/rmatrix/Channel/src/penetrability.hpp",
+    "src/resonanceReconstruction/rmatrix/Channel/src/shiftFactor.hpp",
+    "src/resonanceReconstruction/rmatrix/Channel/src/phaseShift.hpp",
+    "src/resonanceReconstruction/rmatrix/Channel/src/coulombPhaseShift.hpp"
   ],
   "ignore pattern": "$^",
   "implementation files": [],
@@ -570,6 +576,9 @@
       "src/resonanceReconstruction/rmatrix/test/possibleChannelSpinValues.test.cpp",
       "src/resonanceReconstruction/rmatrix/test/possibleChannelTotalAngularMomentumValues.test.cpp",
       "src/resonanceReconstruction/rmatrix/test/calculateCoulombPhaseShift.test.cpp"
+    ],
+    "resonanceReconstruction.rmatrix.Channel": [
+      "src/resonanceReconstruction/rmatrix/Channel/test/Channel.test.cpp"
     ],
     "resonanceReconstruction.rmatrix.ChannelQuantumNumbers": [
       "src/resonanceReconstruction/rmatrix/ChannelQuantumNumbers/test/ChannelQuantumNumbers.test.cpp"
