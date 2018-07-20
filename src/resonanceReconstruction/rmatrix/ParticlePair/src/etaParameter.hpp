@@ -11,10 +11,10 @@
  */
 EtaParameter etaParameter( const Energy& energy ) const {
 
-  auto za = this->particle().charge();
-  auto zb = this->residual().charge();
-  auto mu = this->reducedMass();
-  auto k = this->waveNumber( energy );
+  const auto za = this->particle().charge();
+  const auto zb = this->residual().charge();
+  const auto mu = this->reducedMass();
+  const auto k = this->waveNumber( energy );
   return ( za * zb * mu ) / ( hbar * k ) ;
 }
 

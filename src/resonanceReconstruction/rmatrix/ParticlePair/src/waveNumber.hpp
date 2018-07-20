@@ -11,9 +11,9 @@
  */
 WaveNumber waveNumber( const Energy& energy ) const {
 
-  auto mu = this->reducedMass();
-  auto ma = this->particle().mass();
-  auto q = this->Q();
+  const auto mu = this->reducedMass();
+  const auto ma = this->particle().mass();
+  const auto q = this->Q();
   return sqrt( 2. * mu * ( energy * mu / ma + q ) ) / hbar;
 }
 

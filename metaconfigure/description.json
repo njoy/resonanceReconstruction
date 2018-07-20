@@ -599,7 +599,8 @@
       "src/resonanceReconstruction/rmatrix/ResonanceTable/test/ResonanceTable.test.cpp"
     ],
     "resonanceReconstruction.rmatrix.SpinGroup": [
-      "src/resonanceReconstruction/rmatrix/SpinGroup/test/SpinGroup.test.cpp"
+      "src/resonanceReconstruction/rmatrix/SpinGroup/test/SpinGroup.test.cpp",
+      "src/resonanceReconstruction/rmatrix/SpinGroup/test/evaluate.test.cpp"
     ]
   },
   "update": true

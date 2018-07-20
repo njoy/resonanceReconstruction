@@ -8,8 +8,8 @@
  */
 AtomicMass reducedMass() const {
 
-  auto ma = this->particle().mass();
-  auto mb = this->residual().mass();
+  const auto ma = this->particle().mass();
+  const auto mb = this->residual().mass();
   return ma * mb / ( ma + mb );
 }
 
