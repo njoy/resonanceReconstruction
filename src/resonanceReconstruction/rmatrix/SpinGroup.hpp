@@ -43,6 +43,12 @@ class SpinGroup {
                      { return channel.boundaryCondition(); } );
   }
 
+  auto delta() const {
+    const unsigned int size = this->channels_.size();
+    return ranges::view::concat( ranges::view::single( 1.0 ),
+                                 ranges::view::repeat_n( 0.0, size - 1 ) );
+  }
+
 public:
 
   /* constructor */
@@ -55,19 +61,13 @@ public:
 
   auto evaluate( const Energy& energy ) const {
 
-    // penetrabilities, shift factors, phase shifts and Coulomb phase shifts
+    // penetrability, shift factor, phase shift and Coulomb phase shift
     // for each channel
     const auto penetrabilities = this->penetrabilities( energy );
     const auto shiftFactors = this->shiftFactors( energy );
     const auto phaseShifts = this->phaseShifts( energy );
     const auto coulombShifts = this->coulombShifts( energy );
     const auto boundaryConditions = this->boundaryConditions();
-
-std::cout << "penetrabilities(0) " << penetrabilities[0] << std::endl;
-std::cout << "shiftFactors(0) " << shiftFactors[0] << std::endl;
-std::cout << "phaseShifts(0) " << phaseShifts[0] << std::endl;
-std::cout << "coulombShifts(0) " << coulombShifts[0] << std::endl;
-std::cout << "boundaryConditions(0) " << boundaryConditions[0] << std::endl;
 
     // the diagonal of the L matrix = S - B, iP
     const auto diagonalLMatrix =
@@ -78,8 +78,6 @@ std::cout << "boundaryConditions(0) " << boundaryConditions[0] << std::endl;
                                 shiftFactors, boundaryConditions ),
         penetrabilities );
 
-std::cout << "diagonalLMatrix(0) " << diagonalLMatrix[0] << std::endl;
-
     // the diagonal of the sqrt(P) matrix
     const auto diagonalSqrtPMatrix =
       penetrabilities
@@ -87,16 +85,14 @@ std::cout << "diagonalLMatrix(0) " << diagonalLMatrix[0] << std::endl;
             [] ( const double penetrability ) -> double
                { return std::sqrt( penetrability ); } );
 
-std::cout << "diagonalSqrtPMatrix(0) " << diagonalSqrtPMatrix[0] << std::endl;
-
-    // the X matrix multiplier for each channel
+    // the X matrix multiplier for each channel (assumes the incident channel
+    // is the first channel)
     const auto xMultipliers =
       diagonalSqrtPMatrix
         | ranges::view::transform(
             [&] ( const double value ) -> double
-                { return diagonalSqrtPMatrix.front() * value; } );
-
-std::cout << "xMultipliers(0) " << xMultipliers[0] << std::endl;
+                { const auto incidentSqrtP = diagonalSqrtPMatrix.front();
+                  return incidentSqrtP * value; } );
 
     // the diagonal of the Omega matrix = exp( i ( w - phi ) )
     const auto diagonalOmegaMatrix =
@@ -106,16 +102,14 @@ std::cout << "xMultipliers(0) " << xMultipliers[0] << std::endl;
             [] ( const double delta ) -> std::complex< double >
                { return std::exp( std::complex< double >( 0.0, delta ) ); } );
 
-std::cout << "diagonalOmegaMatrix(0) " << diagonalOmegaMatrix[0] << std::endl;
-
-    // the U matrix multiplier for each channel
+    // the U matrix multiplier for each channel (assumes the incident channel
+    // is the first channel)
     const auto uMultipliers =
       diagonalOmegaMatrix
         | ranges::view::transform(
             [&] ( const std::complex< double > value ) -> std::complex< double >
-                { return diagonalOmegaMatrix.front() * value; } );
-
-std::cout << "uMultipliers(0) " << uMultipliers[0] << std::endl;
+                { const auto incidentOmega = diagonalOmegaMatrix.front();
+                  return incidentOmega * value; } );
 
 // BEGIN REALLY BAD - GET TESTING GOING
 
@@ -137,13 +131,11 @@ std::cout << "uMultipliers(0) " << uMultipliers[0] << std::endl;
     Matrix< std::complex< double > > xMatrix =
         ( Matrix< double >::Identity( size, size )
               - rMatrix * lMatrix ).inverse() * rMatrix;
-
+    
     std::vector< std::complex<double> > row;
     for ( unsigned int i = 0; i < size; ++i ) row.push_back(xMatrix(0,i));
 
 // END REALLY BAD - GET TESTING GOING
-
-std::cout << "row(0) " << row[0] << std::endl;
 
     // the first row of the X matrix
     const auto xElements = 
@@ -151,10 +143,13 @@ std::cout << "row(0) " << row[0] << std::endl;
                                 row, xMultipliers );
     // the first row of the W matrix
     auto wElements = 
-        xElements | ranges::view::transform(
-                      [] ( const auto xValue ) -> std::complex< double >
-                         { return std::complex< double >( 0., 2. ) * xValue; } );
-    wElements.front() += 1.0;
+        ranges::view::zip_with(
+          std::plus< std::complex< double> >(),
+          xElements
+            | ranges::view::transform(
+                [] ( const auto xValue ) -> std::complex< double >
+                   { return std::complex< double >( 0., 2. ) * xValue; } ), 
+          this->delta() );
 
     // the first row of the U matrix
     const auto uElements =
@@ -162,14 +157,11 @@ std::cout << "row(0) " << row[0] << std::endl;
                                 wElements, uMultipliers );
 
     // the exponential of the coulomb phase shift for the entrance channel
+    // (assumes the incident channel is the first channel)
     const auto exponential = [&] {
       const auto wc = coulombShifts.front();
       return std::exp( std::complex< double >( 0.0, wc ) );
     }();
-
-std::cout << "X(0,0) " << xElements[0] << std::endl;
-std::cout << "W(0,0) " << wElements[0] << std::endl;
-std::cout << "U(0,0) " << uElements[0] << std::endl;
 
     // the pi/k2 factor
     const auto factor = [&] {
@@ -189,7 +181,7 @@ std::cout << "U(0,0) " << uElements[0] << std::endl;
         result.push_back( factor * std::pow( std::abs( exponential - uElements[i] ), 2. ) );
       }
       else {
-        result.push_back( factor * std::abs( std::pow( uElements[i], 2. ) ) );
+        result.push_back( factor * std::pow( std::abs( uElements[i] ), 2. ) );
       }
       eliminated -= result.back();
     }
