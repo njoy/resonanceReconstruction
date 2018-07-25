@@ -76,124 +76,188 @@ SCENARIO( "evaluate" ) {
     SpinGroup group1( { elastic }, std::move( single ) );
     SpinGroup group2( { elastic }, std::move( multiple ) );
 
+    // simplifying gammas for tests
+    auto getName = [] ( const auto& array, const unsigned int index )
+                      { return std::get< 0 >( array[index] ); };
+    auto getXS = [] ( const auto& array, const unsigned int index )
+                    { return std::get< 1 >( array[index] ).value; };
+
     THEN( "cross sections can be calculated for a single resonance" ) {
 
       // first value is elastic, second value is eliminated capture
       auto xs = group1.evaluate( 1e-5 * electronVolt );
-      REQUIRE( 2.575880e-1 == Approx( xs[0].value ) );
-      REQUIRE( 6.895037e+1 == Approx( xs[1].value ) );
+      REQUIRE( 2 == xs.size() );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "capture" == getName( xs, 1 ) );
+      REQUIRE( 2.575880e-1 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 6.895037e+1 == Approx( getXS( xs, 1 ) ) );
 
       xs = group1.evaluate( 1e-4 * electronVolt );
-      REQUIRE( 2.575879e-1 == Approx( xs[0].value ) );
-      REQUIRE( 2.180402e+1 == Approx( xs[1].value ) );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "capture" == getName( xs, 1 ) );
+      REQUIRE( 2.575879e-1 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 2.180402e+1 == Approx( getXS( xs, 1 ) ) );
 
       xs = group1.evaluate( 1e-3 * electronVolt );
-      REQUIRE( 2.575878e-1 == Approx( xs[0].value ) );
-      REQUIRE( 6.895039e+0 == Approx( xs[1].value ) );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "capture" == getName( xs, 1 ) );
+      REQUIRE( 2.575878e-1 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 6.895039e+0 == Approx( getXS( xs, 1 ) ) );
 
       xs = group1.evaluate( 1e-2 * electronVolt );
-      REQUIRE( 2.575861e-1 == Approx( xs[0].value ) );
-      REQUIRE( 2.180408e+0 == Approx( xs[1].value ) );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "capture" == getName( xs, 1 ) );
+      REQUIRE( 2.575861e-1 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 2.180408e+0 == Approx( getXS( xs, 1 ) ) );
 
       xs = group1.evaluate( 1e-1 * electronVolt );
-      REQUIRE( 2.575695e-1 == Approx( xs[0].value ) );
-      REQUIRE( 6.895213e-1 == Approx( xs[1].value ) );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "capture" == getName( xs, 1 ) );
+      REQUIRE( 2.575695e-1 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 6.895213e-1 == Approx( getXS( xs, 1 ) ) );
 
       xs = group1.evaluate( 1e+0 * electronVolt );
-      REQUIRE( 2.574032e-1 == Approx( xs[0].value ) );
-      REQUIRE( 2.180960e-1 == Approx( xs[1].value ) );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "capture" == getName( xs, 1 ) );
+      REQUIRE( 2.574032e-1 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 2.180960e-1 == Approx( getXS( xs, 1 ) ) );
 
       xs = group1.evaluate( 1e+1 * electronVolt );
-      REQUIRE( 2.557416e-1 == Approx( xs[0].value ) );
-      REQUIRE( 6.912723e-2 == Approx( xs[1].value ) );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "capture" == getName( xs, 1 ) );
+      REQUIRE( 2.557416e-1 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 6.912723e-2 == Approx( getXS( xs, 1 ) ) );
 
       xs = group1.evaluate( 1e+2 * electronVolt );
-      REQUIRE( 2.392161e-1 == Approx( xs[0].value ) );
-      REQUIRE( 2.237318e-2 == Approx( xs[1].value ) );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "capture" == getName( xs, 1 ) );
+      REQUIRE( 2.392161e-1 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 2.237318e-2 == Approx( getXS( xs, 1 ) ) );
 
       xs = group1.evaluate( 1e+3 * electronVolt );
-      REQUIRE( 8.932783e-2 == Approx( xs[0].value ) );
-      REQUIRE( 9.067250e-3 == Approx( xs[1].value ) );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "capture" == getName( xs, 1 ) );
+      REQUIRE( 8.932783e-2 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 9.067250e-3 == Approx( getXS( xs, 1 ) ) );
 
       xs = group1.evaluate( 1e+4 * electronVolt );
-      REQUIRE( 4.342056e+1 == Approx( xs[0].value ) );
-      REQUIRE( 2.473549e-2 == Approx( xs[1].value ) );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "capture" == getName( xs, 1 ) );
+      REQUIRE( 4.342056e+1 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 2.473549e-2 == Approx( getXS( xs, 1 ) ) );
 
       xs = group1.evaluate( 1e+5 * electronVolt );
-      REQUIRE( 3.979435e+0 == Approx( xs[0].value ) );
-      REQUIRE( 4.915666e-6 == Approx( xs[1].value ) );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "capture" == getName( xs, 1 ) );
+      REQUIRE( 3.979435e+0 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 4.915666e-6 == Approx( getXS( xs, 1 ) ) );
 
       xs = group1.evaluate( 1e+6 * electronVolt );
-      REQUIRE( 2.308817e+0 == Approx( xs[0].value ) );
-      REQUIRE( 1.343258e-8 == Approx( xs[1].value ) );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "capture" == getName( xs, 1 ) );
+      REQUIRE( 2.308817e+0 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 1.343258e-8 == Approx( getXS( xs, 1 ) ) );
 
       xs = group1.evaluate( 7.788000e+3 * electronVolt );
-      REQUIRE( 3.424287e+2 == Approx( xs[0].value ) );
-      REQUIRE( 4.241421e-1 == Approx( xs[1].value ) );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "capture" == getName( xs, 1 ) );
+      REQUIRE( 3.424287e+2 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 4.241421e-1 == Approx( getXS( xs, 1 ) ) );
     }
 
     THEN( "cross sections can be calculated for multiple resonances" ) {
 
       // first value is elastic, second value is eliminated capture
       auto xs = group2.evaluate( 1e-5 * electronVolt );
-      REQUIRE( 8.781791e-2 == Approx( xs[0].value ) );
-      REQUIRE( 7.082909e+1 == Approx( xs[1].value ) );
+      REQUIRE( 2 == xs.size() );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "capture" == getName( xs, 1 ) );
+      REQUIRE( 8.781791e-2 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 7.082909e+1 == Approx( getXS( xs, 1 ) ) );
 
       xs = group2.evaluate( 1e-4 * electronVolt );
-      REQUIRE( 8.781790e-2 == Approx( xs[0].value ) );
-      REQUIRE( 2.239813e+1 == Approx( xs[1].value ) );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "capture" == getName( xs, 1 ) );
+      REQUIRE( 8.781790e-2 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 2.239813e+1 == Approx( getXS( xs, 1 ) ) );
 
       xs = group2.evaluate( 1e-3 * electronVolt );
-      REQUIRE( 8.781781e-2 == Approx( xs[0].value ) );
-      REQUIRE( 7.082911e+0 == Approx( xs[1].value ) );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "capture" == getName( xs, 1 ) );
+      REQUIRE( 8.781781e-2 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 7.082911e+0 == Approx( getXS( xs, 1 ) ) );
 
       xs = group2.evaluate( 1e-2 * electronVolt );
-      REQUIRE( 8.781682e-2 == Approx( xs[0].value ) );
-      REQUIRE( 2.239818e+0 == Approx( xs[1].value ) );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "capture" == getName( xs, 1 ) );
+      REQUIRE( 8.781682e-2 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 2.239818e+0 == Approx( getXS( xs, 1 ) ) );
 
       xs = group2.evaluate( 1e-1 * electronVolt );
-      REQUIRE( 8.780692e-2 == Approx( xs[0].value ) );
-      REQUIRE( 7.083086e-1 == Approx( xs[1].value ) );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "capture" == getName( xs, 1 ) );
+      REQUIRE( 8.780692e-2 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 7.083086e-1 == Approx( getXS( xs, 1 ) ) );
 
       xs = group2.evaluate( 1e+0 * electronVolt );
-      REQUIRE( 8.770804e-2 == Approx( xs[0].value ) );
-      REQUIRE( 2.240372e-1 == Approx( xs[1].value ) );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "capture" == getName( xs, 1 ) );
+      REQUIRE( 8.770804e-2 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 2.240372e-1 == Approx( getXS( xs, 1 ) ) );
 
       xs = group2.evaluate( 1e+1 * electronVolt );
-      REQUIRE( 8.672107e-2 == Approx( xs[0].value ) );
-      REQUIRE( 7.100642e-2 == Approx( xs[1].value ) );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "capture" == getName( xs, 1 ) );
+      REQUIRE( 8.672107e-2 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 7.100642e-2 == Approx( getXS( xs, 1 ) ) );
 
       xs = group2.evaluate( 1e+2 * electronVolt );
-      REQUIRE( 7.704194e-2 == Approx( xs[0].value ) );
-      REQUIRE( 2.296876e-2 == Approx( xs[1].value ) );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "capture" == getName( xs, 1 ) );
+      REQUIRE( 7.704194e-2 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 2.296876e-2 == Approx( getXS( xs, 1 ) ) );
 
       xs = group2.evaluate( 1e+3 * electronVolt );
-      REQUIRE( 7.098264e-3 == Approx( xs[0].value ) );
-      REQUIRE( 9.259109e-3 == Approx( xs[1].value ) );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "capture" == getName( xs, 1 ) );
+      REQUIRE( 7.098264e-3 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 9.259109e-3 == Approx( getXS( xs, 1 ) ) );
 
       xs = group2.evaluate( 1e+4 * electronVolt );
-      REQUIRE( 4.062823e+1 == Approx( xs[0].value ) );
-      REQUIRE( 2.502603e-2 == Approx( xs[1].value ) );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "capture" == getName( xs, 1 ) );
+      REQUIRE( 4.062823e+1 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 2.502603e-2 == Approx( getXS( xs, 1 ) ) );
 
       xs = group2.evaluate( 1e+5 * electronVolt );
-      REQUIRE( 5.330137e+0 == Approx( xs[0].value ) );
-      REQUIRE( 5.716074e-5 == Approx( xs[1].value ) );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "capture" == getName( xs, 1 ) );
+      REQUIRE( 5.330137e+0 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 5.716074e-5 == Approx( getXS( xs, 1 ) ) );
 
       xs = group2.evaluate( 1e+6 * electronVolt );
-      REQUIRE( 2.324263e+0 == Approx( xs[0].value ) );
-      REQUIRE( 3.695041e-8 == Approx( xs[1].value ) );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "capture" == getName( xs, 1 ) );
+      REQUIRE( 2.324263e+0 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 3.695041e-8 == Approx( getXS( xs, 1 ) ) );
 
       xs = group2.evaluate( 7.788000e+3 * electronVolt );
-      REQUIRE( 3.424287e+2 == Approx( xs[0].value ) );
-      REQUIRE( 4.241421e-1 == Approx( xs[1].value ) );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "capture" == getName( xs, 1 ) );
+      REQUIRE( 3.424287e+2 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 4.241421e-1 == Approx( getXS( xs, 1 ) ) );
 
       xs = group2.evaluate( 5.287200e+4 * electronVolt );
-      REQUIRE( 4.738763e+1 == Approx( xs[0].value ) );
-      REQUIRE( 5.099758e-2 == Approx( xs[1].value ) );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "capture" == getName( xs, 1 ) );
+      REQUIRE( 4.738763e+1 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 5.099758e-2 == Approx( getXS( xs, 1 ) ) );
 
       xs = group2.evaluate( 7.190500e+4 * electronVolt );
-      REQUIRE( 3.390972e+1 == Approx( xs[0].value ) );
-      REQUIRE( 4.208797e-2 == Approx( xs[1].value ) );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "capture" == getName( xs, 1 ) );
+      REQUIRE( 3.390972e+1 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 4.208797e-2 == Approx( getXS( xs, 1 ) ) );
     }
   } // GIVEN
 } // SCENARIO

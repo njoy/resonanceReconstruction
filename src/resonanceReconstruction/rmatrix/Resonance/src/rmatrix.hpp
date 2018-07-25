@@ -8,7 +8,7 @@
  *  to be evaluated and \Gamma is the eliminated capture width.
  *
  *  Because the eliminated channel is a capture channel, the value of \Gamma
- *  is energy dependent and does not require a penetrability value.
+ *  is energy independent and does not require a penetrability value.
  *
  *  @param[in] energy   the energy at which the resonance must be evaluated
  */

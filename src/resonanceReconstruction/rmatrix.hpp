@@ -26,8 +26,6 @@ namespace rmatrix {
 
   // matrix
   template < typename T > using Matrix = Eigen::Matrix< T, Eigen::Dynamic, Eigen::Dynamic >;
-  template < typename T > using DiagonalMatrix = Eigen::DiagonalMatrix< T, Eigen::Dynamic >;
-  template < typename T > using Vector = Eigen::VectorXd;
 
   // spin group and channel components
   #include "resonanceReconstruction/rmatrix/Particle.hpp"
