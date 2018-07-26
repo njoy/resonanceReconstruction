@@ -8,6 +8,7 @@ using Particle = rmatrix::Particle;
 using ParticlePair = rmatrix::ParticlePair;
 using Neutron = rmatrix::Neutron;
 using Photon = rmatrix::Photon;
+using Fission = rmatrix::Fission;
 using Channel = rmatrix::Channel;
 using Resonance = rmatrix::Resonance;
 using ResonanceTable = rmatrix::ResonanceTable;
@@ -15,9 +16,10 @@ using SpinGroup = rmatrix::SpinGroup;
 
 SCENARIO( "evaluate" ) {
 
-  //! @todo add test with more than one channel (e.g. fission channels)
+  //! @todo add test with more than one entrance channel
   //! @todo add test with a charged particle channel
   //! @todo add test with resonances at negative energies
+  //! @todo add test with resonances with a negative width
 
   GIVEN( "valid data for a SpinGroup with one eliminated capture channel "
          "and one elastic channel" ) {
@@ -258,6 +260,341 @@ SCENARIO( "evaluate" ) {
       REQUIRE( "capture" == getName( xs, 1 ) );
       REQUIRE( 3.390972e+1 == Approx( getXS( xs, 0 ) ) );
       REQUIRE( 4.208797e-2 == Approx( getXS( xs, 1 ) ) );
+    }
+  } // GIVEN
+
+  GIVEN( "valid data for a SpinGroup with one eliminated capture channel, "
+         "one elastic channel and two fission channels" ) {
+
+    // test based on Pu239 ENDF/B-VIII.0 LRF3 resonance evaluation
+    // data given in Gamma = 2 gamma^2 P(Er) so conversion is required
+    // cross section values extracted from NJOY2016.39
+    // the spin of Pu239 is set to 0.0 instead 0.5 to get a single J value test
+    // (otherwise NJOY would add potential scattering for missing J values)
+
+    // particles
+    Particle photon( 0.0 * daltons, 0.0 * coulombs, 1., +1);
+    Particle neutron( 1.008664 * daltons, 0.0 * coulombs, 0.5, +1);
+    Particle pu240( 2.379916e+2 * 1.008664 * daltons, 94.0 * coulombs, 0.0, +1);
+    Particle pu239( 2.369986e+2 * 1.008664 * daltons, 94.0 * coulombs, 0.0, +1);
+    Particle fission( 0.0 * daltons, 0.0 * coulombs, 0.0, +1);
+
+    // particle pairs
+    ParticlePair pair1( photon, pu240, 0.0 * electronVolt, "capture" );
+    ParticlePair pair2( neutron, pu239, 0.0 * electronVolt, "elastic" );
+    ParticlePair pair3( fission, fission, 0.0 * electronVolt, "fission" );
+
+    // channels
+    Channel capture( "1", pair1, { 0, 0.0, 0.0, +1 },
+                     { 0.0 * rootBarn },
+                     0.0, Photon() );
+    Channel elastic( "2", pair2, { 0, 0.5, 0.0, +1 },
+                     { 9.410000e-1 * rootBarn },
+                     0.0, Neutron() );
+    Channel fission1( "3", pair3, { 0, 0.0, 0.0, +1 },
+                     { 9.410000e-1 * rootBarn },
+                     0.0, Fission() );
+    Channel fission2( "4", pair3, { 0, 0.0, 0.0, +1 },
+                     { 9.410000e-1 * rootBarn },
+                     0.0, Fission() );
+
+    // conversion from Gamma to gamma
+    auto eGamma = [&] ( double width, const Energy& energy ) -> ReducedWidth {
+      return std::sqrt( width / 2. / elastic.penetrability( energy ) ) *
+             rootElectronVolt;
+    };
+    auto fGamma = [&] ( double width ) -> ReducedWidth {
+      return std::sqrt( width / 2. ) * rootElectronVolt;
+    };
+    auto cGamma = [&] ( double width ) -> ReducedWidth {
+      return std::sqrt( width / 2. ) * rootElectronVolt;
+    };
+
+    // single resonance table
+    ResonanceTable single(
+      { "2", "3", "4" },
+      { Resonance( 1.541700e+1 * electronVolt,
+                   { eGamma( 2.056203e-3, 1.541700e+1 * electronVolt ),
+                     fGamma( 1.093928e-6 ),
+                     fGamma( 7.550000e-1 ) },
+                   cGamma( 4.054259e-2 ) ) } );
+
+    // multiple resonance table
+    ResonanceTable multiple(
+      { "2", "3", "4" },
+      { Resonance( 1.541700e+1 * electronVolt,
+                   { eGamma( 2.056203e-3, 1.541700e+1 * electronVolt ),
+                     fGamma( 1.093928e-6 ),
+                     fGamma( 7.550000e-1 ) },
+                   cGamma( 4.054259e-2 ) ),
+        Resonance( 3.232700e+1 * electronVolt,
+                   { eGamma( 8.678823e-4, 3.232700e+1 * electronVolt ),
+                     fGamma( 5.235058e-3 ),
+                     fGamma( 1.279000e-1 ) },
+                   cGamma( 4.182541e-2 ) ),
+        Resonance( 4.753400e+1 * electronVolt,
+                   { eGamma( 5.171861e-3, 4.753400e+1 * electronVolt ),
+                     fGamma( 5.548812e-1 ),
+                     fGamma( 1.274000e-7 ) },
+                   cGamma( 2.938826e-2 ) ) } );
+
+    SpinGroup group1( { elastic, fission1, fission2 }, std::move( single ) );
+    SpinGroup group2( { elastic, fission1, fission2 }, std::move( multiple ) );
+
+    // simplifying gammas for tests
+    auto getName = [] ( const auto& array, const unsigned int index )
+                      { return std::get< 0 >( array[index] ); };
+    auto getXS = [] ( const auto& array, const unsigned int index )
+                    { return std::get< 1 >( array[index] ).value; };
+
+    THEN( "cross sections can be calculated for a single resonance" ) {
+
+      // first value is elastic, second and third value are fission and the
+      // fourth value is eliminated capture
+      auto xs = group1.evaluate( 1e-5 * electronVolt );
+      REQUIRE( 4 == xs.size() );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "fission" == getName( xs, 1 ) );
+      REQUIRE( "fission" == getName( xs, 2 ) );
+      REQUIRE( "capture" == getName( xs, 3 ) );
+      REQUIRE( 5.472274e+0 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 1.725514e+2 == Approx( getXS( xs, 1 ) + getXS( xs, 2 ) ) );
+      REQUIRE( 9.265788e+0 == Approx( getXS( xs, 3 ) ) );
+
+      xs = group1.evaluate( 1e-4 * electronVolt );
+      REQUIRE( 4 == xs.size() );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "fission" == getName( xs, 1 ) );
+      REQUIRE( "fission" == getName( xs, 2 ) );
+      REQUIRE( "capture" == getName( xs, 3 ) );
+      REQUIRE( 5.472274e+0 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 5.456617e+1 == Approx( getXS( xs, 1 ) + getXS( xs, 2 ) ) );
+      REQUIRE( 2.930134e+0 == Approx( getXS( xs, 3 ) ) );
+
+      xs = group1.evaluate( 1e-3 * electronVolt );
+      REQUIRE( 4 == xs.size() );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "fission" == getName( xs, 1 ) );
+      REQUIRE( "fission" == getName( xs, 2 ) );
+      REQUIRE( "capture" == getName( xs, 3 ) );
+      REQUIRE( 5.472268e+0 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 1.725735e+1 == Approx( getXS( xs, 1 ) + getXS( xs, 2 ) ) );
+      REQUIRE( 9.266977e-1 == Approx( getXS( xs, 3 ) ) );
+
+      xs = group1.evaluate( 1e-2 * electronVolt );
+      REQUIRE( 4 == xs.size() );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "fission" == getName( xs, 1 ) );
+      REQUIRE( "fission" == getName( xs, 2 ) );
+      REQUIRE( "capture" == getName( xs, 3 ) );
+      REQUIRE( 5.472215e+0 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 5.463627e+0 == Approx( getXS( xs, 1 ) + getXS( xs, 2 ) ) );
+      REQUIRE( 2.933898e-1 == Approx( getXS( xs, 3 ) ) );
+
+      xs = group1.evaluate( 1e-1 * electronVolt );
+      REQUIRE( 4 == xs.size() );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "fission" == getName( xs, 1 ) );
+      REQUIRE( "fission" == getName( xs, 2 ) );
+      REQUIRE( "capture" == getName( xs, 3 ) );
+      REQUIRE( 5.471679e+0 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 1.748100e+0 == Approx( getXS( xs, 1 ) + getXS( xs, 2 ) ) );
+      REQUIRE( 9.387073e-2 == Approx( getXS( xs, 3 ) ) );
+
+      xs = group1.evaluate( 1e+0 * electronVolt );
+      REQUIRE( 4 == xs.size() );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "fission" == getName( xs, 1 ) );
+      REQUIRE( "fission" == getName( xs, 2 ) );
+      REQUIRE( "capture" == getName( xs, 3 ) );
+      REQUIRE( 5.465961e+0 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 6.239157e-1 == Approx( getXS( xs, 1 ) + getXS( xs, 2 ) ) );
+      REQUIRE( 3.350347e-2 == Approx( getXS( xs, 3 ) ) );
+
+      xs = group1.evaluate( 1e+1 * electronVolt );
+      REQUIRE( 4 == xs.size() );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "fission" == getName( xs, 1 ) );
+      REQUIRE( "fission" == getName( xs, 2 ) );
+      REQUIRE( "capture" == getName( xs, 3 ) );
+      REQUIRE( 5.306619e+0 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 1.391053e+0 == Approx( getXS( xs, 1 ) + getXS( xs, 2 ) ) );
+      REQUIRE( 7.469779e-2 == Approx( getXS( xs, 3 ) ) );
+
+      xs = group1.evaluate( 1e+2 * electronVolt );
+      REQUIRE( 4 == xs.size() );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "fission" == getName( xs, 1 ) );
+      REQUIRE( "fission" == getName( xs, 2 ) );
+      REQUIRE( "capture" == getName( xs, 3 ) );
+      REQUIRE( 5.579595e+0 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 1.813973e-3 == Approx( getXS( xs, 1 ) + getXS( xs, 2 ) ) );
+      REQUIRE( 9.740800e-5 == Approx( getXS( xs, 3 ) ) );
+
+      xs = group1.evaluate( 1e+3 * electronVolt );
+      REQUIRE( 4 == xs.size() );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "fission" == getName( xs, 1 ) );
+      REQUIRE( "fission" == getName( xs, 2 ) );
+      REQUIRE( "capture" == getName( xs, 3 ) );
+      REQUIRE( 5.557221e+0 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 4.233523e-6 == Approx( getXS( xs, 1 ) + getXS( xs, 2 ) ) );
+      REQUIRE( 2.273347e-7 == Approx( getXS( xs, 3 ) ) );
+
+      xs = group1.evaluate( 2e+3 * electronVolt );
+      REQUIRE( 4 == xs.size() );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "fission" == getName( xs, 1 ) );
+      REQUIRE( "fission" == getName( xs, 2 ) );
+      REQUIRE( "capture" == getName( xs, 3 ) );
+      REQUIRE( 5.548651e+0 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 7.368059e-7 == Approx( getXS( xs, 1 ) + getXS( xs, 2 ) ) );
+      REQUIRE( 3.956553e-8 == Approx( getXS( xs, 3 ) ) );
+
+      xs = group1.evaluate( 1.541700e+1 * electronVolt );
+      REQUIRE( 4 == xs.size() );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "fission" == getName( xs, 1 ) );
+      REQUIRE( "fission" == getName( xs, 2 ) );
+      REQUIRE( "capture" == getName( xs, 3 ) );
+      REQUIRE( 6.100833e+0 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 2.078244e+2 == Approx( getXS( xs, 1 ) + getXS( xs, 2 ) ) );
+      REQUIRE( 1.115990e+1 == Approx( getXS( xs, 3 ) ) );
+    }
+
+    THEN( "cross sections can be calculated for multiple resonance" ) {
+
+      // first value is elastic, second and third value are fission and the
+      // fourth value is eliminated capture
+      auto xs = group2.evaluate( 1e-5 * electronVolt );
+      REQUIRE( 4 == xs.size() );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "fission" == getName( xs, 1 ) );
+      REQUIRE( "fission" == getName( xs, 2 ) );
+      REQUIRE( "capture" == getName( xs, 3 ) );
+      REQUIRE( 5.417476e+0 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 2.329099e+2 == Approx( getXS( xs, 1 ) + getXS( xs, 2 ) ) );
+      REQUIRE( 1.091115e+1 == Approx( getXS( xs, 3 ) ) );
+
+      xs = group2.evaluate( 1e-4 * electronVolt );
+      REQUIRE( 4 == xs.size() );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "fission" == getName( xs, 1 ) );
+      REQUIRE( "fission" == getName( xs, 2 ) );
+      REQUIRE( "capture" == getName( xs, 3 ) );
+      REQUIRE( 5.417475e+0 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 7.365334e+1 == Approx( getXS( xs, 1 ) + getXS( xs, 2 ) ) );
+      REQUIRE( 3.450446e+0 == Approx( getXS( xs, 3 ) ) );
+
+      xs = group2.evaluate( 1e-3 * electronVolt );
+      REQUIRE( 4 == xs.size() );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "fission" == getName( xs, 1 ) );
+      REQUIRE( "fission" == getName( xs, 2 ) );
+      REQUIRE( "capture" == getName( xs, 3 ) );
+      REQUIRE( 5.417469e+0 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 2.329366e+1 == Approx( getXS( xs, 1 ) + getXS( xs, 2 ) ) );
+      REQUIRE( 1.091242e+0 == Approx( getXS( xs, 3 ) ) );
+
+      xs = group2.evaluate( 1e-2 * electronVolt );
+      REQUIRE( 4 == xs.size() );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "fission" == getName( xs, 1 ) );
+      REQUIRE( "fission" == getName( xs, 2 ) );
+      REQUIRE( "capture" == getName( xs, 3 ) );
+      REQUIRE( 5.417404e+0 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 7.373775e+0 == Approx( getXS( xs, 1 ) + getXS( xs, 2 ) ) );
+      REQUIRE( 3.454466e-1 == Approx( getXS( xs, 3 ) ) );
+
+      xs = group2.evaluate( 1e-1 * electronVolt );
+      REQUIRE( 4 == xs.size() );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "fission" == getName( xs, 1 ) );
+      REQUIRE( "fission" == getName( xs, 2 ) );
+      REQUIRE( "capture" == getName( xs, 3 ) );
+      REQUIRE( 5.416755e+0 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 2.356285e+0 == Approx( getXS( xs, 1 ) + getXS( xs, 2 ) ) );
+      REQUIRE( 1.104062e-1 == Approx( getXS( xs, 3 ) ) );
+
+      xs = group2.evaluate( 1e+0 * electronVolt );
+      REQUIRE( 4 == xs.size() );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "fission" == getName( xs, 1 ) );
+      REQUIRE( "fission" == getName( xs, 2 ) );
+      REQUIRE( "capture" == getName( xs, 3 ) );
+      REQUIRE( 5.409891e+0 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 8.302460e-1 == Approx( getXS( xs, 1 ) + getXS( xs, 2 ) ) );
+      REQUIRE( 3.897461e-2 == Approx( getXS( xs, 3 ) ) );
+
+      xs = group2.evaluate( 1e+1 * electronVolt );
+      REQUIRE( 4 == xs.size() );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "fission" == getName( xs, 1 ) );
+      REQUIRE( "fission" == getName( xs, 2 ) );
+      REQUIRE( "capture" == getName( xs, 3 ) );
+      REQUIRE( 5.236255e+0 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 1.580517e+0 == Approx( getXS( xs, 1 ) + getXS( xs, 2 ) ) );
+      REQUIRE( 7.761229e-2 == Approx( getXS( xs, 3 ) ) );
+
+      xs = group2.evaluate( 1e+2 * electronVolt );
+      REQUIRE( 4 == xs.size() );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "fission" == getName( xs, 1 ) );
+      REQUIRE( "fission" == getName( xs, 2 ) );
+      REQUIRE( "capture" == getName( xs, 3 ) );
+      REQUIRE( 5.624471e+0 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 8.278803e-3 == Approx( getXS( xs, 1 ) + getXS( xs, 2 ) ) );
+      REQUIRE( 4.060342e-4 == Approx( getXS( xs, 3 ) ) );
+
+      xs = group2.evaluate( 1e+3 * electronVolt );
+      REQUIRE( 4 == xs.size() );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "fission" == getName( xs, 1 ) );
+      REQUIRE( "fission" == getName( xs, 2 ) );
+      REQUIRE( "capture" == getName( xs, 3 ) );
+      REQUIRE( 5.559769e+0 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 1.156303e-5 == Approx( getXS( xs, 1 ) + getXS( xs, 2 ) ) );
+      REQUIRE( 5.503447e-7 == Approx( getXS( xs, 3 ) ) );
+
+      xs = group2.evaluate( 2e+3 * electronVolt );
+      REQUIRE( 4 == xs.size() );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "fission" == getName( xs, 1 ) );
+      REQUIRE( "fission" == getName( xs, 2 ) );
+      REQUIRE( "capture" == getName( xs, 3 ) );
+      REQUIRE( 5.549892e+0 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 1.979528e-6 == Approx( getXS( xs, 1 ) + getXS( xs, 2 ) ) );
+      REQUIRE( 9.411375e-8 == Approx( getXS( xs, 3 ) ) );
+
+      xs = group2.evaluate( 1.541700e+1 * electronVolt );
+      REQUIRE( 4 == xs.size() );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "fission" == getName( xs, 1 ) );
+      REQUIRE( "fission" == getName( xs, 2 ) );
+      REQUIRE( "capture" == getName( xs, 3 ) );
+      REQUIRE( 6.036703e+0 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 2.078595e+2 == Approx( getXS( xs, 1 ) + getXS( xs, 2 ) ) );
+      REQUIRE( 1.116157e+1 == Approx( getXS( xs, 3 ) ) );
+
+      xs = group2.evaluate( 3.232700e+1 * electronVolt );
+      REQUIRE( 4 == xs.size() );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "fission" == getName( xs, 1 ) );
+      REQUIRE( "fission" == getName( xs, 2 ) );
+      REQUIRE( "capture" == getName( xs, 3 ) );
+      REQUIRE( 6.401576e+0 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 1.518826e+2 == Approx( getXS( xs, 1 ) + getXS( xs, 2 ) ) );
+      REQUIRE( 4.768063e+1 == Approx( getXS( xs, 3 ) ) );
+
+      xs = group2.evaluate( 4.753400e+1 * electronVolt );
+      REQUIRE( 4 == xs.size() );
+      REQUIRE( "elastic" == getName( xs, 0 ) );
+      REQUIRE( "fission" == getName( xs, 1 ) );
+      REQUIRE( "fission" == getName( xs, 2 ) );
+      REQUIRE( "capture" == getName( xs, 3 ) );
+      REQUIRE( 7.652821e+0 == Approx( getXS( xs, 0 ) ) );
+      REQUIRE( 2.281801e+2 == Approx( getXS( xs, 1 ) + getXS( xs, 2 ) ) );
+      REQUIRE( 1.208485e+1 == Approx( getXS( xs, 3 ) ) );
     }
   } // GIVEN
 } // SCENARIO
