@@ -67,9 +67,6 @@ public:
 
   auto evaluate( const Energy& energy ) const {
 
-    // number of channels
-    const unsigned int size = this->channels().size();
-
     // penetrability, shift factor, phase shift and Coulomb phase shift
     // for each channel except the eliminated capture channel
     const auto penetrabilities = this->penetrabilities( energy );
@@ -81,10 +78,9 @@ public:
     // the diagonal of the L matrix = S - B, iP
     std::vector< std::complex< double > > diagonalLMatrix =
       ranges::view::zip_with(
-          [] ( const double a, const double b ) -> std::complex< double >
-             { return std::complex< double >( a, b ); },
-          ranges::view::zip_with( ranges::minus(), shiftFactors, boundary ),
-          penetrabilities );
+          [] ( const double S, const double B, const double P )
+             { return std::complex< double >( S - B, P ); },
+          shiftFactors, boundary, penetrabilities );
 
     // the diagonal of the sqrt(P) matrix
     const auto diagonalSqrtPMatrix =
@@ -95,27 +91,24 @@ public:
 
     // the diagonal of the Omega matrix = exp( i ( w - phi ) )
     const auto diagonalOmegaMatrix =
-      ranges::view::zip_with( ranges::minus(), coulombShifts, phaseShifts )
-        | ranges::view::transform(
-              [] ( const double delta ) -> std::complex< double >
-                 { return std::exp( std::complex< double >( 0.0, delta ) ); } );
+      ranges::view::zip_with(
+          [] ( const double w, const double phi )
+             { return std::exp( std::complex< double >( 0.0, w - phi ) ); },
+          coulombShifts, phaseShifts );
 
     //! @todo we only need the row of ( 1 - RL )^-1 corresponding to the 
     //!       incident channel and each column/line of R (R is a symmetric
     //!       matrix)
 
-    // get the R matrix and calculate ( 1 - RL )^-1 R
-    auto rMatrix = this->resonanceTable().rmatrix( energy );
-    this->matrix_ = ( Matrix< double >::Identity( size, size )
-                      - rMatrix *
-                      Eigen::Map< Eigen::VectorXcd >( diagonalLMatrix.data(),
-                      size ).asDiagonal() ).inverse() * rMatrix;
+    // get the T = ( 1 - RL )^-1 R matrix
+    this->matrix_ = this->resonanceTable().tmatrix( energy, diagonalLMatrix );
 
     // the index of the current incident channel
     const unsigned int c = 0;
 
     // the elements of the ( 1 - RL )^-1 R matrix for each channel (assumes
     // the incident channel is the first channel)
+    const unsigned int size = this->channels().size();
     const auto row =
       ranges::make_iterator_range(
           this->matrix_.row(c).data(),
@@ -144,11 +137,9 @@ public:
     // the row of the W matrix corresponding with the incident channel
     const auto wElements =
       ranges::view::zip_with(
-          ranges::plus(), delta( 1.0 ),
-          xElements
-            | ranges::view::transform(
-                [] ( const auto xValue ) -> std::complex< double >
-                   { return std::complex< double >( 0., 2. ) * xValue; } ) );
+          [] ( const auto delta, const auto xValue )
+             { return delta + std::complex< double >( 0., 2. ) * xValue; },
+          delta( 1.0 ), xElements );
 
     // the U matrix multiplier for each channel
     const auto incidentOmega = diagonalOmegaMatrix[c];
@@ -189,13 +180,13 @@ public:
     const auto crossSections =
       ranges::view::concat(
           ranges::view::zip_with(
-              ranges::minus(),
+              [&] ( const auto delta, const auto uValue )
+                  { return normSquared( delta - uValue ); },
               delta( exponential ),
-              uElements ) | ranges::view::transform( normSquared ),
+              uElements ),
           ranges::view::single(
               ranges::accumulate(
-                  uElements | ranges::view::transform( normSquared ),
-                  1.,
+                  uElements | ranges::view::transform( normSquared ), 1.,
                   ranges::minus() ) ) )
         | ranges::view::transform(
               [=] ( const auto value ) -> Quantity< Barn >

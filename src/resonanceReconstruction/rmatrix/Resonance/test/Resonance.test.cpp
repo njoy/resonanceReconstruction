@@ -18,12 +18,24 @@ SCENARIO( "Resonance" ) {
     std::vector< ReducedWidth > widths = { 2.179040e+2 * rootElectronVolt,
                                            1.000000e-5 * rootElectronVolt };
 
-    THEN( "a Resonance can be constructed" ) {
+    THEN( "a Resonance can be constructed with an eliminated width" ) {
       Resonance resonance( energy, std::move( widths ), eliminated );
 
       REQUIRE( 6.823616e+4 == Approx( resonance.energy().value ) );
 
       REQUIRE( 3.933600e-1 == Approx( resonance.eliminatedWidth().value ) );
+
+      REQUIRE( 2 == resonance.widths().size() );
+      REQUIRE( 2.179040e+2 == Approx( resonance.widths()[0].value ) );
+      REQUIRE( 1.000000e-5 == Approx( resonance.widths()[1].value ) );
+    }
+
+    THEN( "a Resonance can be constructed without an eliminated width" ) {
+      Resonance resonance( energy, std::move( widths ) );
+
+      REQUIRE( 6.823616e+4 == Approx( resonance.energy().value ) );
+
+      REQUIRE( 0.0 == Approx( resonance.eliminatedWidth().value ) );
 
       REQUIRE( 2 == resonance.widths().size() );
       REQUIRE( 2.179040e+2 == Approx( resonance.widths()[0].value ) );

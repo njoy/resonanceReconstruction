@@ -10,6 +10,10 @@
  *  Because the eliminated channel is a capture channel, the value of \Gamma
  *  is energy independent and does not require a penetrability value.
  *
+ *  When using generalised R matrix in which there is no eliminated capture
+ *  channel (i.e. the eleminated width is zero), it is possible that the
+ *  R-matrix becomes undefined when evaluating it for the resonance energy.
+ *
  *  @param[in] energy   the energy at which the resonance must be evaluated
  */
 auto rmatrix( const Energy& energy ) const {

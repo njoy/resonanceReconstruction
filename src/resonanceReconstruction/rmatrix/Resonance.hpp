@@ -1,7 +1,12 @@
 /**
  *  @class
- *  @brief Resonance parameters in the Reich-Moore approximation with a single
- *         eliminated capture channel
+ *  @brief Resonance parameters
+ *
+ *  The Resonance class contains the reduced widths (given in sqrt(eV)) for a
+ *  number of channels. This class is both compatible with the general R matrix
+ *  theory  and with the Reich-Moore approximation with a single eliminated
+ *  capture channel. When using the general R matrix theory, the eliminated
+ *  width is zero.
  */
 class Resonance {
 

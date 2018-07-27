@@ -7,7 +7,7 @@
  */
 Resonance( const Energy& energy,
            std::vector< ReducedWidth >&& widths,
-           const ReducedWidth& eliminated ) :
+           const ReducedWidth& eliminated = 0.0 * rootElectronVolt ) :
     energy_( energy ),
     widths_( std::move( widths ) ),
     eliminated_( eliminated ) {}
