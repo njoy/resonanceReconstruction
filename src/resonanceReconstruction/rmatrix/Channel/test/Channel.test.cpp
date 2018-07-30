@@ -10,11 +10,10 @@ using Particle = rmatrix::Particle;
 using ParticlePair = rmatrix::ParticlePair;
 using Neutron = rmatrix::Neutron;
 using Photon = rmatrix::Photon;
-using Channel = rmatrix::Channel;
+template < typename Type > using Channel = rmatrix::Channel< Type >;
 using ChannelID = rmatrix::ChannelID;
 using ChannelQuantumNumbers = rmatrix::ChannelQuantumNumbers;
 using ChannelRadii = rmatrix::ChannelRadii;
-using ChannelType = rmatrix::ChannelType;
 using BoundaryCondition = rmatrix::BoundaryCondition;
 using Photon = rmatrix::Photon;
 
@@ -29,11 +28,10 @@ SCENARIO( "Channel" ) {
     ChannelQuantumNumbers numbers( 0, 0.0, 0.5, +1 );
     ChannelRadii radii( 5.437300e-1 * rootBarn, 5.437300e-1 * rootBarn );
     BoundaryCondition boundary = 0.0;
-    ChannelType type = Photon();
 
     THEN( "a Channel can be constructed" ) {
 
-      Channel channel( id, pair, numbers, radii, boundary, type );
+      Channel< Photon > channel( id, pair, numbers, radii, boundary );
 
       REQUIRE( "1" == channel.channelID() );
       REQUIRE( 0.0 == Approx( channel.particlePair().particle().mass().value ) );

@@ -8,15 +8,12 @@
  *                        wave functions
  *  @param[in] boundary   the boundary condition (often the value of the
  *                        orbital angular momentum of the channel)
- *  @param[in] type       the channel type (neutron, photon, fission or charged
- *                        particle)
  */
 Channel( const ChannelID& id,
          const ParticlePair& pair,
          const ChannelQuantumNumbers& numbers,
          const ChannelRadii& radii,
-         const BoundaryCondition& boundary,
-         const ChannelType& type ) :
+         const BoundaryCondition& boundary ) :
   id_( id ), pair_( pair ), numbers_( numbers ), radii_( radii ),
-  boundary_( boundary ), type_( type ) {}
+  boundary_( boundary ) {}
 

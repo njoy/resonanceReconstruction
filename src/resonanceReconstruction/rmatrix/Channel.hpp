@@ -5,6 +5,7 @@
  *  The Channel class is used to used to store or calculate all channel specific
  *  data.
  */
+template < typename ChannelType >
 class Channel {
 
   /* fields */
@@ -13,7 +14,6 @@ class Channel {
   ChannelQuantumNumbers numbers_;
   ChannelRadii radii_;
   BoundaryCondition boundary_;
-  ChannelType type_;
 
   //! @todo the channel has radii for P, S and phi which can be shared with
   //!       other channels
@@ -53,11 +53,6 @@ public:
    *  @brief Return the channel boundary condition
    */
   const BoundaryCondition& boundaryCondition() const { return this->boundary_; }
-
-  /**
-   *  @brief Return the channel type
-   */
-  const ChannelType& type() const { return this->type_; }
 
   #include "resonanceReconstruction/rmatrix/Channel/src/statisticalSpinFactor.hpp"
   #include "resonanceReconstruction/rmatrix/Channel/src/penetrability.hpp"

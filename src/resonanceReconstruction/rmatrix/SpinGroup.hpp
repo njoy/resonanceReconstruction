@@ -1,11 +1,26 @@
 /**
+ *  @typedef
+ *  @brief Channel types
+ *
+ *  Some of the data for a given channel will actually depend on the particle
+ *  type of the channel. The penetrability, shift factor, phase shift and 
+ *  coulomb phase shift will depend on whether the channel is a neutron, photon,
+ *  charged particle or fission channel. This variant will allow us to capture
+ *  that distinction.
+ */
+using ParticleChannel = std::variant< Channel< Neutron >,
+                                      Channel< Photon >,
+                                      Channel< ChargedParticle >,
+                                      Channel< Fission > >;
+
+/**
  *  @class
  *  @brief A spin group corresponding to a J,pi value
  */
 class SpinGroup {
 
   /* fields */
-  std::vector< Channel > channels_; // first channel is entrance
+  std::vector< ParticleChannel > channels_; // first channel is entrance
   ResonanceTable parameters_;
 
   mutable Matrix< std::complex< double > > matrix_;
@@ -14,56 +29,83 @@ class SpinGroup {
     return this->channels_
              | ranges::view::transform(
                  [&] ( const auto& channel )
-                     { return channel.penetrability( energy ); } );
+                     { return std::visit(
+                         [&] ( const auto& channel )
+                             { return channel.penetrability( energy ); },
+                         channel ); } );
   }
 
   auto shiftFactors( const Energy& energy ) const {
     return this->channels_
              | ranges::view::transform(
                  [&] ( const auto& channel )
-                     { return channel.shiftFactor( energy ); } );
+                     { return std::visit(
+                         [&] ( const auto& channel )
+                             { return channel.shiftFactor( energy ); },
+                         channel ); } );
   }
 
   auto phaseShifts( const Energy& energy ) const {
     return this->channels_
              | ranges::view::transform(
                  [&] ( const auto& channel )
-                     { return channel.phaseShift( energy ); } );
+                     { return std::visit(
+                         [&] ( const auto& channel )
+                             { return channel.phaseShift( energy ); },
+                         channel ); } );
   }
 
   auto coulombShifts( const Energy& energy ) const {
     return this->channels_
              | ranges::view::transform(
                  [&] ( const auto& channel )
-                     { return channel.coulombPhaseShift( energy ); } );
+                     { return std::visit(
+                         [&] ( const auto& channel )
+                             { return channel.coulombPhaseShift( energy ); },
+                         channel ); } );
   }
 
   auto boundaryConditions() const {
     return this->channels_
              | ranges::view::transform(
                  [&] ( const auto& channel )
-                     { return channel.boundaryCondition(); } );
+                     { return std::visit(
+                         [&] ( const auto& channel )
+                             { return channel.boundaryCondition(); },
+                         channel ); } );
   }
 
   auto reactions() const {
     return this->channels_
              | ranges::view::transform(
                  [&] ( const auto& channel )
-                     { return channel.particlePair().reaction(); } );
+                     { return std::visit(
+                         [&] ( const auto& channel )
+                             { return channel.particlePair().reaction(); },
+                         channel ); } );
+  }
+
+  auto factor( const Energy& energy ) const {
+
+    auto factor = [&] ( const auto& channel ) {
+      const auto waveNumber = channel.particlePair().waveNumber( energy );
+      const auto squaredWaveNumber = waveNumber * waveNumber;
+      const auto spinFactor = channel.statisticalSpinFactor();
+      return pi / squaredWaveNumber * spinFactor;
+    };
+    return std::visit( factor, this->channels_.front() );
   }
 
 public:
 
   /* constructor */
-  SpinGroup( std::vector< Channel >&& channels, ResonanceTable&& table ) :
+  SpinGroup( std::vector< ParticleChannel >&& channels,
+             ResonanceTable&& table ) :
     channels_( std::move( channels ) ), parameters_( std::move( table ) ),
     matrix_( channels.size(), channels.size() ) {}
 
   auto resonanceTable() const { return this->parameters_; }
   auto channels() const { return ranges::view::all( this->channels_ ); }
-  auto incidentChannel( const unsigned int index ) const {
-    return this->channels_[index];
-  }
 
   auto evaluate( const Energy& energy ) const {
 
@@ -135,13 +177,7 @@ public:
       std::exp( std::complex< double >( 0., coulombShifts[c] ) );
 
     // the pi/k2 factor
-    const auto factor = [&] {
-      const auto waveNumber =
-        this->incidentChannel(c).particlePair().waveNumber( energy );
-      const auto squaredWaveNumber = waveNumber * waveNumber;
-      const auto spinFactor = this->incidentChannel(c).statisticalSpinFactor();
-      return pi / squaredWaveNumber * spinFactor;
-    }();
+    const auto factor = this->factor( energy );
 
     // lambda to calculate a norm squared
     auto normSquared = [] ( const auto value ) -> double

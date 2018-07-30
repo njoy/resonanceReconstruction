@@ -10,7 +10,7 @@ using Particle = rmatrix::Particle;
 using ParticlePair = rmatrix::ParticlePair;
 using Neutron = rmatrix::Neutron;
 using Photon = rmatrix::Photon;
-using Channel = rmatrix::Channel;
+template < typename Type > using Channel = rmatrix::Channel< Type >;
 using Resonance = rmatrix::Resonance;
 using ResonanceTable = rmatrix::ResonanceTable;
 using SpinGroup = rmatrix::SpinGroup;
@@ -25,9 +25,10 @@ SCENARIO( "SpinGroup" ) {
     Particle neutron( 1.008664 * daltons, 0.0 * coulombs, 0.5, +1);
     Particle fe54( 54. * daltons, 26.0 * coulombs, 0.0, +1);
     ParticlePair pair( neutron, fe54, 0.0 * electronVolt, "elastic" );
-    Channel elastic( "2", pair, { 0, 0.5, 0.5, +1 },
-                     { 5.437300e-1 * rootBarn, 5.437300e-1 * rootBarn },
-                     0.0, Neutron() );
+    Channel< Neutron > elastic( "2", pair, { 0, 0.5, 0.5, +1 },
+                                { 5.437300e-1 * rootBarn,
+                                  5.437300e-1 * rootBarn },
+                                0.0 );
 
     // single resonance table
     ResonanceTable single(
@@ -40,7 +41,7 @@ SCENARIO( "SpinGroup" ) {
 
       REQUIRE( 1 == group.channels().size() );
 
-      auto channel = group.channels()[0];
+      auto channel = std::experimental::get< Channel< Neutron > >( group.channels()[0] );
       REQUIRE( "2" == channel.channelID() );
       REQUIRE( 1.008664 == Approx( channel.particlePair().particle().mass().value ) );
       REQUIRE( 0.0 == Approx( channel.particlePair().particle().charge().value ) );

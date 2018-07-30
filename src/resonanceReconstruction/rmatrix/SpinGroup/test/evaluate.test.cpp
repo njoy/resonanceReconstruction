@@ -9,7 +9,7 @@ using ParticlePair = rmatrix::ParticlePair;
 using Neutron = rmatrix::Neutron;
 using Photon = rmatrix::Photon;
 using Fission = rmatrix::Fission;
-using Channel = rmatrix::Channel;
+template < typename Type > using Channel = rmatrix::Channel< Type >;
 using Resonance = rmatrix::Resonance;
 using ResonanceTable = rmatrix::ResonanceTable;
 using SpinGroup = rmatrix::SpinGroup;
@@ -39,12 +39,13 @@ SCENARIO( "evaluate" ) {
     ParticlePair pair2( neutron, fe54, 0.0 * electronVolt, "elastic" );
 
     // channels
-    Channel capture( "1", pair1, { 0, 0.0, 0.5, +1 },
-                     { 0.0 * rootBarn },
-                     0.0, Photon() );
-    Channel elastic( "2", pair2, { 0, 0.5, 0.5, +1 },
-                     { 5.437300e-1 * rootBarn, 5.437300e-1 * rootBarn },
-                     0.0, Neutron() );
+    Channel< Photon > capture( "1", pair1, { 0, 0.0, 0.5, +1 },
+                               { 0.0 * rootBarn },
+                               0.0 );
+    Channel< Neutron > elastic( "2", pair2, { 0, 0.5, 0.5, +1 },
+                                { 5.437300e-1 * rootBarn,
+                                  5.437300e-1 * rootBarn },
+                                0.0 );
 
     // conversion from Gamma to gamma
     auto eGamma = [&] ( double width, const Energy& energy ) -> ReducedWidth {
@@ -285,18 +286,18 @@ SCENARIO( "evaluate" ) {
     ParticlePair pair3( fission, fission, 0.0 * electronVolt, "fission" );
 
     // channels
-    Channel capture( "1", pair1, { 0, 0.0, 0.0, +1 },
-                     { 0.0 * rootBarn },
-                     0.0, Photon() );
-    Channel elastic( "2", pair2, { 0, 0.5, 0.0, +1 },
-                     { 9.410000e-1 * rootBarn },
-                     0.0, Neutron() );
-    Channel fission1( "3", pair3, { 0, 0.0, 0.0, +1 },
-                     { 9.410000e-1 * rootBarn },
-                     0.0, Fission() );
-    Channel fission2( "4", pair3, { 0, 0.0, 0.0, +1 },
-                     { 9.410000e-1 * rootBarn },
-                     0.0, Fission() );
+    Channel< Photon > capture( "1", pair1, { 0, 0.0, 0.0, +1 },
+                               { 0.0 * rootBarn },
+                               0.0 );
+    Channel< Neutron > elastic( "2", pair2, { 0, 0.5, 0.0, +1 },
+                                { 9.410000e-1 * rootBarn },
+                                0.0 );
+    Channel< Fission > fission1( "3", pair3, { 0, 0.0, 0.0, +1 },
+                                 { 9.410000e-1 * rootBarn },
+                                 0.0 );
+    Channel< Fission > fission2( "4", pair3, { 0, 0.0, 0.0, +1 },
+                                 { 9.410000e-1 * rootBarn },
+                                 0.0 );
 
     // conversion from Gamma to gamma
     auto eGamma = [&] ( double width, const Energy& energy ) -> ReducedWidth {

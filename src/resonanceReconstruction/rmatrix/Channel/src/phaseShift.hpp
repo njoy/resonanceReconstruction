@@ -5,12 +5,9 @@
  */
 double phaseShift( const Energy& energy ) const {
 
-  auto function = [&] ( auto type ) {
-    const double ratio = this->particlePair().waveNumber( energy ) *
-                         this->radii().phaseShiftRadius( energy );
-    const unsigned int l = this->quantumNumbers().orbitalAngularMomentum();
-    return calculatePhaseShift< decltype( type ) >( l, ratio );
-  };
-  return std::visit( function, this->type_ );
+  const double ratio = this->particlePair().waveNumber( energy ) *
+                       this->radii().phaseShiftRadius( energy );
+  const unsigned int l = this->quantumNumbers().orbitalAngularMomentum();
+  return calculatePhaseShift< ChannelType >( l, ratio );
 }
 
