@@ -37,7 +37,7 @@ SCENARIO( "SpinGroup" ) {
                    0.5 * rootElectronVolt ) } );
 
     THEN( "a SpinGroup can be constructed" ) {
-      SpinGroup group( { elastic }, std::move( single ) );
+      SpinGroup group( { elastic }, { 0 }, std::move( single ) );
 
       REQUIRE( 1 == group.channels().size() );
 

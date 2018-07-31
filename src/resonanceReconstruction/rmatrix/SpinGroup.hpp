@@ -20,7 +20,8 @@ using ParticleChannel = std::variant< Channel< Neutron >,
 class SpinGroup {
 
   /* fields */
-  std::vector< ParticleChannel > channels_; // first channel is entrance
+  std::vector< ParticleChannel > channels_;
+  std::vector< unsigned int > incident_;
   ResonanceTable parameters_;
 
   mutable Matrix< std::complex< double > > matrix_;
@@ -75,7 +76,17 @@ class SpinGroup {
                          channel ); } );
   }
 
-  auto reactions() const {
+  auto channelIDs() const {
+    return this->channels_
+             | ranges::view::transform(
+                 [&] ( const auto& channel )
+                     { return std::visit(
+                         [&] ( const auto& channel )
+                             { return channel.channelID(); },
+                         channel ); } );
+  }
+
+  auto reactionsIDs() const {
     return this->channels_
              | ranges::view::transform(
                  [&] ( const auto& channel )
@@ -83,6 +94,12 @@ class SpinGroup {
                          [&] ( const auto& channel )
                              { return channel.particlePair().reaction(); },
                          channel ); } );
+  }
+
+  auto identifiers() const {
+    return ranges::view::concat(
+               this->reactionsIDs(),
+               ranges::view::single( "capture" ) );
   }
 
   auto factor( const Energy& energy ) const {
@@ -96,18 +113,24 @@ class SpinGroup {
     return std::visit( factor, this->channels_.front() );
   }
 
+  auto incidentChannels() const { return ranges::view::all( this->incident_ ); }
+
 public:
 
   /* constructor */
   SpinGroup( std::vector< ParticleChannel >&& channels,
+             std::vector< unsigned int >&& incidentChannels,
              ResonanceTable&& table ) :
-    channels_( std::move( channels ) ), parameters_( std::move( table ) ),
+    channels_( std::move( channels ) ),
+    incident_( std::move( incidentChannels ) ),
+    parameters_( std::move( table ) ),
     matrix_( channels.size(), channels.size() ) {}
 
   auto resonanceTable() const { return this->parameters_; }
   auto channels() const { return ranges::view::all( this->channels_ ); }
 
-  auto evaluate( const Energy& energy ) const {
+  void evaluate( const Energy& energy,
+                 tsl::hopscotch_map< ReactionID, Quantity< Barn > >& result ) const {
 
     // penetrability, shift factor, phase shift and Coulomb phase shift
     // for each channel except the eliminated capture channel
@@ -139,72 +162,79 @@ public:
           coulombShifts, phaseShifts );
 
     // get the T = ( 1 - RL )^-1 R matrix
-    this->matrix_ = this->resonanceTable().tmatrix( energy, diagonalLMatrix );
-
-    // the index of the current incident channel
-    const unsigned int c = 0;
-
-    // lambda to derive a kronecker delta array for the current incident channel
     const unsigned int size = this->channels().size();
-    auto delta = [=] ( const auto value ) {
-      return ranges::view::concat(
-                 ranges::view::repeat_n( 0., c ),
-                 ranges::view::single( value ),
-                 ranges::view::repeat_n( 0., size - c - 1 ) );
-    };
-
-    // the elements of the ( 1 - RL )^-1 R matrix for each channel (assumes
-    // the incident channel is the first channel)
-    const auto row =
-      ranges::make_iterator_range(
-          this->matrix_.row(c).data(),
-          this->matrix_.row(c).data() + size );
-
-    // the row of the U matrix corresponding with the incident channel
-    const auto incidentSqrtP = diagonalSqrtPMatrix[c];
-    const auto incidentOmega = diagonalOmegaMatrix[c];
-    const auto uElements =
-      ranges::view::zip_with( 
-          [=] ( const auto delta, const auto tValue,
-                const auto sqrtP, const auto omega )
-              { return incidentOmega *
-                       ( delta + std::complex< double >( 0., 2. ) *
-                                 incidentSqrtP * tValue * sqrtP ) * omega; },
-          delta( 1.0 ), row, diagonalSqrtPMatrix, diagonalOmegaMatrix );
-
-    // the exponential of the coulomb phase shift for the incident channel
-    const auto exponential =
-      std::exp( std::complex< double >( 0., coulombShifts[c] ) );
+    this->matrix_ = Matrix< double >::Identity( size, size );
+    this->resonanceTable().tmatrix( energy, diagonalLMatrix, this->matrix_ );
 
     // the pi/k2 factor
     const auto factor = this->factor( energy );
 
-    // lambda to calculate a norm squared
-    auto normSquared = [] ( const auto value ) -> double
-                          { return std::pow( std::abs( value ), 2. ); };
+    // the cross section identifiers
+    const auto identifiers = this->identifiers();
 
-    // the cross section values
-    const auto crossSections =
-      ranges::view::concat(
-          ranges::view::zip_with(
-              [&] ( const auto delta, const auto uValue )
-                  { return normSquared( delta - uValue ); },
-              delta( exponential ),
-              uElements ),
-          ranges::view::single(
-              ranges::accumulate(
-                  uElements | ranges::view::transform( normSquared ), 1.,
-                  ranges::minus() ) ) )
-        | ranges::view::transform(
-              [=] ( const auto value ) -> Quantity< Barn >
-                  { return factor * value; } );
+    auto processIncidentChannel = [&] ( const unsigned int c ) {
 
-    // the reaction names
-    const auto reactions =
-        ranges::view::concat( this->reactions(),
-                              ranges::view::single( "capture" ) );
+      // lambda to derive a kronecker delta array for the current incident channel
+      auto delta = [=] ( const auto value ) {
+        return ranges::view::concat(
+                   ranges::view::repeat_n( 0., c ),
+                   ranges::view::single( value ),
+                   ranges::view::repeat_n( 0., size - c - 1 ) );
+      };
 
-    // return a range of pairs (name, xs)
-    return ranges::view::zip( reactions, crossSections );
+      // the elements of the ( 1 - RL )^-1 R matrix for each channel (assumes
+      // the incident channel is the first channel)
+      const auto row =
+        ranges::make_iterator_range(
+            this->matrix_.row(c).data(),
+            this->matrix_.row(c).data() + size );
+
+      // the row of the U matrix corresponding with the incident channel
+      const auto incidentSqrtP = diagonalSqrtPMatrix[c];
+      const auto incidentOmega = diagonalOmegaMatrix[c];
+      const auto uElements =
+        ranges::view::zip_with( 
+            [=] ( const auto delta, const auto tValue,
+                  const auto sqrtP, const auto omega )
+                { return incidentOmega *
+                         ( delta + std::complex< double >( 0., 2. ) *
+                                   incidentSqrtP * tValue * sqrtP ) * omega; },
+            delta( 1.0 ), row, diagonalSqrtPMatrix, diagonalOmegaMatrix );
+
+      // the exponential of the coulomb phase shift for the incident channel
+      const auto exponential =
+        std::exp( std::complex< double >( 0., coulombShifts[c] ) );
+
+      // lambda to calculate a norm squared
+      auto normSquared = [] ( const auto value ) -> double
+                            { return std::pow( std::abs( value ), 2. ); };
+
+      // the cross section values
+      const auto crossSections =
+        ranges::view::concat(
+            ranges::view::zip_with(
+                [&] ( const auto delta, const auto uValue )
+                    { return normSquared( delta - uValue ); },
+                delta( exponential ),
+                uElements ),
+            ranges::view::single(
+                ranges::accumulate(
+                    uElements | ranges::view::transform( normSquared ), 1.,
+                    ranges::minus() ) ) )
+          | ranges::view::transform(
+                [=] ( const auto value ) -> Quantity< Barn >
+                    { return factor * value; } );
+
+      // return the cross section values
+      return ranges::view::zip( identifiers, crossSections );
+    };
+
+    // process the incident channels
+    ranges::for_each(
+        this->incidentChannels()
+          | ranges::view::transform( processIncidentChannel )
+          | ranges::view::join,
+        [&] ( auto&& pair ) -> void
+            { result[ std::get< 0 >( pair ) ] += std::get< 1 >( pair ); } );
   }
 };

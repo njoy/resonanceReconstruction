@@ -10,3 +10,6 @@
 [submodule "dependencies/eigen-adapter"]
 	path = dependencies/eigen-adapter
 	url = https://github.com/njoy/eigen-adapter.git
+[submodule "dependencies/hopscotch-map-adapter"]
+	path = dependencies/hopscotch-map-adapter
+	url = https://github.com/njoy/hopscotch-map-adapter.git

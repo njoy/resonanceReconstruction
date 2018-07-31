@@ -1,9 +1,15 @@
 /**
  *  @brief Return T = ( 1 - RL )^-1 R matrix for the resonance table
+ *
+ *  @param[in] energy            the energy for the T matrix evaluation
+ *  @param[in] diagonalLMatrix   the diagonal of the L matrix
+ *  @param[in,out] tMatrix       the initial value of the T matrix (identity
+ *                               matrix for incident neutrons), stores the final
+ *                               T matrix
  */
-Matrix< std::complex< double > >
-tmatrix( const Energy& energy,
-         std::vector< std::complex< double > >& diagonalLMatrix ) const {
+void tmatrix( const Energy& energy,
+              std::vector< std::complex< double > >& diagonalLMatrix,
+              Matrix< std::complex< double > >& tMatrix ) const {
 
 // BEGIN REALLY BAD FOR NOW - GET TESTING GOING
   // range with the R-matrices for each resonance
@@ -25,12 +31,11 @@ tmatrix( const Energy& energy,
   }
 
   // calculate and return T = ( 1 - RL )^-1 R
-  return
-    ( Matrix< double >::Identity( size, size ) -
-      rMatrix *
-      Eigen::Map< Eigen::VectorXcd >( diagonalLMatrix.data(),
-                                      size ).asDiagonal() ).inverse() *
-    rMatrix;
+  tMatrix -= rMatrix *
+             Eigen::Map< Eigen::VectorXcd >( diagonalLMatrix.data(),
+                                      size ).asDiagonal();
+  tMatrix = tMatrix.inverse();
+  tMatrix *= rMatrix;
 // END REALLY BAD FOR NOW - GET TESTING GOING
 }
 
