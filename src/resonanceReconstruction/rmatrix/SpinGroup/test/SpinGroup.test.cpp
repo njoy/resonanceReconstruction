@@ -13,7 +13,8 @@ using Photon = rmatrix::Photon;
 template < typename Type > using Channel = rmatrix::Channel< Type >;
 using Resonance = rmatrix::Resonance;
 using ResonanceTable = rmatrix::ResonanceTable;
-using SpinGroup = rmatrix::SpinGroup;
+template < typename Option > using SpinGroup = rmatrix::SpinGroup< Option >;
+using Sammy = rmatrix::Sammy;
 
 SCENARIO( "SpinGroup" ) {
 
@@ -37,7 +38,7 @@ SCENARIO( "SpinGroup" ) {
                    0.5 * rootElectronVolt ) } );
 
     THEN( "a SpinGroup can be constructed" ) {
-      SpinGroup group( { elastic }, { 0 }, std::move( single ) );
+      SpinGroup< Sammy > group( { elastic }, { 0 }, std::move( single ) );
 
       REQUIRE( 1 == group.channels().size() );
 

@@ -12,8 +12,9 @@ using Fission = rmatrix::Fission;
 template < typename Type > using Channel = rmatrix::Channel< Type >;
 using Resonance = rmatrix::Resonance;
 using ResonanceTable = rmatrix::ResonanceTable;
-using SpinGroup = rmatrix::SpinGroup;
+template < typename Option > using SpinGroup = rmatrix::SpinGroup< Option >;
 using ReactionID = rmatrix::ReactionID;
+using Sammy = rmatrix::Sammy;
 
 SCENARIO( "evaluate" ) {
 
@@ -23,7 +24,7 @@ SCENARIO( "evaluate" ) {
   //! @todo add test with resonances with a negative width
 
   GIVEN( "valid data for a SpinGroup with one eliminated capture channel "
-         "and one elastic channel" ) {
+         "and one elastic channel using the Sammy boundary condition" ) {
 
     // test based on Fe54 ENDF/B-VIII.0 LRF7 resonance evaluation
     // data given in Gamma = 2 gamma^2 P(Er) so conversion is required
@@ -77,8 +78,8 @@ SCENARIO( "evaluate" ) {
                    { eGamma( 1.781791e+3, 7.190500e+4 * electronVolt ) },
                    cGamma( 2.000000e+0 ) ) } );
 
-    SpinGroup group1( { elastic }, { 0 }, std::move( single ) );
-    SpinGroup group2( { elastic }, { 0 }, std::move( multiple ) );
+    SpinGroup< Sammy > group1( { elastic }, { 0 }, std::move( single ) );
+    SpinGroup< Sammy > group2( { elastic }, { 0 }, std::move( multiple ) );
 
     THEN( "cross sections can be calculated for a single resonance" ) {
 
@@ -260,7 +261,8 @@ SCENARIO( "evaluate" ) {
   } // GIVEN
 
   GIVEN( "valid data for a SpinGroup with one eliminated capture channel, "
-         "one elastic channel and two fission channels" ) {
+         "one elastic channel and two fission channels using the Sammy "
+         "boundary condition" ) {
 
     // test based on Pu239 ENDF/B-VIII.0 LRF3 resonance evaluation
     // data given in Gamma = 2 gamma^2 P(Er) so conversion is required
@@ -334,10 +336,10 @@ SCENARIO( "evaluate" ) {
                      fGamma( 1.274000e-7 ) },
                    cGamma( 2.938826e-2 ) ) } );
 
-    SpinGroup group1( { elastic, fission1, fission2 }, { 0 },
-                      std::move( single ) );
-    SpinGroup group2( { elastic, fission1, fission2 }, { 0 },
-                      std::move( multiple ) );
+    SpinGroup< Sammy > group1( { elastic, fission1, fission2 }, { 0 },
+                               std::move( single ) );
+    SpinGroup< Sammy > group2( { elastic, fission1, fission2 }, { 0 },
+                               std::move( multiple ) );
 
     THEN( "cross sections can be calculated for a single resonance" ) {
 

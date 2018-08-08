@@ -11,14 +11,20 @@ namespace rmatrix {
   #include "resonanceReconstruction/rmatrix/src/possibleChannelTotalAngularMomentumValues.hpp"
 
   // particle and channel types, functions dependent on those types
-  #include "resonanceReconstruction/rmatrix/ChannelType.hpp"
+  struct Neutron {};
+  struct Photon {};
+  struct ChargedParticle {};
+  struct Fission {};
   #include "resonanceReconstruction/rmatrix/src/calculatePenetrability.hpp"
   #include "resonanceReconstruction/rmatrix/src/calculateShiftFactor.hpp"
   #include "resonanceReconstruction/rmatrix/src/calculatePhaseShift.hpp"
   #include "resonanceReconstruction/rmatrix/src/calculateCoulombPhaseShift.hpp"
 
-  // R-Matrix boundary condition used in calculating the shift
+  // R-Matrix boundary condition and options
   using BoundaryCondition = double;
+  struct Sammy {};
+  struct Constant {};
+  #include "resonanceReconstruction/rmatrix/src/calculateLValue.hpp"
 
   // identifiers
   using ReactionID = std::string;
@@ -36,6 +42,7 @@ namespace rmatrix {
   #include "resonanceReconstruction/rmatrix/Resonance.hpp"
   #include "resonanceReconstruction/rmatrix/ResonanceTable.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup.hpp"
+  #include "resonanceReconstruction/rmatrix/CompoundNucleus.hpp"
 
 }
 

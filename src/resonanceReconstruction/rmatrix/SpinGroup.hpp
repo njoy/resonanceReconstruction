@@ -17,6 +17,7 @@ using ParticleChannel = std::variant< Channel< Neutron >,
  *  @class
  *  @brief A spin group corresponding to a J,pi value
  */
+template < typename BoundaryOption >
 class SpinGroup {
 
   /* fields */
@@ -24,7 +25,8 @@ class SpinGroup {
   std::vector< unsigned int > incident_;
   ResonanceTable parameters_;
 
-  mutable Matrix< std::complex< double > > matrix_;
+  Matrix< std::complex< double > > uMatrix_;
+  std::vector< std::complex< double > > diagonalLMatrix_;
 
   auto penetrabilities( const Energy& energy ) const {
     return this->channels_
@@ -124,13 +126,14 @@ public:
     channels_( std::move( channels ) ),
     incident_( std::move( incidentChannels ) ),
     parameters_( std::move( table ) ),
-    matrix_( channels.size(), channels.size() ) {}
+    uMatrix_( channels.size(), channels.size() ),
+    diagonalLMatrix_( channels.size() ) {}
 
-  auto resonanceTable() const { return this->parameters_; }
+  const ResonanceTable& resonanceTable() const { return this->parameters_; }
   auto channels() const { return ranges::view::all( this->channels_ ); }
 
   void evaluate( const Energy& energy,
-                 tsl::hopscotch_map< ReactionID, Quantity< Barn > >& result ) const {
+                 tsl::hopscotch_map< ReactionID, Quantity< Barn > >& result ) {
 
     // penetrability, shift factor, phase shift and Coulomb phase shift
     // for each channel except the eliminated capture channel
@@ -141,10 +144,9 @@ public:
     const auto boundary = this->boundaryConditions();
 
     // the diagonal of the L matrix = S - B, iP
-    std::vector< std::complex< double > > diagonalLMatrix =
+    this->diagonalLMatrix_ =
       ranges::view::zip_with(
-          [] ( const double S, const double B, const double P )
-             { return std::complex< double >( S - B, P ); },
+          calculateLValue< BoundaryOption >,
           shiftFactors, boundary, penetrabilities );
 
     // the diagonal of the sqrt(P) matrix
@@ -163,10 +165,10 @@ public:
 
     // get the T = ( 1 - RL )^-1 R matrix
     const unsigned int size = this->channels().size();
-    this->matrix_ = Matrix< double >::Identity( size, size );
-    this->resonanceTable().tmatrix( energy, diagonalLMatrix, this->matrix_ );
+    this->uMatrix_ = Matrix< double >::Identity( size, size );
+    this->resonanceTable().tmatrix( energy, this->diagonalLMatrix_, this->uMatrix_ );
 
-    // the pi/k2 factor
+    // the pi/k2 * gJ factor
     const auto factor = this->factor( energy );
 
     // the cross section identifiers
@@ -186,8 +188,8 @@ public:
       // the incident channel is the first channel)
       const auto row =
         ranges::make_iterator_range(
-            this->matrix_.row(c).data(),
-            this->matrix_.row(c).data() + size );
+            this->uMatrix_.row(c).data(),
+            this->uMatrix_.row(c).data() + size );
 
       // the row of the U matrix corresponding with the incident channel
       const auto incidentSqrtP = diagonalSqrtPMatrix[c];
