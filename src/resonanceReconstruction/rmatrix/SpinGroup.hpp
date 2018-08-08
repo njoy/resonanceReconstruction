@@ -177,7 +177,7 @@ public:
     auto processIncidentChannel = [&] ( const unsigned int c ) {
 
       // lambda to derive a kronecker delta array for the current incident channel
-      auto delta = [=] ( const auto value ) {
+      auto delta = [c,size] ( const auto value ) {
         return ranges::view::concat(
                    ranges::view::repeat_n( 0., c ),
                    ranges::view::single( value ),
