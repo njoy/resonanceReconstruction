@@ -20,13 +20,16 @@ calculateLValue( const double S, const double B, const double P ) {
 }
 
 /**
- *  @brief L matrix diagonal for the Sammy boundary condition B = S
+ *  @brief L matrix diagonal for the SAMMY boundary condition B = S
  *
- *  The R-matrix analysis code Sammy uses a different approach to the boundary
- *  condition. Sammy effectively eliminates the real part of the L matrix 
+ *  The R-matrix analysis code SAMMY uses a different approach to the boundary
+ *  condition. SAMMY effectively eliminates the real part of the L matrix 
  *  diagonal by setting the boundary condition B to be equal to the shift 
  *  factor S, making the bondary condition potentially an energy dependent
  *  quantity.
+ *
+ *  Using the SAMMY boundary condition will effectively ignore the value of the
+ *  boundary condition of each channel.
  *
  *  @param[in] P : the penetrability
  *

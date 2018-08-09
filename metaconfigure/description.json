@@ -577,7 +577,8 @@
     "resonanceReconstruction.rmatrix": [
       "src/resonanceReconstruction/rmatrix/test/possibleChannelSpinValues.test.cpp",
       "src/resonanceReconstruction/rmatrix/test/possibleChannelTotalAngularMomentumValues.test.cpp",
-      "src/resonanceReconstruction/rmatrix/test/calculateCoulombPhaseShift.test.cpp"
+      "src/resonanceReconstruction/rmatrix/test/calculateCoulombPhaseShift.test.cpp",
+      "src/resonanceReconstruction/rmatrix/test/calculateLValue.test.cpp"
     ],
     "resonanceReconstruction.rmatrix.Channel": [
       "src/resonanceReconstruction/rmatrix/Channel/test/Channel.test.cpp"

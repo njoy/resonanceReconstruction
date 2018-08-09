@@ -13,7 +13,7 @@ Channel( const ChannelID& id,
          const ParticlePair& pair,
          const ChannelQuantumNumbers& numbers,
          const ChannelRadii& radii,
-         const BoundaryCondition& boundary ) :
+         const BoundaryCondition& boundary = 0.0 ) :
   id_( id ), pair_( pair ), numbers_( numbers ), radii_( radii ),
   boundary_( boundary ) {}
 

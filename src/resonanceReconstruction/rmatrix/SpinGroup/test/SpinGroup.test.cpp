@@ -15,6 +15,7 @@ using Resonance = rmatrix::Resonance;
 using ResonanceTable = rmatrix::ResonanceTable;
 template < typename Option > using SpinGroup = rmatrix::SpinGroup< Option >;
 using Sammy = rmatrix::Sammy;
+using Constant = rmatrix::Constant;
 
 constexpr AtomicMass neutronMass = 1.008664 * daltons;
 
