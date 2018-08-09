@@ -16,6 +16,8 @@ using ResonanceTable = rmatrix::ResonanceTable;
 template < typename Option > using SpinGroup = rmatrix::SpinGroup< Option >;
 using Sammy = rmatrix::Sammy;
 
+constexpr AtomicMass neutronMass = 1.008664 * daltons;
+
 SCENARIO( "SpinGroup" ) {
 
   GIVEN( "valid data for a SpinGroup" ) {
@@ -23,7 +25,7 @@ SCENARIO( "SpinGroup" ) {
     // test based on Fe54 ENDF/B-VIII.0 LRF7 resonance evaluation
     // data given in Gamma = 2 gamma^2 P(Er) so conversion is required
 
-    Particle neutron( 1.008664 * daltons, 0.0 * coulombs, 0.5, +1);
+    Particle neutron( neutronMass, 0.0 * coulombs, 0.5, +1);
     Particle fe54( 54. * daltons, 26.0 * coulombs, 0.0, +1);
     ParticlePair pair( neutron, fe54, 0.0 * electronVolt, "elastic" );
     Channel< Neutron > elastic( "2", pair, { 0, 0.5, 0.5, +1 },

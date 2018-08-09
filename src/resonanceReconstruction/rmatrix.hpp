@@ -42,7 +42,7 @@ namespace rmatrix {
   #include "resonanceReconstruction/rmatrix/Resonance.hpp"
   #include "resonanceReconstruction/rmatrix/ResonanceTable.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup.hpp"
-  #include "resonanceReconstruction/rmatrix/CompoundNucleus.hpp"
+  #include "resonanceReconstruction/rmatrix/CompoundSystem.hpp"
 
 }
 

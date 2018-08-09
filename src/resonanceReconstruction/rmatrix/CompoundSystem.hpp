@@ -3,7 +3,7 @@
  *  @brief The compound nucleus system
  */
 template < typename BoundaryOption >
-class CompoundNucleus {
+class CompoundSystem {
 
   /* fields */
   std::vector< SpinGroup< BoundaryOption > > groups_;
@@ -11,7 +11,7 @@ class CompoundNucleus {
 public:
 
   /* constructor */
-  CompoundNucleus( std::vector< SpinGroup< BoundaryOption > >&& groups ) :
+  CompoundSystem( std::vector< SpinGroup< BoundaryOption > >&& groups ) :
     groups_( std::move( groups ) ) {}
 
   auto spinGroups() const { return ranges::view::all( this->groups_ ); }

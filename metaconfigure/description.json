@@ -494,7 +494,7 @@
     "src/resonanceReconstruction/rmatrix/Channel.hpp",
     "src/resonanceReconstruction/rmatrix/ResonanceTable.hpp",
     "src/resonanceReconstruction/rmatrix/SpinGroup.hpp",
-    "src/resonanceReconstruction/rmatrix/CompoundNucleus.hpp",
+    "src/resonanceReconstruction/rmatrix/CompoundSystem.hpp",
     "src/resonanceReconstruction/rmatrix/src/possibleChannelSpinValues.hpp",
     "src/resonanceReconstruction/rmatrix/src/possibleChannelTotalAngularMomentumValues.hpp",
     "src/resonanceReconstruction/rmatrix/src/calculateCoulombPhaseShift.hpp",
@@ -585,9 +585,9 @@
     "resonanceReconstruction.rmatrix.ChannelQuantumNumbers": [
       "src/resonanceReconstruction/rmatrix/ChannelQuantumNumbers/test/ChannelQuantumNumbers.test.cpp"
     ],
-    "resonanceReconstruction.rmatrix.CompoundNucleus": [
-      "src/resonanceReconstruction/rmatrix/CompoundNucleus/test/evaluate.test.cpp",
-      "src/resonanceReconstruction/rmatrix/CompoundNucleus/test/CompoundNucleus.test.cpp"
+    "resonanceReconstruction.rmatrix.CompoundSystem": [
+      "src/resonanceReconstruction/rmatrix/CompoundSystem/test/evaluate.test.cpp",
+      "src/resonanceReconstruction/rmatrix/CompoundSystem/test/CompoundSystem.test.cpp"
     ],
     "resonanceReconstruction.rmatrix.Particle": [
       "src/resonanceReconstruction/rmatrix/Particle/test/Particle.test.cpp"

@@ -15,7 +15,9 @@ using Resonance = rmatrix::Resonance;
 using ResonanceTable = rmatrix::ResonanceTable;
 using Sammy = rmatrix::Sammy;
 template < typename Option > using SpinGroup = rmatrix::SpinGroup< Option >;
-template < typename Option > using CompoundNucleus = rmatrix::CompoundNucleus< Option >;
+template < typename Option > using CompoundSystem = rmatrix::CompoundSystem< Option >;
+
+constexpr AtomicMass neutronMass = 1.008664 * daltons;
 
 SCENARIO( "evaluate" ) {
 
@@ -24,7 +26,7 @@ SCENARIO( "evaluate" ) {
   //! @todo add test with resonances at negative energies
   //! @todo add test with resonances with a negative width
 
-  GIVEN( "valid data for a CompoundNucleus with only one SpinGroup without "
+  GIVEN( "valid data for a CompoundSystem with only one SpinGroup without "
          "missing J values" ) {
 
     // test based on Fe54 ENDF/B-VIII.0 LRF7 resonance evaluation
@@ -33,9 +35,9 @@ SCENARIO( "evaluate" ) {
 
     // particles
     Particle photon( 0.0 * daltons, 0.0 * coulombs, 1., +1);
-    Particle neutron( 1.008664 * daltons, 0.0 * coulombs, 0.5, +1);
-    Particle fe55( 5.446635e+1 * 1.008664 * daltons, 26.0 * coulombs, 0.0, +1);
-    Particle fe54( 5.347624e+1 * 1.008664 * daltons, 26.0 * coulombs, 0.0, +1);
+    Particle neutron( neutronMass, 0.0 * coulombs, 0.5, +1);
+    Particle fe55( 5.446635e+1 * neutronMass, 26.0 * coulombs, 0.0, +1);
+    Particle fe54( 5.347624e+1 * neutronMass, 26.0 * coulombs, 0.0, +1);
 
     // particle pairs
     ParticlePair pair1( photon, fe55, 0.0 * electronVolt, "capture" );
@@ -82,8 +84,8 @@ SCENARIO( "evaluate" ) {
     SpinGroup< Sammy > group1( { elastic }, { 0 }, std::move( single ) );
     SpinGroup< Sammy > group2( { elastic }, { 0 }, std::move( multiple ) );
 
-    CompoundNucleus< Sammy > system1( { group1 } );
-    CompoundNucleus< Sammy > system2( { group2 } );
+    CompoundSystem< Sammy > system1( { group1 } );
+    CompoundSystem< Sammy > system2( { group2 } );
 
     THEN( "cross sections can be calculated for a single resonance" ) {
 
@@ -264,7 +266,7 @@ SCENARIO( "evaluate" ) {
     }
   } // GIVEN
 
-  GIVEN( "valid data for a CompoundNucleus with five SpinGroup without "
+  GIVEN( "valid data for a CompoundSystem with five SpinGroup without "
          "missing J values" ) {
 
     // test based on Fe54 ENDF/B-VIII.0 LRF7 resonance evaluation
@@ -273,9 +275,9 @@ SCENARIO( "evaluate" ) {
 
     // particles
     Particle photon( 0.0 * daltons, 0.0 * coulombs, 1., +1);
-    Particle neutron( 1.008664 * daltons, 0.0 * coulombs, 0.5, +1);
-    Particle fe55( 5.446635e+1 * 1.008664 * daltons, 26.0 * coulombs, 0.0, +1);
-    Particle fe54( 5.347624e+1 * 1.008664 * daltons, 26.0 * coulombs, 0.0, +1);
+    Particle neutron( neutronMass, 0.0 * coulombs, 0.5, +1);
+    Particle fe55( 5.446635e+1 * neutronMass, 26.0 * coulombs, 0.0, +1);
+    Particle fe54( 5.347624e+1 * neutronMass, 26.0 * coulombs, 0.0, +1);
 
     // particle pairs
     ParticlePair pair1( photon, fe55, 0.0 * electronVolt, "capture" );
@@ -391,7 +393,7 @@ SCENARIO( "evaluate" ) {
     SpinGroup< Sammy > group4( { elastic4 }, { 0 }, std::move( table4 ) );
     SpinGroup< Sammy > group5( { elastic5 }, { 0 }, std::move( table5 ) );
 
-    CompoundNucleus< Sammy > system( { group1, group2, group3, group4, group5 } );
+    CompoundSystem< Sammy > system( { group1, group2, group3, group4, group5 } );
 
     THEN( "cross sections can be calculated" ) {
 

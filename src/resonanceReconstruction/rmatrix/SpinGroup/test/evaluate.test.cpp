@@ -16,6 +16,8 @@ template < typename Option > using SpinGroup = rmatrix::SpinGroup< Option >;
 using ReactionID = rmatrix::ReactionID;
 using Sammy = rmatrix::Sammy;
 
+constexpr AtomicMass neutronMass = 1.008664 * daltons;
+
 SCENARIO( "evaluate" ) {
 
   //! @todo add test with more than one entrance channel
@@ -32,9 +34,9 @@ SCENARIO( "evaluate" ) {
 
     // particles
     Particle photon( 0.0 * daltons, 0.0 * coulombs, 1., +1);
-    Particle neutron( 1.008664 * daltons, 0.0 * coulombs, 0.5, +1);
-    Particle fe55( 5.446635e+1 * 1.008664 * daltons, 26.0 * coulombs, 0.0, +1);
-    Particle fe54( 5.347624e+1 * 1.008664 * daltons, 26.0 * coulombs, 0.0, +1);
+    Particle neutron( neutronMass, 0.0 * coulombs, 0.5, +1);
+    Particle fe55( 5.446635e+1 * neutronMass, 26.0 * coulombs, 0.0, +1);
+    Particle fe54( 5.347624e+1 * neutronMass, 26.0 * coulombs, 0.0, +1);
 
     // particle pairs
     ParticlePair pair1( photon, fe55, 0.0 * electronVolt, "capture" );
@@ -272,9 +274,9 @@ SCENARIO( "evaluate" ) {
 
     // particles
     Particle photon( 0.0 * daltons, 0.0 * coulombs, 1., +1);
-    Particle neutron( 1.008664 * daltons, 0.0 * coulombs, 0.5, +1);
-    Particle pu240( 2.379916e+2 * 1.008664 * daltons, 94.0 * coulombs, 0.0, +1);
-    Particle pu239( 2.369986e+2 * 1.008664 * daltons, 94.0 * coulombs, 0.0, +1);
+    Particle neutron( neutronMass, 0.0 * coulombs, 0.5, +1);
+    Particle pu240( 2.379916e+2 * neutronMass, 94.0 * coulombs, 0.0, +1);
+    Particle pu239( 2.369986e+2 * neutronMass, 94.0 * coulombs, 0.0, +1);
     Particle fission( 0.0 * daltons, 0.0 * coulombs, 0.0, +1);
 
     // particle pairs

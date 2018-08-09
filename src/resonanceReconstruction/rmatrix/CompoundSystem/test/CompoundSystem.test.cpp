@@ -17,11 +17,11 @@ using Resonance = rmatrix::Resonance;
 using ResonanceTable = rmatrix::ResonanceTable;
 using Sammy = rmatrix::Sammy;
 template < typename Option > using SpinGroup = rmatrix::SpinGroup< Option >;
-template < typename Option > using CompoundNucleus = rmatrix::CompoundNucleus< Option >;
+template < typename Option > using CompoundSystem = rmatrix::CompoundSystem< Option >;
 
-SCENARIO( "CompoundNucleus" ) {
+SCENARIO( "CompoundSystem" ) {
 
-  GIVEN( "valid data for a CompoundNucleus" ) {
+  GIVEN( "valid data for a CompoundSystem" ) {
 
   } // GIVEN
 } // SCENARIO
