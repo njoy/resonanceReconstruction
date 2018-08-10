@@ -23,8 +23,6 @@ SCENARIO( "evaluate" ) {
 
   //! @todo add test with more than one entrance channel
   //! @todo add test with a charged particle channel
-  //! @todo add test with resonances at negative energies
-  //! @todo add test with resonances with a negative width
 
   GIVEN( "valid data for a SpinGroup with one eliminated capture channel "
          "and one elastic channel" ) {
@@ -458,16 +456,14 @@ SCENARIO( "evaluate" ) {
   GIVEN( "valid data for a SpinGroup with one eliminated capture channel, "
          "one elastic channel and two fission channels" ) {
 
-    // test based on Pu239 ENDF/B-VIII.0 LRF3 resonance evaluation
+    // test based on Pu239 ENDF/B-VIII.0 LRF3 resonance evaluation (some of the
+    // widths used in this test were negative in the original evaluation)
     // data given in Gamma = 2 gamma^2 P(Er) so conversion is required
     // cross section values extracted from NJOY2016.39 (note: LRF7 in NJOY2016
     // doesn't add potential scattering for missing J values)
 
     // because the oribital angular momentum l = 0 for these SpinGroup,
     // SpinGroup< Sammy > and SpinGroup< Constant > should give the same results
-
-    // because LRF7 in NJOY2016 doesn't add potential scattering for missing J
-    // values, no correction for 
 
     // using SpinGroup< Sammy > is equivalent to NJOY2016
 
@@ -909,6 +905,336 @@ SCENARIO( "evaluate" ) {
       REQUIRE( 3.826411e+0 == Approx( xs[ "elastic" ].value ) );
       REQUIRE( 1.140900e+2 == Approx( xs[ "fission" ].value ) );
       REQUIRE( 6.042426e+0 == Approx( xs[ "capture" ].value ) );
+      xs.clear();
+    }
+  } // GIVEN
+
+  GIVEN( "valid data for a SpinGroup with a resonance at a negative energy" ) {
+
+    // test based on Pu239 ENDF/B-VIII.0 LRF3 resonance evaluation (some of the
+    // widths used in this test were negative in the original evaluation)
+    // data given in Gamma = 2 gamma^2 P(Er) so conversion is required
+    // cross section values extracted from NJOY2016.39 (note: LRF7 in NJOY2016
+    // doesn't add potential scattering for missing J values)
+
+    // particles
+    Particle photon( 0.0 * daltons, 0.0 * coulombs, 1., +1);
+    Particle neutron( neutronMass, 0.0 * coulombs, 0.5, +1);
+    Particle pu240( 2.379916e+2 * neutronMass, 94.0 * coulombs, 0.5, +1);
+    Particle pu239( 2.369986e+2 * neutronMass, 94.0 * coulombs, 0.5, +1);
+    Particle fission( 0.0 * daltons, 0.0 * coulombs, 0.0, +1);
+
+    // particle pairs
+    ParticlePair pair1( photon, pu240, 0.0 * electronVolt, "capture" );
+    ParticlePair pair2( neutron, pu239, 0.0 * electronVolt, "elastic" );
+    ParticlePair pair3( fission, fission, 0.0 * electronVolt, "fission" );
+
+    // channels
+    Channel< Photon > capture( "1", pair1, { 0, 0.0, 0.0, +1 },
+                               { 0.0 * rootBarn },
+                               0.0 );
+    Channel< Neutron > elastic( "2", pair2, { 0, 0.5, 0.0, +1 },
+                                { 9.410000e-1 * rootBarn },
+                                0.0 );
+    Channel< Fission > fission1( "3", pair3, { 0, 0.0, 0.0, +1 },
+                                 { 9.410000e-1 * rootBarn },
+                                 0.0 );
+    Channel< Fission > fission2( "4", pair3, { 0, 0.0, 0.0, +1 },
+                                 { 9.410000e-1 * rootBarn },
+                                 0.0 );
+
+    // conversion from Gamma to gamma
+    auto eGamma = [&] ( double width, const Energy& energy ) -> ReducedWidth {
+      return std::sqrt( width / 2. / elastic.penetrability( energy ) ) *
+             rootElectronVolt;
+    };
+    auto fGamma = [&] ( double width ) -> ReducedWidth {
+      return std::sqrt( width / 2. ) * rootElectronVolt;
+    };
+    auto cGamma = [&] ( double width ) -> ReducedWidth {
+      return std::sqrt( width / 2. ) * rootElectronVolt;
+    };
+
+    // multiple resonance table
+    ResonanceTable table(
+      { "2", "3", "4" },
+      { Resonance( -1.541700e+1 * electronVolt,
+                   { eGamma( 2.056203e-3, 1.541700e+1 * electronVolt ),
+                     fGamma( 1.093928e-6 ),
+                     fGamma( 7.550000e-1 ) },
+                   cGamma( 4.054259e-2 ) ),
+        Resonance( 3.232700e+1 * electronVolt,
+                   { eGamma( 8.678823e-4, 3.232700e+1 * electronVolt ),
+                     fGamma( 5.235058e-3 ),
+                     fGamma( 1.279000e-1 ) },
+                   cGamma( 4.182541e-2 ) ),
+        Resonance( 4.753400e+1 * electronVolt,
+                   { eGamma( 5.171861e-3, 4.753400e+1 * electronVolt ),
+                     fGamma( 5.548812e-1 ),
+                     fGamma( 1.274000e-7 ) },
+                   cGamma( 2.938826e-2 ) ) } );
+
+    SpinGroup< Sammy > group( { elastic, fission1, fission2 }, { 0 },
+                              std::move( table ) );
+
+    THEN( "cross sections can be calculated" ) {
+
+      // first value is elastic, second and third value are fission and the
+      // fourth value is eliminated capture
+      tsl::hopscotch_map< ReactionID, Quantity< Barn > > xs;
+      group.evaluate( 1e-5 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 2.800024e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 7.969822e+1 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 5.456509e+0 == Approx( xs[ "capture" ].value ) );
+      xs.clear();
+
+      group.evaluate( 1e-4 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 2.800023e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 2.520250e+1 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 1.725484e+0 == Approx( xs[ "capture" ].value ) );
+      xs.clear();
+
+      group.evaluate( 1e-3 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 2.800020e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 7.968828e+0 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 5.455954e-1 == Approx( xs[ "capture" ].value ) );
+      xs.clear();
+
+      group.evaluate( 1e-2 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 2.799987e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 2.517112e+0 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 1.723733e-1 == Approx( xs[ "capture" ].value ) );
+      xs.clear();
+
+      group.evaluate( 1e-1 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 2.799661e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 7.870530e-1 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 5.401133e-2 == Approx( xs[ "capture" ].value ) );
+      xs.clear();
+
+      group.evaluate( 1e+0 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 2.796554e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 2.233478e-1 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 1.566002e-2 == Approx( xs[ "capture" ].value ) );
+      xs.clear();
+
+      group.evaluate( 1e+1 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 2.773379e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 3.532511e-2 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 3.181981e-3 == Approx( xs[ "capture" ].value ) );
+      xs.clear();
+
+      group.evaluate( 1e+2 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 2.809990e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 3.583571e-3 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 1.804712e-4 == Approx( xs[ "capture" ].value ) );
+      xs.clear();
+
+      group.evaluate( 1e+3 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 2.779863e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 5.625611e-6 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 2.683739e-7 == Approx( xs[ "capture" ].value ) );
+      xs.clear();
+
+      group.evaluate( 2e+3 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 2.774941e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 9.760312e-7 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 4.645619e-8 == Approx( xs[ "capture" ].value ) );
+      xs.clear();
+
+      group.evaluate( 3.232700e+1 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 3.200741e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 7.593904e+1 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 2.384228e+1 == Approx( xs[ "capture" ].value ) );
+      xs.clear();
+
+      group.evaluate( 4.753400e+1 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 3.815638e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 1.140803e+2 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 6.042125e+0 == Approx( xs[ "capture" ].value ) );
+      xs.clear();
+    }
+  } // GIVEN
+
+  GIVEN( "valid data for a SpinGroup with resonances using negative widths" ) {
+
+    // test based on Pu239 ENDF/B-VIII.0 LRF3 resonance evaluation (all
+    // widths used in this test are from the original evaluation)
+    // data given in Gamma = 2 gamma^2 P(Er) so conversion is required
+    // cross section values extracted from NJOY2016.39 (note: LRF7 in NJOY2016
+    // doesn't add potential scattering for missing J values)
+
+    // particles
+    Particle photon( 0.0 * daltons, 0.0 * coulombs, 1., +1);
+    Particle neutron( neutronMass, 0.0 * coulombs, 0.5, +1);
+    Particle pu240( 2.379916e+2 * neutronMass, 94.0 * coulombs, 0.5, +1);
+    Particle pu239( 2.369986e+2 * neutronMass, 94.0 * coulombs, 0.5, +1);
+    Particle fission( 0.0 * daltons, 0.0 * coulombs, 0.0, +1);
+
+    // particle pairs
+    ParticlePair pair1( photon, pu240, 0.0 * electronVolt, "capture" );
+    ParticlePair pair2( neutron, pu239, 0.0 * electronVolt, "elastic" );
+    ParticlePair pair3( fission, fission, 0.0 * electronVolt, "fission" );
+
+    // channels
+    Channel< Photon > capture( "1", pair1, { 0, 0.0, 0.0, +1 },
+                               { 0.0 * rootBarn },
+                               0.0 );
+    Channel< Neutron > elastic( "2", pair2, { 0, 0.5, 0.0, +1 },
+                                { 9.410000e-1 * rootBarn },
+                                0.0 );
+    Channel< Fission > fission1( "3", pair3, { 0, 0.0, 0.0, +1 },
+                                 { 9.410000e-1 * rootBarn },
+                                 0.0 );
+    Channel< Fission > fission2( "4", pair3, { 0, 0.0, 0.0, +1 },
+                                 { 9.410000e-1 * rootBarn },
+                                 0.0 );
+
+    // conversion from Gamma to gamma
+    auto eGamma = [&] ( double width, const Energy& energy ) -> ReducedWidth {
+      double sign = 1.0;
+      if ( width < 0 ) sign = -1.0;
+      return sign * std::sqrt( std::abs( width ) / 2. /
+                               elastic.penetrability( energy ) ) *
+             rootElectronVolt;
+    };
+    auto fGamma = [&] ( double width ) -> ReducedWidth {
+      double sign = 1.0;
+      if ( width < 0 ) sign = -1.0;
+      return sign *std::sqrt( std::abs( width ) / 2. ) * rootElectronVolt;
+    };
+    auto cGamma = [&] ( double width ) -> ReducedWidth {
+      return std::sqrt( width / 2. ) * rootElectronVolt;
+    };
+
+    // multiple resonance table
+    ResonanceTable table(
+      { "2", "3", "4" },
+      { Resonance( 1.541700e+1 * electronVolt,
+                   { eGamma( 2.056203e-3, 1.541700e+1 * electronVolt ),
+                     fGamma( -1.093928e-6 ),
+                     fGamma( 7.550000e-1 ) },
+                   cGamma( 4.054259e-2 ) ),
+        Resonance( 3.232700e+1 * electronVolt,
+                   { eGamma( 8.678823e-4, 3.232700e+1 * electronVolt ),
+                     fGamma( 5.235058e-3 ),
+                     fGamma( -1.279000e-1 ) },
+                   cGamma( 4.182541e-2 ) ),
+        Resonance( 4.753400e+1 * electronVolt,
+                   { eGamma( 5.171861e-3, 4.753400e+1 * electronVolt ),
+                     fGamma( 5.548812e-1 ),
+                     fGamma( -1.274000e-7 ) },
+                   cGamma( 2.938826e-2 ) ) } );
+
+    SpinGroup< Sammy > group( { elastic, fission1, fission2 }, { 0 },
+                              std::move( table ) );
+
+    THEN( "cross sections can be calculated" ) {
+
+      // first value is elastic, second and third value are fission and the
+      // fourth value is eliminated capture
+      tsl::hopscotch_map< ReactionID, Quantity< Barn > > xs;
+      group.evaluate( 1e-5 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 2.708724e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 7.968614e+1 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 5.456366e+0 == Approx( xs[ "capture" ].value ) );
+      xs.clear();
+
+      group.evaluate( 1e-4 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 2.708723e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 2.519925e+1 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 1.725473e+0 == Approx( xs[ "capture" ].value ) );
+      xs.clear();
+
+      group.evaluate( 1e-3 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 2.708720e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 7.969599e+0 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 5.457001e-1 == Approx( xs[ "capture" ].value ) );
+      xs.clear();
+
+      group.evaluate( 1e-2 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 2.708688e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 2.523044e+0 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 1.727483e-1 == Approx( xs[ "capture" ].value ) );
+      xs.clear();
+
+      group.evaluate( 1e-1 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 2.708364e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 8.069115e-1 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 5.521115e-2 == Approx( xs[ "capture" ].value ) );
+      xs.clear();
+
+      group.evaluate( 1e+0 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 2.704930e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 2.868371e-1 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 1.949035e-2 == Approx( xs[ "capture" ].value ) );
+      xs.clear();
+
+      group.evaluate( 1e+1 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 2.617986e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 6.396225e-1 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 3.881964e-2 == Approx( xs[ "capture" ].value ) );
+      xs.clear();
+
+      group.evaluate( 1e+2 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 2.812237e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 3.121466e-3 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 2.030192e-4 == Approx( xs[ "capture" ].value ) );
+      xs.clear();
+
+      group.evaluate( 1e+3 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 2.779884e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 3.851580e-6 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 2.751724e-7 == Approx( xs[ "capture" ].value ) );
+      xs.clear();
+
+      group.evaluate( 2e+3 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 2.774946e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 6.568293e-7 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 4.705688e-8 == Approx( xs[ "capture" ].value ) );
+      xs.clear();
+
+      group.evaluate( 1.541700e+1 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 2.983437e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 1.039338e+2 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 5.584260e+0 == Approx( xs[ "capture" ].value ) );
+      xs.clear();
+
+      group.evaluate( 3.232700e+1 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 3.360875e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 7.591453e+1 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 2.389296e+1 == Approx( xs[ "capture" ].value ) );
+      xs.clear();
+
+      group.evaluate( 4.753400e+1 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 3.826384e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 1.140768e+2 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 6.042619e+0 == Approx( xs[ "capture" ].value ) );
       xs.clear();
     }
   } // GIVEN
