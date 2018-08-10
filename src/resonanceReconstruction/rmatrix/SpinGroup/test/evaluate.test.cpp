@@ -460,20 +460,22 @@ SCENARIO( "evaluate" ) {
 
     // test based on Pu239 ENDF/B-VIII.0 LRF3 resonance evaluation
     // data given in Gamma = 2 gamma^2 P(Er) so conversion is required
-    // cross section values extracted from NJOY2016.39
-    // the spin of Pu239 is set to 0.0 instead 0.5 to get a single J value test
-    // (otherwise NJOY would add potential scattering for missing J values)
+    // cross section values extracted from NJOY2016.39 (note: LRF7 in NJOY2016
+    // doesn't add potential scattering for missing J values)
 
     // because the oribital angular momentum l = 0 for these SpinGroup,
     // SpinGroup< Sammy > and SpinGroup< Constant > should give the same results
+
+    // because LRF7 in NJOY2016 doesn't add potential scattering for missing J
+    // values, no correction for 
 
     // using SpinGroup< Sammy > is equivalent to NJOY2016
 
     // particles
     Particle photon( 0.0 * daltons, 0.0 * coulombs, 1., +1);
     Particle neutron( neutronMass, 0.0 * coulombs, 0.5, +1);
-    Particle pu240( 2.379916e+2 * neutronMass, 94.0 * coulombs, 0.0, +1);
-    Particle pu239( 2.369986e+2 * neutronMass, 94.0 * coulombs, 0.0, +1);
+    Particle pu240( 2.379916e+2 * neutronMass, 94.0 * coulombs, 0.5, +1);
+    Particle pu239( 2.369986e+2 * neutronMass, 94.0 * coulombs, 0.5, +1);
     Particle fission( 0.0 * daltons, 0.0 * coulombs, 0.0, +1);
 
     // particle pairs
@@ -554,79 +556,79 @@ SCENARIO( "evaluate" ) {
       tsl::hopscotch_map< ReactionID, Quantity< Barn > > xs;
       group1.evaluate( 1e-5 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.472274e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 1.725514e+2 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 9.265788e+0 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.736137e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 8.627569e+1 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 4.632894e+0 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group1.evaluate( 1e-4 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.472274e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 5.456617e+1 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 2.930134e+0 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.736137e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 2.728309e+1 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 1.465067e+0 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group1.evaluate( 1e-3 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.472268e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 1.725735e+1 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 9.266977e-1 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.736134e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 8.628676e+0 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 4.633488e-1 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group1.evaluate( 1e-2 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.472215e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 5.463627e+0 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 2.933898e-1 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.736107e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 2.731813e+0 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 1.466949e-1 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group1.evaluate( 1e-1 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.471679e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 1.748100e+0 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 9.387073e-2 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.735839e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 8.740500e-1 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 4.693537e-2 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group1.evaluate( 1e+0 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.465961e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 6.239157e-1 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 3.350347e-2 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.732981e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 3.119579e-1 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 1.675174e-2 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group1.evaluate( 1e+1 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.306619e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 1.391053e+0 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 7.469779e-2 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.653310e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 6.955267e-1 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 3.734889e-2 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group1.evaluate( 1e+2 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.579595e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 1.813973e-3 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 9.740800e-5 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.789797e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 9.069863e-4 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 4.870400e-5 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group1.evaluate( 1e+3 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.557221e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 4.233523e-6 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 2.273347e-7 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.778610e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 2.116761e-6 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 1.136674e-7 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group1.evaluate( 2e+3 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.548651e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 7.368059e-7 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 3.956553e-8 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.774325e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 3.684029e-7 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 1.978276e-8 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group1.evaluate( 1.541700e+1 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 6.100833e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 2.078244e+2 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 1.115990e+1 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 3.050416e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 1.039122e+2 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 5.579952e+0 == Approx( xs[ "capture" ].value ) );
       xs.clear();
     }
 
@@ -638,93 +640,93 @@ SCENARIO( "evaluate" ) {
       tsl::hopscotch_map< ReactionID, Quantity< Barn > > xs;
       group2.evaluate( 1e-5 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.417476e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 2.329099e+2 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 1.091115e+1 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.708738e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 1.164549e+2 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 5.455577e+0 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group2.evaluate( 1e-4 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.417475e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 7.365334e+1 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 3.450446e+0 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.708738e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 3.682667e+1 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 1.725223e+0 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group2.evaluate( 1e-3 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.417469e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 2.329366e+1 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 1.091242e+0 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.708734e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 1.164683e+1 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 5.456212e-1 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group2.evaluate( 1e-2 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.417404e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 7.373775e+0 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 3.454466e-1 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.708702e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 3.686888e+0 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 1.727233e-1 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group2.evaluate( 1e-1 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.416755e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 2.356285e+0 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 1.104062e-1 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.708378e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 1.178142e+0 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 5.520311e-2 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group2.evaluate( 1e+0 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.409891e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 8.302460e-1 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 3.897461e-2 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.704945e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 4.151230e-1 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 1.948730e-2 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group2.evaluate( 1e+1 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.236255e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 1.580517e+0 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 7.761229e-2 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.618127e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 7.902586e-1 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 3.880614e-2 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group2.evaluate( 1e+2 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.624471e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 8.278803e-3 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 4.060342e-4 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.812236e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 4.139401e-3 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 2.030171e-4 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group2.evaluate( 1e+3 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.559769e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 1.156303e-5 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 5.503447e-7 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.779884e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 5.781515e-6 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 2.751723e-7 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group2.evaluate( 2e+3 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.549892e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 1.979528e-6 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 9.411375e-8 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.774946e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 9.897642e-7 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 4.705688e-8 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group2.evaluate( 1.541700e+1 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 6.036703e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 2.078595e+2 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 1.116157e+1 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 3.018352e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 1.039297e+2 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 5.580786e+0 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group2.evaluate( 3.232700e+1 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 6.401576e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 1.518826e+2 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 4.768063e+1 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 3.200788e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 7.594132e+1 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 2.384031e+1 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group2.evaluate( 4.753400e+1 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 7.652821e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 2.281801e+2 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 1.208485e+1 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 3.826411e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 1.140900e+2 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 6.042426e+0 == Approx( xs[ "capture" ].value ) );
       xs.clear();
     }
 
@@ -736,79 +738,79 @@ SCENARIO( "evaluate" ) {
       tsl::hopscotch_map< ReactionID, Quantity< Barn > > xs;
       group3.evaluate( 1e-5 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.472274e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 1.725514e+2 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 9.265788e+0 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.736137e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 8.627569e+1 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 4.632894e+0 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group3.evaluate( 1e-4 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.472274e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 5.456617e+1 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 2.930134e+0 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.736137e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 2.728309e+1 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 1.465067e+0 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group3.evaluate( 1e-3 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.472268e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 1.725735e+1 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 9.266977e-1 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.736134e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 8.628676e+0 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 4.633488e-1 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group3.evaluate( 1e-2 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.472215e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 5.463627e+0 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 2.933898e-1 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.736107e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 2.731813e+0 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 1.466949e-1 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group3.evaluate( 1e-1 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.471679e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 1.748100e+0 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 9.387073e-2 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.735839e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 8.740500e-1 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 4.693537e-2 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group3.evaluate( 1e+0 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.465961e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 6.239157e-1 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 3.350347e-2 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.732981e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 3.119579e-1 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 1.675174e-2 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group3.evaluate( 1e+1 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.306619e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 1.391053e+0 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 7.469779e-2 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.653310e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 6.955267e-1 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 3.734889e-2 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group3.evaluate( 1e+2 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.579595e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 1.813973e-3 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 9.740800e-5 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.789797e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 9.069863e-4 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 4.870400e-5 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group3.evaluate( 1e+3 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.557221e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 4.233523e-6 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 2.273347e-7 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.778610e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 2.116761e-6 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 1.136674e-7 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group3.evaluate( 2e+3 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.548651e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 7.368059e-7 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 3.956553e-8 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.774325e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 3.684029e-7 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 1.978276e-8 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group3.evaluate( 1.541700e+1 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 6.100833e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 2.078244e+2 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 1.115990e+1 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 3.050416e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 1.039122e+2 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 5.579952e+0 == Approx( xs[ "capture" ].value ) );
       xs.clear();
     }
 
@@ -820,93 +822,93 @@ SCENARIO( "evaluate" ) {
       tsl::hopscotch_map< ReactionID, Quantity< Barn > > xs;
       group4.evaluate( 1e-5 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.417476e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 2.329099e+2 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 1.091115e+1 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.708738e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 1.164549e+2 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 5.455577e+0 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group4.evaluate( 1e-4 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.417475e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 7.365334e+1 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 3.450446e+0 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.708738e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 3.682667e+1 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 1.725223e+0 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group4.evaluate( 1e-3 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.417469e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 2.329366e+1 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 1.091242e+0 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.708734e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 1.164683e+1 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 5.456212e-1 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group4.evaluate( 1e-2 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.417404e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 7.373775e+0 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 3.454466e-1 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.708702e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 3.686888e+0 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 1.727233e-1 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group4.evaluate( 1e-1 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.416755e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 2.356285e+0 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 1.104062e-1 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.708378e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 1.178142e+0 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 5.520311e-2 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group4.evaluate( 1e+0 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.409891e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 8.302460e-1 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 3.897461e-2 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.704945e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 4.151230e-1 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 1.948730e-2 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group4.evaluate( 1e+1 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.236255e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 1.580517e+0 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 7.761229e-2 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.618127e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 7.902586e-1 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 3.880614e-2 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group4.evaluate( 1e+2 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.624471e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 8.278803e-3 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 4.060342e-4 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.812236e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 4.139401e-3 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 2.030171e-4 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group4.evaluate( 1e+3 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.559769e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 1.156303e-5 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 5.503447e-7 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.779884e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 5.781515e-6 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 2.751723e-7 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group4.evaluate( 2e+3 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 5.549892e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 1.979528e-6 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 9.411375e-8 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 2.774946e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 9.897642e-7 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 4.705688e-8 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group4.evaluate( 1.541700e+1 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 6.036703e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 2.078595e+2 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 1.116157e+1 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 3.018352e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 1.039297e+2 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 5.580786e+0 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group4.evaluate( 3.232700e+1 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 6.401576e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 1.518826e+2 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 4.768063e+1 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 3.200788e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 7.594132e+1 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 2.384031e+1 == Approx( xs[ "capture" ].value ) );
       xs.clear();
 
       group4.evaluate( 4.753400e+1 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
-      REQUIRE( 7.652821e+0 == Approx( xs[ "elastic" ].value ) );
-      REQUIRE( 2.281801e+2 == Approx( xs[ "fission" ].value ) );
-      REQUIRE( 1.208485e+1 == Approx( xs[ "capture" ].value ) );
+      REQUIRE( 3.826411e+0 == Approx( xs[ "elastic" ].value ) );
+      REQUIRE( 1.140900e+2 == Approx( xs[ "fission" ].value ) );
+      REQUIRE( 6.042426e+0 == Approx( xs[ "capture" ].value ) );
       xs.clear();
     }
   } // GIVEN
