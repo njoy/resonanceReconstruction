@@ -22,9 +22,9 @@ SCENARIO( "Channel" ) {
   GIVEN( "valid data for a Channel" ) {
 
     ChannelID id = "1";
-    Particle photon( 0.0 * daltons, 0.0 * coulombs, 1., +1);
-    Particle fe55( 55.0 * daltons, 26.0 * coulombs, 0.0, +1);
-    ParticlePair pair( photon, fe55, 0.0 * electronVolt, "capture" );
+    Particle photon( "g", 0.0 * daltons, 0.0 * coulombs, 1., +1);
+    Particle fe55( "Fe55_e0", 55.0 * daltons, 26.0 * coulombs, 0.0, +1);
+    ParticlePair pair( photon, fe55, 0.0 * electronVolt );
     ChannelQuantumNumbers numbers( 0, 0.0, 0.5, +1 );
     ChannelRadii radii( 5.437300e-1 * rootBarn, 5.437300e-1 * rootBarn );
     BoundaryCondition boundary = 0.0;
@@ -43,7 +43,7 @@ SCENARIO( "Channel" ) {
       REQUIRE( 0.0 == Approx( channel.particlePair().residual().spin() ) );
       REQUIRE( +1 == channel.particlePair().residual().parity() );
       REQUIRE( 0.0 == Approx( channel.particlePair().Q().value ) );
-      REQUIRE( "capture" == channel.particlePair().reaction() );
+      REQUIRE( "g,Fe55_e0" == channel.particlePair().pairID() );
       REQUIRE( 0 == channel.quantumNumbers().orbitalAngularMomentum() );
       REQUIRE( 0.0 == channel.quantumNumbers().spin() );
       REQUIRE( 0.5 == channel.quantumNumbers().totalAngularMomentum() );

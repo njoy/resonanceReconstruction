@@ -26,9 +26,9 @@ SCENARIO( "SpinGroup" ) {
     // test based on Fe54 ENDF/B-VIII.0 LRF7 resonance evaluation
     // data given in Gamma = 2 gamma^2 P(Er) so conversion is required
 
-    Particle neutron( neutronMass, 0.0 * coulombs, 0.5, +1);
-    Particle fe54( 54. * daltons, 26.0 * coulombs, 0.0, +1);
-    ParticlePair pair( neutron, fe54, 0.0 * electronVolt, "elastic" );
+    Particle neutron( "n", neutronMass, 0.0 * coulombs, 0.5, +1);
+    Particle fe54( "Fe54_e0", 54. * daltons, 26.0 * coulombs, 0.0, +1);
+    ParticlePair pair( neutron, fe54, 0.0 * electronVolt );
     Channel< Neutron > elastic( "2", pair, { 0, 0.5, 0.5, +1 },
                                 { 5.437300e-1 * rootBarn,
                                   5.437300e-1 * rootBarn },
@@ -56,7 +56,7 @@ SCENARIO( "SpinGroup" ) {
       REQUIRE( 0.0 == Approx( channel.particlePair().residual().spin() ) );
       REQUIRE( +1 == channel.particlePair().residual().parity() );
       REQUIRE( 0.0 == Approx( channel.particlePair().Q().value ) );
-      REQUIRE( "elastic" == channel.particlePair().reaction() );
+      REQUIRE( "n,Fe54_e0" == channel.particlePair().pairID() );
       REQUIRE( 0 == channel.quantumNumbers().orbitalAngularMomentum() );
       REQUIRE( 0.5 == channel.quantumNumbers().spin() );
       REQUIRE( 0.5 == channel.quantumNumbers().totalAngularMomentum() );
@@ -68,6 +68,10 @@ SCENARIO( "SpinGroup" ) {
       REQUIRE( 5.437300e-1 ==
           Approx( channel.radii().phaseShiftRadius( 1e-5 * electronVolt ).value ) );
       REQUIRE( 0.0 == channel.boundaryCondition() );
+
+      REQUIRE( 2 == group.reactions().size() );
+      REQUIRE( "n,Fe54_e0->n,Fe54_e0" == group.reactions()[0] );
+      REQUIRE( "n,Fe54_e0->capture" == group.reactions()[1] );
 
       auto table = group.resonanceTable();
       REQUIRE( 1 == table.numberChannels() );

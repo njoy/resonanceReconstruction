@@ -12,6 +12,7 @@
 class Particle {
 
   /* fields */
+  ParticleID id_;
   AtomicMass mass_;
   ElectricalCharge charge_;
   Spin spin_;
@@ -21,6 +22,11 @@ public:
 
   /* constructor */
   #include "resonanceReconstruction/rmatrix/Particle/src/ctor.hpp"
+
+  /**
+   *  @brief Return the particle identifier
+   */
+  const ParticleID& particleID() const { return this->id_; }
 
   /**
    *  @brief Return the atomic mass of the particle

@@ -27,6 +27,8 @@ namespace rmatrix {
   #include "resonanceReconstruction/rmatrix/src/calculateLValue.hpp"
 
   // identifiers
+  using ParticleID = std::string;
+  using ParticlePairID = std::string;
   using ReactionID = std::string;
   using ChannelID = std::string;
 

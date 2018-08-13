@@ -21,12 +21,13 @@ template < typename BoundaryOption >
 class SpinGroup {
 
   /* fields */
+  std::vector< ReactionID > reactions_;
+  Matrix< std::complex< double > > uMatrix_;
+  std::vector< std::complex< double > > diagonalLMatrix_;
+
   std::vector< ParticleChannel > channels_;
   std::vector< unsigned int > incident_;
   ResonanceTable parameters_;
-
-  Matrix< std::complex< double > > uMatrix_;
-  std::vector< std::complex< double > > diagonalLMatrix_;
 
   auto penetrabilities( const Energy& energy ) const {
     return this->channels_
@@ -78,32 +79,6 @@ class SpinGroup {
                          channel ); } );
   }
 
-  auto channelIDs() const {
-    return this->channels_
-             | ranges::view::transform(
-                 [&] ( const auto& channel )
-                     { return std::visit(
-                         [&] ( const auto& channel )
-                             { return channel.channelID(); },
-                         channel ); } );
-  }
-
-  auto reactionsIDs() const {
-    return this->channels_
-             | ranges::view::transform(
-                 [&] ( const auto& channel )
-                     { return std::visit(
-                         [&] ( const auto& channel )
-                             { return channel.particlePair().reaction(); },
-                         channel ); } );
-  }
-
-  auto identifiers() const {
-    return ranges::view::concat(
-               this->reactionsIDs(),
-               ranges::view::single( "capture" ) );
-  }
-
   auto factor( const Energy& energy ) const {
 
     auto factor = [&] ( const auto& channel ) {
@@ -115,7 +90,25 @@ class SpinGroup {
     return std::visit( factor, this->channels_.front() );
   }
 
-  auto incidentChannels() const { return ranges::view::all( this->incident_ ); }
+  static std::vector< ReactionID >
+  makeReactionIdentifiers( const std::vector< ParticleChannel >& channels,
+                           unsigned int incident ) {
+
+    const auto pairs =
+      channels
+        | ranges::view::transform(
+              [&] ( const auto& channel )
+                  { return std::visit(
+                        [&] ( const auto& channel )
+                            { return channel.particlePair().pairID(); },
+                        channel ); } );
+    const auto in = pairs[ incident ];
+    return ranges::view::concat(
+               pairs | ranges::view::transform(
+                           [&] ( const auto& pair )
+                               { return ReactionID( in + "->" + pair ); } ),
+               ranges::view::single( in + "->capture" ) );
+  }
 
 public:
 
@@ -123,14 +116,18 @@ public:
   SpinGroup( std::vector< ParticleChannel >&& channels,
              std::vector< unsigned int >&& incidentChannels,
              ResonanceTable&& table ) :
+    reactions_( makeReactionIdentifiers( channels,
+                                         incidentChannels.front() ) ),
+    uMatrix_( channels.size(), channels.size() ),
+    diagonalLMatrix_( channels.size() ),
     channels_( std::move( channels ) ),
     incident_( std::move( incidentChannels ) ),
-    parameters_( std::move( table ) ),
-    uMatrix_( channels.size(), channels.size() ),
-    diagonalLMatrix_( channels.size() ) {}
+    parameters_( std::move( table ) ) {}
 
   const ResonanceTable& resonanceTable() const { return this->parameters_; }
   auto channels() const { return ranges::view::all( this->channels_ ); }
+  auto incidentChannels() const { return ranges::view::all( this->incident_ ); }
+  auto reactions() const { return ranges::view::all( this->reactions_ ); }
 
   void evaluate( const Energy& energy,
                  tsl::hopscotch_map< ReactionID, Quantity< Barn > >& result ) {
@@ -172,7 +169,7 @@ public:
     const auto factor = this->factor( energy );
 
     // the cross section identifiers
-    const auto identifiers = this->identifiers();
+    const auto identifiers = this->reactions();
 
     auto processIncidentChannel = [&] ( const unsigned int c ) {
 

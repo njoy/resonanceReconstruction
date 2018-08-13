@@ -33,22 +33,27 @@ SCENARIO( "Particle" ) {
     Parity u235Parity = +1;
 
     THEN( "a Particle can be constructed" ) {
-      Particle neutron( neutronMass, neutronCharge, neutronSpin, neutronParity );
+      Particle neutron( "n", neutronMass, neutronCharge,
+                             neutronSpin, neutronParity );
 
+      REQUIRE( "n" == neutron.particleID() );
       REQUIRE( 1.008664 == Approx( neutron.mass().value ) );
       REQUIRE( 0.0 == Approx( neutron.charge().value ) );
       REQUIRE( 0.5 == Approx( neutron.spin() ) );
       REQUIRE( +1 == neutron.parity() );
 
-      Particle proton( protonMass, protonCharge, protonSpin, protonParity );
+      Particle proton( "p", protonMass, protonCharge,
+                            protonSpin, protonParity );
 
+      REQUIRE( "p" == proton.particleID() );
       REQUIRE( 1.007276 == Approx( proton.mass().value ) );
       REQUIRE( 1.60217662e-19 == Approx( proton.charge().value ) );
       REQUIRE( 0.5 == Approx( proton.spin() ) );
       REQUIRE( +1 == proton.parity() );
 
-      Particle u235( u235Mass, u235Charge, u235Spin, u235Parity );
+      Particle u235( "U235", u235Mass, u235Charge, u235Spin, u235Parity );
 
+      REQUIRE( "U235" == u235.particleID() );
       REQUIRE( 235.0439299 == Approx( u235.mass().value ) );
       REQUIRE( 0.0 == Approx( u235.charge().value ) );
       REQUIRE( 0.0 == Approx( u235.spin() ) );

@@ -13,9 +13,12 @@ class ParticlePair {
   /* fields */
   std::pair< Particle, Particle > pair_;
   QValue qvalue_;
-  ReactionID reaction_;
+  ParticlePairID id_;
 
   //! @todo store reduced mass, wave number factor and permeability factor?
+
+  /* auxiliary functions */
+  #include "resonanceReconstruction/rmatrix/ParticlePair/src/makeID.hpp"
 
 public:
 
@@ -38,9 +41,9 @@ public:
   const QValue& Q() const { return this->qvalue_; }
 
   /**
-   *  @brief Return the ID of the reaction associated to the particle pair
+   *  @brief Return the identifier of the particle pair
    */
-  const ReactionID& reaction() const { return this->reaction_; }
+  const ParticlePairID& pairID() const { return this->id_; }
 
   #include "resonanceReconstruction/rmatrix/ParticlePair/src/reducedMass.hpp"
   #include "resonanceReconstruction/rmatrix/ParticlePair/src/waveNumber.hpp"

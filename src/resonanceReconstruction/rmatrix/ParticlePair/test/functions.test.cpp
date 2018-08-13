@@ -16,14 +16,14 @@ SCENARIO( "special functions" ) {
   GIVEN( "Two ParticlePair with/without charged particles" ) {
 
     // particle
-    Particle neutron( 1.008664 * daltons, 0.0 * coulombs, 0.5, +1 );
-    Particle proton( 1.007276 * daltons, elementaryCharge, 0.5, +1 );
-    Particle u235( 235.0439299 * daltons, 92. * elementaryCharge, 0.0, +1 );
+    Particle neutron( "n", 1.008664 * daltons, 0.0 * coulombs, 0.5, +1 );
+    Particle proton( "p", 1.007276 * daltons, elementaryCharge, 0.5, +1 );
+    Particle u235( "U235_e0", 235.0439299 * daltons,
+                              92. * elementaryCharge, 0.0, +1 );
     QValue qValue = 0.0 * electronVolt;
-    ReactionID reaction( "elastic" );
 
-    ParticlePair neutronPair( neutron, u235, qValue, reaction );
-    ParticlePair protonPair( proton, u235, qValue, reaction );
+    ParticlePair neutronPair( neutron, u235, qValue );
+    ParticlePair protonPair( proton, u235, qValue );
 
     THEN( "the special function give the right answers" ) {
 
