@@ -44,14 +44,14 @@ SCENARIO( "evaluate" ) {
                               26.0 * coulombs, 0.0, +1);
 
     // particle pairs
-    ParticlePair pair1( photon, fe55, 0.0 * electronVolt );
-    ParticlePair pair2( neutron, fe54, 0.0 * electronVolt );
+    ParticlePair in( neutron, fe54, 0.0 * electronVolt );
+    ParticlePair out( photon, fe55, 0.0 * electronVolt );
 
     // channels
-    Channel< Photon > capture( "1", pair1, { 0, 0.0, 0.5, +1 },
+    Channel< Photon > capture( "1", out, { 0, 0.0, 0.5, +1 },
                                { 0.0 * rootBarn },
                                0.0 );
-    Channel< Neutron > elastic( "2", pair2, { 0, 0.5, 0.5, +1 },
+    Channel< Neutron > elastic( "2", in, { 0, 0.5, 0.5, +1 },
                                 { 5.437300e-1 * rootBarn,
                                   5.437300e-1 * rootBarn },
                                 0.0 );
@@ -87,10 +87,10 @@ SCENARIO( "evaluate" ) {
                    cGamma( 2.000000e+0 ) ) } );
     ResonanceTable multiple2 = multiple;
 
-    SpinGroup< Sammy > group1( { elastic }, { 0 }, std::move( single ) );
-    SpinGroup< Sammy > group2( { elastic }, { 0 }, std::move( multiple ) );
-    SpinGroup< Constant > group3( { elastic }, { 0 }, std::move( single2 ) );
-    SpinGroup< Constant > group4( { elastic }, { 0 }, std::move( multiple2 ) );
+    SpinGroup< Sammy > group1( in, { elastic }, std::move( single ) );
+    SpinGroup< Sammy > group2( in, { elastic }, std::move( multiple ) );
+    SpinGroup< Constant > group3( in, { elastic }, std::move( single2 ) );
+    SpinGroup< Constant > group4( in, { elastic }, std::move( multiple2 ) );
 
     CompoundSystem< Sammy > system1( { group1 } );
     CompoundSystem< Sammy > system2( { group2 } );
@@ -483,33 +483,33 @@ SCENARIO( "evaluate" ) {
                               26.0 * coulombs, 0.0, +1);
 
     // particle pairs
-    ParticlePair pair1( photon, fe55, 0.0 * electronVolt );
-    ParticlePair pair2( neutron, fe54, 0.0 * electronVolt );
+    ParticlePair out( photon, fe55, 0.0 * electronVolt );
+    ParticlePair in( neutron, fe54, 0.0 * electronVolt );
 
     // channels
-    Channel< Photon > capture1( "1", pair1, { 0, 0.0, 0.5, +1 },
+    Channel< Photon > capture1( "1", out, { 0, 0.0, 0.5, +1 },
                                 { 0.0 * rootBarn } );
-    Channel< Neutron > elastic1( "2", pair2, { 0, 0.5, 0.5, +1 },
+    Channel< Neutron > elastic1( "2", in, { 0, 0.5, 0.5, +1 },
                                  { 5.437300e-1 * rootBarn,
                                    5.437300e-1 * rootBarn } );
-    Channel< Photon > capture2( "3", pair1, { 0, 0.0, 0.5, -1 },
+    Channel< Photon > capture2( "3", out, { 0, 0.0, 0.5, -1 },
                                 { 0.0 * rootBarn } );
-    Channel< Neutron > elastic2( "4", pair2, { 1, 0.5, 0.5, -1 },
+    Channel< Neutron > elastic2( "4", in, { 1, 0.5, 0.5, -1 },
                                  { 5.437300e-1 * rootBarn,
                                    5.437300e-1 * rootBarn } );
-    Channel< Photon > capture3( "5", pair1, { 0, 0.0, 1.5, -1 },
+    Channel< Photon > capture3( "5", out, { 0, 0.0, 1.5, -1 },
                                 { 0.0 * rootBarn } );
-    Channel< Neutron > elastic3( "6", pair2, { 1, 0.5, 1.5, -1 },
+    Channel< Neutron > elastic3( "6", in, { 1, 0.5, 1.5, -1 },
                                  { 5.437300e-1 * rootBarn,
                                    5.437300e-1 * rootBarn } );
-    Channel< Photon > capture4( "7", pair1, { 0, 0.0, 1.5, +1 },
+    Channel< Photon > capture4( "7", out, { 0, 0.0, 1.5, +1 },
                                 { 0.0 * rootBarn } );
-    Channel< Neutron > elastic4( "8", pair2, { 2, 0.5, 1.5, +1 },
+    Channel< Neutron > elastic4( "8", in, { 2, 0.5, 1.5, +1 },
                                  { 5.437300e-1 * rootBarn,
                                    5.437300e-1 * rootBarn } );
-    Channel< Photon > capture5( "9", pair1, { 0, 0.0, 2.5, +1 },
+    Channel< Photon > capture5( "9", out, { 0, 0.0, 2.5, +1 },
                                 { 0.0 * rootBarn } );
-    Channel< Neutron > elastic5( "10", pair2, { 2, 0.5, 2.5, +1 },
+    Channel< Neutron > elastic5( "10", in, { 2, 0.5, 2.5, +1 },
                                  { 5.437300e-1 * rootBarn,
                                    5.437300e-1 * rootBarn } );
 
@@ -580,11 +580,11 @@ SCENARIO( "evaluate" ) {
                    { eGamma( 1.400000e+0, 1.779400e+5 * electronVolt, elastic5 ) },
                    cGamma( 9.600000e-1 ) ) } );
 
-    SpinGroup< Sammy > group1( { elastic1 }, { 0 }, std::move( table1 ) );
-    SpinGroup< Sammy > group2( { elastic2 }, { 0 }, std::move( table2 ) );
-    SpinGroup< Sammy > group3( { elastic3 }, { 0 }, std::move( table3 ) );
-    SpinGroup< Sammy > group4( { elastic4 }, { 0 }, std::move( table4 ) );
-    SpinGroup< Sammy > group5( { elastic5 }, { 0 }, std::move( table5 ) );
+    SpinGroup< Sammy > group1( in, { elastic1 }, std::move( table1 ) );
+    SpinGroup< Sammy > group2( in, { elastic2 }, std::move( table2 ) );
+    SpinGroup< Sammy > group3( in, { elastic3 }, std::move( table3 ) );
+    SpinGroup< Sammy > group4( in, { elastic4 }, std::move( table4 ) );
+    SpinGroup< Sammy > group5( in, { elastic5 }, std::move( table5 ) );
 
     CompoundSystem< Sammy > system( { group1, group2, group3, group4, group5 } );
 

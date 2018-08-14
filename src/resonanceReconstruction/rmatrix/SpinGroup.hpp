@@ -15,7 +15,7 @@ using ParticleChannel = std::variant< Channel< Neutron >,
 
 /**
  *  @class
- *  @brief A spin group corresponding to a J,pi value
+ *  @brief A spin group corresponding to a J,pi quantum number set
  */
 template < typename BoundaryOption >
 class SpinGroup {
@@ -25,109 +25,38 @@ class SpinGroup {
   Matrix< std::complex< double > > uMatrix_;
   std::vector< std::complex< double > > diagonalLMatrix_;
 
-  std::vector< ParticleChannel > channels_;
   std::vector< unsigned int > incident_;
+  std::vector< ParticleChannel > channels_;
   ResonanceTable parameters_;
 
-  auto penetrabilities( const Energy& energy ) const {
-    return this->channels_
-             | ranges::view::transform(
-                 [&] ( const auto& channel )
-                     { return std::visit(
-                         [&] ( const auto& channel )
-                             { return channel.penetrability( energy ); },
-                         channel ); } );
-  }
-
-  auto shiftFactors( const Energy& energy ) const {
-    return this->channels_
-             | ranges::view::transform(
-                 [&] ( const auto& channel )
-                     { return std::visit(
-                         [&] ( const auto& channel )
-                             { return channel.shiftFactor( energy ); },
-                         channel ); } );
-  }
-
-  auto phaseShifts( const Energy& energy ) const {
-    return this->channels_
-             | ranges::view::transform(
-                 [&] ( const auto& channel )
-                     { return std::visit(
-                         [&] ( const auto& channel )
-                             { return channel.phaseShift( energy ); },
-                         channel ); } );
-  }
-
-  auto coulombShifts( const Energy& energy ) const {
-    return this->channels_
-             | ranges::view::transform(
-                 [&] ( const auto& channel )
-                     { return std::visit(
-                         [&] ( const auto& channel )
-                             { return channel.coulombPhaseShift( energy ); },
-                         channel ); } );
-  }
-
-  auto boundaryConditions() const {
-    return this->channels_
-             | ranges::view::transform(
-                 [&] ( const auto& channel )
-                     { return std::visit(
-                         [&] ( const auto& channel )
-                             { return channel.boundaryCondition(); },
-                         channel ); } );
-  }
-
-  auto factor( const Energy& energy ) const {
-
-    auto factor = [&] ( const auto& channel ) {
-      const auto waveNumber = channel.particlePair().waveNumber( energy );
-      const auto squaredWaveNumber = waveNumber * waveNumber;
-      const auto spinFactor = channel.statisticalSpinFactor();
-      return pi / squaredWaveNumber * spinFactor;
-    };
-    return std::visit( factor, this->channels_.front() );
-  }
-
-  static std::vector< ReactionID >
-  makeReactionIdentifiers( const std::vector< ParticleChannel >& channels,
-                           unsigned int incident ) {
-
-    const auto pairs =
-      channels
-        | ranges::view::transform(
-              [&] ( const auto& channel )
-                  { return std::visit(
-                        [&] ( const auto& channel )
-                            { return channel.particlePair().pairID(); },
-                        channel ); } );
-    const auto in = pairs[ incident ];
-    return ranges::view::concat(
-               pairs | ranges::view::transform(
-                           [&] ( const auto& pair )
-                               { return ReactionID( in + "->" + pair ); } ),
-               ranges::view::single( in + "->capture" ) );
-  }
+  /* auxiliary functions */
+  #include "resonanceReconstruction/rmatrix/SpinGroup/src/determineIncidentChannels.hpp"
+  #include "resonanceReconstruction/rmatrix/SpinGroup/src/makeReactionIdentifiers.hpp"
+  #include "resonanceReconstruction/rmatrix/SpinGroup/src/penetrabilities.hpp"
+  #include "resonanceReconstruction/rmatrix/SpinGroup/src/shiftFactors.hpp"
+  #include "resonanceReconstruction/rmatrix/SpinGroup/src/phaseShifts.hpp"
+  #include "resonanceReconstruction/rmatrix/SpinGroup/src/coulombShifts.hpp"
+  #include "resonanceReconstruction/rmatrix/SpinGroup/src/boundaryConditions.hpp"
 
 public:
 
   /* constructor */
-  SpinGroup( std::vector< ParticleChannel >&& channels,
-             std::vector< unsigned int >&& incidentChannels,
-             ResonanceTable&& table ) :
-    reactions_( makeReactionIdentifiers( channels,
-                                         incidentChannels.front() ) ),
-    uMatrix_( channels.size(), channels.size() ),
-    diagonalLMatrix_( channels.size() ),
-    channels_( std::move( channels ) ),
-    incident_( std::move( incidentChannels ) ),
-    parameters_( std::move( table ) ) {}
+  #include "resonanceReconstruction/rmatrix/SpinGroup/src/ctor.hpp"
 
-  const ResonanceTable& resonanceTable() const { return this->parameters_; }
   auto channels() const { return ranges::view::all( this->channels_ ); }
   auto incidentChannels() const { return ranges::view::all( this->incident_ ); }
   auto reactions() const { return ranges::view::all( this->reactions_ ); }
+  const ResonanceTable& resonanceTable() const { return this->parameters_; }
+
+  void switchIncidentPair( const ParticlePair& incident ) {
+
+    this->incident_ =
+      determineIncidentChannels( incident.pairID(), this->channels_ );
+    this->reactions_ =
+      makeReactionIdentifiers( this->channels, this->incident_.front() );
+
+    //! @todo check for empty incident channels
+  }
 
   void evaluate( const Energy& energy,
                  tsl::hopscotch_map< ReactionID, Quantity< Barn > >& result ) {
@@ -166,7 +95,15 @@ public:
     this->resonanceTable().tmatrix( energy, this->diagonalLMatrix_, this->uMatrix_ );
 
     // the pi/k2 * gJ factor
-    const auto factor = this->factor( energy );
+    const auto factor = [&] {
+      auto factor = [&] ( const auto& channel ) {
+        const auto waveNumber = channel.particlePair().waveNumber( energy );
+        const auto squaredWaveNumber = waveNumber * waveNumber;
+        const auto spinFactor = channel.statisticalSpinFactor();
+        return pi / squaredWaveNumber * spinFactor;
+      };
+      return std::visit( factor, this->channels_.front() );
+    }();
 
     // the cross section identifiers
     const auto identifiers = this->reactions();
@@ -193,7 +130,7 @@ public:
       const auto incidentOmega = diagonalOmegaMatrix[c];
       const auto uElements =
         ranges::view::zip_with( 
-            [=] ( const auto delta, const auto tValue,
+            [&] ( const auto delta, const auto tValue,
                   const auto sqrtP, const auto omega )
                 { return incidentOmega *
                          ( delta + std::complex< double >( 0., 2. ) *

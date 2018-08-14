@@ -46,14 +46,14 @@ SCENARIO( "evaluate" ) {
                               26.0 * coulombs, 0.0, +1);
 
     // particle pairs
-    ParticlePair pair1( photon, fe55, 0.0 * electronVolt );
-    ParticlePair pair2( neutron, fe54, 0.0 * electronVolt );
+    ParticlePair in( neutron, fe54, 0.0 * electronVolt );
+    ParticlePair out( photon, fe55, 0.0 * electronVolt );
 
     // channels
-    Channel< Photon > capture( "1", pair1, { 0, 0.0, 0.5, +1 },
+    Channel< Photon > capture( "1", out, { 0, 0.0, 0.5, +1 },
                                { 0.0 * rootBarn },
                                0.0 );
-    Channel< Neutron > elastic( "2", pair2, { 0, 0.5, 0.5, +1 },
+    Channel< Neutron > elastic( "2", in, { 0, 0.5, 0.5, +1 },
                                 { 5.437300e-1 * rootBarn,
                                   5.437300e-1 * rootBarn },
                                 0.0 );
@@ -89,10 +89,10 @@ SCENARIO( "evaluate" ) {
                    cGamma( 2.000000e+0 ) ) } );
     ResonanceTable multiple2 = multiple;
 
-    SpinGroup< Sammy > group1( { elastic }, { 0 }, std::move( single ) );
-    SpinGroup< Sammy > group2( { elastic }, { 0 }, std::move( multiple ) );
-    SpinGroup< Constant > group3( { elastic }, { 0 }, std::move( single2 ) );
-    SpinGroup< Constant > group4( { elastic }, { 0 }, std::move( multiple2 ) );
+    SpinGroup< Sammy > group1( in, { elastic }, std::move( single ) );
+    SpinGroup< Sammy > group2( in, { elastic }, std::move( multiple ) );
+    SpinGroup< Constant > group3( in, { elastic }, std::move( single2 ) );
+    SpinGroup< Constant > group4( in, { elastic }, std::move( multiple2 ) );
 
     ReactionID elas = "n,Fe54_e0->n,Fe54_e0";
     ReactionID capt = "n,Fe54_e0->capture";
@@ -482,21 +482,21 @@ SCENARIO( "evaluate" ) {
     Particle fission( "fission", 0.0 * daltons, 0.0 * coulombs, 0.0, +1);
 
     // particle pairs
-    ParticlePair pair1( photon, pu240, 0.0 * electronVolt );
-    ParticlePair pair2( neutron, pu239, 0.0 * electronVolt );
-    ParticlePair pair3( fission, fission, 0.0 * electronVolt, "fission" );
+    ParticlePair in( neutron, pu239, 0.0 * electronVolt );
+    ParticlePair out1( photon, pu240, 0.0 * electronVolt );
+    ParticlePair out2( fission, fission, 0.0 * electronVolt, "fission" );
 
     // channels
-    Channel< Photon > capture( "1", pair1, { 0, 0.0, 0.0, +1 },
+    Channel< Photon > capture( "1", out1, { 0, 0.0, 0.0, +1 },
                                { 0.0 * rootBarn },
                                0.0 );
-    Channel< Neutron > elastic( "2", pair2, { 0, 0.5, 0.0, +1 },
+    Channel< Neutron > elastic( "2", in, { 0, 0.5, 0.0, +1 },
                                 { 9.410000e-1 * rootBarn },
                                 0.0 );
-    Channel< Fission > fission1( "3", pair3, { 0, 0.0, 0.0, +1 },
+    Channel< Fission > fission1( "3", out2, { 0, 0.0, 0.0, +1 },
                                  { 9.410000e-1 * rootBarn },
                                  0.0 );
-    Channel< Fission > fission2( "4", pair3, { 0, 0.0, 0.0, +1 },
+    Channel< Fission > fission2( "4", out2, { 0, 0.0, 0.0, +1 },
                                  { 9.410000e-1 * rootBarn },
                                  0.0 );
 
@@ -542,14 +542,14 @@ SCENARIO( "evaluate" ) {
                    cGamma( 2.938826e-2 ) ) } );
     ResonanceTable multiple2 = multiple;
 
-    SpinGroup< Sammy > group1( { elastic, fission1, fission2 }, { 0 },
+    SpinGroup< Sammy > group1( in, { elastic, fission1, fission2 }, 
                                std::move( single ) );
-    SpinGroup< Sammy > group2( { elastic, fission1, fission2 }, { 0 },
+    SpinGroup< Sammy > group2( in, { elastic, fission1, fission2 }, 
                                std::move( multiple ) );
-    SpinGroup< Constant > group3( { elastic, fission1, fission2 }, { 0 },
+    SpinGroup< Constant > group3( in, { elastic, fission1, fission2 }, 
                                   std::move( single2 ) );
-    SpinGroup< Constant > group4( { elastic, fission1, fission2 }, { 0 },
-                                 std::move( multiple2 ) );
+    SpinGroup< Constant > group4( in, { elastic, fission1, fission2 }, 
+                                  std::move( multiple2 ) );
 
     ReactionID elas = "n,Pu239_e0->n,Pu239_e0";
     ReactionID fiss = "n,Pu239_e0->fission";
@@ -938,21 +938,21 @@ SCENARIO( "evaluate" ) {
     Particle fission( "fission", 0.0 * daltons, 0.0 * coulombs, 0.0, +1);
 
     // particle pairs
-    ParticlePair pair1( photon, pu240, 0.0 * electronVolt );
-    ParticlePair pair2( neutron, pu239, 0.0 * electronVolt );
-    ParticlePair pair3( fission, fission, 0.0 * electronVolt, "fission" );
+    ParticlePair in( neutron, pu239, 0.0 * electronVolt );
+    ParticlePair out1( photon, pu240, 0.0 * electronVolt );
+    ParticlePair out2( fission, fission, 0.0 * electronVolt, "fission" );
 
     // channels
-    Channel< Photon > capture( "1", pair1, { 0, 0.0, 0.0, +1 },
+    Channel< Photon > capture( "1", out1, { 0, 0.0, 0.0, +1 },
                                { 0.0 * rootBarn },
                                0.0 );
-    Channel< Neutron > elastic( "2", pair2, { 0, 0.5, 0.0, +1 },
+    Channel< Neutron > elastic( "2", in, { 0, 0.5, 0.0, +1 },
                                 { 9.410000e-1 * rootBarn },
                                 0.0 );
-    Channel< Fission > fission1( "3", pair3, { 0, 0.0, 0.0, +1 },
+    Channel< Fission > fission1( "3", out2, { 0, 0.0, 0.0, +1 },
                                  { 9.410000e-1 * rootBarn },
                                  0.0 );
-    Channel< Fission > fission2( "4", pair3, { 0, 0.0, 0.0, +1 },
+    Channel< Fission > fission2( "4", out2, { 0, 0.0, 0.0, +1 },
                                  { 9.410000e-1 * rootBarn },
                                  0.0 );
 
@@ -987,7 +987,7 @@ SCENARIO( "evaluate" ) {
                      fGamma( 1.274000e-7 ) },
                    cGamma( 2.938826e-2 ) ) } );
 
-    SpinGroup< Sammy > group( { elastic, fission1, fission2 }, { 0 },
+    SpinGroup< Sammy > group( in, { elastic, fission1, fission2 },
                               std::move( table ) );
 
     ReactionID elas = "n,Pu239_e0->n,Pu239_e0";
@@ -1103,21 +1103,21 @@ SCENARIO( "evaluate" ) {
     Particle fission( "fission", 0.0 * daltons, 0.0 * coulombs, 0.0, +1);
 
     // particle pairs
-    ParticlePair pair1( photon, pu240, 0.0 * electronVolt );
-    ParticlePair pair2( neutron, pu239, 0.0 * electronVolt );
-    ParticlePair pair3( fission, fission, 0.0 * electronVolt, "fission" );
+    ParticlePair in( neutron, pu239, 0.0 * electronVolt );
+    ParticlePair out1( photon, pu240, 0.0 * electronVolt );
+    ParticlePair out2( fission, fission, 0.0 * electronVolt, "fission" );
 
     // channels
-    Channel< Photon > capture( "1", pair1, { 0, 0.0, 0.0, +1 },
+    Channel< Photon > capture( "1", out1, { 0, 0.0, 0.0, +1 },
                                { 0.0 * rootBarn },
                                0.0 );
-    Channel< Neutron > elastic( "2", pair2, { 0, 0.5, 0.0, +1 },
+    Channel< Neutron > elastic( "2", in, { 0, 0.5, 0.0, +1 },
                                 { 9.410000e-1 * rootBarn },
                                 0.0 );
-    Channel< Fission > fission1( "3", pair3, { 0, 0.0, 0.0, +1 },
+    Channel< Fission > fission1( "3", out2, { 0, 0.0, 0.0, +1 },
                                  { 9.410000e-1 * rootBarn },
                                  0.0 );
-    Channel< Fission > fission2( "4", pair3, { 0, 0.0, 0.0, +1 },
+    Channel< Fission > fission2( "4", out2, { 0, 0.0, 0.0, +1 },
                                  { 9.410000e-1 * rootBarn },
                                  0.0 );
 
@@ -1157,7 +1157,7 @@ SCENARIO( "evaluate" ) {
                      fGamma( -1.274000e-7 ) },
                    cGamma( 2.938826e-2 ) ) } );
 
-    SpinGroup< Sammy > group( { elastic, fission1, fission2 }, { 0 },
+    SpinGroup< Sammy > group( in, { elastic, fission1, fission2 },
                               std::move( table ) );
 
     ReactionID elas = "n,Pu239_e0->n,Pu239_e0";
