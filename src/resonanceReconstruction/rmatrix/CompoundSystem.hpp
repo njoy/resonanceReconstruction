@@ -12,15 +12,13 @@ public:
 
   /* constructor */
   CompoundSystem( std::vector< SpinGroup< BoundaryOption > >&& groups ) :
-    groups_( std::move( groups ) ) {}
+    groups_( std::move( groups ) ) {
+
+    //! @todo check for potential duplicate J,pi?
+  }
 
   auto spinGroups() const { return ranges::view::all( this->groups_ ); }
 
-  void evaluate( const Energy& energy,
-                 tsl::hopscotch_map< ReactionID, Quantity< Barn > >& result ) {
-
-    ranges::for_each( this->groups_,
-                      [&] ( auto& group )
-                          { group.evaluate( energy, result ); } );
-  }
+  #include "resonanceReconstruction/rmatrix/CompoundSystem/src/switchIncidentPair.hpp"
+  #include "resonanceReconstruction/rmatrix/CompoundSystem/src/evaluate.hpp"
 };

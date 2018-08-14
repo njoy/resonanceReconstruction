@@ -15,8 +15,8 @@ determineIncidentChannels( const ParticlePairID& incident,
                                 [&] ( const auto& channel )
                                     { return channel.particlePair().pairID() ==
                                              incident; }, input ); } ) ) != 
-          channels.end() )
-  {
+          channels.end() ) {
+
     result.push_back( std::distance( channels.begin(), iter ) );
     ++iter;
   }

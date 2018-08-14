@@ -16,8 +16,8 @@ SpinGroup( std::vector< unsigned int >&& incidentChannels,
   channels_( std::move( channels ) ),
   parameters_( std::move( table ) ) {
 
-  //! @todo check if there are incident channels (i.e. size != 0)
-  //! @todo check all ChannelQuantumNumbers in each Channel for equal J,pi
+  verifyChannelSize( this->channels_.size() );
+  verifyQuantumNumbers( this->channels_ );
   //! @todo check if the incident channels have the same particle pair
   //! @todo check if number of widths is the same as the number of channels
   //! @todo check if channel IDs in the table and the channels correspond

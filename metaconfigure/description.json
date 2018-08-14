@@ -490,11 +490,11 @@
     "src/resonanceReconstruction/rmatrix/ChannelRadii.hpp",
     "src/resonanceReconstruction/rmatrix/Resonance.hpp",
     "src/resonanceReconstruction/rmatrix/Particle.hpp",
-    "src/resonanceReconstruction/rmatrix/ParticlePair.hpp",
     "src/resonanceReconstruction/rmatrix/Channel.hpp",
     "src/resonanceReconstruction/rmatrix/ResonanceTable.hpp",
-    "src/resonanceReconstruction/rmatrix/SpinGroup.hpp",
     "src/resonanceReconstruction/rmatrix/CompoundSystem.hpp",
+    "src/resonanceReconstruction/rmatrix/ParticlePair.hpp",
+    "src/resonanceReconstruction/rmatrix/SpinGroup.hpp",
     "src/resonanceReconstruction/rmatrix/src/possibleChannelSpinValues.hpp",
     "src/resonanceReconstruction/rmatrix/src/possibleChannelTotalAngularMomentumValues.hpp",
     "src/resonanceReconstruction/rmatrix/src/calculateCoulombPhaseShift.hpp",
@@ -508,10 +508,19 @@
     "src/resonanceReconstruction/rmatrix/ResonanceTable/src/tmatrix.hpp",
     "src/resonanceReconstruction/rmatrix/ResonanceTable/src/rmatrix.hpp",
     "src/resonanceReconstruction/rmatrix/Particle/src/ctor.hpp",
-    "src/resonanceReconstruction/rmatrix/ParticlePair/src/ctor.hpp",
+    "src/resonanceReconstruction/rmatrix/SpinGroup/src/penetrabilities.hpp",
+    "src/resonanceReconstruction/rmatrix/SpinGroup/src/shiftFactors.hpp",
+    "src/resonanceReconstruction/rmatrix/SpinGroup/src/phaseShifts.hpp",
+    "src/resonanceReconstruction/rmatrix/SpinGroup/src/coulombShifts.hpp",
+    "src/resonanceReconstruction/rmatrix/SpinGroup/src/boundaryConditions.hpp",
+    "src/resonanceReconstruction/rmatrix/SpinGroup/src/makeReactionIdentifiers.hpp",
+    "src/resonanceReconstruction/rmatrix/SpinGroup/src/ctor.hpp",
+    "src/resonanceReconstruction/rmatrix/SpinGroup/src/determineIncidentChannels.hpp",
     "src/resonanceReconstruction/rmatrix/ParticlePair/src/waveNumber.hpp",
     "src/resonanceReconstruction/rmatrix/ParticlePair/src/etaParameter.hpp",
     "src/resonanceReconstruction/rmatrix/ParticlePair/src/reducedMass.hpp",
+    "src/resonanceReconstruction/rmatrix/ParticlePair/src/ctor.hpp",
+    "src/resonanceReconstruction/rmatrix/ParticlePair/src/makeID.hpp",
     "src/resonanceReconstruction/rmatrix/ChannelQuantumNumbers/src/ctor.hpp",
     "src/resonanceReconstruction/rmatrix/Channel/src/coulombPhaseShift.hpp",
     "src/resonanceReconstruction/rmatrix/Channel/src/ctor.hpp",
@@ -594,8 +603,8 @@
       "src/resonanceReconstruction/rmatrix/Particle/test/Particle.test.cpp"
     ],
     "resonanceReconstruction.rmatrix.ParticlePair": [
-      "src/resonanceReconstruction/rmatrix/ParticlePair/test/ParticlePair.test.cpp",
-      "src/resonanceReconstruction/rmatrix/ParticlePair/test/functions.test.cpp"
+      "src/resonanceReconstruction/rmatrix/ParticlePair/test/functions.test.cpp",
+      "src/resonanceReconstruction/rmatrix/ParticlePair/test/ParticlePair.test.cpp"
     ],
     "resonanceReconstruction.rmatrix.Resonance": [
       "src/resonanceReconstruction/rmatrix/Resonance/test/Resonance.test.cpp",
@@ -606,8 +615,9 @@
       "src/resonanceReconstruction/rmatrix/ResonanceTable/test/ResonanceTable.test.cpp"
     ],
     "resonanceReconstruction.rmatrix.SpinGroup": [
-      "src/resonanceReconstruction/rmatrix/SpinGroup/test/SpinGroup.test.cpp",
-      "src/resonanceReconstruction/rmatrix/SpinGroup/test/evaluate.test.cpp"
+      "src/resonanceReconstruction/rmatrix/SpinGroup/test/evaluate.test.cpp",
+      "src/resonanceReconstruction/rmatrix/SpinGroup/test/switchIncidentPair.test.cpp",
+      "src/resonanceReconstruction/rmatrix/SpinGroup/test/SpinGroup.test.cpp"
     ]
   },
   "update": true
