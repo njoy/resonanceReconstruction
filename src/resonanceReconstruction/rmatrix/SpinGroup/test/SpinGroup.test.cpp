@@ -18,6 +18,7 @@ using ResonanceTable = rmatrix::ResonanceTable;
 template < typename Option > using SpinGroup = rmatrix::SpinGroup< Option >;
 using Sammy = rmatrix::Sammy;
 using Constant = rmatrix::Constant;
+using ParticleChannel = rmatrix::ParticleChannel;
 
 constexpr AtomicMass neutronMass = 1.008664 * daltons;
 
@@ -420,6 +421,60 @@ SCENARIO( "SpinGroup" ) {
       REQUIRE( 2.0 == Approx( resonance.widths()[1].value ) );
       REQUIRE( 3.0 == Approx( resonance.widths()[2].value ) );
       REQUIRE( 4.0 == Approx( resonance.widths()[3].value ) );
+    }
+  } // GIVEN
+
+  GIVEN( "data for a SpinGroup with incoherent J,pi channels" ) {
+
+    // particles
+    Particle photon( "g", 0.0 * daltons, 0.0 * coulombs, 1., +1);
+    Particle neutron( "n", neutronMass, 0.0 * coulombs, 0.5, +1);
+    Particle proton( "p", 1.007276 * daltons, 1.0 * coulombs, 0.5, +1);
+    Particle pu240( "Pu240_e0", 2.379916e+2 * neutronMass,
+                                94.0 * coulombs, 0.5, +1);
+    Particle pu239( "Pu239_e0", 2.369986e+2 * neutronMass,
+                                94.0 * coulombs, 0.5, +1);
+    Particle np240( "Np240_e0", 2.379940e+2 * neutronMass,
+                                93.0 * coulombs, 0.5, +1);
+    Particle fission( "fission", 0.0 * daltons, 0.0 * coulombs, 0.0, +1);
+
+    // particle pairs
+    ParticlePair in( neutron, pu239, 0.0 * electronVolt );
+    ParticlePair out1( photon, pu240, 0.0 * electronVolt );
+    ParticlePair out2( neutron, fission, 0.0 * electronVolt, "fission" );
+    ParticlePair out3( proton, np240, 0.0 * electronVolt );
+
+    // channels (the second channel has an incorrect J,pi with respect to the
+    // other channels)
+    Channel< Photon > capture( "1", out1, { 0, 0.0, 1.0, +1 },
+                               { 0.0 * rootBarn },
+                               0.0 );
+    Channel< Neutron > incorrect( "2", in, { 0, 0.5, 0.0, +1 },
+                                  { 9.410000e-1 * rootBarn },
+                                  0.0 );
+    Channel< Fission > fission1( "3", out2, { 0, 0.0, 1.0, +1 },
+                                 { 9.410000e-1 * rootBarn },
+                                 0.0 );
+    Channel< Fission > fission2( "4", out2, { 0, 0.0, 1.0, +1 },
+                                 { 9.410000e-1 * rootBarn },
+                                 0.0 );
+    Channel< ChargedParticle > emission( "5", out3, { 0, 0.5, 1.0, +1 },
+                                         { 9.410000e-1 * rootBarn },
+                                         0.0 );
+
+    // single resonance table
+    ResonanceTable single(
+      { "2", "3", "4", "5" },
+      { Resonance( 0.25 * electronVolt,
+                   { 1.0 * rootElectronVolt, 2.0 * rootElectronVolt,
+                     3.0 * rootElectronVolt, 4.0 * rootElectronVolt },
+                   0.5 * rootElectronVolt ) } );
+
+    THEN( "an exception is thrown at construction" ) {
+
+      REQUIRE_THROWS( SpinGroup< Sammy >( in, { incorrect, fission1,
+                                                fission2, emission },
+                                          std::move( single ) ) );
     }
   } // GIVEN
 } // SCENARIO

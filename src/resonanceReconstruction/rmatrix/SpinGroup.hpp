@@ -74,7 +74,7 @@ public:
    *
    *  These reaction identifiers are not unique: a given reaction identifier
    *  may appear multiple times because multiple channels can contribute to the
-   *  same reactions (e.g. multiple fission channels). The orderin which these 
+   *  same reactions (e.g. multiple fission channels). The order in which these 
    *  are given equals the order of the channels in the spin group.
    */
   auto reactions() const { return ranges::view::all( this->reactions_ ); }
