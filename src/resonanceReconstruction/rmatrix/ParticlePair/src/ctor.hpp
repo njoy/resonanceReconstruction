@@ -15,7 +15,13 @@ ParticlePair( const Particle& particle,
               const Particle& residual,
               const QValue& qvalue,
               const ParticlePairID& id ) :
-  pair_( particle, residual ), qvalue_( qvalue ), id_( id ) {}
+  pair_( particle, residual ), qvalue_( qvalue ), id_( id ),
+  reduced_( [&] { const auto ma = particle.mass();
+                  const auto mb = residual.mass();
+                  return ma * mb / ( ma + mb ); }() ),
+  massratio_( [&] { const auto ma = particle.mass();
+                    const auto mb = residual.mass();
+                    return mb / ( ma + mb ); }() ) {}
 
 /**
  *  @brief Constructor

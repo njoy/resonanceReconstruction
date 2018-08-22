@@ -6,10 +6,8 @@
  *  in which ma and mb are the atomic mass values of the particles in the
  *  particle pair.
  */
-AtomicMass reducedMass() const {
+const AtomicMass& reducedMass() const {
 
-  const auto ma = this->particle().mass();
-  const auto mb = this->residual().mass();
-  return ma * mb / ( ma + mb );
+  return this->reduced_;
 }
 

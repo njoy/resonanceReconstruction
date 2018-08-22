@@ -15,6 +15,9 @@ class ParticlePair {
   QValue qvalue_;
   ParticlePairID id_;
 
+  AtomicMass reduced_;
+  double massratio_;
+
   //! @todo store reduced mass, wave number factor and permeability factor?
 
   /* auxiliary functions */
