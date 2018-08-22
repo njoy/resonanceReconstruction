@@ -28,6 +28,7 @@ SCENARIO( "ChannelQuantumNumbers" ) {
       REQUIRE( 0.5 == numbers.spin() );
       REQUIRE( 1.5 == numbers.totalAngularMomentum() );
       REQUIRE( +1 == numbers.parity() );
+      REQUIRE( "{1,1/2,3/2+}" == numbers.toString() );
     }
   } // GIVEN
 } // SCENARIO

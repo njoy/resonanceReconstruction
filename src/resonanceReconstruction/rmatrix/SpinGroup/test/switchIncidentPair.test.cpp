@@ -43,25 +43,26 @@ SCENARIO( "switchIncidentPair" ) {
     ParticlePair out3( proton, np240, 0.0 * electronVolt );
 
     // channels
-    Channel< Photon > capture( "1", out1, { 0, 0.0, 1.0, +1 },
+    Channel< Photon > capture( out1, { 0, 0.0, 1.0, +1 },
                                { 0.0 * rootBarn },
                                0.0 );
-    Channel< Neutron > elastic( "2", in, { 0, 0.5, 1.0, +1 },
+    Channel< Neutron > elastic( in, { 0, 0.5, 1.0, +1 },
                                 { 9.410000e-1 * rootBarn },
                                 0.0 );
-    Channel< Fission > fission1( "3", out2, { 0, 0.0, 1.0, +1 },
+    Channel< Fission > fission1( out2, "fission1", { 0, 0.0, 1.0, +1 },
                                  { 9.410000e-1 * rootBarn },
                                  0.0 );
-    Channel< Fission > fission2( "4", out2, { 0, 0.0, 1.0, +1 },
+    Channel< Fission > fission2( out2, "fission2", { 0, 0.0, 1.0, +1 },
                                  { 9.410000e-1 * rootBarn },
                                  0.0 );
-    Channel< ChargedParticle > emission( "5", out3, { 0, 0.5, 1.0, +1 },
+    Channel< ChargedParticle > emission( out3, { 0, 0.5, 1.0, +1 },
                                          { 9.410000e-1 * rootBarn },
                                          0.0 );
 
     // single resonance table
     ResonanceTable single(
-      { "2", "3", "4", "5" },
+      { elastic.channelID(), fission1.channelID(),
+        fission2.channelID(), emission.channelID() },
       { Resonance( 0.25 * electronVolt,
                    { 1.0 * rootElectronVolt, 2.0 * rootElectronVolt,
                      3.0 * rootElectronVolt, 4.0 * rootElectronVolt },
@@ -73,18 +74,20 @@ SCENARIO( "switchIncidentPair" ) {
     THEN( "the incident particle pair can be changed" ) {
 
       REQUIRE( 1 == group.incidentChannels().size() );
-      REQUIRE( "2" == std::visit( [] ( const auto& channel )
-                                     { return channel.channelID(); },
-                                  group.incidentChannels().front() ) );
+      REQUIRE( "n,Pu239_e0{0,1/2,1+}" ==
+                   std::visit( [] ( const auto& channel )
+                                  { return channel.channelID(); },
+                               group.incidentChannels().front() ) );
 
       REQUIRE( in.pairID() == group.incidentPair().pairID() );
 
       group.switchIncidentPair( out3 );
 
       REQUIRE( 1 == group.incidentChannels().size() );
-      REQUIRE( "5" == std::visit( [] ( const auto& channel )
-                                     { return channel.channelID(); },
-                                  group.incidentChannels().front() ) );
+      REQUIRE( "p,Np240_e0{0,1/2,1+}" ==
+                   std::visit( [] ( const auto& channel )
+                                  { return channel.channelID(); },
+                               group.incidentChannels().front() ) );
 
       REQUIRE( out3.pairID() == group.incidentPair().pairID() );
 
@@ -93,7 +96,7 @@ SCENARIO( "switchIncidentPair" ) {
       // channel 1 - elastic
       auto channel1 =
           std::experimental::get< Channel< Neutron > >( group.channels()[0] );
-      REQUIRE( "2" == channel1.channelID() );
+      REQUIRE( "n,Pu239_e0{0,1/2,1+}" == channel1.channelID() );
 
       auto particlePair = channel1.particlePair();
       REQUIRE( 1.008664 == Approx( particlePair.particle().mass().value ) );
@@ -126,7 +129,7 @@ SCENARIO( "switchIncidentPair" ) {
       // channel 2 - fission1
       auto channel2 =
           std::experimental::get< Channel< Fission > >( group.channels()[1] );
-      REQUIRE( "3" == channel2.channelID() );
+      REQUIRE( "fission1{0,0,1+}" == channel2.channelID() );
 
       particlePair = channel2.particlePair();
       REQUIRE( 1.008664 == Approx( particlePair.particle().mass().value ) );
@@ -159,7 +162,7 @@ SCENARIO( "switchIncidentPair" ) {
       // channel 3 - fission2
       auto channel3 =
           std::experimental::get< Channel< Fission > >( group.channels()[2] );
-      REQUIRE( "4" == channel3.channelID() );
+      REQUIRE( "fission2{0,0,1+}" == channel3.channelID() );
 
       particlePair = channel3.particlePair();
       REQUIRE( 1.008664 == Approx( particlePair.particle().mass().value ) );
@@ -193,7 +196,7 @@ SCENARIO( "switchIncidentPair" ) {
       auto channel4 =
           std::experimental::get< Channel< ChargedParticle > >
               ( group.channels()[3] );
-      REQUIRE( "5" == channel4.channelID() );
+      REQUIRE( "p,Np240_e0{0,1/2,1+}" == channel4.channelID() );
 
       particlePair = channel4.particlePair();
       REQUIRE( 1.007276 == Approx( particlePair.particle().mass().value ) );
@@ -236,10 +239,10 @@ SCENARIO( "switchIncidentPair" ) {
       auto table = group.resonanceTable();
       REQUIRE( 4 == table.numberChannels() );
       REQUIRE( 4 == table.channels().size() );
-      REQUIRE( "2" == table.channels()[0] );
-      REQUIRE( "3" == table.channels()[1] );
-      REQUIRE( "4" == table.channels()[2] );
-      REQUIRE( "5" == table.channels()[3] );
+      REQUIRE( "n,Pu239_e0{0,1/2,1+}" == table.channels()[0] );
+      REQUIRE( "fission1{0,0,1+}" == table.channels()[1] );
+      REQUIRE( "fission2{0,0,1+}" == table.channels()[2] );
+      REQUIRE( "p,Np240_e0{0,1/2,1+}" == table.channels()[3] );
       REQUIRE( 1 == table.numberResonances() );
       REQUIRE( 1 == table.resonances().size() );
       REQUIRE( 1 == table.energies().size() );

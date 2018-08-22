@@ -15,6 +15,9 @@ class Channel {
   ChannelRadii radii_;
   BoundaryCondition boundary_;
 
+  /* auxiliary functions */
+  #include "resonanceReconstruction/rmatrix/Channel/src/makeID.hpp"
+
   //! @todo the channel has radii for P, S and phi which can be shared with
   //!       other channels
   //! @todo P, S and phi can be overriden with user defined functions

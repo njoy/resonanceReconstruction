@@ -50,10 +50,10 @@ SCENARIO( "evaluate" ) {
     ParticlePair out( photon, fe55, 0.0 * electronVolt );
 
     // channels
-    Channel< Photon > capture( "1", out, { 0, 0.0, 0.5, +1 },
+    Channel< Photon > capture( out, { 0, 0.0, 0.5, +1 },
                                { 0.0 * rootBarn },
                                0.0 );
-    Channel< Neutron > elastic( "2", in, { 0, 0.5, 0.5, +1 },
+    Channel< Neutron > elastic( in, { 0, 0.5, 0.5, +1 },
                                 { 5.437300e-1 * rootBarn,
                                   5.437300e-1 * rootBarn },
                                 0.0 );
@@ -69,7 +69,7 @@ SCENARIO( "evaluate" ) {
 
     // single resonance table
     ResonanceTable single(
-      { "2" },
+      { elastic.channelID() },
       { Resonance( 7.788000e+3 * electronVolt,
                    { eGamma( 1.187354e+3, 7.788000e+3 * electronVolt ) },
                    cGamma( 1.455000e+0 ) ) } );
@@ -77,7 +77,7 @@ SCENARIO( "evaluate" ) {
 
     // multiple resonance table
     ResonanceTable multiple(
-      { "2" },
+      { elastic.channelID() },
       { Resonance( 7.788000e+3 * electronVolt,
                    { eGamma( 1.187354e+3, 7.788000e+3 * electronVolt ) },
                    cGamma( 1.455000e+0 ) ),
@@ -487,16 +487,16 @@ SCENARIO( "evaluate" ) {
     ParticlePair out2( fission, fission, 0.0 * electronVolt, "fission" );
 
     // channels
-    Channel< Photon > capture( "1", out1, { 0, 0.0, 0.0, +1 },
+    Channel< Photon > capture( out1, { 0, 0.0, 0.0, +1 },
                                { 0.0 * rootBarn },
                                0.0 );
-    Channel< Neutron > elastic( "2", in, { 0, 0.5, 0.0, +1 },
+    Channel< Neutron > elastic( in, { 0, 0.5, 0.0, +1 },
                                 { 9.410000e-1 * rootBarn },
                                 0.0 );
-    Channel< Fission > fission1( "3", out2, { 0, 0.0, 0.0, +1 },
+    Channel< Fission > fission1( out2, "fission1", { 0, 0.0, 0.0, +1 },
                                  { 9.410000e-1 * rootBarn },
                                  0.0 );
-    Channel< Fission > fission2( "4", out2, { 0, 0.0, 0.0, +1 },
+    Channel< Fission > fission2( out2, "fission2", { 0, 0.0, 0.0, +1 },
                                  { 9.410000e-1 * rootBarn },
                                  0.0 );
 
@@ -514,7 +514,7 @@ SCENARIO( "evaluate" ) {
 
     // single resonance table
     ResonanceTable single(
-      { "2", "3", "4" },
+      { elastic.channelID(), fission1.channelID(), fission2.channelID() },
       { Resonance( 1.541700e+1 * electronVolt,
                    { eGamma( 2.056203e-3, 1.541700e+1 * electronVolt ),
                      fGamma( 1.093928e-6 ),
@@ -524,7 +524,7 @@ SCENARIO( "evaluate" ) {
 
     // multiple resonance table
     ResonanceTable multiple(
-      { "2", "3", "4" },
+      { elastic.channelID(), fission1.channelID(), fission2.channelID() },
       { Resonance( 1.541700e+1 * electronVolt,
                    { eGamma( 2.056203e-3, 1.541700e+1 * electronVolt ),
                      fGamma( 1.093928e-6 ),
@@ -943,16 +943,16 @@ SCENARIO( "evaluate" ) {
     ParticlePair out2( fission, fission, 0.0 * electronVolt, "fission" );
 
     // channels
-    Channel< Photon > capture( "1", out1, { 0, 0.0, 0.0, +1 },
+    Channel< Photon > capture( out1, { 0, 0.0, 0.0, +1 },
                                { 0.0 * rootBarn },
                                0.0 );
-    Channel< Neutron > elastic( "2", in, { 0, 0.5, 0.0, +1 },
+    Channel< Neutron > elastic( in, { 0, 0.5, 0.0, +1 },
                                 { 9.410000e-1 * rootBarn },
                                 0.0 );
-    Channel< Fission > fission1( "3", out2, { 0, 0.0, 0.0, +1 },
+    Channel< Fission > fission1( out2, "fission1", { 0, 0.0, 0.0, +1 },
                                  { 9.410000e-1 * rootBarn },
                                  0.0 );
-    Channel< Fission > fission2( "4", out2, { 0, 0.0, 0.0, +1 },
+    Channel< Fission > fission2( out2, "fission2", { 0, 0.0, 0.0, +1 },
                                  { 9.410000e-1 * rootBarn },
                                  0.0 );
 
@@ -970,7 +970,7 @@ SCENARIO( "evaluate" ) {
 
     // multiple resonance table
     ResonanceTable table(
-      { "2", "3", "4" },
+      { elastic.channelID(), fission1.channelID(), fission2.channelID() },
       { Resonance( -1.541700e+1 * electronVolt,
                    { eGamma( 2.056203e-3, 1.541700e+1 * electronVolt ),
                      fGamma( 1.093928e-6 ),
@@ -1108,16 +1108,16 @@ SCENARIO( "evaluate" ) {
     ParticlePair out2( fission, fission, 0.0 * electronVolt, "fission" );
 
     // channels
-    Channel< Photon > capture( "1", out1, { 0, 0.0, 0.0, +1 },
+    Channel< Photon > capture( out1, { 0, 0.0, 0.0, +1 },
                                { 0.0 * rootBarn },
                                0.0 );
-    Channel< Neutron > elastic( "2", in, { 0, 0.5, 0.0, +1 },
+    Channel< Neutron > elastic( in, { 0, 0.5, 0.0, +1 },
                                 { 9.410000e-1 * rootBarn },
                                 0.0 );
-    Channel< Fission > fission1( "3", out2, { 0, 0.0, 0.0, +1 },
+    Channel< Fission > fission1( out2, "fission1", { 0, 0.0, 0.0, +1 },
                                  { 9.410000e-1 * rootBarn },
                                  0.0 );
-    Channel< Fission > fission2( "4", out2, { 0, 0.0, 0.0, +1 },
+    Channel< Fission > fission2( out2, "fission2", { 0, 0.0, 0.0, +1 },
                                  { 9.410000e-1 * rootBarn },
                                  0.0 );
 
@@ -1140,7 +1140,7 @@ SCENARIO( "evaluate" ) {
 
     // multiple resonance table
     ResonanceTable table(
-      { "2", "3", "4" },
+      { elastic.channelID(), fission1.channelID(), fission2.channelID() },
       { Resonance( 1.541700e+1 * electronVolt,
                    { eGamma( 2.056203e-3, 1.541700e+1 * electronVolt ),
                      fGamma( -1.093928e-6 ),

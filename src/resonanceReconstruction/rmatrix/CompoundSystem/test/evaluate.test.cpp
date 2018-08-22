@@ -48,10 +48,10 @@ SCENARIO( "evaluate" ) {
     ParticlePair out( photon, fe55, 0.0 * electronVolt );
 
     // channels
-    Channel< Photon > capture( "1", out, { 0, 0.0, 0.5, +1 },
+    Channel< Photon > capture( out, { 0, 0.0, 0.5, +1 },
                                { 0.0 * rootBarn },
                                0.0 );
-    Channel< Neutron > elastic( "2", in, { 0, 0.5, 0.5, +1 },
+    Channel< Neutron > elastic( in, { 0, 0.5, 0.5, +1 },
                                 { 5.437300e-1 * rootBarn,
                                   5.437300e-1 * rootBarn },
                                 0.0 );
@@ -67,7 +67,7 @@ SCENARIO( "evaluate" ) {
 
     // single resonance table
     ResonanceTable single(
-      { "2" },
+      { elastic.channelID() },
       { Resonance( 7.788000e+3 * electronVolt,
                    { eGamma( 1.187354e+3, 7.788000e+3 * electronVolt ) },
                    cGamma( 1.455000e+0 ) ) } );
@@ -75,7 +75,7 @@ SCENARIO( "evaluate" ) {
 
     // multiple resonance table
     ResonanceTable multiple(
-      { "2" },
+      { elastic.channelID() },
       { Resonance( 7.788000e+3 * electronVolt,
                    { eGamma( 1.187354e+3, 7.788000e+3 * electronVolt ) },
                    cGamma( 1.455000e+0 ) ),
@@ -487,29 +487,29 @@ SCENARIO( "evaluate" ) {
     ParticlePair in( neutron, fe54, 0.0 * electronVolt );
 
     // channels
-    Channel< Photon > capture1( "1", out, { 0, 0.0, 0.5, +1 },
+    Channel< Photon > capture1( out, { 0, 0.0, 0.5, +1 },
                                 { 0.0 * rootBarn } );
-    Channel< Neutron > elastic1( "2", in, { 0, 0.5, 0.5, +1 },
+    Channel< Neutron > elastic1( in, { 0, 0.5, 0.5, +1 },
                                  { 5.437300e-1 * rootBarn,
                                    5.437300e-1 * rootBarn } );
-    Channel< Photon > capture2( "3", out, { 0, 0.0, 0.5, -1 },
+    Channel< Photon > capture2( out, { 0, 0.0, 0.5, -1 },
                                 { 0.0 * rootBarn } );
-    Channel< Neutron > elastic2( "4", in, { 1, 0.5, 0.5, -1 },
+    Channel< Neutron > elastic2( in, { 1, 0.5, 0.5, -1 },
                                  { 5.437300e-1 * rootBarn,
                                    5.437300e-1 * rootBarn } );
-    Channel< Photon > capture3( "5", out, { 0, 0.0, 1.5, -1 },
+    Channel< Photon > capture3( out, { 0, 0.0, 1.5, -1 },
                                 { 0.0 * rootBarn } );
-    Channel< Neutron > elastic3( "6", in, { 1, 0.5, 1.5, -1 },
+    Channel< Neutron > elastic3( in, { 1, 0.5, 1.5, -1 },
                                  { 5.437300e-1 * rootBarn,
                                    5.437300e-1 * rootBarn } );
-    Channel< Photon > capture4( "7", out, { 0, 0.0, 1.5, +1 },
+    Channel< Photon > capture4( out, { 0, 0.0, 1.5, +1 },
                                 { 0.0 * rootBarn } );
-    Channel< Neutron > elastic4( "8", in, { 2, 0.5, 1.5, +1 },
+    Channel< Neutron > elastic4( in, { 2, 0.5, 1.5, +1 },
                                  { 5.437300e-1 * rootBarn,
                                    5.437300e-1 * rootBarn } );
-    Channel< Photon > capture5( "9", out, { 0, 0.0, 2.5, +1 },
+    Channel< Photon > capture5( out, { 0, 0.0, 2.5, +1 },
                                 { 0.0 * rootBarn } );
-    Channel< Neutron > elastic5( "10", in, { 2, 0.5, 2.5, +1 },
+    Channel< Neutron > elastic5( in, { 2, 0.5, 2.5, +1 },
                                  { 5.437300e-1 * rootBarn,
                                    5.437300e-1 * rootBarn } );
 
@@ -525,7 +525,7 @@ SCENARIO( "evaluate" ) {
 
     // multiple resonance table
     ResonanceTable table1(
-      { "2" },
+      { elastic1.channelID() },
       { Resonance( 7.788000e+3 * electronVolt,
                    { eGamma( 1.187354e+3, 7.788000e+3 * electronVolt,
                              elastic1 ) },
@@ -539,7 +539,7 @@ SCENARIO( "evaluate" ) {
                              elastic1 ) },
                    cGamma( 2.000000e+0 ) ) } );
     ResonanceTable table2(
-      { "4" },
+      { elastic2.channelID() },
       { Resonance( 5.152000e+4 * electronVolt,
                    { eGamma( 1.600200e+1, 5.152000e+4 * electronVolt,
                              elastic2 ) },
@@ -553,7 +553,7 @@ SCENARIO( "evaluate" ) {
                              elastic2 ) },
                    cGamma( 5.600000e-1 ) ) } );
     ResonanceTable table3(
-      { "6" },
+      { elastic3.channelID() },
       { Resonance( 3.099000e+3 * electronVolt,
                    { eGamma( 1.400000e-3, 3.099000e+3 * electronVolt,
                              elastic3 ) },
@@ -567,7 +567,7 @@ SCENARIO( "evaluate" ) {
                              elastic3 ) },
                    cGamma( 5.900000e-1 ) ) } );
     ResonanceTable table4(
-      { "8" },
+      { elastic4.channelID() },
       { Resonance( 9.480000e+3 * electronVolt,
                    { eGamma( 1.200000e+0, 9.480000e+3 * electronVolt,
                              elastic4 ) },
@@ -581,7 +581,7 @@ SCENARIO( "evaluate" ) {
                              elastic4 ) },
                    cGamma( 3.500000e-1 ) ) } );
     ResonanceTable table5(
-      { "10" },
+      { elastic5.channelID() },
       { Resonance( 1.264000e+5 * electronVolt,
                    { eGamma( 2.900000e+0, 1.264000e+5 * electronVolt,
                              elastic5 ) },

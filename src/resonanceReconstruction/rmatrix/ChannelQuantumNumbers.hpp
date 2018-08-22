@@ -38,4 +38,6 @@ public:
    *  @brief Return the parity
    */
   const auto& parity() const { return this->parity_; }
+
+  #include "resonanceReconstruction/rmatrix/ChannelQuantumNumbers/src/toString.hpp"
 };
