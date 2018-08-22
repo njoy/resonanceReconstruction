@@ -15,6 +15,8 @@ class Channel {
   ChannelRadii radii_;
   BoundaryCondition boundary_;
 
+  double spinfactor_;
+
   /* auxiliary functions */
   #include "resonanceReconstruction/rmatrix/Channel/src/makeID.hpp"
 

@@ -13,9 +13,6 @@
  */
 double statisticalSpinFactor() const {
 
-  auto J = this->quantumNumbers().totalAngularMomentum();
-  auto ia = this->particlePair().particle().spin();
-  auto ib = this->particlePair().residual().spin();
-  return  ( 2. * J + 1. ) / ( 2. * ia + 1. ) / ( 2. * ib + 1. );
+  return this->spinfactor_;
 }
 

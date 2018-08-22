@@ -17,7 +17,12 @@ Channel( const ChannelID& id,
          const ChannelRadii& radii,
          const BoundaryCondition& boundary ) :
   id_( id ), pair_( pair ), numbers_( numbers ),
-  radii_( radii ), boundary_( boundary ) {}
+  radii_( radii ), boundary_( boundary ),
+  spinfactor_( [&] { auto J = numbers.totalAngularMomentum();
+                     auto ia = pair.particle().spin();
+                     auto ib = pair.residual().spin();
+                     return  ( 2. * J + 1. ) / ( 2. * ia + 1. )
+                                             / ( 2. * ib + 1. ); }() ) {}
 
 public:
 
