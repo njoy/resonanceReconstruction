@@ -5,9 +5,10 @@
  */
 double shiftFactor( const Energy& energy ) const {
 
+  const double eta = this->particlePair().etaParameter( energy ).value;
   const double ratio = this->particlePair().waveNumber( energy ) *
                        this->radii().shiftFactorRadius( energy );
   const unsigned int l = this->quantumNumbers().orbitalAngularMomentum();
-  return calculateShiftFactor< ChannelType >( l, ratio );
+  return calculateShiftFactor< ChannelType >( l, ratio, eta );
 }
 

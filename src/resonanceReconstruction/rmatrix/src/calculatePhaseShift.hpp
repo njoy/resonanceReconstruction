@@ -6,7 +6,7 @@
  */
 template < typename Type >
 inline
-double calculatePhaseShift( const unsigned int, const double ) {
+double calculatePhaseShift( const unsigned int, const double, const double ) {
   return 0.0;
 }
 
@@ -15,11 +15,15 @@ double calculatePhaseShift( const unsigned int, const double ) {
  *
  *  For a neutron channel, the phase shift is defined using the neutron 
  *  hardsphere functions.
+ *
+ *  @param[in] l       the oribital angular momentum
+ *  @param[in] ratio   the value of rho = ka
  */
 template <> 
 inline
 double calculatePhaseShift< Neutron >( const unsigned int l,
-                                       const double ratio ) {
+                                       const double ratio,
+                                       const double ) {
   return resonanceReconstruction::phaseShift( l, ratio );
 }
 
@@ -28,10 +32,15 @@ double calculatePhaseShift< Neutron >( const unsigned int l,
  *
  *  For a charged particle channel, the phase shift is defined using the 
  *  Coulomb wave functions.
+ *
+ *  @param[in] l       the oribital angular momentum
+ *  @param[in] ratio   the value of rho = ka
+ *  @param[in] eta     the Sommerfeld parameter
  */
 template <> 
 inline
 double calculatePhaseShift< ChargedParticle >( const unsigned int,
+                                               const double,
                                                const double ) {
   //! @todo develop this
   return 0.0;

@@ -5,9 +5,10 @@
  */
 double phaseShift( const Energy& energy ) const {
 
+  const double eta = this->particlePair().etaParameter( energy ).value;
   const double ratio = this->particlePair().waveNumber( energy ) *
                        this->radii().phaseShiftRadius( energy );
   const unsigned int l = this->quantumNumbers().orbitalAngularMomentum();
-  return calculatePhaseShift< ChannelType >( l, ratio );
+  return calculatePhaseShift< ChannelType >( l, ratio, eta );
 }
 
