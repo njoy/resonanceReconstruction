@@ -20,12 +20,6 @@ namespace rmatrix {
   #include "resonanceReconstruction/rmatrix/src/calculatePhaseShift.hpp"
   #include "resonanceReconstruction/rmatrix/src/calculateCoulombPhaseShift.hpp"
 
-  // R-Matrix boundary condition and options
-  using BoundaryCondition = double;
-  struct Sammy {};
-  struct Constant {};
-  #include "resonanceReconstruction/rmatrix/src/calculateLValue.hpp"
-
   // identifiers
   using ParticleID = std::string;
   using ParticlePairID = std::string;
@@ -35,7 +29,13 @@ namespace rmatrix {
   // matrix
   template < typename T > using Matrix = Eigen::Matrix< T, Eigen::Dynamic, Eigen::Dynamic >;
 
-  // spin group and channel components
+  // R-Matrix boundary condition and options
+  using BoundaryCondition = double;
+  struct ShiftFactor {};
+  struct Constant {};
+  #include "resonanceReconstruction/rmatrix/src/calculateLValue.hpp"
+
+  // R-matrix components (independent of formalism)
   #include "resonanceReconstruction/rmatrix/Particle.hpp"
   #include "resonanceReconstruction/rmatrix/ParticlePair.hpp"
   #include "resonanceReconstruction/rmatrix/ChannelQuantumNumbers.hpp"
@@ -43,8 +43,14 @@ namespace rmatrix {
   #include "resonanceReconstruction/rmatrix/Channel.hpp"
   #include "resonanceReconstruction/rmatrix/Resonance.hpp"
   #include "resonanceReconstruction/rmatrix/ResonanceTable.hpp"
+
+  // R-Matrix formalism options and RL matrix calculation
+  struct ReichMoore {};
+  struct GeneralRMatrix {};
+//  #include "resonanceReconstruction/rmatrix/src/calculateRLMatrix.hpp"
+
+  // spin group and compound system
   #include "resonanceReconstruction/rmatrix/SpinGroup.hpp"
   #include "resonanceReconstruction/rmatrix/CompoundSystem.hpp"
-
 }
 

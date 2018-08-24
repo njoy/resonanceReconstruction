@@ -15,7 +15,7 @@ using ChannelID = rmatrix::ChannelID;
 using Resonance = rmatrix::Resonance;
 using ResonanceTable = rmatrix::ResonanceTable;
 template < typename Option > using SpinGroup = rmatrix::SpinGroup< Option >;
-using Sammy = rmatrix::Sammy;
+using ShiftFactor = rmatrix::ShiftFactor;
 using Constant = rmatrix::Constant;
 
 constexpr AtomicMass neutronMass = 1.008664 * daltons;
@@ -68,8 +68,9 @@ SCENARIO( "switchIncidentPair" ) {
                      3.0 * rootElectronVolt, 4.0 * rootElectronVolt },
                    0.5 * rootElectronVolt ) } );
 
-    SpinGroup< Sammy > group( in, { elastic, fission1, fission2, emission },
-                              std::move( single ) );
+    SpinGroup< ReichMoore, ShiftFactor >
+        group( in, { elastic, fission1, fission2, emission },
+               std::move( single ) );
 
     THEN( "the incident particle pair can be changed" ) {
 

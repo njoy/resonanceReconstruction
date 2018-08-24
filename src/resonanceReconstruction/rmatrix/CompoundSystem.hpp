@@ -2,16 +2,16 @@
  *  @class
  *  @brief The compound nucleus system
  */
-template < typename BoundaryOption >
+template < typename Formalism, typename BoundaryOption >
 class CompoundSystem {
 
   /* fields */
-  std::vector< SpinGroup< BoundaryOption > > groups_;
+  std::vector< SpinGroup< Formalism, BoundaryOption > > groups_;
 
 public:
 
   /* constructor */
-  CompoundSystem( std::vector< SpinGroup< BoundaryOption > >&& groups ) :
+  CompoundSystem( std::vector< SpinGroup< Formalism, BoundaryOption > >&& groups ) :
     groups_( std::move( groups ) ) {
 
     //! @todo check for potential duplicate J,pi?

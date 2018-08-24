@@ -16,7 +16,7 @@ template < typename Type > using Channel = rmatrix::Channel< Type >;
 using Resonance = rmatrix::Resonance;
 using ResonanceTable = rmatrix::ResonanceTable;
 template < typename Option > using SpinGroup = rmatrix::SpinGroup< Option >;
-using Sammy = rmatrix::Sammy;
+using ShiftFactor = rmatrix::ShiftFactor;
 using Constant = rmatrix::Constant;
 using ParticleChannel = rmatrix::ParticleChannel;
 
@@ -71,9 +71,9 @@ SCENARIO( "SpinGroup" ) {
                    0.5 * rootElectronVolt ) } );
 
     THEN( "a SpinGroup can be constructed using the actual indices" ) {
-      SpinGroup< Sammy > group( { 0 },
-                                { elastic, fission1, fission2, emission },
-                                std::move( single ) );
+      SpinGroup< ReichMoore, ShiftFactor >
+          group( { 0 }, { elastic, fission1, fission2, emission },
+                 std::move( single ) );
 
       REQUIRE( 1 == group.incidentChannels().size() );
       REQUIRE( "n,Pu239_e0{0,1/2,1+}" ==
@@ -250,8 +250,9 @@ SCENARIO( "SpinGroup" ) {
     }
 
     THEN( "a SpinGroup can be constructed using the incident particle pair" ) {
-      SpinGroup< Sammy > group( in, { elastic, fission1, fission2, emission },
-                                std::move( single ) );
+      SpinGroup< ReichMoore, ShiftFactor >
+          group( in, { elastic, fission1, fission2, emission },
+                 std::move( single ) );
 
       REQUIRE( 1 == group.incidentChannels().size() );
       REQUIRE( "n,Pu239_e0{0,1/2,1+}" ==
@@ -476,9 +477,9 @@ SCENARIO( "SpinGroup" ) {
 
     THEN( "an exception is thrown at construction" ) {
 
-      REQUIRE_THROWS( SpinGroup< Sammy >( in, { incorrect, fission1,
-                                                fission2, emission },
-                                          std::move( single ) ) );
+      REQUIRE_THROWS( SpinGroup< ReichMoore, ShiftFactor >
+                          ( in, { incorrect, fission1, fission2, emission },
+                            std::move( single ) ) );
     }
   } // GIVEN
 } // SCENARIO

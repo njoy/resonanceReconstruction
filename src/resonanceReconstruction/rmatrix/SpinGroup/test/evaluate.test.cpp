@@ -14,8 +14,9 @@ using Resonance = rmatrix::Resonance;
 using ResonanceTable = rmatrix::ResonanceTable;
 template < typename Option > using SpinGroup = rmatrix::SpinGroup< Option >;
 using ReactionID = rmatrix::ReactionID;
-using Sammy = rmatrix::Sammy;
+using ShiftFactor = rmatrix::ShiftFactor;
 using Constant = rmatrix::Constant;
+using ReichMoore = rmatrix::ReichMoore;
 
 constexpr AtomicMass neutronMass = 1.008664 * daltons;
 
@@ -25,17 +26,18 @@ SCENARIO( "evaluate" ) {
   //! @todo add test with a charged particle channel
 
   GIVEN( "valid data for a SpinGroup with one eliminated capture channel "
-         "and one elastic channel" ) {
+         "and one elastic channel using the Reich Moore formalism" ) {
 
     // test based on Fe54 ENDF/B-VIII.0 LRF7 resonance evaluation
     // data given in Gamma = 2 gamma^2 P(Er) so conversion is required
     // cross section values extracted from NJOY2016.39
 
-    // because the oribital angular momentum l = 0 for these SpinGroup,
-    // SpinGroup< Sammy > and SpinGroup< Constant > should give the same results
-    // as B = S = 0
+    // because the orbital angular momentum l = 0 for these SpinGroup,
+    // SpinGroup< ReichMoore, ShiftFactor > and SpinGroup< ReichMoore, Constant >
+    // should give the same results as B = S = 0
 
-    // using SpinGroup< Sammy > is equivalent to NJOY2016's LRF7 reconstruction
+    // using SpinGroup< ReichMoore, ShiftFactor > is equivalent to NJOY2016's
+    // LRF7 reconstruction
 
     // particles
     Particle photon( "g", 0.0 * daltons, 0.0 * coulombs, 1., +1);
@@ -89,16 +91,20 @@ SCENARIO( "evaluate" ) {
                    cGamma( 2.000000e+0 ) ) } );
     ResonanceTable multiple2 = multiple;
 
-    SpinGroup< Sammy > group1( in, { elastic }, std::move( single ) );
-    SpinGroup< Sammy > group2( in, { elastic }, std::move( multiple ) );
-    SpinGroup< Constant > group3( in, { elastic }, std::move( single2 ) );
-    SpinGroup< Constant > group4( in, { elastic }, std::move( multiple2 ) );
+    SpinGroup< ReichMoore, ShiftFactor > group1( in, { elastic },
+                                                 std::move( single ) );
+    SpinGroup< ReichMoore, ShiftFactor > group2( in, { elastic },
+                                                 std::move( multiple ) );
+    SpinGroup< ReichMoore, Constant > group3( in, { elastic },
+                                              std::move( single2 ) );
+    SpinGroup< ReichMoore, Constant > group4( in, { elastic },
+                                              std::move( multiple2 ) );
 
     ReactionID elas = "n,Fe54_e0->n,Fe54_e0";
     ReactionID capt = "n,Fe54_e0->capture";
 
     THEN( "cross sections can be calculated for a single resonance using the "
-          "Sammy boundary condition" ) {
+          "ShiftFactor boundary condition" ) {
 
       // first value is elastic, second value is eliminated capture
       tsl::hopscotch_map< ReactionID, Quantity< Barn > > xs;
@@ -182,7 +188,7 @@ SCENARIO( "evaluate" ) {
     }
 
     THEN( "cross sections can be calculated for multiple resonances using the "
-          "Sammy boundary condition" ) {
+          "ShiftFactor boundary condition" ) {
 
       // first value is elastic, second value is eliminated capture
       tsl::hopscotch_map< ReactionID, Quantity< Barn > > xs;
@@ -468,9 +474,11 @@ SCENARIO( "evaluate" ) {
     // doesn't add potential scattering for missing J values)
 
     // because the oribital angular momentum l = 0 for these SpinGroup,
-    // SpinGroup< Sammy > and SpinGroup< Constant > should give the same results
+    // SpinGroup< ReichMoore, ShiftFactor > and SpinGroup< ReichMoore, Constant >
+    // should give the same results
 
-    // using SpinGroup< Sammy > is equivalent to NJOY2016
+    // using SpinGroup< ReichMoore, ShiftFactor > is equivalent to NJOY2016's
+    // LRF7 reconstruction
 
     // particles
     Particle photon( "g", 0.0 * daltons, 0.0 * coulombs, 1., +1);
@@ -542,21 +550,21 @@ SCENARIO( "evaluate" ) {
                    cGamma( 2.938826e-2 ) ) } );
     ResonanceTable multiple2 = multiple;
 
-    SpinGroup< Sammy > group1( in, { elastic, fission1, fission2 }, 
-                               std::move( single ) );
-    SpinGroup< Sammy > group2( in, { elastic, fission1, fission2 }, 
-                               std::move( multiple ) );
-    SpinGroup< Constant > group3( in, { elastic, fission1, fission2 }, 
-                                  std::move( single2 ) );
-    SpinGroup< Constant > group4( in, { elastic, fission1, fission2 }, 
-                                  std::move( multiple2 ) );
+    SpinGroup< ReichMoore, ShiftFactor >
+        group1( in, { elastic, fission1, fission2 }, std::move( single ) );
+    SpinGroup< ReichMoore, ShiftFactor >
+        group2( in, { elastic, fission1, fission2 }, std::move( multiple ) );
+    SpinGroup< ReichMoore, Constant >
+        group3( in, { elastic, fission1, fission2 }, std::move( single2 ) );
+    SpinGroup< ReichMoore, Constant >
+        group4( in, { elastic, fission1, fission2 }, std::move( multiple2 ) );
 
     ReactionID elas = "n,Pu239_e0->n,Pu239_e0";
     ReactionID fiss = "n,Pu239_e0->fission";
     ReactionID capt = "n,Pu239_e0->capture";
 
     THEN( "cross sections can be calculated for a single resonance using the "
-          "Sammy boundary condition" ) {
+          "ShiftFactor boundary condition" ) {
 
       // first value is elastic, second and third value are fission and the
       // fourth value is eliminated capture
@@ -640,7 +648,7 @@ SCENARIO( "evaluate" ) {
     }
 
     THEN( "cross sections can be calculated for multiple resonances using the "
-          "Sammy boundary condition" ) {
+          "ShiftFactor boundary condition" ) {
 
       // first value is elastic, second and third value are fission and the
       // fourth value is eliminated capture
@@ -738,7 +746,7 @@ SCENARIO( "evaluate" ) {
     }
 
     THEN( "cross sections can be calculated for a single resonance using the "
-          "Sammy boundary condition" ) {
+          "ShiftFactor boundary condition" ) {
 
       // first value is elastic, second and third value are fission and the
       // fourth value is eliminated capture
@@ -822,7 +830,7 @@ SCENARIO( "evaluate" ) {
     }
 
     THEN( "cross sections can be calculated for multiple resonances using the "
-          "Sammy boundary condition" ) {
+          "ShiftFactor boundary condition" ) {
 
       // first value is elastic, second and third value are fission and the
       // fourth value is eliminated capture
@@ -987,8 +995,8 @@ SCENARIO( "evaluate" ) {
                      fGamma( 1.274000e-7 ) },
                    cGamma( 2.938826e-2 ) ) } );
 
-    SpinGroup< Sammy > group( in, { elastic, fission1, fission2 },
-                              std::move( table ) );
+    SpinGroup< ReichMoore, ShiftFactor >
+        group( in, { elastic, fission1, fission2 }, std::move( table ) );
 
     ReactionID elas = "n,Pu239_e0->n,Pu239_e0";
     ReactionID fiss = "n,Pu239_e0->fission";
@@ -1157,8 +1165,8 @@ SCENARIO( "evaluate" ) {
                      fGamma( -1.274000e-7 ) },
                    cGamma( 2.938826e-2 ) ) } );
 
-    SpinGroup< Sammy > group( in, { elastic, fission1, fission2 },
-                              std::move( table ) );
+    SpinGroup< ReichMoore, ShiftFactor >
+        group( in, { elastic, fission1, fission2 }, std::move( table ) );
 
     ReactionID elas = "n,Pu239_e0->n,Pu239_e0";
     ReactionID fiss = "n,Pu239_e0->fission";

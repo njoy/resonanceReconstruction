@@ -11,8 +11,8 @@ SCENARIO( "calculateLValue" ) {
     THEN( "the appropriate value of L is calculated" ) {
 
       // SAMMY boundary condition
-      REQUIRE( 0. == Approx( calculateLValue< Sammy >( 1., 2., 3. ).real() ) );
-      REQUIRE( 3. == Approx( calculateLValue< Sammy >( 1., 2., 3. ).imag() ) );
+      REQUIRE( 0. == Approx( calculateLValue< ShiftFactor >( 1., 2., 3. ).real() ) );
+      REQUIRE( 3. == Approx( calculateLValue< ShiftFactor >( 1., 2., 3. ).imag() ) );
 
       // Constant boundary condition
       REQUIRE( -1. == Approx( calculateLValue< Constant >( 1., 2., 3. ).real() ) );

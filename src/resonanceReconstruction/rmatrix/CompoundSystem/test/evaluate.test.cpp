@@ -13,27 +13,28 @@ using ReactionID = rmatrix::ReactionID;
 template < typename Type > using Channel = rmatrix::Channel< Type >;
 using Resonance = rmatrix::Resonance;
 using ResonanceTable = rmatrix::ResonanceTable;
-using Sammy = rmatrix::Sammy;
+using ShiftFactor = rmatrix::ShiftFactor;
 using Constant = rmatrix::Constant;
-template < typename Option > using SpinGroup = rmatrix::SpinGroup< Option >;
-template < typename Option > using CompoundSystem = rmatrix::CompoundSystem< Option >;
+template < typename Formalism, typename Option > using SpinGroup = rmatrix::SpinGroup< Formalism, Option >;
+template < typename Formalism, typename Option > using CompoundSystem = rmatrix::CompoundSystem< Formalism, Option >;
 
 constexpr AtomicMass neutronMass = 1.008664 * daltons;
 
 SCENARIO( "evaluate" ) {
 
   GIVEN( "valid data for a CompoundSystem with only one SpinGroup without "
-         "missing J values" ) {
+         "missing J values using the Reich Moore formalism" ) {
 
     // test based on Fe54 ENDF/B-VIII.0 LRF7 resonance evaluation
     // data given in Gamma = 2 gamma^2 P(Er) so conversion is required
     // cross section values extracted from NJOY2016.39
 
-    // because the oribital angular momentum l = 0 for these SpinGroup,
-    // CompoundSystem< Sammy > and CompoundSystem< Constant > should give the
-    // same results as B = S = 0
+    // because the orbital angular momentum l = 0 for these SpinGroup,
+    // SpinGroup< ReichMoore, ShiftFactor > and SpinGroup< ReichMoore, Constant >
+    // should give the same results as B = S = 0
 
-    // using SpinGroup< Sammy > is equivalent to NJOY2016's LRF7 reconstruction
+    // using SpinGroup< ReichMoore, ShiftFactor > is equivalent to NJOY2016's
+    // LRF7 reconstruction
 
     // particles
     Particle photon( "g", 0.0 * daltons, 0.0 * coulombs, 1., +1);
@@ -87,21 +88,25 @@ SCENARIO( "evaluate" ) {
                    cGamma( 2.000000e+0 ) ) } );
     ResonanceTable multiple2 = multiple;
 
-    SpinGroup< Sammy > group1( in, { elastic }, std::move( single ) );
-    SpinGroup< Sammy > group2( in, { elastic }, std::move( multiple ) );
-    SpinGroup< Constant > group3( in, { elastic }, std::move( single2 ) );
-    SpinGroup< Constant > group4( in, { elastic }, std::move( multiple2 ) );
+    SpinGroup< ReichMoore, ShiftFactor >
+        group1( in, { elastic }, std::move( single ) );
+    SpinGroup< ReichMoore, ShiftFactor >
+        group2( in, { elastic }, std::move( multiple ) );
+    SpinGroup< ReichMoore, Constant >
+        group3( in, { elastic }, std::move( single2 ) );
+    SpinGroup< ReichMoore, Constant >
+        group4( in, { elastic }, std::move( multiple2 ) );
 
-    CompoundSystem< Sammy > system1( { group1 } );
-    CompoundSystem< Sammy > system2( { group2 } );
-    CompoundSystem< Constant > system3( { group3 } );
-    CompoundSystem< Constant > system4( { group4 } );
+    CompoundSystem< ReichMoore, ShiftFactor > system1( { group1 } );
+    CompoundSystem< ReichMoore, ShiftFactor > system2( { group2 } );
+    CompoundSystem< ReichMoore, Constant > system3( { group3 } );
+    CompoundSystem< ReichMoore, Constant > system4( { group4 } );
 
     ReactionID elas = "n,Fe54_e0->n,Fe54_e0";
     ReactionID capt = "n,Fe54_e0->capture";
 
     THEN( "cross sections can be calculated for a single resonance using the "
-          "Sammy boundary condition" ) {
+          "ShiftFactor boundary condition" ) {
 
       // first value is elastic, second value is eliminated capture
       tsl::hopscotch_map< ReactionID, Quantity< Barn > > xs;
@@ -185,7 +190,7 @@ SCENARIO( "evaluate" ) {
     }
 
     THEN( "cross sections can be calculated for multiple resonances using the "
-          "Sammy boundary condition" ) {
+          "ShiftFactor boundary condition" ) {
 
       // first value is elastic, second value is eliminated capture
       tsl::hopscotch_map< ReactionID, Quantity< Barn > > xs;
@@ -469,10 +474,10 @@ SCENARIO( "evaluate" ) {
     // cross section values extracted from NJOY2016.39
 
     // because the oribital angular momentum values for these SpinGroup are
-    // 0, 1 and 2, CompoundSystem< Sammy > and CompoundSystem< Constant > will
+    // 0, 1 and 2, CompoundSystem< ShiftFactor > and CompoundSystem< Constant > will
     // give different results
 
-    // using SpinGroup< Sammy > is equivalent to NJOY2016's LRF7 reconstruction
+    // using SpinGroup< ShiftFactor > is equivalent to NJOY2016's LRF7 reconstruction
 
     // particles
     Particle photon( "g", 0.0 * daltons, 0.0 * coulombs, 1., +1);
@@ -595,13 +600,19 @@ SCENARIO( "evaluate" ) {
                              elastic5 ) },
                    cGamma( 9.600000e-1 ) ) } );
 
-    SpinGroup< Sammy > group1( in, { elastic1 }, std::move( table1 ) );
-    SpinGroup< Sammy > group2( in, { elastic2 }, std::move( table2 ) );
-    SpinGroup< Sammy > group3( in, { elastic3 }, std::move( table3 ) );
-    SpinGroup< Sammy > group4( in, { elastic4 }, std::move( table4 ) );
-    SpinGroup< Sammy > group5( in, { elastic5 }, std::move( table5 ) );
+    SpinGroup< ReichMoore, ShiftFactor >
+        group1( in, { elastic1 }, std::move( table1 ) );
+    SpinGroup< ReichMoore, ShiftFactor >
+        group2( in, { elastic2 }, std::move( table2 ) );
+    SpinGroup< ReichMoore, ShiftFactor >
+        group3( in, { elastic3 }, std::move( table3 ) );
+    SpinGroup< ReichMoore, ShiftFactor >
+        group4( in, { elastic4 }, std::move( table4 ) );
+    SpinGroup< ReichMoore, ShiftFactor >
+        group5( in, { elastic5 }, std::move( table5 ) );
 
-    CompoundSystem< Sammy > system( { group1, group2, group3, group4, group5 } );
+    CompoundSystem< ReichMoore, ShiftFactor >
+        system( { group1, group2, group3, group4, group5 } );
 
     ReactionID elas = "n,Fe54_e0->n,Fe54_e0";
     ReactionID capt = "n,Fe54_e0->capture";
@@ -771,7 +782,6 @@ SCENARIO( "evaluate" ) {
       REQUIRE( 2.010266e+1 == Approx( xs[ elas ].value ) );
       REQUIRE( 1.099364e+1 == Approx( xs[ capt ].value ) );
       xs.clear();
-
     }
   } // GIVEN
 } // SCENARIO

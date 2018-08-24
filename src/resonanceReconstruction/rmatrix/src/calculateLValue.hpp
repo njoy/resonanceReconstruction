@@ -38,7 +38,7 @@ calculateLValue( const double S, const double B, const double P ) {
 template <>
 inline
 std::complex< double >
-calculateLValue< Sammy >( const double, const double, const double P ) {
+calculateLValue< ShiftFactor >( const double, const double, const double P ) {
 
   return std::complex< double >( 0.0, P );
 }

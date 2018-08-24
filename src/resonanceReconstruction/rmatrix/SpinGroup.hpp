@@ -17,7 +17,7 @@ using ParticleChannel = std::variant< Channel< Neutron >,
  *  @class
  *  @brief A spin group corresponding to a J,pi quantum number set
  */
-template < typename BoundaryOption >
+template < typename Formalism, typename BoundaryOption >
 class SpinGroup {
 
   /* fields */
