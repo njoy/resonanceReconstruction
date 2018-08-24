@@ -17,8 +17,8 @@ using Resonance = rmatrix::Resonance;
 using ResonanceTable = rmatrix::ResonanceTable;
 using ShiftFactor = rmatrix::ShiftFactor;
 using Constant = rmatrix::Constant;
-template < typename Option > using SpinGroup = rmatrix::SpinGroup< Option >;
-template < typename Option > using CompoundSystem = rmatrix::CompoundSystem< Option >;
+template < typename Formalism, typename Option > using SpinGroup = rmatrix::SpinGroup< Formalism, Option >;
+template < typename Formalism, typename Option > using CompoundSystem = rmatrix::CompoundSystem< Formalism, Option >;
 
 SCENARIO( "CompoundSystem" ) {
 

@@ -15,6 +15,7 @@ using Resonance = rmatrix::Resonance;
 using ResonanceTable = rmatrix::ResonanceTable;
 using ShiftFactor = rmatrix::ShiftFactor;
 using Constant = rmatrix::Constant;
+using ReichMoore = rmatrix::ReichMoore;
 template < typename Formalism, typename Option > using SpinGroup = rmatrix::SpinGroup< Formalism, Option >;
 template < typename Formalism, typename Option > using CompoundSystem = rmatrix::CompoundSystem< Formalism, Option >;
 

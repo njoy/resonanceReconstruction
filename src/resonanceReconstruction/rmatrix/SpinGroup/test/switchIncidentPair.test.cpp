@@ -14,9 +14,10 @@ template < typename Type > using Channel = rmatrix::Channel< Type >;
 using ChannelID = rmatrix::ChannelID;
 using Resonance = rmatrix::Resonance;
 using ResonanceTable = rmatrix::ResonanceTable;
-template < typename Option > using SpinGroup = rmatrix::SpinGroup< Option >;
+template < typename Formalism, typename Option > using SpinGroup = rmatrix::SpinGroup< Formalism, Option >;
 using ShiftFactor = rmatrix::ShiftFactor;
 using Constant = rmatrix::Constant;
+using ReichMoore = rmatrix::ReichMoore;
 
 constexpr AtomicMass neutronMass = 1.008664 * daltons;
 
