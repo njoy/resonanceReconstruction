@@ -429,7 +429,7 @@ SCENARIO( "SpinGroup" ) {
     }
   } // GIVEN
 
-  GIVEN( "data for a SpinGroup with incoherent J,pi channels" ) {
+  GIVEN( "data for a SpinGroup with errors" ) {
 
     // particles
     Particle photon( "g", 0.0 * daltons, 0.0 * coulombs, 1., +1);
@@ -449,11 +449,14 @@ SCENARIO( "SpinGroup" ) {
     ParticlePair out2( neutron, fission, 0.0 * electronVolt, "fission" );
     ParticlePair out3( proton, np240, 0.0 * electronVolt );
 
-    // channels (the second channel has an incorrect J,pi with respect to the
+    // channels (the third channel has an incorrect J,pi with respect to the
     // other channels)
     Channel< Photon > capture( out1, { 0, 0.0, 1.0, +1 },
                                { 0.0 * rootBarn },
                                0.0 );
+    Channel< Neutron > elastic( in, { 0, 0.5, 1.0, +1 },
+                                { 9.410000e-1 * rootBarn },
+                                0.0 );
     Channel< Neutron > incorrect( in, { 0, 0.5, 0.0, +1 },
                                   { 9.410000e-1 * rootBarn },
                                   0.0 );
@@ -469,21 +472,104 @@ SCENARIO( "SpinGroup" ) {
 
     // single resonance table
     ResonanceTable single(
-      { incorrect.channelID(), fission1.channelID(),
+      { elastic.channelID(), fission1.channelID(),
         fission2.channelID(), emission.channelID() },
       { Resonance( 0.25 * electronVolt,
                    { 1.0 * rootElectronVolt, 2.0 * rootElectronVolt,
                      3.0 * rootElectronVolt, 4.0 * rootElectronVolt },
                    0.5 * rootElectronVolt ) } );
+    ResonanceTable wrongorder(
+      { elastic.channelID(), fission2.channelID(),
+        fission1.channelID(), emission.channelID() },
+      { Resonance( 0.25 * electronVolt,
+                   { 1.0 * rootElectronVolt, 2.0 * rootElectronVolt,
+                     3.0 * rootElectronVolt, 4.0 * rootElectronVolt },
+                   0.5 * rootElectronVolt ) } );
+    ResonanceTable wrongsize(
+      { elastic.channelID(), fission2.channelID(),
+        fission1.channelID() },
+      { Resonance( 0.25 * electronVolt,
+                   { 1.0 * rootElectronVolt, 2.0 * rootElectronVolt,
+                     3.0 * rootElectronVolt },
+                   0.5 * rootElectronVolt ) } );
 
-    THEN( "an exception is thrown at construction" ) {
+    std::vector< unsigned int > empty;
+    std::vector< unsigned int > toomany = { 0, 1, 2, 3, 4, 5 };
+    std::vector< unsigned int > badindex = { 5 };
+    std::vector< unsigned int > mismatch = { 0, 1 };
 
-      using ReichMooreShiftFactorSpinGroup = SpinGroup< ReichMoore, ShiftFactor >;
+    // no need to test with other template parameter: construction of SpinGroup
+    // is independent of the template parameters
+    using ReichMooreShiftFactorSpinGroup = SpinGroup< ReichMoore, ShiftFactor >;
+
+    THEN( "an exception is thrown at construction for inconsistent Jpi" ) {
+
+      ResonanceTable copy = single;
       REQUIRE_THROWS( ReichMooreShiftFactorSpinGroup
                           ( in, { incorrect, fission1, fission2, emission },
-                            std::move( single ) ) );
+                            std::move( copy ) ) );
+    }
+
+//! @todo this test segfaults 
+//    THEN( "an exception is thrown at construction when no indices are given" ) {
+//
+//      ResonanceTable copy = single;
+//      REQUIRE_THROWS( ReichMooreShiftFactorSpinGroup
+//                          ( std::move( empty ),
+//                            { elastic, fission1, fission2, emission },
+//                            std::move( copy ) ) );
+//    }
+
+    THEN( "an exception is thrown at construction for too many indices" ) {
+
+      ResonanceTable copy = single;
+      REQUIRE_THROWS( ReichMooreShiftFactorSpinGroup
+                          ( std::move( toomany ),
+                            { elastic, fission1, fission2, emission },
+                            std::move( copy ) ) );
+    }
+
+    THEN( "an exception is thrown at construction for a bad index" ) {
+
+      ResonanceTable copy = single;
+      REQUIRE_THROWS( ReichMooreShiftFactorSpinGroup
+                          ( std::move( badindex ),
+                            { elastic, fission1, fission2, emission },
+                            std::move( copy ) ) );
+    }
+
+    THEN( "an exception is thrown at construction for a pair mismatch" ) {
+
+      ResonanceTable copy = single;
+      REQUIRE_THROWS( ReichMooreShiftFactorSpinGroup
+                          ( std::move( mismatch ),
+                            { elastic, fission1, fission2, emission },
+                            std::move( copy ) ) );
+    }
+
+    THEN( "an exception is thrown at construction for out of order channels "
+          "between the SpinGroup's Channels and ResonanceTable" ) {
+
+      REQUIRE_THROWS( ReichMooreShiftFactorSpinGroup
+                          ( in, { elastic, fission1, fission2, emission },
+                            std::move( wrongorder ) ) );
+    }
+
+    THEN( "an exception is thrown at construction for inconsistent sizes  "
+          "between the SpinGroup's Channels and ResonanceTable" ) {
+
+      REQUIRE_THROWS( ReichMooreShiftFactorSpinGroup
+                          ( in, { elastic, fission1, fission2, emission },
+                            std::move( wrongsize ) ) );
+    }
+
+    THEN( "an exception is thrown at construction when the channels are not "
+          "unique" ) {
+
+      ResonanceTable copy = single;
+      REQUIRE_THROWS( ReichMooreShiftFactorSpinGroup
+                          ( in, { elastic, fission1, fission1, emission },
+                            std::move( wrongsize ) ) );
     }
   } // GIVEN
 } // SCENARIO
-
-

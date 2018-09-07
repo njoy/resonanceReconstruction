@@ -37,8 +37,9 @@ class SpinGroup {
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/phaseShifts.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/coulombShifts.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/boundaryConditions.hpp"
-  #include "resonanceReconstruction/rmatrix/SpinGroup/src/verifyChannelSize.hpp"
-  #include "resonanceReconstruction/rmatrix/SpinGroup/src/verifyQuantumNumbers.hpp"
+  #include "resonanceReconstruction/rmatrix/SpinGroup/src/verifyChannels.hpp"
+  #include "resonanceReconstruction/rmatrix/SpinGroup/src/verifyIncidentChannels.hpp"
+  #include "resonanceReconstruction/rmatrix/SpinGroup/src/verifyResonanceChannels.hpp"
 
 public:
 
@@ -61,10 +62,13 @@ public:
   /**
    *  @brief Return the current incident particle pair
    */
-  const ParticlePair& incidentPair() const {
+  const ParticlePair incidentPair() const {
 
+    //! @todo for some reason debug fails when using const ParticlePair& as
+    //!       the return type for this function and the lambda function inside
+    //!       the visit function
     return std::visit(
-               [&] ( const auto& channel ) -> const ParticlePair&
+               [&] ( const auto& channel ) -> const ParticlePair
                    { return channel.particlePair(); },
                this->incidentChannels().front() );
   };

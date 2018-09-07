@@ -1,5 +1,40 @@
 static
-void verifyQuantumNumbers( const std::vector< ParticleChannel >& channels ) {
+void verifyChannels( const std::vector< ParticleChannel >& channels ) {
+
+  // verify that there is at least one channel
+
+  if ( channels.size() == 0 ) {
+
+    Log::error( "The number of channels in a spin group cannot be 0." );
+    throw std::exception();
+  }
+
+  // verify that each channel is unique
+
+  const auto verifyUniqueChannel = [&] ( const auto& entry ) {
+      
+    const auto getChannelID = [] ( const auto& entry ) {
+
+      return std::visit( [] ( const auto& channel )
+                            { return channel.channelID(); },
+                         entry );
+    };
+
+    const auto label = getChannelID( entry );
+    if ( ranges::count_if(
+             channels,
+             [&] ( const auto& channel )
+                 { return getChannelID( channel ) == label; } ) > 1 ) {
+
+      Log::error( "Channels in the spin group do not seem to be unique." );
+      Log::info( "Channel {} is present at least twice", label );
+      throw std::exception();
+    }
+  };
+
+  ranges::for_each( channels, verifyUniqueChannel );
+
+  // verify that each channel's Jpi is the same
 
   const auto getQuantumNumbers = [] ( const auto& entry ) {
     return std::visit( [] ( const auto& channel )
@@ -31,4 +66,3 @@ void verifyQuantumNumbers( const std::vector< ParticleChannel >& channels ) {
   ranges::for_each( channels | ranges::view::drop_exactly( 1 ),
                     checkQuantumNumbers );
 }
-

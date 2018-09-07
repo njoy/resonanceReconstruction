@@ -109,16 +109,16 @@ void evaluate( const Energy& energy,
               [=] ( const auto value ) -> Quantity< Barn >
                   { return factor * value; } );
 
-    // return the cross section values
-    return ranges::view::zip( identifiers, crossSections );
+    // accumulate results
+    //! @todo debug build requires accumulating cross section values inside the
+    //        processIncidentChannel lambda
+    ranges::for_each(
+      ranges::view::zip( identifiers, crossSections ),
+      [&] ( const auto& pair ) -> void
+          { result[ std::get< 0 >( pair ) ] += std::get< 1 >( pair ); } );
   };
 
   // process the incident channels
-  ranges::for_each(
-      this->incident_
-        | ranges::view::transform( processIncidentChannel )
-        | ranges::view::join,
-      [&] ( auto&& pair ) -> void
-          { result[ std::get< 0 >( pair ) ] += std::get< 1 >( pair ); } );
+  ranges::for_each( this->incident_, processIncidentChannel );
 }
 

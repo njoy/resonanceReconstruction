@@ -16,11 +16,9 @@ SpinGroup( std::vector< unsigned int >&& incidentChannels,
   channels_( std::move( channels ) ),
   parameters_( std::move( table ) ) {
 
-  verifyChannelSize( this->channels_.size() );
-  verifyQuantumNumbers( this->channels_ );
-  //! @todo check if the incident channels have the same particle pair
-  //! @todo check if number of widths is the same as the number of channels
-  //! @todo check if channel IDs in the table and the channels correspond
+  verifyChannels( this->channels_ );
+  verifyIncidentChannels( this->channels_, this->incident_ );
+  verifyResonanceChannels( this->channels_, this->parameters_ );
 }
 
 /**
@@ -36,4 +34,3 @@ SpinGroup( const ParticlePair& incident,
   SpinGroup( determineIncidentChannels( incident.pairID(), channels ),
              std::move( channels ),
              std::move( table ) ) {}
-

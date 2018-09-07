@@ -12,12 +12,14 @@ void switchIncidentPair( const ParticlePair& incident ) {
 
   if ( incident.pairID() != this->incidentPair().pairID() ) {
 
+    // change the incident channels and verify them
     this->incident_ =
       determineIncidentChannels( incident.pairID(), this->channels_ );
+    verifyIncidentChannels( this->channels_, this->incident_ );
+
+    // regenerate the reaction identifiers
     this->reactions_ =
       makeReactionIdentifiers( this->channels_, this->incident_.front() );
-
-    //! @todo check for empty incident channels
   }
 }
 
