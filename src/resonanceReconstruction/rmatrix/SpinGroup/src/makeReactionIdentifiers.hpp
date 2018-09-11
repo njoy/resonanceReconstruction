@@ -3,6 +3,15 @@ std::vector< ReactionID >
 makeReactionIdentifiers( const std::vector< ParticleChannel >& channels,
                          unsigned int incident ) {
 
+  const unsigned size = channels.size();
+  if ( incident > size - 1 ) {
+
+    Log::error( "Erroneous incident channel index." );
+    Log::info( "Expected an index less than or equal to {}, found {}",
+               size - 1, incident );
+    throw std::exception();
+  }
+
   const auto pairs =
     channels
       | ranges::view::transform(
