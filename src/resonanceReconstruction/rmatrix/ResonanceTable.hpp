@@ -8,6 +8,9 @@ class ResonanceTable {
   std::vector< ChannelID > channels_;
   std::vector< Resonance > widths_;
 
+  /* auxiliary functions */
+  #include "resonanceReconstruction/rmatrix/ResonanceTable/src/verifyTable.hpp"
+
 public:
 
   /* constructor */

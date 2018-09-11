@@ -18,6 +18,9 @@ class Particle {
   Spin spin_;
   Parity parity_;
 
+  /* auxiliary functions */
+  #include "resonanceReconstruction/rmatrix/Particle/src/verifyNotNegative.hpp"
+
 public:
 
   /* constructor */

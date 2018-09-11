@@ -8,6 +8,9 @@ class CompoundSystem {
   /* fields */
   std::vector< SpinGroup< Formalism, BoundaryOption > > groups_;
 
+  /* auxiliary functions */
+  #include "resonanceReconstruction/rmatrix/CompoundSystem/src/verifySpinGroups.hpp"
+
 public:
 
   /* constructor */

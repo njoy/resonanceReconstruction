@@ -15,5 +15,8 @@
 ResonanceTable( std::vector< ChannelID >&& channels,
                 std::vector< Resonance >&& widths ) :
     channels_( std::move( channels ) ),
-    widths_( std::move( widths ) ) {}
+    widths_( std::move( widths ) ) {
+
+    verifyTable( this->channels_, this->widths_ );
+}
 

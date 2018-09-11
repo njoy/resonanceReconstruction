@@ -60,6 +60,25 @@ SCENARIO( "Particle" ) {
       REQUIRE( +1 == u235.parity() );
     }
   } // GIVEN
+
+  GIVEN( "invalid data for a Particle" ) {
+
+    // neutron
+    AtomicMass neutronMass = 1.008664 * daltons;
+    AtomicMass negativeMass = -1.008664 * daltons;
+    ElectricalCharge neutronCharge = 0.0 * coulombs;
+    ElectricalCharge negativeCharge = -1.0 * coulombs;
+    Spin neutronSpin = 0.5;
+    Parity neutronParity = +1;
+
+    THEN( "an exception is thrown" ) {
+
+      REQUIRE_THROWS( Particle( "n", negativeMass, neutronCharge,
+                                     neutronSpin, neutronParity ) );
+      REQUIRE_THROWS( Particle( "n", neutronMass, negativeCharge,
+                                     neutronSpin, neutronParity ) );
+    }
+  } // GIVEN
 } // SCENARIO
 
 

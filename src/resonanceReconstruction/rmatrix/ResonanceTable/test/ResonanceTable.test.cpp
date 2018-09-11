@@ -67,6 +67,31 @@ SCENARIO( "ResonanceTable" ) {
       REQUIRE( 4.000000e-1 == Approx( resonance.widths()[1].value ) );
     }
   } // GIVEN
+
+  GIVEN( "data for a ResonanceTable containing errors" ) {
+
+    // wrong number of widths in a Resonance
+    std::vector< ChannelID > channels = { "1", "2" };
+    std::vector< Resonance > resonances =
+      { Resonance( 6.823616e+4 * electronVolt,
+                   { 2.179040e+2 * rootElectronVolt,
+                     1.000000e-5 * rootElectronVolt },
+                   3.933600e-1 * rootElectronVolt ),
+        Resonance( 1.150980e+5 * electronVolt,
+                   { 4.307780e+0 * rootElectronVolt },
+                   7.390000e-1 * rootElectronVolt ),
+        Resonance( 1.825230e+5 * electronVolt,
+                   { 1.759740e+3 * rootElectronVolt,
+                     4.000000e-1 * rootElectronVolt },
+                   7.451500e-1 * rootElectronVolt ) };
+
+    THEN( "an exception is thrown at construction when a resonance does not "
+          "contain the right number of widths" ) {
+
+      REQUIRE_THROWS( ResonanceTable( std::move( channels ),
+                                      std::move( resonances ) ) );
+    }
+  } // GIVEN
 } // SCENARIO
 
 

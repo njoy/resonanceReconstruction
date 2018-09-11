@@ -13,5 +13,9 @@ Particle( const ParticleID& id,
           const Spin& spin,
           const Parity& parity ) :
   id_( id ), mass_( mass ), charge_( charge ), spin_( spin ),
-  parity_( parity ) {}
+  parity_( parity ) {
+
+  verifyNotNegative( this->mass_, "Mass" );
+  verifyNotNegative( this->charge_, "Charge" );
+}
 

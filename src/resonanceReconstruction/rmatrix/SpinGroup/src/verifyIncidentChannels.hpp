@@ -9,7 +9,7 @@ void verifyIncidentChannels( const std::vector< ParticleChannel >& channels,
   const unsigned int number = indices.size();
   if ( number == 0 ) {
 
-    Log::error( "No incident channels are given." );
+    Log::error( "No incident channels are given or could be found." );
     throw std::exception();
   }
   if ( number > size ) {
