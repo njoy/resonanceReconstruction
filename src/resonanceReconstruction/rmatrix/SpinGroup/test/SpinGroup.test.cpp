@@ -493,7 +493,6 @@ SCENARIO( "SpinGroup" ) {
                      3.0 * rootElectronVolt },
                    0.5 * rootElectronVolt ) } );
 
-    std::vector< unsigned int > empty;
     std::vector< unsigned int > toomany = { 0, 1, 2, 3, 4, 5 };
     std::vector< unsigned int > badindex = { 5 };
     std::vector< unsigned int > mismatch = { 0, 1 };
@@ -510,15 +509,13 @@ SCENARIO( "SpinGroup" ) {
                             std::move( copy ) ) );
     }
 
-//! @todo this test segfaults 
-//    THEN( "an exception is thrown at construction when no indices are given" ) {
-//
-//      ResonanceTable copy = single;
-//      REQUIRE_THROWS( ReichMooreShiftFactorSpinGroup
-//                          ( std::move( empty ),
-//                            { elastic, fission1, fission2, emission },
-//                            std::move( copy ) ) );
-//    }
+    THEN( "an exception is thrown at construction when no indices are given" ) {
+
+      ResonanceTable copy = single;
+      REQUIRE_THROWS( ReichMooreShiftFactorSpinGroup
+                          ( {}, { elastic, fission1, fission2, emission },
+                            std::move( copy ) ) );
+    }
 
     THEN( "an exception is thrown at construction for too many indices" ) {
 

@@ -34,7 +34,7 @@ void verifySpinGroups(
              numbers,
              [&] ( const auto& current )
                  { return ( current.totalAngularMomentum() ==
-                                reference.totalAngularMomentum() ) ||
+                                reference.totalAngularMomentum() ) &&
                           ( current.parity() ==
                                 reference.parity() ); } ) > 1 ) {
 

@@ -14,11 +14,7 @@ class CompoundSystem {
 public:
 
   /* constructor */
-  CompoundSystem( std::vector< SpinGroup< Formalism, BoundaryOption > >&& groups ) :
-    groups_( std::move( groups ) ) {
-
-    //! @todo check for potential duplicate J,pi?
-  }
+  #include "resonanceReconstruction/rmatrix/CompoundSystem/src/ctor.hpp"
 
   auto spinGroups() const { return ranges::view::all( this->groups_ ); }
 
