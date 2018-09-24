@@ -1,5 +1,6 @@
 /**
- *  @brief Generate the R-matrix contribution for the resonance
+ *  @brief Generate the R-matrix contribution for the resonance in the
+ *         Reich-Moore approximation
  *
  *  The R-matrix element R_{ij} for channel i to i is given by:
  *      R_{ij} = \frac{ \gamma_i \gamma_j }{ E_r - E - i \Gamma/2 }

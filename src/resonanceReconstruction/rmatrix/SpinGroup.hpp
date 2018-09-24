@@ -22,7 +22,7 @@ class SpinGroup {
 
   /* fields */
   std::vector< ReactionID > reactions_;
-  Matrix< std::complex< double > > uMatrix_;
+  Matrix< std::complex< double > > matrix_;
   std::vector< std::complex< double > > diagonalLMatrix_;
 
   std::vector< unsigned int > incident_;
@@ -32,11 +32,15 @@ class SpinGroup {
   /* auxiliary functions */
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/determineIncidentChannels.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/makeReactionIdentifiers.hpp"
+
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/penetrabilities.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/shiftFactors.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/phaseShifts.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/coulombShifts.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/boundaryConditions.hpp"
+  #include "resonanceReconstruction/rmatrix/SpinGroup/src/calculateLDiagonal.hpp"
+  #include "resonanceReconstruction/rmatrix/SpinGroup/src/calculateRLMatrix.hpp"
+
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/verifyChannels.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/verifyIncidentChannels.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/verifyResonanceChannels.hpp"

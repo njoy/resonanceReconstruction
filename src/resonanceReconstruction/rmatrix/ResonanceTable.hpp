@@ -54,5 +54,4 @@ public:
   }
 
   #include "resonanceReconstruction/rmatrix/ResonanceTable/src/rmatrix.hpp"
-  #include "resonanceReconstruction/rmatrix/ResonanceTable/src/tmatrix.hpp"
 };
