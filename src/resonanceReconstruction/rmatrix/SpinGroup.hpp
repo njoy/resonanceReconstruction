@@ -38,6 +38,8 @@ class SpinGroup {
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/phaseShifts.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/coulombShifts.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/boundaryConditions.hpp"
+  #include "resonanceReconstruction/rmatrix/SpinGroup/src/sqrtPenetrabilities.hpp"
+  #include "resonanceReconstruction/rmatrix/SpinGroup/src/omegas.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/calculateLDiagonal.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/calculateRLMatrix.hpp"
 
@@ -75,7 +77,7 @@ public:
                [&] ( const auto& channel ) -> const ParticlePair
                    { return channel.particlePair(); },
                this->incidentChannels().front() );
-  };
+  }
 
   /**
    *  @brief Return the reaction identifiers associated to each channel
@@ -85,7 +87,26 @@ public:
    *  same reactions (e.g. multiple fission channels). The order in which these 
    *  are given equals the order of the channels in the spin group.
    */
-  auto reactions() const { return ranges::view::all( this->reactions_ ); }
+  auto reactionIDs() const { return ranges::view::all( this->reactions_ ); }
+
+  /**
+   *  @brief Return the channel identifiers associated to each channel
+   *
+   *  These channel identifiers are unique: they reference a given particle pair
+   *  (which may or may not be unique) and the quantum numbers of the channel.
+   *  The order in which these are given equals the order of the channels in the
+   *  spin group.
+   */
+  auto channelIDs() const {
+
+    return this->channels()
+             | ranges::view::transform( 
+                   [] ( const auto& channel )
+                      { return std::visit(
+                                   [&] ( const auto& channel )
+                                       { return channel.channelID(); },
+                                   channel ); } );
+  }
 
   /**
    *  @brief Return the resonance table
@@ -94,5 +115,6 @@ public:
 
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/switchIncidentPair.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/evaluate.hpp"
+  #include "resonanceReconstruction/rmatrix/SpinGroup/src/evaluateTMatrix.hpp"
 };
 

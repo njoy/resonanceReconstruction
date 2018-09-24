@@ -1,7 +1,8 @@
 static
 std::vector< ReactionID >
 makeReactionIdentifiers( const std::vector< ParticleChannel >& channels,
-                         const std::vector< unsigned int >& incidentChannels ) {
+                         const std::vector< unsigned int >& incidentChannels,
+                         ReichMoore ) {
 
   // verify that there is at least one incident channel
 
@@ -33,7 +34,7 @@ makeReactionIdentifiers( const std::vector< ParticleChannel >& channels,
                           { return channel.particlePair().pairID(); },
                       channel ); } );
   const auto in = pairs[ incident ];
-  //! @todo this is Formalism dependent (currently reich moore only)
+
   return ranges::view::concat(
              pairs | ranges::view::transform(
                          [&] ( const auto& pair )

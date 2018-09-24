@@ -229,7 +229,7 @@ SCENARIO( "switchIncidentPair" ) {
       REQUIRE( 0.0 == channel4.boundaryCondition() );
 
       // reactions in the spin group
-      auto reactions = group.reactions();
+      auto reactions = group.reactionIDs();
       REQUIRE( 5 == reactions.size() );
       REQUIRE( "p,Np240_e0->n,Pu239_e0" == reactions[0] );
       REQUIRE( "p,Np240_e0->fission" == reactions[1] );

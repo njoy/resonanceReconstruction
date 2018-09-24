@@ -20,4 +20,5 @@ public:
 
   #include "resonanceReconstruction/rmatrix/CompoundSystem/src/switchIncidentPair.hpp"
   #include "resonanceReconstruction/rmatrix/CompoundSystem/src/evaluate.hpp"
+  #include "resonanceReconstruction/rmatrix/CompoundSystem/src/evaluateTMatrix.hpp"
 };

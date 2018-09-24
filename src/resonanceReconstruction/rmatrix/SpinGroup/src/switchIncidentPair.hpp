@@ -19,7 +19,7 @@ void switchIncidentPair( const ParticlePair& incident ) {
 
     // regenerate the reaction identifiers
     this->reactions_ =
-      makeReactionIdentifiers( this->channels_, this->incident_ );
+      makeReactionIdentifiers( this->channels_, this->incident_, Formalism() );
   }
 }
 

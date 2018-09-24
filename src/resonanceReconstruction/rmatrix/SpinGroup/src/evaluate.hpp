@@ -7,29 +7,16 @@
 void evaluate( const Energy& energy,
                tsl::hopscotch_map< ReactionID, Quantity< Barn > >& result ) {
 
-  // penetrability, shift factor, phase shift and Coulomb phase shift
+  // penetrability, Coulomb phase shift, sqrt(P) and Omega = exp( i(w - phi) )
   // for each channel except the eliminated capture channel
   const auto penetrabilities = this->penetrabilities( energy );
   const auto coulombShifts = this->coulombShifts( energy );
-  const auto phaseShifts = this->phaseShifts( energy );
+  const auto diagonalSqrtPMatrix = this->sqrtPenetrabilities( penetrabilities );
+  const auto diagonalOmegaMatrix = this->omegas( energy, coulombShifts );
 
   // calculate the diagonal of the L matrix based on the BoundaryOption template
   this->diagonalLMatrix_ =
       this->calculateLDiagonal( energy, penetrabilities, BoundaryOption() );
-
-  // the diagonal of the sqrt(P) matrix
-  const auto diagonalSqrtPMatrix =
-    penetrabilities
-      | ranges::view::transform(
-            [] ( const double penetrability ) -> double
-               { return std::sqrt( penetrability ); } );
-
-  // the diagonal of the Omega matrix = exp( i ( w - phi ) )
-  const auto diagonalOmegaMatrix =
-    ranges::view::zip_with(
-        [] ( const double w, const double phi )
-           { return std::exp( std::complex< double >( 0.0, w - phi ) ); },
-        coulombShifts, phaseShifts );
 
   // calculate the R_L = ( 1 - RL )^-1 R matrix based on the Formalism template
   this->calculateRLMatrix( energy, Formalism() );
@@ -46,7 +33,7 @@ void evaluate( const Energy& energy,
   }();
 
   // the cross section identifiers
-  const auto identifiers = this->reactions();
+  const auto identifiers = this->reactionIDs();
 
   // a lambda to process each incident channel
   auto processIncidentChannel = [&] ( const unsigned int c ) {
@@ -60,24 +47,23 @@ void evaluate( const Energy& energy,
                  ranges::view::repeat_n( 0., size - c - 1 ) );
     };
 
-    // the elements of the ( 1 - RL )^-1 R matrix for each channel (assumes
-    // the incident channel is the first channel)
+    // the elements of the ( 1 - RL )^-1 R matrix for the incident channel
     const auto row =
     ranges::make_iterator_range(
         this->matrix_.row(c).data(),
         this->matrix_.row(c).data() + size );
 
-    // the row of the U matrix corresponding with the incident channel
+    // the row of the S or U matrix corresponding with the incident channel
     const auto incidentSqrtP = diagonalSqrtPMatrix[c];
     const auto incidentOmega = diagonalOmegaMatrix[c];
     const auto uElements =
-      ranges::view::zip_with( 
-          [&] ( const auto delta, const auto tValue,
-                const auto sqrtP, const auto omega )
-              { return incidentOmega *
-                       ( delta + std::complex< double >( 0., 2. ) *
-                                 incidentSqrtP * tValue * sqrtP ) * omega; },
-          delta( 1.0 ), row, diagonalSqrtPMatrix, diagonalOmegaMatrix );
+        ranges::view::zip_with( 
+            [&] ( const auto delta, const auto tValue,
+                  const auto sqrtP, const auto omega )
+                { return incidentOmega *
+                         ( delta + std::complex< double >( 0., 2. ) *
+                                   incidentSqrtP * tValue * sqrtP ) * omega; },
+            delta( 1.0 ), row, diagonalSqrtPMatrix, diagonalOmegaMatrix );
 
     // the exponential of the coulomb phase shift for the incident channel
     const auto exponential =
@@ -88,6 +74,7 @@ void evaluate( const Energy& energy,
                           { return std::pow( std::abs( value ), 2. ); };
 
     // the cross section values
+    //! @todo this is still formalism dependent
     const auto crossSections =
       ranges::view::concat(
           ranges::view::zip_with(
