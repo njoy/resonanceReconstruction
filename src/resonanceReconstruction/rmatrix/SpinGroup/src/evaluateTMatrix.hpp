@@ -1,12 +1,17 @@
 /**
  *  @brief Evaluate the elements of the T or X matrix at the given energy
  *
+ *  The T or X matrix is defined as P^1/2 ( 1 - RL )^-1 R P^1/2 in which
+ *  P is a diagonal matrix of the penetrabilities of each channel, R is the
+ *  R matrix and L is a diagonal matrix defined as S - B + iP with S the shift
+ *  factor and B the boundary condition of the channel.
+ *
  *  @param[in] energy       the incident energy
  *  @param[in,out] result   a map containing the matrix elements
  */
 void evaluateTMatrix(
          const Energy& energy,
-         tsl::hopscotch_map< ReactionID, Quantity< Barn > >& result ) {
+         tsl::hopscotch_map< ReactionID, std::complex< double > >& result ) {
 
   // penetrability, sqrt(P) and channel identifiers for each channel
   const auto penetrabilities = this->penetrabilities( energy );
@@ -25,10 +30,9 @@ void evaluateTMatrix(
   auto processChannel = [&] ( const unsigned int c ) {
 
     // the elements of the ( 1 - RL )^-1 R matrix for the current channel
-    const auto row =
-    ranges::make_iterator_range(
-        this->matrix_.row(c).data(),
-        this->matrix_.row(c).data() + size );
+    const auto row = ranges::make_iterator_range(
+                        this->matrix_.data() + c * size,
+                        this->matrix_.data() + ( c + 1 ) * size );
 
     // the row of the T or X matrix corresponding with the current channel
     const auto currentSqrtP = diagonalSqrtPMatrix[c];
@@ -39,7 +43,7 @@ void evaluateTMatrix(
             row, diagonalSqrtPMatrix );
 
     // the element identifiers
-    const auto current = diagonalSqrtPMatrix[c];
+    const auto current = channels[c];
     const auto identifiers =
         channels
           | ranges::view::transform(

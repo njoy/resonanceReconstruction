@@ -106,7 +106,6 @@ SCENARIO( "evaluate" ) {
     THEN( "cross sections can be calculated for a single resonance using the "
           "ShiftFactor boundary condition" ) {
 
-      // first value is elastic, second value is eliminated capture
       tsl::hopscotch_map< ReactionID, Quantity< Barn > > xs;
       group1.evaluate( 1e-5 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
@@ -190,7 +189,6 @@ SCENARIO( "evaluate" ) {
     THEN( "cross sections can be calculated for multiple resonances using the "
           "ShiftFactor boundary condition" ) {
 
-      // first value is elastic, second value is eliminated capture
       tsl::hopscotch_map< ReactionID, Quantity< Barn > > xs;
       group2.evaluate( 1e-5 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
@@ -284,9 +282,8 @@ SCENARIO( "evaluate" ) {
     }
 
     THEN( "cross sections can be calculated for a single resonance using the "
-          "constant boundary condition" ) {
+          "Constant boundary condition" ) {
 
-      // first value is elastic, second value is eliminated capture
       tsl::hopscotch_map< ReactionID, Quantity< Barn > > xs;
       group3.evaluate( 1e-5 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
@@ -368,9 +365,8 @@ SCENARIO( "evaluate" ) {
     }
 
     THEN( "cross sections can be calculated for multiple resonances using the "
-          "constant boundary condition" ) {
+          "Constant boundary condition" ) {
 
-      // first value is elastic, second value is eliminated capture
       tsl::hopscotch_map< ReactionID, Quantity< Barn > > xs;
       group4.evaluate( 1e-5 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
@@ -566,8 +562,6 @@ SCENARIO( "evaluate" ) {
     THEN( "cross sections can be calculated for a single resonance using the "
           "ShiftFactor boundary condition" ) {
 
-      // first value is elastic, second and third value are fission and the
-      // fourth value is eliminated capture
       tsl::hopscotch_map< ReactionID, Quantity< Barn > > xs;
       group1.evaluate( 1e-5 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
@@ -650,8 +644,6 @@ SCENARIO( "evaluate" ) {
     THEN( "cross sections can be calculated for multiple resonances using the "
           "ShiftFactor boundary condition" ) {
 
-      // first value is elastic, second and third value are fission and the
-      // fourth value is eliminated capture
       tsl::hopscotch_map< ReactionID, Quantity< Barn > > xs;
       group2.evaluate( 1e-5 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
@@ -746,10 +738,8 @@ SCENARIO( "evaluate" ) {
     }
 
     THEN( "cross sections can be calculated for a single resonance using the "
-          "ShiftFactor boundary condition" ) {
+          "Constant boundary condition" ) {
 
-      // first value is elastic, second and third value are fission and the
-      // fourth value is eliminated capture
       tsl::hopscotch_map< ReactionID, Quantity< Barn > > xs;
       group3.evaluate( 1e-5 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
@@ -830,10 +820,8 @@ SCENARIO( "evaluate" ) {
     }
 
     THEN( "cross sections can be calculated for multiple resonances using the "
-          "ShiftFactor boundary condition" ) {
+          "Constant boundary condition" ) {
 
-      // first value is elastic, second and third value are fission and the
-      // fourth value is eliminated capture
       tsl::hopscotch_map< ReactionID, Quantity< Barn > > xs;
       group4.evaluate( 1e-5 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
@@ -1004,8 +992,6 @@ SCENARIO( "evaluate" ) {
 
     THEN( "cross sections can be calculated" ) {
 
-      // first value is elastic, second and third value are fission and the
-      // fourth value is eliminated capture
       tsl::hopscotch_map< ReactionID, Quantity< Barn > > xs;
       group.evaluate( 1e-5 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
@@ -1174,8 +1160,6 @@ SCENARIO( "evaluate" ) {
 
     THEN( "cross sections can be calculated" ) {
 
-      // first value is elastic, second and third value are fission and the
-      // fourth value is eliminated capture
       tsl::hopscotch_map< ReactionID, Quantity< Barn > > xs;
       group.evaluate( 1e-5 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
