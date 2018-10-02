@@ -1,7 +1,8 @@
 
 add_executable( resonanceReconstruction.rmatrix.CompoundSystem.test
                 CompoundSystem.test.cpp
-                evaluate.test.cpp )
+                evaluate.test.cpp
+                evaluateTMatrix.test.cpp )
 target_compile_options( resonanceReconstruction.rmatrix.CompoundSystem.test PRIVATE ${${PREFIX}_common_flags}
 $<$<BOOL:${strict}>:${${PREFIX}_strict_flags}>$<$<CONFIG:DEBUG>:
 ${${PREFIX}_DEBUG_flags}

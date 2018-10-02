@@ -616,7 +616,8 @@
     ],
     "resonanceReconstruction.rmatrix.CompoundSystem": [
       "src/resonanceReconstruction/rmatrix/CompoundSystem/test/CompoundSystem.test.cpp",
-      "src/resonanceReconstruction/rmatrix/CompoundSystem/test/evaluate.test.cpp"
+      "src/resonanceReconstruction/rmatrix/CompoundSystem/test/evaluate.test.cpp",
+      "src/resonanceReconstruction/rmatrix/CompoundSystem/test/evaluateTMatrix.test.cpp"
     ],
     "resonanceReconstruction.rmatrix.Particle": [
       "src/resonanceReconstruction/rmatrix/Particle/test/Particle.test.cpp"
