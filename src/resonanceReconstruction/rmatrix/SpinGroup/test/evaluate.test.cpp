@@ -109,56 +109,56 @@ SCENARIO( "evaluate" ) {
       tsl::hopscotch_map< ReactionID, Quantity< Barn > > xs;
       group1.evaluate( 1e-5 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 2.575880e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 2.575879e-1 == Approx( xs[ elas ].value ) );
       REQUIRE( 6.895037e+1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group1.evaluate( 1e-4 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
       REQUIRE( 2.575879e-1 == Approx( xs[ elas ].value ) );
-      REQUIRE( 2.180402e+1 == Approx( xs[ capt ].value ) );
+      REQUIRE( 2.180403e+1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group1.evaluate( 1e-3 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 2.575878e-1 == Approx( xs[ elas ].value ) );
-      REQUIRE( 6.895039e+0 == Approx( xs[ capt ].value ) );
+      REQUIRE( 2.575877e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 6.895040e+0 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group1.evaluate( 1e-2 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 2.575861e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 2.575860e-1 == Approx( xs[ elas ].value ) );
       REQUIRE( 2.180408e+0 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group1.evaluate( 1e-1 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 2.575695e-1 == Approx( xs[ elas ].value ) );
-      REQUIRE( 6.895213e-1 == Approx( xs[ capt ].value ) );
+      REQUIRE( 2.575694e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 6.895214e-1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group1.evaluate( 1e+0 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 2.574032e-1 == Approx( xs[ elas ].value ) );
-      REQUIRE( 2.180960e-1 == Approx( xs[ capt ].value ) );
+      REQUIRE( 2.574031e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 2.180961e-1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group1.evaluate( 1e+1 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 2.557416e-1 == Approx( xs[ elas ].value ) );
-      REQUIRE( 6.912723e-2 == Approx( xs[ capt ].value ) );
+      REQUIRE( 2.557415e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 6.912724e-2 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group1.evaluate( 1e+2 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 2.392161e-1 == Approx( xs[ elas ].value ) );
-      REQUIRE( 2.237318e-2 == Approx( xs[ capt ].value ) );
+      REQUIRE( 2.392160e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 2.237319e-2 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group1.evaluate( 1e+3 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 8.932783e-2 == Approx( xs[ elas ].value ) );
-      REQUIRE( 9.067250e-3 == Approx( xs[ capt ].value ) );
+      REQUIRE( 8.932778e-2 == Approx( xs[ elas ].value ) );
+      REQUIRE( 9.067251e-3 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group1.evaluate( 1e+4 * electronVolt, xs );
@@ -170,13 +170,13 @@ SCENARIO( "evaluate" ) {
       group1.evaluate( 1e+5 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
       REQUIRE( 3.979435e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 4.915666e-6 == Approx( xs[ capt ].value ) );
+      REQUIRE( 4.915667e-6 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group1.evaluate( 1e+6 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
       REQUIRE( 2.308817e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 1.343258e-8 == Approx( xs[ capt ].value ) );
+      REQUIRE( 1.343259e-8 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group1.evaluate( 7.788000e+3 * electronVolt, xs );
@@ -287,56 +287,56 @@ SCENARIO( "evaluate" ) {
       tsl::hopscotch_map< ReactionID, Quantity< Barn > > xs;
       group3.evaluate( 1e-5 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 2.575880e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 2.575879e-1 == Approx( xs[ elas ].value ) );
       REQUIRE( 6.895037e+1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group3.evaluate( 1e-4 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
       REQUIRE( 2.575879e-1 == Approx( xs[ elas ].value ) );
-      REQUIRE( 2.180402e+1 == Approx( xs[ capt ].value ) );
+      REQUIRE( 2.180403e+1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group3.evaluate( 1e-3 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 2.575878e-1 == Approx( xs[ elas ].value ) );
-      REQUIRE( 6.895039e+0 == Approx( xs[ capt ].value ) );
+      REQUIRE( 2.575877e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 6.895040e+0 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group3.evaluate( 1e-2 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 2.575861e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 2.575860e-1 == Approx( xs[ elas ].value ) );
       REQUIRE( 2.180408e+0 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group3.evaluate( 1e-1 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 2.575695e-1 == Approx( xs[ elas ].value ) );
-      REQUIRE( 6.895213e-1 == Approx( xs[ capt ].value ) );
+      REQUIRE( 2.575694e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 6.895214e-1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group3.evaluate( 1e+0 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 2.574032e-1 == Approx( xs[ elas ].value ) );
-      REQUIRE( 2.180960e-1 == Approx( xs[ capt ].value ) );
+      REQUIRE( 2.574031e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 2.180961e-1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group3.evaluate( 1e+1 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 2.557416e-1 == Approx( xs[ elas ].value ) );
-      REQUIRE( 6.912723e-2 == Approx( xs[ capt ].value ) );
+      REQUIRE( 2.557415e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 6.912724e-2 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group3.evaluate( 1e+2 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 2.392161e-1 == Approx( xs[ elas ].value ) );
-      REQUIRE( 2.237318e-2 == Approx( xs[ capt ].value ) );
+      REQUIRE( 2.392160e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 2.237319e-2 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group3.evaluate( 1e+3 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 8.932783e-2 == Approx( xs[ elas ].value ) );
-      REQUIRE( 9.067250e-3 == Approx( xs[ capt ].value ) );
+      REQUIRE( 8.932778e-2 == Approx( xs[ elas ].value ) );
+      REQUIRE( 9.067251e-3 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group3.evaluate( 1e+4 * electronVolt, xs );
@@ -348,13 +348,13 @@ SCENARIO( "evaluate" ) {
       group3.evaluate( 1e+5 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
       REQUIRE( 3.979435e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 4.915666e-6 == Approx( xs[ capt ].value ) );
+      REQUIRE( 4.915667e-6 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group3.evaluate( 1e+6 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
       REQUIRE( 2.308817e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 1.343258e-8 == Approx( xs[ capt ].value ) );
+      REQUIRE( 1.343259e-8 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group3.evaluate( 7.788000e+3 * electronVolt, xs );
@@ -566,7 +566,7 @@ SCENARIO( "evaluate" ) {
       group1.evaluate( 1e-5 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.736137e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 8.627569e+1 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 8.627570e+1 == Approx( xs[ fiss ].value ) );
       REQUIRE( 4.632894e+0 == Approx( xs[ capt ].value ) );
       xs.clear();
 
@@ -580,21 +580,21 @@ SCENARIO( "evaluate" ) {
       group1.evaluate( 1e-3 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.736134e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 8.628676e+0 == Approx( xs[ fiss ].value ) );
-      REQUIRE( 4.633488e-1 == Approx( xs[ capt ].value ) );
+      REQUIRE( 8.628677e+0 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 4.633489e-1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group1.evaluate( 1e-2 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.736107e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 2.731813e+0 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 2.731814e+0 == Approx( xs[ fiss ].value ) );
       REQUIRE( 1.466949e-1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group1.evaluate( 1e-1 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.735839e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 8.740500e-1 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 8.740501e-1 == Approx( xs[ fiss ].value ) );
       REQUIRE( 4.693537e-2 == Approx( xs[ capt ].value ) );
       xs.clear();
 
@@ -608,29 +608,29 @@ SCENARIO( "evaluate" ) {
       group1.evaluate( 1e+1 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.653310e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 6.955267e-1 == Approx( xs[ fiss ].value ) );
-      REQUIRE( 3.734889e-2 == Approx( xs[ capt ].value ) );
+      REQUIRE( 6.955268e-1 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 3.734890e-2 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group1.evaluate( 1e+2 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.789797e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 9.069863e-4 == Approx( xs[ fiss ].value ) );
-      REQUIRE( 4.870400e-5 == Approx( xs[ capt ].value ) );
+      REQUIRE( 9.069864e-4 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 4.870401e-5 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group1.evaluate( 1e+3 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.778610e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 2.116761e-6 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 2.116762e-6 == Approx( xs[ fiss ].value ) );
       REQUIRE( 1.136674e-7 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group1.evaluate( 2e+3 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.774325e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 3.684029e-7 == Approx( xs[ fiss ].value ) );
-      REQUIRE( 1.978276e-8 == Approx( xs[ capt ].value ) );
+      REQUIRE( 3.684030e-7 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 1.978277e-8 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group1.evaluate( 1.541700e+1 * electronVolt, xs );
@@ -648,7 +648,7 @@ SCENARIO( "evaluate" ) {
       group2.evaluate( 1e-5 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.708738e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 1.164549e+2 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 1.164550e+2 == Approx( xs[ fiss ].value ) );
       REQUIRE( 5.455577e+0 == Approx( xs[ capt ].value ) );
       xs.clear();
 
@@ -683,56 +683,56 @@ SCENARIO( "evaluate" ) {
       group2.evaluate( 1e+0 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.704945e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 4.151230e-1 == Approx( xs[ fiss ].value ) );
-      REQUIRE( 1.948730e-2 == Approx( xs[ capt ].value ) );
+      REQUIRE( 4.151231e-1 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 1.948731e-2 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group2.evaluate( 1e+1 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.618127e+0 == Approx( xs[ elas ].value ) );
       REQUIRE( 7.902586e-1 == Approx( xs[ fiss ].value ) );
-      REQUIRE( 3.880614e-2 == Approx( xs[ capt ].value ) );
+      REQUIRE( 3.880615e-2 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group2.evaluate( 1e+2 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.812236e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 4.139401e-3 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 4.139402e-3 == Approx( xs[ fiss ].value ) );
       REQUIRE( 2.030171e-4 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group2.evaluate( 1e+3 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.779884e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 5.781515e-6 == Approx( xs[ fiss ].value ) );
-      REQUIRE( 2.751723e-7 == Approx( xs[ capt ].value ) );
+      REQUIRE( 5.781516e-6 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 2.751724e-7 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group2.evaluate( 2e+3 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.774946e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 9.897642e-7 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 9.897643e-7 == Approx( xs[ fiss ].value ) );
       REQUIRE( 4.705688e-8 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group2.evaluate( 1.541700e+1 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 3.018352e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 1.039297e+2 == Approx( xs[ fiss ].value ) );
-      REQUIRE( 5.580786e+0 == Approx( xs[ capt ].value ) );
+      REQUIRE( 1.039298e+2 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 5.580787e+0 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group2.evaluate( 3.232700e+1 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 3.200788e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 7.594132e+1 == Approx( xs[ fiss ].value ) );
-      REQUIRE( 2.384031e+1 == Approx( xs[ capt ].value ) );
+      REQUIRE( 7.594133e+1 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 2.384032e+1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group2.evaluate( 4.753400e+1 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 3.826411e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 1.140900e+2 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 1.140901e+2 == Approx( xs[ fiss ].value ) );
       REQUIRE( 6.042426e+0 == Approx( xs[ capt ].value ) );
       xs.clear();
     }
@@ -744,7 +744,7 @@ SCENARIO( "evaluate" ) {
       group3.evaluate( 1e-5 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.736137e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 8.627569e+1 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 8.627570e+1 == Approx( xs[ fiss ].value ) );
       REQUIRE( 4.632894e+0 == Approx( xs[ capt ].value ) );
       xs.clear();
 
@@ -758,21 +758,21 @@ SCENARIO( "evaluate" ) {
       group3.evaluate( 1e-3 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.736134e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 8.628676e+0 == Approx( xs[ fiss ].value ) );
-      REQUIRE( 4.633488e-1 == Approx( xs[ capt ].value ) );
+      REQUIRE( 8.628677e+0 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 4.633489e-1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group3.evaluate( 1e-2 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.736107e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 2.731813e+0 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 2.731814e+0 == Approx( xs[ fiss ].value ) );
       REQUIRE( 1.466949e-1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group3.evaluate( 1e-1 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.735839e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 8.740500e-1 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 8.740501e-1 == Approx( xs[ fiss ].value ) );
       REQUIRE( 4.693537e-2 == Approx( xs[ capt ].value ) );
       xs.clear();
 
@@ -786,29 +786,29 @@ SCENARIO( "evaluate" ) {
       group3.evaluate( 1e+1 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.653310e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 6.955267e-1 == Approx( xs[ fiss ].value ) );
-      REQUIRE( 3.734889e-2 == Approx( xs[ capt ].value ) );
+      REQUIRE( 6.955268e-1 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 3.734890e-2 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group3.evaluate( 1e+2 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.789797e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 9.069863e-4 == Approx( xs[ fiss ].value ) );
-      REQUIRE( 4.870400e-5 == Approx( xs[ capt ].value ) );
+      REQUIRE( 9.069864e-4 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 4.870401e-5 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group3.evaluate( 1e+3 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.778610e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 2.116761e-6 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 2.116762e-6 == Approx( xs[ fiss ].value ) );
       REQUIRE( 1.136674e-7 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group3.evaluate( 2e+3 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.774325e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 3.684029e-7 == Approx( xs[ fiss ].value ) );
-      REQUIRE( 1.978276e-8 == Approx( xs[ capt ].value ) );
+      REQUIRE( 3.684030e-7 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 1.978277e-8 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group3.evaluate( 1.541700e+1 * electronVolt, xs );
@@ -826,7 +826,7 @@ SCENARIO( "evaluate" ) {
       group4.evaluate( 1e-5 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.708738e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 1.164549e+2 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 1.164550e+2 == Approx( xs[ fiss ].value ) );
       REQUIRE( 5.455577e+0 == Approx( xs[ capt ].value ) );
       xs.clear();
 
@@ -861,56 +861,56 @@ SCENARIO( "evaluate" ) {
       group4.evaluate( 1e+0 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.704945e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 4.151230e-1 == Approx( xs[ fiss ].value ) );
-      REQUIRE( 1.948730e-2 == Approx( xs[ capt ].value ) );
+      REQUIRE( 4.151231e-1 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 1.948731e-2 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group4.evaluate( 1e+1 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.618127e+0 == Approx( xs[ elas ].value ) );
       REQUIRE( 7.902586e-1 == Approx( xs[ fiss ].value ) );
-      REQUIRE( 3.880614e-2 == Approx( xs[ capt ].value ) );
+      REQUIRE( 3.880615e-2 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group4.evaluate( 1e+2 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.812236e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 4.139401e-3 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 4.139402e-3 == Approx( xs[ fiss ].value ) );
       REQUIRE( 2.030171e-4 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group4.evaluate( 1e+3 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.779884e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 5.781515e-6 == Approx( xs[ fiss ].value ) );
-      REQUIRE( 2.751723e-7 == Approx( xs[ capt ].value ) );
+      REQUIRE( 5.781516e-6 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 2.751724e-7 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group4.evaluate( 2e+3 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.774946e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 9.897642e-7 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 9.897643e-7 == Approx( xs[ fiss ].value ) );
       REQUIRE( 4.705688e-8 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group4.evaluate( 1.541700e+1 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 3.018352e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 1.039297e+2 == Approx( xs[ fiss ].value ) );
-      REQUIRE( 5.580786e+0 == Approx( xs[ capt ].value ) );
+      REQUIRE( 1.039298e+2 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 5.580787e+0 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group4.evaluate( 3.232700e+1 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 3.200788e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 7.594132e+1 == Approx( xs[ fiss ].value ) );
-      REQUIRE( 2.384031e+1 == Approx( xs[ capt ].value ) );
+      REQUIRE( 7.594133e+1 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 2.384032e+1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group4.evaluate( 4.753400e+1 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 3.826411e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 1.140900e+2 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 1.140901e+2 == Approx( xs[ fiss ].value ) );
       REQUIRE( 6.042426e+0 == Approx( xs[ capt ].value ) );
       xs.clear();
     }
@@ -996,36 +996,36 @@ SCENARIO( "evaluate" ) {
       group.evaluate( 1e-5 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.800024e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 7.969822e+1 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 7.969823e+1 == Approx( xs[ fiss ].value ) );
       REQUIRE( 5.456509e+0 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group.evaluate( 1e-4 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.800023e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 2.520250e+1 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 2.520251e+1 == Approx( xs[ fiss ].value ) );
       REQUIRE( 1.725484e+0 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group.evaluate( 1e-3 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.800020e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 7.968828e+0 == Approx( xs[ fiss ].value ) );
-      REQUIRE( 5.455954e-1 == Approx( xs[ capt ].value ) );
+      REQUIRE( 7.968829e+0 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 5.455955e-1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group.evaluate( 1e-2 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.799987e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 2.517112e+0 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 2.517113e+0 == Approx( xs[ fiss ].value ) );
       REQUIRE( 1.723733e-1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group.evaluate( 1e-1 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.799661e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 7.870530e-1 == Approx( xs[ fiss ].value ) );
-      REQUIRE( 5.401133e-2 == Approx( xs[ capt ].value ) );
+      REQUIRE( 7.870531e-1 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 5.401134e-2 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group.evaluate( 1e+0 * electronVolt, xs );
@@ -1038,7 +1038,7 @@ SCENARIO( "evaluate" ) {
       group.evaluate( 1e+1 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.773379e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 3.532511e-2 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 3.532512e-2 == Approx( xs[ fiss ].value ) );
       REQUIRE( 3.181981e-3 == Approx( xs[ capt ].value ) );
       xs.clear();
 
@@ -1053,20 +1053,20 @@ SCENARIO( "evaluate" ) {
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.779863e+0 == Approx( xs[ elas ].value ) );
       REQUIRE( 5.625611e-6 == Approx( xs[ fiss ].value ) );
-      REQUIRE( 2.683739e-7 == Approx( xs[ capt ].value ) );
+      REQUIRE( 2.683740e-7 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group.evaluate( 2e+3 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.774941e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 9.760312e-7 == Approx( xs[ fiss ].value ) );
-      REQUIRE( 4.645619e-8 == Approx( xs[ capt ].value ) );
+      REQUIRE( 9.760313e-7 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 4.645620e-8 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group.evaluate( 3.232700e+1 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 3.200741e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 7.593904e+1 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 7.593905e+1 == Approx( xs[ fiss ].value ) );
       REQUIRE( 2.384228e+1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
@@ -1178,7 +1178,7 @@ SCENARIO( "evaluate" ) {
       group.evaluate( 1e-3 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.708720e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 7.969599e+0 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 7.969600e+0 == Approx( xs[ fiss ].value ) );
       REQUIRE( 5.457001e-1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
@@ -1192,8 +1192,8 @@ SCENARIO( "evaluate" ) {
       group.evaluate( 1e-1 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.708364e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 8.069115e-1 == Approx( xs[ fiss ].value ) );
-      REQUIRE( 5.521115e-2 == Approx( xs[ capt ].value ) );
+      REQUIRE( 8.069116e-1 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 5.521116e-2 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group.evaluate( 1e+0 * electronVolt, xs );
@@ -1227,7 +1227,7 @@ SCENARIO( "evaluate" ) {
       group.evaluate( 2e+3 * electronVolt, xs );
       REQUIRE( 3 == xs.size() );
       REQUIRE( 2.774946e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 6.568293e-7 == Approx( xs[ fiss ].value ) );
+      REQUIRE( 6.568294e-7 == Approx( xs[ fiss ].value ) );
       REQUIRE( 4.705688e-8 == Approx( xs[ capt ].value ) );
       xs.clear();
 
@@ -1249,7 +1249,7 @@ SCENARIO( "evaluate" ) {
       REQUIRE( 3 == xs.size() );
       REQUIRE( 3.826384e+0 == Approx( xs[ elas ].value ) );
       REQUIRE( 1.140768e+2 == Approx( xs[ fiss ].value ) );
-      REQUIRE( 6.042619e+0 == Approx( xs[ capt ].value ) );
+      REQUIRE( 6.042620e+0 == Approx( xs[ capt ].value ) );
       xs.clear();
     }
   } // GIVEN

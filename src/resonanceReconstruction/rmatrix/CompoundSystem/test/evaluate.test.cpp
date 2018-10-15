@@ -1,6 +1,8 @@
 #include "catch.hpp"
 #include "resonanceReconstruction.hpp"
 
+#include <iomanip>
+
 using namespace njoy::resonanceReconstruction;
 
 // convenience typedefs
@@ -624,62 +626,62 @@ SCENARIO( "evaluate" ) {
       tsl::hopscotch_map< ReactionID, Quantity< Barn > > xs;
       system.evaluate( 1e-5 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 8.781791e-2 == Approx( xs[ elas ].value ) );
-      REQUIRE( 7.082909e+1 == Approx( xs[ capt ].value ) );
+      REQUIRE( 8.781787e-2 == Approx( xs[ elas ].value ) );
+      REQUIRE( 7.082910e+1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system.evaluate( 1e-4 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 8.781790e-2 == Approx( xs[ elas ].value ) );
+      REQUIRE( 8.781786e-2 == Approx( xs[ elas ].value ) );
       REQUIRE( 2.239813e+1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system.evaluate( 1e-3 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 8.781781e-2 == Approx( xs[ elas ].value ) );
-      REQUIRE( 7.082911e+0 == Approx( xs[ capt ].value ) );
+      REQUIRE( 8.781776e-2 == Approx( xs[ elas ].value ) );
+      REQUIRE( 7.082912e+0 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system.evaluate( 1e-2 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 8.781682e-2 == Approx( xs[ elas ].value ) );
+      REQUIRE( 8.781677e-2 == Approx( xs[ elas ].value ) );
       REQUIRE( 2.239818e+0 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system.evaluate( 1e-1 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 8.780692e-2 == Approx( xs[ elas ].value ) );
-      REQUIRE( 7.083086e-1 == Approx( xs[ capt ].value ) );
+      REQUIRE( 8.780687e-2 == Approx( xs[ elas ].value ) );
+      REQUIRE( 7.083087e-1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system.evaluate( 1e+0 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 8.770804e-2 == Approx( xs[ elas ].value ) );
+      REQUIRE( 8.770799e-2 == Approx( xs[ elas ].value ) );
       REQUIRE( 2.240372e-1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system.evaluate( 1e+1 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 8.672107e-2 == Approx( xs[ elas ].value ) );
-      REQUIRE( 7.100642e-2 == Approx( xs[ capt ].value ) );
+      REQUIRE( 8.672103e-2 == Approx( xs[ elas ].value ) );
+      REQUIRE( 7.100643e-2 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system.evaluate( 1e+2 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 7.704196e-2 == Approx( xs[ elas ].value ) );
+      REQUIRE( 7.704191e-2 == Approx( xs[ elas ].value ) );
       REQUIRE( 2.296878e-2 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system.evaluate( 1e+3 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 7.100443e-3 == Approx( xs[ elas ].value ) );
-      REQUIRE( 9.259257e-3 == Approx( xs[ capt ].value ) );
+      REQUIRE( 7.100428e-3 == Approx( xs[ elas ].value ) );
+      REQUIRE( 9.259258e-3 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system.evaluate( 1e+4 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 4.062844e+1 == Approx( xs[ elas ].value ) );
-      REQUIRE( 2.531089e-2 == Approx( xs[ capt ].value ) );
+      REQUIRE( 4.062845e+1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 2.531090e-2 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system.evaluate( 1e+5 * electronVolt, xs );
@@ -696,44 +698,44 @@ SCENARIO( "evaluate" ) {
 
       system.evaluate( 7.788000e+3 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 3.424289e+2 == Approx( xs[ elas ].value ) );
-      REQUIRE( 4.241627e-1 == Approx( xs[ capt ].value ) );
+      REQUIRE( 3.424290e+2 == Approx( xs[ elas ].value ) );
+      REQUIRE( 4.241628e-1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system.evaluate( 5.287200e+4 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 4.739413e+1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 4.739414e+1 == Approx( xs[ elas ].value ) );
       REQUIRE( 5.169252e-2 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system.evaluate( 7.190500e+4 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 3.392478e+1 == Approx( xs[ elas ].value ) );
-      REQUIRE( 4.209119e-2 == Approx( xs[ capt ].value ) );
+      REQUIRE( 3.392479e+1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 4.209120e-2 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system.evaluate( 5.152000e+4 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 5.688152e+1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 5.688153e+1 == Approx( xs[ elas ].value ) );
       REQUIRE( 1.147127e+0 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system.evaluate( 5.359000e+4 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 8.699519e+1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 8.699520e+1 == Approx( xs[ elas ].value ) );
       REQUIRE( 3.790368e+0 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system.evaluate( 5.545900e+4 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 6.447107e+1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 6.447108e+1 == Approx( xs[ elas ].value ) );
       REQUIRE( 8.302520e-1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system.evaluate( 3.099000e+3 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 4.288507e-1 == Approx( xs[ elas ].value ) );
-      REQUIRE( 4.129389e+0 == Approx( xs[ capt ].value ) );
+      REQUIRE( 4.288509e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 4.129390e+0 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system.evaluate( 1.358100e+4 * electronVolt, xs );
@@ -745,13 +747,13 @@ SCENARIO( "evaluate" ) {
       system.evaluate( 1.927800e+4 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
       REQUIRE( 7.072284e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 1.192963e+1 == Approx( xs[ capt ].value ) );
+      REQUIRE( 1.192964e+1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system.evaluate( 9.480000e+3 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
       REQUIRE( 4.384506e+2 == Approx( xs[ elas ].value ) );
-      REQUIRE( 8.551893e+1 == Approx( xs[ capt ].value ) );
+      REQUIRE( 8.551894e+1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system.evaluate( 1.118000e+4 * electronVolt, xs );
@@ -762,13 +764,13 @@ SCENARIO( "evaluate" ) {
 
       system.evaluate( 1.445000e+4 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 1.769194e+2 == Approx( xs[ elas ].value ) );
-      REQUIRE( 8.311453e+1 == Approx( xs[ capt ].value ) );
+      REQUIRE( 1.769195e+2 == Approx( xs[ elas ].value ) );
+      REQUIRE( 8.311454e+1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system.evaluate( 1.264000e+5 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 3.830077e+1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 3.830078e+1 == Approx( xs[ elas ].value ) );
       REQUIRE( 1.278686e+1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
