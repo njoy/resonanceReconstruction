@@ -111,60 +111,59 @@ SCENARIO( "evaluate" ) {
     THEN( "cross sections can be calculated for a single resonance using the "
           "ShiftFactor boundary condition" ) {
 
-      // first value is elastic, second value is eliminated capture
       tsl::hopscotch_map< ReactionID, Quantity< Barn > > xs;
       system1.evaluate( 1e-5 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 2.575880e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 2.575879e-1 == Approx( xs[ elas ].value ) );
       REQUIRE( 6.895037e+1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system1.evaluate( 1e-4 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
       REQUIRE( 2.575879e-1 == Approx( xs[ elas ].value ) );
-      REQUIRE( 2.180402e+1 == Approx( xs[ capt ].value ) );
+      REQUIRE( 2.180403e+1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system1.evaluate( 1e-3 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 2.575878e-1 == Approx( xs[ elas ].value ) );
-      REQUIRE( 6.895039e+0 == Approx( xs[ capt ].value ) );
+      REQUIRE( 2.575877e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 6.895040e+0 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system1.evaluate( 1e-2 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 2.575861e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 2.575860e-1 == Approx( xs[ elas ].value ) );
       REQUIRE( 2.180408e+0 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system1.evaluate( 1e-1 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 2.575695e-1 == Approx( xs[ elas ].value ) );
-      REQUIRE( 6.895213e-1 == Approx( xs[ capt ].value ) );
+      REQUIRE( 2.575694e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 6.895214e-1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system1.evaluate( 1e+0 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 2.574032e-1 == Approx( xs[ elas ].value ) );
-      REQUIRE( 2.180960e-1 == Approx( xs[ capt ].value ) );
+      REQUIRE( 2.574031e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 2.180961e-1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system1.evaluate( 1e+1 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 2.557416e-1 == Approx( xs[ elas ].value ) );
-      REQUIRE( 6.912723e-2 == Approx( xs[ capt ].value ) );
+      REQUIRE( 2.557415e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 6.912724e-2 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system1.evaluate( 1e+2 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 2.392161e-1 == Approx( xs[ elas ].value ) );
-      REQUIRE( 2.237318e-2 == Approx( xs[ capt ].value ) );
+      REQUIRE( 2.392160e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 2.237319e-2 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system1.evaluate( 1e+3 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 8.932783e-2 == Approx( xs[ elas ].value ) );
-      REQUIRE( 9.067250e-3 == Approx( xs[ capt ].value ) );
+      REQUIRE( 8.932778e-2 == Approx( xs[ elas ].value ) );
+      REQUIRE( 9.067251e-3 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system1.evaluate( 1e+4 * electronVolt, xs );
@@ -176,13 +175,13 @@ SCENARIO( "evaluate" ) {
       system1.evaluate( 1e+5 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
       REQUIRE( 3.979435e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 4.915666e-6 == Approx( xs[ capt ].value ) );
+      REQUIRE( 4.915667e-6 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system1.evaluate( 1e+6 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
       REQUIRE( 2.308817e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 1.343258e-8 == Approx( xs[ capt ].value ) );
+      REQUIRE( 1.343259e-8 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system1.evaluate( 7.788000e+3 * electronVolt, xs );
@@ -195,7 +194,6 @@ SCENARIO( "evaluate" ) {
     THEN( "cross sections can be calculated for multiple resonances using the "
           "ShiftFactor boundary condition" ) {
 
-      // first value is elastic, second value is eliminated capture
       tsl::hopscotch_map< ReactionID, Quantity< Barn > > xs;
       system2.evaluate( 1e-5 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
@@ -289,62 +287,61 @@ SCENARIO( "evaluate" ) {
     }
 
     THEN( "cross sections can be calculated for a single resonance using the "
-          "constant boundary condition" ) {
+          "Constant boundary condition" ) {
 
-      // first value is elastic, second value is eliminated capture
       tsl::hopscotch_map< ReactionID, Quantity< Barn > > xs;
       system3.evaluate( 1e-5 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 2.575880e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 2.575879e-1 == Approx( xs[ elas ].value ) );
       REQUIRE( 6.895037e+1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system3.evaluate( 1e-4 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
       REQUIRE( 2.575879e-1 == Approx( xs[ elas ].value ) );
-      REQUIRE( 2.180402e+1 == Approx( xs[ capt ].value ) );
+      REQUIRE( 2.180403e+1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system3.evaluate( 1e-3 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 2.575878e-1 == Approx( xs[ elas ].value ) );
-      REQUIRE( 6.895039e+0 == Approx( xs[ capt ].value ) );
+      REQUIRE( 2.575877e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 6.895040e+0 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system3.evaluate( 1e-2 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 2.575861e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 2.575860e-1 == Approx( xs[ elas ].value ) );
       REQUIRE( 2.180408e+0 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system3.evaluate( 1e-1 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 2.575695e-1 == Approx( xs[ elas ].value ) );
-      REQUIRE( 6.895213e-1 == Approx( xs[ capt ].value ) );
+      REQUIRE( 2.575694e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 6.895214e-1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system3.evaluate( 1e+0 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 2.574032e-1 == Approx( xs[ elas ].value ) );
-      REQUIRE( 2.180960e-1 == Approx( xs[ capt ].value ) );
+      REQUIRE( 2.574031e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 2.180961e-1 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system3.evaluate( 1e+1 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 2.557416e-1 == Approx( xs[ elas ].value ) );
-      REQUIRE( 6.912723e-2 == Approx( xs[ capt ].value ) );
+      REQUIRE( 2.557415e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 6.912724e-2 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system3.evaluate( 1e+2 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 2.392161e-1 == Approx( xs[ elas ].value ) );
-      REQUIRE( 2.237318e-2 == Approx( xs[ capt ].value ) );
+      REQUIRE( 2.392160e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 2.237319e-2 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system3.evaluate( 1e+3 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
-      REQUIRE( 8.932783e-2 == Approx( xs[ elas ].value ) );
-      REQUIRE( 9.067250e-3 == Approx( xs[ capt ].value ) );
+      REQUIRE( 8.932778e-2 == Approx( xs[ elas ].value ) );
+      REQUIRE( 9.067251e-3 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system3.evaluate( 1e+4 * electronVolt, xs );
@@ -356,13 +353,13 @@ SCENARIO( "evaluate" ) {
       system3.evaluate( 1e+5 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
       REQUIRE( 3.979435e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 4.915666e-6 == Approx( xs[ capt ].value ) );
+      REQUIRE( 4.915667e-6 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system3.evaluate( 1e+6 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
       REQUIRE( 2.308817e+0 == Approx( xs[ elas ].value ) );
-      REQUIRE( 1.343258e-8 == Approx( xs[ capt ].value ) );
+      REQUIRE( 1.343259e-8 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       system3.evaluate( 7.788000e+3 * electronVolt, xs );
@@ -373,9 +370,8 @@ SCENARIO( "evaluate" ) {
     }
 
     THEN( "cross sections can be calculated for multiple resonances using the "
-          "constant boundary condition" ) {
+          "Constant boundary condition" ) {
 
-      // first value is elastic, second value is eliminated capture
       tsl::hopscotch_map< ReactionID, Quantity< Barn > > xs;
       system4.evaluate( 1e-5 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
@@ -622,7 +618,6 @@ SCENARIO( "evaluate" ) {
 
     THEN( "cross sections can be calculated" ) {
 
-      // first value is elastic, second value is eliminated capture
       tsl::hopscotch_map< ReactionID, Quantity< Barn > > xs;
       system.evaluate( 1e-5 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
