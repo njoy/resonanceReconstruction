@@ -28,16 +28,16 @@ SCENARIO( "special functions" ) {
     THEN( "the special function give the right answers" ) {
 
       REQUIRE( 1.00435393058671 == Approx( neutronPair.reducedMass().value ) );
-      REQUIRE( 6.917228e-06 == Approx(
+      REQUIRE( 6.9172282659633E-06 == Approx(
         neutronPair.waveNumber( 1e-5 * electronVolt ).value ) );
       REQUIRE( 0.0 == Approx(
-        neutronPair.etaParameter( 1e-5 * electronVolt ).value ) );
+        neutronPair.sommerfeldParameter( 1e-5 * electronVolt ) ) );
 
       REQUIRE( 1.00297775913185 == Approx( protonPair.reducedMass().value ) );
-      REQUIRE( 6.917228e-06 == Approx(
+      REQUIRE( 6.91250795174449E-06 == Approx(
         protonPair.waveNumber( 1e-5 * electronVolt ).value ) );
-      REQUIRE( 5.395568e-38 == Approx(
-        protonPair.etaParameter( 1e-5 * electronVolt ).value ) );
+      REQUIRE( 4598354.56357695 == Approx(
+        protonPair.sommerfeldParameter( 1e-5 * electronVolt ) ) );
     }
   } // GIVEN
 } // SCENARIO

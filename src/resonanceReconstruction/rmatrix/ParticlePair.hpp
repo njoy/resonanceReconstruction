@@ -50,5 +50,5 @@ public:
 
   #include "resonanceReconstruction/rmatrix/ParticlePair/src/reducedMass.hpp"
   #include "resonanceReconstruction/rmatrix/ParticlePair/src/waveNumber.hpp"
-  #include "resonanceReconstruction/rmatrix/ParticlePair/src/etaParameter.hpp"
+  #include "resonanceReconstruction/rmatrix/ParticlePair/src/sommerfeldParameter.hpp"
 };
