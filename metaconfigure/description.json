@@ -502,6 +502,9 @@
     "src/resonanceReconstruction/rmatrix/src/calculatePhaseShift.hpp",
     "src/resonanceReconstruction/rmatrix/src/calculateShiftFactor.hpp",
     "src/resonanceReconstruction/rmatrix/src/calculateLValue.hpp",
+    "src/resonanceReconstruction/rmatrix/src/coh3-coulomb.hpp",
+    "src/resonanceReconstruction/rmatrix/src/coh3-extwave.hpp",
+    "src/resonanceReconstruction/rmatrix/src/coh3-asympt.hpp",
     "src/resonanceReconstruction/rmatrix/Resonance/src/ctor.hpp",
     "src/resonanceReconstruction/rmatrix/Resonance/src/rmatrix.hpp",
     "src/resonanceReconstruction/rmatrix/ResonanceTable/src/rmatrix.hpp",
@@ -529,10 +532,10 @@
     "src/resonanceReconstruction/rmatrix/SpinGroup/src/omegas.hpp",
     "src/resonanceReconstruction/rmatrix/SpinGroup/src/evaluateTMatrix.hpp",
     "src/resonanceReconstruction/rmatrix/ParticlePair/src/waveNumber.hpp",
-    "src/resonanceReconstruction/rmatrix/ParticlePair/src/etaParameter.hpp",
     "src/resonanceReconstruction/rmatrix/ParticlePair/src/reducedMass.hpp",
     "src/resonanceReconstruction/rmatrix/ParticlePair/src/ctor.hpp",
     "src/resonanceReconstruction/rmatrix/ParticlePair/src/makeID.hpp",
+    "src/resonanceReconstruction/rmatrix/ParticlePair/src/sommerfeldParameter.hpp",
     "src/resonanceReconstruction/rmatrix/ChannelQuantumNumbers/src/ctor.hpp",
     "src/resonanceReconstruction/rmatrix/ChannelQuantumNumbers/src/toString.hpp",
     "src/resonanceReconstruction/rmatrix/Channel/src/coulombPhaseShift.hpp",
@@ -616,8 +619,8 @@
     ],
     "resonanceReconstruction.rmatrix.CompoundSystem": [
       "src/resonanceReconstruction/rmatrix/CompoundSystem/test/CompoundSystem.test.cpp",
-      "src/resonanceReconstruction/rmatrix/CompoundSystem/test/evaluate.test.cpp",
-      "src/resonanceReconstruction/rmatrix/CompoundSystem/test/evaluateTMatrix.test.cpp"
+      "src/resonanceReconstruction/rmatrix/CompoundSystem/test/evaluateTMatrix.test.cpp",
+      "src/resonanceReconstruction/rmatrix/CompoundSystem/test/evaluate.test.cpp"
     ],
     "resonanceReconstruction.rmatrix.Particle": [
       "src/resonanceReconstruction/rmatrix/Particle/test/Particle.test.cpp"

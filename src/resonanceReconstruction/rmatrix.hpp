@@ -15,6 +15,7 @@ namespace rmatrix {
   struct Photon {};
   struct ChargedParticle {};
   struct Fission {};
+  #include "resonanceReconstruction/rmatrix/src/coh3-coulomb.hpp"
   #include "resonanceReconstruction/rmatrix/src/calculatePenetrability.hpp"
   #include "resonanceReconstruction/rmatrix/src/calculateShiftFactor.hpp"
   #include "resonanceReconstruction/rmatrix/src/calculatePhaseShift.hpp"

@@ -39,10 +39,21 @@ double calculatePenetrability< Neutron >( const unsigned int l,
  */
 template <> 
 inline
-double calculatePenetrability< ChargedParticle >( const unsigned int,
-                                                  const double,
-                                                  const double ) {
-  //! @todo develop this
-  return 1.0;
+double calculatePenetrability< ChargedParticle >( const unsigned int l,
+                                                  const double ratio,
+                                                  const double eta ) {
+
+  std::complex< double > gf, dgf;
+  coulombWaveFunctions( l, ratio, eta, gf, dgf);
+
+//std::cout << std::setprecision(15) << "eta " << eta << std::endl;
+//std::cout << std::setprecision(15) << "F   " << gf.imag() << std::endl;
+//std::cout << std::setprecision(15) << "G   " << gf.real() << std::endl;
+//std::cout << std::setprecision(15) << "dF  " << dgf.imag() << std::endl;
+//std::cout << std::setprecision(15) << "dG  " << dgf.real() << std::endl;
+
+  double F = gf.imag();
+  double G = gf.real();
+  return ratio / ( F * F + G * G );
 }
 

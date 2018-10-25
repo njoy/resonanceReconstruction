@@ -9,6 +9,7 @@ using ParticlePair = rmatrix::ParticlePair;
 using Neutron = rmatrix::Neutron;
 using Photon = rmatrix::Photon;
 using Fission = rmatrix::Fission;
+using ChargedParticle = rmatrix::ChargedParticle;
 template < typename Type > using Channel = rmatrix::Channel< Type >;
 using Resonance = rmatrix::Resonance;
 using ResonanceTable = rmatrix::ResonanceTable;
@@ -19,6 +20,7 @@ using Constant = rmatrix::Constant;
 using ReichMoore = rmatrix::ReichMoore;
 
 constexpr AtomicMass neutronMass = 1.008664 * daltons;
+constexpr ElectricalCharge elementary = dimwits::constant::elementaryCharge;
 
 SCENARIO( "evaluateTMatrix" ) {
 
@@ -40,12 +42,12 @@ SCENARIO( "evaluateTMatrix" ) {
     // LRF7 reconstruction
 
     // particles
-    Particle photon( "g", 0.0 * daltons, 0.0 * coulombs, 1., +1);
-    Particle neutron( "n", neutronMass, 0.0 * coulombs, 0.5, +1);
+    Particle photon( "g", 0.0 * daltons, 0.0 * elementary, 1., +1);
+    Particle neutron( "n", neutronMass, 0.0 * elementary, 0.5, +1);
     Particle fe55( "Fe55_e0", 5.446635e+1 * neutronMass,
-                              26.0 * coulombs, 0.0, +1);
+                              26.0 * elementary, 0.0, +1);
     Particle fe54( "Fe54_e0", 5.347624e+1 * neutronMass,
-                              26.0 * coulombs, 0.0, +1);
+                              26.0 * elementary, 0.0, +1);
 
     // particle pairs
     ParticlePair in( neutron, fe54, 0.0 * electronVolt );
@@ -421,13 +423,13 @@ SCENARIO( "evaluateTMatrix" ) {
     // LRF7 reconstruction
 
     // particles
-    Particle photon( "g", 0.0 * daltons, 0.0 * coulombs, 1., +1);
-    Particle neutron( "n", neutronMass, 0.0 * coulombs, 0.5, +1);
+    Particle photon( "g", 0.0 * daltons, 0.0 * elementary, 1., +1);
+    Particle neutron( "n", neutronMass, 0.0 * elementary, 0.5, +1);
     Particle pu240( "Pu240_e0", 2.379916e+2 * neutronMass,
-                                94.0 * coulombs, 0.5, +1);
+                                94.0 * elementary, 0.5, +1);
     Particle pu239( "Pu239_e0", 2.369986e+2 * neutronMass,
-                                94.0 * coulombs, 0.5, +1);
-    Particle fission( "fission", 0.0 * daltons, 0.0 * coulombs, 0.0, +1);
+                                94.0 * elementary, 0.5, +1);
+    Particle fission( "fission", 0.0 * daltons, 0.0 * elementary, 0.0, +1);
 
     // particle pairs
     ParticlePair in( neutron, pu239, 0.0 * electronVolt );
@@ -1548,13 +1550,13 @@ SCENARIO( "evaluateTMatrix" ) {
     // values)
 
     // particles
-    Particle photon( "g", 0.0 * daltons, 0.0 * coulombs, 1., +1);
-    Particle neutron( "n", neutronMass, 0.0 * coulombs, 0.5, +1);
+    Particle photon( "g", 0.0 * daltons, 0.0 * elementary, 1., +1);
+    Particle neutron( "n", neutronMass, 0.0 * elementary, 0.5, +1);
     Particle pu240( "Pu240_e0", 2.379916e+2 * neutronMass,
-                                94.0 * coulombs, 0.5, +1);
+                                94.0 * elementary, 0.5, +1);
     Particle pu239( "Pu239_e0", 2.369986e+2 * neutronMass,
-                                94.0 * coulombs, 0.5, +1);
-    Particle fission( "fission", 0.0 * daltons, 0.0 * coulombs, 0.0, +1);
+                                94.0 * elementary, 0.5, +1);
+    Particle fission( "fission", 0.0 * daltons, 0.0 * elementary, 0.0, +1);
 
     // particle pairs
     ParticlePair in( neutron, pu239, 0.0 * electronVolt );
@@ -1886,13 +1888,13 @@ SCENARIO( "evaluateTMatrix" ) {
     // values)
 
     // particles
-    Particle photon( "g", 0.0 * daltons, 0.0 * coulombs, 1., +1);
-    Particle neutron( "n", neutronMass, 0.0 * coulombs, 0.5, +1);
+    Particle photon( "g", 0.0 * daltons, 0.0 * elementary, 1., +1);
+    Particle neutron( "n", neutronMass, 0.0 * elementary, 0.5, +1);
     Particle pu240( "Pu240_e0", 2.379916e+2 * neutronMass,
-                                94.0 * coulombs, 0.5, +1);
+                                94.0 * elementary, 0.5, +1);
     Particle pu239( "Pu239_e0", 2.369986e+2 * neutronMass,
-                                94.0 * coulombs, 0.5, +1);
-    Particle fission( "fission", 0.0 * daltons, 0.0 * coulombs, 0.0, +1);
+                                94.0 * elementary, 0.5, +1);
+    Particle fission( "fission", 0.0 * daltons, 0.0 * elementary, 0.0, +1);
 
     // particle pairs
     ParticlePair in( neutron, pu239, 0.0 * electronVolt );
@@ -2237,6 +2239,167 @@ SCENARIO( "evaluateTMatrix" ) {
       REQUIRE( -4.5245392366873201E-04 == Approx( elements[ t32 ].imag() ) );
       REQUIRE( -1.5953943874582942E-02 == Approx( elements[ t33 ].real() ) );
       REQUIRE(  2.6830949543030767E-04 == Approx( elements[ t33 ].imag() ) );
+    }
+  } // GIVEN
+
+  GIVEN( "valid data for a SpinGroup with one eliminated capture channel, "
+         "one elastic channel and a proton channel" ) {
+
+    // test based on Cl35 ENDF/B-VIII.0 LRF7 resonance evaluation
+    // data given in Gamma = 2 gamma^2 P(Er) so conversion is required
+    // cross section values extracted from NJOY2016.43
+
+    // because the oribital angular momentum l = 0 for these SpinGroup,
+    // SpinGroup< ReichMoore, ShiftFactor > and SpinGroup< ReichMoore, Constant >
+    // should give the same results
+
+    // using SpinGroup< ReichMoore, ShiftFactor > is equivalent to NJOY2016's
+    // LRF7 reconstruction
+
+    // particles
+    Particle photon( "g", 0.0 * daltons, 0.0 * elementary, 1., +1);
+    Particle neutron( "n", neutronMass, 0.0 * elementary, 0.5, +1);
+    Particle proton( "p", 9.986235e-1 * neutronMass, elementary, 0.5, +1);
+    Particle cl36( "Cl36_e0", 3.565932e+1 * neutronMass,
+                              17.0 * elementary, 0., +1);
+    Particle cl35( "Cl35_e0", 3.466845e+1 * neutronMass,
+                              17.0 * elementary, 1.5, +1);
+    Particle s36( "S36_e0", 3.466863e+1 * neutronMass,
+                            16.0 * elementary, 1.5, +1);
+
+    // particle pairs
+    ParticlePair in( neutron, cl35, 0.0 * electronVolt );
+    ParticlePair out1( photon, cl36, 0.0 * electronVolt );
+    ParticlePair out2( proton, s36, 6.152200e+5 * electronVolt );
+
+    // channels
+    Channel< Photon > capture( out1, { 0, 0.0, 1.0, +1 },
+                               { 0.0 * rootBarn },
+                               0.0 );
+    Channel< Neutron > elastic( in, { 0, 1.0, 1.0, +1 },
+                                { 4.822220e-1 * rootBarn,
+                                  3.667980e-1 * rootBarn },
+                                0.0 );
+    Channel< ChargedParticle > protonemission( out2, { 0, 1.0, 1.0, +1 },
+                                               { 4.822220e-1 * rootBarn,
+                                                 3.667980e-1 * rootBarn },
+                                               0.0 );
+
+    // conversion from Gamma to gamma
+    auto eGamma = [&] ( double width, const Energy& energy ) -> ReducedWidth {
+      return std::sqrt( width / 2. / elastic.penetrability( energy ) ) *
+             rootElectronVolt;
+    };
+    auto pGamma = [&] ( double width, const Energy& energy ) -> ReducedWidth {
+      return std::sqrt( width / 2. / protonemission.penetrability( energy ) ) *
+             rootElectronVolt;
+    };
+    auto cGamma = [&] ( double width ) -> ReducedWidth {
+      return std::sqrt( width / 2. ) * rootElectronVolt;
+    };
+
+    // single resonance table
+    ResonanceTable single(
+      { elastic.channelID(), protonemission.channelID() },
+      { Resonance( 6.823616e+4 * electronVolt,
+                   { eGamma( 2.179040e+2, 6.823616e+4 * electronVolt ),
+                     pGamma( 1.000000e-5, 6.823616e+4 * electronVolt ) },
+                   cGamma( 3.933600e-1 ) ) } );
+    ResonanceTable single2 = single;
+
+    // multiple resonance table
+    ResonanceTable multiple(
+      { elastic.channelID(), protonemission.channelID() },
+      { Resonance( 6.823616e+4 * electronVolt,
+                   { eGamma( 2.179040e+2, 6.823616e+4 * electronVolt ),
+                     pGamma( 1.000000e-5, 6.823616e+4 * electronVolt ) },
+                   cGamma( 3.933600e-1 ) ),
+        Resonance( 1.825230e+5 * electronVolt,
+                   { eGamma( 1.759740e+3, 1.825230e+5 * electronVolt ),
+                     pGamma( 4.000000e-1, 1.825230e+5 * electronVolt ) },
+                   cGamma( 7.451500e-1 ) ),
+        Resonance( 2.397427e+5 * electronVolt,
+                   { eGamma( 2.685470e+2, 2.397427e+5 * electronVolt ),
+                     pGamma( 0.0, 2.397427e+5 * electronVolt ) },
+                   cGamma( 6.871600e-1 ) ) } );
+    ResonanceTable multiple2 = multiple;
+
+    SpinGroup< ReichMoore, ShiftFactor >
+        group1( in, { elastic, protonemission }, std::move( single ) );
+    SpinGroup< ReichMoore, ShiftFactor >
+        group2( in, { elastic, protonemission }, std::move( multiple ) );
+    SpinGroup< ReichMoore, Constant >
+        group3( in, { elastic, protonemission }, std::move( single2 ) );
+    SpinGroup< ReichMoore, Constant >
+        group4( in, { elastic, protonemission }, std::move( multiple2 ) );
+
+    ReactionID t11 = "n,Cl35_e0{0,1,1+}->n,Cl35_e0{0,1,1+}";
+    ReactionID t12 = "n,Cl35_e0{0,1,1+}->p,S36_e0{0,1,1+}";
+    ReactionID t21 = "p,S36_e0{0,1,1+}->n,Cl35_e0{0,1,1+}";
+    ReactionID t22 = "p,S36_e0{0,1,1+}->p,S36_e0{0,1,1+}";
+
+    THEN( "cross sections can be calculated for a single resonance using the "
+          "ShiftFactor boundary condition" ) {
+
+      tsl::hopscotch_map< ReactionID, std::complex< double > > elements;
+      group1.evaluateTMatrix( 1e-5 * electronVolt, elements );
+      REQUIRE( 4 == elements.size() );
+      REQUIRE(  1.9329175916735239E-08 == Approx( elements[ t11 ].real() ) );
+      REQUIRE(  5.6087466302805892E-14 == Approx( elements[ t11 ].imag() ) );
+      REQUIRE(  7.3449798785626636E-10 == Approx( elements[ t12 ].real() ) );
+      REQUIRE(  2.1312926800826200E-15 == Approx( elements[ t12 ].imag() ) );
+      REQUIRE(  7.3449798785626636E-10 == Approx( elements[ t21 ].real() ) );
+      REQUIRE(  2.1312926800826200E-15 == Approx( elements[ t21 ].imag() ) );
+      REQUIRE(  2.7910517059230386E-11 == Approx( elements[ t22 ].real() ) );
+      REQUIRE(  8.0987942362204981E-17 == Approx( elements[ t22 ].imag() ) );
+    }
+
+    THEN( "cross sections can be calculated for multiple resonances using the "
+          "ShiftFactor boundary condition" ) {
+
+      tsl::hopscotch_map< ReactionID, std::complex< double > > elements;
+      group2.evaluateTMatrix( 1e-5 * electronVolt, elements );
+      REQUIRE( 4 == elements.size() );
+      REQUIRE(  5.8627792036991544E-08 == Approx( elements[ t11 ].real() ) );
+      REQUIRE(  1.4120321860054129E-13 == Approx( elements[ t11 ].imag() ) );
+      REQUIRE(  6.3514819342570394E-08 == Approx( elements[ t12 ].real() ) );
+      REQUIRE(  1.4100873250164967E-13 == Approx( elements[ t12 ].imag() ) );
+      REQUIRE(  6.3514819342570394E-08 == Approx( elements[ t21 ].real() ) );
+      REQUIRE(  1.4100873250164967E-13 == Approx( elements[ t21 ].imag() ) );
+      REQUIRE(  1.1048788944230737E-07 == Approx( elements[ t22 ].real() ) );
+      REQUIRE(  2.4179854102688846E-13 == Approx( elements[ t22 ].imag() ) );
+    }
+
+    THEN( "cross sections can be calculated for a single resonance using the "
+          "Constant boundary condition" ) {
+
+      tsl::hopscotch_map< ReactionID, std::complex< double > > elements;
+      group3.evaluateTMatrix( 1e-5 * electronVolt, elements );
+      REQUIRE( 4 == elements.size() );
+      REQUIRE(  1.9329175916735239E-08 == Approx( elements[ t11 ].real() ) );
+      REQUIRE(  5.6087466302805892E-14 == Approx( elements[ t11 ].imag() ) );
+      REQUIRE(  7.3449798785626636E-10 == Approx( elements[ t12 ].real() ) );
+      REQUIRE(  2.1312926800826200E-15 == Approx( elements[ t12 ].imag() ) );
+      REQUIRE(  7.3449798785626636E-10 == Approx( elements[ t21 ].real() ) );
+      REQUIRE(  2.1312926800826200E-15 == Approx( elements[ t21 ].imag() ) );
+      REQUIRE(  2.7910517059230386E-11 == Approx( elements[ t22 ].real() ) );
+      REQUIRE(  8.0987942362204981E-17 == Approx( elements[ t22 ].imag() ) );
+    }
+
+    THEN( "cross sections can be calculated for multiple resonances using the "
+          "Constant boundary condition" ) {
+
+      tsl::hopscotch_map< ReactionID, std::complex< double > > elements;
+      group4.evaluateTMatrix( 1e-5 * electronVolt, elements );
+      REQUIRE( 4 == elements.size() );
+      REQUIRE(  5.8627792036991544E-08 == Approx( elements[ t11 ].real() ) );
+      REQUIRE(  1.4120321860054129E-13 == Approx( elements[ t11 ].imag() ) );
+      REQUIRE(  6.3514819342570394E-08 == Approx( elements[ t12 ].real() ) );
+      REQUIRE(  1.4100873250164967E-13 == Approx( elements[ t12 ].imag() ) );
+      REQUIRE(  6.3514819342570394E-08 == Approx( elements[ t21 ].real() ) );
+      REQUIRE(  1.4100873250164967E-13 == Approx( elements[ t21 ].imag() ) );
+      REQUIRE(  1.1048788944230737E-07 == Approx( elements[ t22 ].real() ) );
+      REQUIRE(  2.4179854102688846E-13 == Approx( elements[ t22 ].imag() ) );
     }
   } // GIVEN
 } // SCENARIO

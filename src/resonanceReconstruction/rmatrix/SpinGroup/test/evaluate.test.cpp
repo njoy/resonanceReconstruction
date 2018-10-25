@@ -9,6 +9,7 @@ using ParticlePair = rmatrix::ParticlePair;
 using Neutron = rmatrix::Neutron;
 using Photon = rmatrix::Photon;
 using Fission = rmatrix::Fission;
+using ChargedParticle = rmatrix::ChargedParticle;
 template < typename Type > using Channel = rmatrix::Channel< Type >;
 using Resonance = rmatrix::Resonance;
 using ResonanceTable = rmatrix::ResonanceTable;
@@ -19,6 +20,7 @@ using Constant = rmatrix::Constant;
 using ReichMoore = rmatrix::ReichMoore;
 
 constexpr AtomicMass neutronMass = 1.008664 * daltons;
+constexpr ElectricalCharge elementary = dimwits::constant::elementaryCharge;
 
 SCENARIO( "evaluate" ) {
 
@@ -30,7 +32,7 @@ SCENARIO( "evaluate" ) {
 
     // test based on Fe54 ENDF/B-VIII.0 LRF7 resonance evaluation
     // data given in Gamma = 2 gamma^2 P(Er) so conversion is required
-    // cross section values extracted from NJOY2016.39
+    // cross section values extracted from NJOY2016.43
 
     // because the orbital angular momentum l = 0 for these SpinGroup,
     // SpinGroup< ReichMoore, ShiftFactor > and SpinGroup< ReichMoore, Constant >
@@ -40,12 +42,12 @@ SCENARIO( "evaluate" ) {
     // LRF7 reconstruction
 
     // particles
-    Particle photon( "g", 0.0 * daltons, 0.0 * coulombs, 1., +1);
-    Particle neutron( "n", neutronMass, 0.0 * coulombs, 0.5, +1);
+    Particle photon( "g", 0.0 * daltons, 0.0 * elementary, 1., +1);
+    Particle neutron( "n", neutronMass, 0.0 * elementary, 0.5, +1);
     Particle fe55( "Fe55_e0", 5.446635e+1 * neutronMass,
-                              26.0 * coulombs, 0.0, +1);
+                              26.0 * elementary, 0.0, +1);
     Particle fe54( "Fe54_e0", 5.347624e+1 * neutronMass,
-                              26.0 * coulombs, 0.0, +1);
+                              26.0 * elementary, 0.0, +1);
 
     // particle pairs
     ParticlePair in( neutron, fe54, 0.0 * electronVolt );
@@ -466,7 +468,7 @@ SCENARIO( "evaluate" ) {
     // test based on Pu239 ENDF/B-VIII.0 LRF3 resonance evaluation (some of the
     // widths used in this test were negative in the original evaluation)
     // data given in Gamma = 2 gamma^2 P(Er) so conversion is required
-    // cross section values extracted from NJOY2016.39 (note: LRF7 in NJOY2016
+    // cross section values extracted from NJOY2016.43 (note: LRF7 in NJOY2016
     // doesn't add potential scattering for missing J values)
 
     // because the oribital angular momentum l = 0 for these SpinGroup,
@@ -477,13 +479,13 @@ SCENARIO( "evaluate" ) {
     // LRF7 reconstruction
 
     // particles
-    Particle photon( "g", 0.0 * daltons, 0.0 * coulombs, 1., +1);
-    Particle neutron( "n", neutronMass, 0.0 * coulombs, 0.5, +1);
+    Particle photon( "g", 0.0 * daltons, 0.0 * elementary, 1., +1);
+    Particle neutron( "n", neutronMass, 0.0 * elementary, 0.5, +1);
     Particle pu240( "Pu240_e0", 2.379916e+2 * neutronMass,
-                                94.0 * coulombs, 0.5, +1);
+                                94.0 * elementary, 0.5, +1);
     Particle pu239( "Pu239_e0", 2.369986e+2 * neutronMass,
-                                94.0 * coulombs, 0.5, +1);
-    Particle fission( "fission", 0.0 * daltons, 0.0 * coulombs, 0.0, +1);
+                                94.0 * elementary, 0.5, +1);
+    Particle fission( "fission", 0.0 * daltons, 0.0 * elementary, 0.0, +1);
 
     // particle pairs
     ParticlePair in( neutron, pu239, 0.0 * electronVolt );
@@ -921,17 +923,17 @@ SCENARIO( "evaluate" ) {
     // test based on Pu239 ENDF/B-VIII.0 LRF3 resonance evaluation (some of the
     // widths used in this test were negative in the original evaluation)
     // data given in Gamma = 2 gamma^2 P(Er) so conversion is required
-    // cross section values extracted from NJOY2016.39 (note: LRF7 in NJOY2016
+    // cross section values extracted from NJOY2016.43 (note: LRF7 in NJOY2016
     // doesn't add potential scattering for missing J values)
 
     // particles
-    Particle photon( "g", 0.0 * daltons, 0.0 * coulombs, 1., +1);
-    Particle neutron( "n", neutronMass, 0.0 * coulombs, 0.5, +1);
+    Particle photon( "g", 0.0 * daltons, 0.0 * elementary, 1., +1);
+    Particle neutron( "n", neutronMass, 0.0 * elementary, 0.5, +1);
     Particle pu240( "Pu240_e0", 2.379916e+2 * neutronMass,
-                                94.0 * coulombs, 0.5, +1);
+                                94.0 * elementary, 0.5, +1);
     Particle pu239( "Pu239_e0", 2.369986e+2 * neutronMass,
-                                94.0 * coulombs, 0.5, +1);
-    Particle fission( "fission", 0.0 * daltons, 0.0 * coulombs, 0.0, +1);
+                                94.0 * elementary, 0.5, +1);
+    Particle fission( "fission", 0.0 * daltons, 0.0 * elementary, 0.0, +1);
 
     // particle pairs
     ParticlePair in( neutron, pu239, 0.0 * electronVolt );
@@ -1084,17 +1086,17 @@ SCENARIO( "evaluate" ) {
     // test based on Pu239 ENDF/B-VIII.0 LRF3 resonance evaluation (all
     // widths used in this test are from the original evaluation)
     // data given in Gamma = 2 gamma^2 P(Er) so conversion is required
-    // cross section values extracted from NJOY2016.39 (note: LRF7 in NJOY2016
+    // cross section values extracted from NJOY2016.43 (note: LRF7 in NJOY2016
     // doesn't add potential scattering for missing J values)
 
     // particles
-    Particle photon( "g", 0.0 * daltons, 0.0 * coulombs, 1., +1);
-    Particle neutron( "n", neutronMass, 0.0 * coulombs, 0.5, +1);
+    Particle photon( "g", 0.0 * daltons, 0.0 * elementary, 1., +1);
+    Particle neutron( "n", neutronMass, 0.0 * elementary, 0.5, +1);
     Particle pu240( "Pu240_e0", 2.379916e+2 * neutronMass,
-                                94.0 * coulombs, 0.5, +1);
+                                94.0 * elementary, 0.5, +1);
     Particle pu239( "Pu239_e0", 2.369986e+2 * neutronMass,
-                                94.0 * coulombs, 0.5, +1);
-    Particle fission( "fission", 0.0 * daltons, 0.0 * coulombs, 0.0, +1);
+                                94.0 * elementary, 0.5, +1);
+    Particle fission( "fission", 0.0 * daltons, 0.0 * elementary, 0.0, +1);
 
     // particle pairs
     ParticlePair in( neutron, pu239, 0.0 * electronVolt );
@@ -1250,6 +1252,500 @@ SCENARIO( "evaluate" ) {
       REQUIRE( 3.826384e+0 == Approx( xs[ elas ].value ) );
       REQUIRE( 1.140768e+2 == Approx( xs[ fiss ].value ) );
       REQUIRE( 6.042620e+0 == Approx( xs[ capt ].value ) );
+      xs.clear();
+    }
+  } // GIVEN
+
+  GIVEN( "valid data for a SpinGroup with one eliminated capture channel, "
+         "one elastic channel and a proton channel" ) {
+
+    // test based on Cl35 ENDF/B-VIII.0 LRF7 resonance evaluation
+    // data given in Gamma = 2 gamma^2 P(Er) so conversion is required
+    // cross section values extracted from NJOY2016.43
+
+    // because the oribital angular momentum l = 0 for these SpinGroup,
+    // SpinGroup< ReichMoore, ShiftFactor > and SpinGroup< ReichMoore, Constant >
+    // should give the same results
+
+    // using SpinGroup< ReichMoore, ShiftFactor > is equivalent to NJOY2016's
+    // LRF7 reconstruction
+
+    // particles
+    Particle photon( "g", 0.0 * daltons, 0.0 * elementary, 1., +1);
+    Particle neutron( "n", neutronMass, 0.0 * elementary, 0.5, +1);
+    Particle proton( "p", 9.986235e-1 * neutronMass, elementary, 0.5, +1);
+    Particle cl36( "Cl36_e0", 3.565932e+1 * neutronMass,
+                              17.0 * elementary, 0., +1);
+    Particle cl35( "Cl35_e0", 3.466845e+1 * neutronMass,
+                              17.0 * elementary, 1.5, +1);
+    Particle s36( "S36_e0", 3.466863e+1 * neutronMass,
+                            16.0 * elementary, 1.5, +1);
+
+    // particle pairs
+    ParticlePair in( neutron, cl35, 0.0 * electronVolt );
+    ParticlePair out1( photon, cl36, 0.0 * electronVolt );
+    ParticlePair out2( proton, s36, 6.152200e+5 * electronVolt );
+
+    // channels
+    Channel< Photon > capture( out1, { 0, 0.0, 1.0, +1 },
+                               { 0.0 * rootBarn },
+                               0.0 );
+    Channel< Neutron > elastic( in, { 0, 1.0, 1.0, +1 },
+                                { 4.822220e-1 * rootBarn,
+                                  3.667980e-1 * rootBarn },
+                                0.0 );
+    Channel< ChargedParticle > protonemission( out2, { 0, 1.0, 1.0, +1 },
+                                               { 4.822220e-1 * rootBarn,
+                                                 3.667980e-1 * rootBarn },
+                                               0.0 );
+
+    // conversion from Gamma to gamma
+    auto eGamma = [&] ( double width, const Energy& energy ) -> ReducedWidth {
+      return std::sqrt( width / 2. / elastic.penetrability( energy ) ) *
+             rootElectronVolt;
+    };
+    auto pGamma = [&] ( double width, const Energy& energy ) -> ReducedWidth {
+      return std::sqrt( width / 2. / protonemission.penetrability( energy ) ) *
+             rootElectronVolt;
+    };
+    auto cGamma = [&] ( double width ) -> ReducedWidth {
+      return std::sqrt( width / 2. ) * rootElectronVolt;
+    };
+
+    // single resonance table
+    ResonanceTable single(
+      { elastic.channelID(), protonemission.channelID() },
+      { Resonance( 6.823616e+4 * electronVolt,
+                   { eGamma( 2.179040e+2, 6.823616e+4 * electronVolt ),
+                     pGamma( 1.000000e-5, 6.823616e+4 * electronVolt ) },
+                   cGamma( 3.933600e-1 ) ) } );
+    ResonanceTable single2 = single;
+
+    // multiple resonance table
+    ResonanceTable multiple(
+      { elastic.channelID(), protonemission.channelID() },
+      { Resonance( 6.823616e+4 * electronVolt,
+                   { eGamma( 2.179040e+2, 6.823616e+4 * electronVolt ),
+                     pGamma( 1.000000e-5, 6.823616e+4 * electronVolt ) },
+                   cGamma( 3.933600e-1 ) ),
+        Resonance( 1.825230e+5 * electronVolt,
+                   { eGamma( 1.759740e+3, 1.825230e+5 * electronVolt ),
+                     pGamma( 4.000000e-1, 1.825230e+5 * electronVolt ) },
+                   cGamma( 7.451500e-1 ) ),
+        Resonance( 2.397427e+5 * electronVolt,
+                   { eGamma( 2.685470e+2, 2.397427e+5 * electronVolt ),
+                     pGamma( 0.0, 2.397427e+5 * electronVolt ) },
+                   cGamma( 6.871600e-1 ) ) } );
+    ResonanceTable multiple2 = multiple;
+
+    SpinGroup< ReichMoore, ShiftFactor >
+        group1( in, { elastic, protonemission }, std::move( single ) );
+    SpinGroup< ReichMoore, ShiftFactor >
+        group2( in, { elastic, protonemission }, std::move( multiple ) );
+    SpinGroup< ReichMoore, Constant >
+        group3( in, { elastic, protonemission }, std::move( single2 ) );
+    SpinGroup< ReichMoore, Constant >
+        group4( in, { elastic, protonemission }, std::move( multiple2 ) );
+
+    ReactionID elas = "n,Cl35_e0->n,Cl35_e0";
+    ReactionID pemi = "n,Cl35_e0->p,S36_e0";
+    ReactionID capt = "n,Cl35_e0->capture";
+
+    THEN( "cross sections can be calculated for a single resonance using the "
+          "ShiftFactor boundary condition" ) {
+
+      tsl::hopscotch_map< ReactionID, Quantity< Barn > > xs;
+      group1.evaluate( 1e-5 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.241509e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 5.576194e-8 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 5.758583e-3 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group1.evaluate( 1e-4 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.241509e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 1.763347e-8 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 1.821024e-3 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group1.evaluate( 1e-3 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.241509e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 5.576194e-9 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 5.758583e-4 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group1.evaluate( 1e-2 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.241509e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 1.763348e-9 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 1.821024e-4 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group1.evaluate( 1e-1 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.241508e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 5.57622e-10 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 5.758600e-5 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group1.evaluate( 1e+0 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.241506e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 1.76343e-10 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 1.821077e-5 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group1.evaluate( 1e+1 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.241482e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 5.57868e-11 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 5.760271e-6 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group1.evaluate( 1e+2 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.241239e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 1.77124e-11 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 1.826373e-6 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group1.evaluate( 1e+3 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.238793e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 5.83185e-12 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 5.931151e-7 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group1.evaluate( 1e+4 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.212174e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 2.81649e-12 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 2.500110e-7 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group1.evaluate( 1e+5 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.417078e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 1.01231e-12 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 2.657488e-7 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group1.evaluate( 1e+6 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 5.149891e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 1.06136e-11 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 9.76637e-11 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group1.evaluate( 6.823616e+4 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 1.447223e+1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 6.926440e-7 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 2.724583e-2 == Approx( xs[ capt ].value ) );
+      xs.clear();
+    }
+
+    THEN( "cross sections can be calculated for multiple resonances using the "
+          "ShiftFactor boundary condition" ) {
+
+      tsl::hopscotch_map< ReactionID, Quantity< Barn > > xs;
+      group2.evaluate( 1e-5 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.043473e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 4.169719e-4 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 1.382266e-2 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group2.evaluate( 1e-4 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.043473e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 1.318581e-4 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 4.371108e-3 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group2.evaluate( 1e-3 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.043473e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 4.169719e-5 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 1.382266e-3 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group2.evaluate( 1e-2 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.043473e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 1.318581e-5 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 4.371109e-4 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group2.evaluate( 1e-1 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.043472e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 4.169730e-6 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 1.382268e-4 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group2.evaluate( 1e+0 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.043469e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 1.318616e-6 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 4.371189e-5 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group2.evaluate( 1e+1 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.043436e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 4.170824e-7 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 1.382522e-5 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group2.evaluate( 1e+2 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.043108e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 1.322079e-7 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 4.379210e-6 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group2.evaluate( 1e+3 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.039801e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 4.281706e-8 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 1.408289e-6 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group2.evaluate( 1e+4 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.004127e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 1.721283e-8 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 5.349224e-7 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group2.evaluate( 1e+5 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 5.999024e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 7.662583e-8 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 6.497930e-7 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group2.evaluate( 1e+6 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 5.179658e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 7.263042e-8 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 1.452944e-9 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group2.evaluate( 6.823616e+4 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 1.447223e+1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 6.925359e-7 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 2.724593e-2 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group2.evaluate( 2.397427e+5 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 3.680009e+0 == Approx( xs[ elas ].value ) );
+      REQUIRE( 3.03460e-12 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 1.097562e-2 == Approx( xs[ capt ].value ) );
+      xs.clear();
+    }
+
+    THEN( "cross sections can be calculated for a single resonance using the "
+          "Constant boundary condition" ) {
+
+      tsl::hopscotch_map< ReactionID, Quantity< Barn > > xs;
+      group3.evaluate( 1e-5 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.241509e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 5.576194e-8 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 5.758583e-3 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group3.evaluate( 1e-4 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.241509e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 1.763347e-8 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 1.821024e-3 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group3.evaluate( 1e-3 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.241509e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 5.576194e-9 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 5.758583e-4 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group3.evaluate( 1e-2 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.241509e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 1.763348e-9 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 1.821024e-4 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group3.evaluate( 1e-1 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.241508e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 5.57622e-10 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 5.758600e-5 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group3.evaluate( 1e+0 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.241506e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 1.76343e-10 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 1.821077e-5 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group3.evaluate( 1e+1 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.241482e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 5.57868e-11 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 5.760271e-6 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group3.evaluate( 1e+2 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.241239e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 1.77124e-11 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 1.826373e-6 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group3.evaluate( 1e+3 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.238793e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 5.83185e-12 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 5.931151e-7 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group3.evaluate( 1e+4 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.212174e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 2.81649e-12 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 2.500110e-7 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group3.evaluate( 1e+5 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.417078e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 1.01231e-12 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 2.657488e-7 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group3.evaluate( 1e+6 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 5.149891e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 1.06136e-11 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 9.76637e-11 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group3.evaluate( 6.823616e+4 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 1.447223e+1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 6.926440e-7 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 2.724583e-2 == Approx( xs[ capt ].value ) );
+      xs.clear();
+    }
+
+    THEN( "cross sections can be calculated for multiple resonances using the "
+          "Constant boundary condition" ) {
+
+      tsl::hopscotch_map< ReactionID, Quantity< Barn > > xs;
+      group4.evaluate( 1e-5 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.043473e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 4.169719e-4 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 1.382266e-2 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group4.evaluate( 1e-4 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.043473e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 1.318581e-4 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 4.371108e-3 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group4.evaluate( 1e-3 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.043473e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 4.169719e-5 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 1.382266e-3 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group4.evaluate( 1e-2 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.043473e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 1.318581e-5 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 4.371109e-4 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group4.evaluate( 1e-1 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.043472e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 4.169730e-6 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 1.382268e-4 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group4.evaluate( 1e+0 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.043469e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 1.318616e-6 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 4.371189e-5 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group4.evaluate( 1e+1 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.043436e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 4.170824e-7 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 1.382522e-5 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group4.evaluate( 1e+2 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.043108e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 1.322079e-7 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 4.379210e-6 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group4.evaluate( 1e+3 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.039801e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 4.281706e-8 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 1.408289e-6 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group4.evaluate( 1e+4 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 6.004127e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 1.721283e-8 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 5.349224e-7 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group4.evaluate( 1e+5 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 5.999024e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 7.662583e-8 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 6.497930e-7 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group4.evaluate( 1e+6 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 5.179658e-1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 7.263042e-8 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 1.452944e-9 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group4.evaluate( 6.823616e+4 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 1.447223e+1 == Approx( xs[ elas ].value ) );
+      REQUIRE( 6.925359e-7 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 2.724593e-2 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      group4.evaluate( 2.397427e+5 * electronVolt, xs );
+      REQUIRE( 3 == xs.size() );
+      REQUIRE( 3.680009e+0 == Approx( xs[ elas ].value ) );
+      REQUIRE( 3.03460e-12 == Approx( xs[ pemi ].value ) );
+      REQUIRE( 1.097562e-2 == Approx( xs[ capt ].value ) );
       xs.clear();
     }
   } // GIVEN

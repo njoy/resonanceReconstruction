@@ -39,10 +39,15 @@ double calculatePhaseShift< Neutron >( const unsigned int l,
  */
 template <> 
 inline
-double calculatePhaseShift< ChargedParticle >( const unsigned int,
-                                               const double,
-                                               const double ) {
-  //! @todo develop this
-  return 0.0;
+double calculatePhaseShift< ChargedParticle >( const unsigned int l,
+                                               const double ratio,
+                                               const double eta ) {
+
+  std::complex< double > gf, dgf;
+  coulombWaveFunctions( l, ratio, eta, gf, dgf);
+
+  double F = gf.imag();
+  double G = gf.real();
+  return std::acos( G / std::sqrt( F * F + G * G ) );
 }
 

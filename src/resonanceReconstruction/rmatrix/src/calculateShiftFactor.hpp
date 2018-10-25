@@ -35,10 +35,17 @@ double calculateShiftFactor< Neutron >( const unsigned int l,
  */
 template <> 
 inline
-double calculateShiftFactor< ChargedParticle >( const unsigned int,
-                                                const double,
-                                                const double ) {
-  //! @todo develop this
-  return 0.0;
+double calculateShiftFactor< ChargedParticle >( const unsigned int l,
+                                                const double ratio,
+                                                const double eta ) {
+
+  std::complex< double > gf, dgf;
+  coulombWaveFunctions( l, ratio, eta, gf, dgf);
+
+  double F = gf.imag();
+  double G = gf.real();
+  double dF = dgf.imag();
+  double dG = dgf.real();
+  return ratio / ( F * F + G * G ) * ( F * dF + G * dG );
 }
 
