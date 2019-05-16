@@ -12,8 +12,8 @@
  */
 template < typename Range >
 auto calculateLDiagonal( const Energy& energy,
-                             Range penetrabilities,
-                             Constant ) const {
+                         Range penetrabilities,
+                         Constant ) const {
 
   return ranges::view::zip_with(
              [] ( double S, double B, double P )
@@ -42,8 +42,8 @@ auto calculateLDiagonal( const Energy& energy,
  */
 template < typename Range >
 auto calculateLDiagonal( const Energy&,
-                             Range penetrabilities,
-                             ShiftFactor ) const {
+                         Range penetrabilities,
+                         ShiftFactor ) const {
 
   return penetrabilities
              | ranges::view::transform(

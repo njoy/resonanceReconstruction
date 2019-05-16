@@ -37,6 +37,9 @@ SCENARIO( "ParticlePair" ) {
       REQUIRE( 0.0 == Approx( pair.residual().spin() ) );
       REQUIRE( +1 == pair.residual().parity() );
 
+      REQUIRE( 235.0439299 / ( 235.0439299 + 1.008664 )
+               == Approx( pair.massRatio() ) );
+
       REQUIRE( 0.0 == Approx( pair.Q().value ) );
       REQUIRE( "n,U235_e0" == pair.pairID() );
 
@@ -59,6 +62,9 @@ SCENARIO( "ParticlePair" ) {
       REQUIRE( 0.0 == Approx( pair.residual().charge().value ) );
       REQUIRE( 0.0 == Approx( pair.residual().spin() ) );
       REQUIRE( +1 == pair.residual().parity() );
+
+      REQUIRE( 235.0439299 / ( 235.0439299 + 1.008664 )
+               == Approx( pair.massRatio() ) );
 
       REQUIRE( 0.0 == Approx( pair.Q().value ) );
       REQUIRE( "fission" == pair.pairID() );

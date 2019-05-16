@@ -13,6 +13,7 @@ WaveNumber waveNumber( const Energy& energy ) const {
 
   const auto mu = this->reducedMass();
   const auto q = this->Q();
-  return sqrt( 2. * mu * ( energy * this->massratio_ + q ) ) / hbar;
+  //! @todo why not return zero if energy * this->massratio_ + q becomes negative?
+  return sqrt( 2. * mu * ( std::abs( energy * this->massratio_ + q ) ) ) / hbar;
 }
 

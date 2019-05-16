@@ -48,6 +48,11 @@ public:
    */
   const ParticlePairID& pairID() const { return this->id_; }
 
+  /**
+   *  @brief Return the mass ratio M / ( m + M ) of the particle pair
+   */
+  double massRatio() const { return this->massratio_; }
+
   #include "resonanceReconstruction/rmatrix/ParticlePair/src/reducedMass.hpp"
   #include "resonanceReconstruction/rmatrix/ParticlePair/src/waveNumber.hpp"
   #include "resonanceReconstruction/rmatrix/ParticlePair/src/sommerfeldParameter.hpp"

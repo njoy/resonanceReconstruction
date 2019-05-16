@@ -531,6 +531,7 @@
     "src/resonanceReconstruction/rmatrix/SpinGroup/src/sqrtPenetrabilities.hpp",
     "src/resonanceReconstruction/rmatrix/SpinGroup/src/omegas.hpp",
     "src/resonanceReconstruction/rmatrix/SpinGroup/src/evaluateTMatrix.hpp",
+    "src/resonanceReconstruction/rmatrix/SpinGroup/src/belowThreshold.hpp",
     "src/resonanceReconstruction/rmatrix/ParticlePair/src/waveNumber.hpp",
     "src/resonanceReconstruction/rmatrix/ParticlePair/src/reducedMass.hpp",
     "src/resonanceReconstruction/rmatrix/ParticlePair/src/ctor.hpp",
@@ -618,9 +619,12 @@
       "src/resonanceReconstruction/rmatrix/ChannelQuantumNumbers/test/ChannelQuantumNumbers.test.cpp"
     ],
     "resonanceReconstruction.rmatrix.CompoundSystem": [
+      "src/resonanceReconstruction/rmatrix/CompoundSystem/test/Ca40-endf80.cpp",
       "src/resonanceReconstruction/rmatrix/CompoundSystem/test/CompoundSystem.test.cpp",
       "src/resonanceReconstruction/rmatrix/CompoundSystem/test/evaluateTMatrix.test.cpp",
-      "src/resonanceReconstruction/rmatrix/CompoundSystem/test/evaluate.test.cpp"
+      "src/resonanceReconstruction/rmatrix/CompoundSystem/test/evaluate.test.cpp",
+      "src/resonanceReconstruction/rmatrix/CompoundSystem/test/Fe54-endf80.cpp",
+      "src/resonanceReconstruction/rmatrix/CompoundSystem/test/Fe57-endf80.cpp"
     ],
     "resonanceReconstruction.rmatrix.Particle": [
       "src/resonanceReconstruction/rmatrix/Particle/test/Particle.test.cpp"

@@ -23,6 +23,7 @@ class SpinGroup {
   /* fields */
   std::vector< ReactionID > reactions_;
   Matrix< std::complex< double > > matrix_;
+  Matrix< std::complex< double > > rmatrix_;
   std::vector< std::complex< double > > diagonalLMatrix_;
 
   std::vector< unsigned int > incident_;
@@ -40,6 +41,7 @@ class SpinGroup {
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/boundaryConditions.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/sqrtPenetrabilities.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/omegas.hpp"
+  #include "resonanceReconstruction/rmatrix/SpinGroup/src/belowThreshold.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/calculateLDiagonal.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/calculateRLMatrix.hpp"
 
