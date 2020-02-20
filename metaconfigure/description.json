@@ -1,545 +1,766 @@
 {
   "compiler": {
     "apple clang++": {
-      "minimum version": "8.0",
+      "minimum version": "8.0", 
       "osx": {
         "flags": {
-          "base project": [],
+          "base project": [], 
           "common": [
             "-stdlib=libc++"
-          ],
+          ], 
           "coverage": [
             "--coverage"
-          ],
+          ], 
           "debug": [
-            "-O0",
-            "-g",
+            "-O0", 
+            "-g", 
             "-gdwarf-3"
-          ],
+          ], 
           "link time optimization": [
             "-flto"
-          ],
+          ], 
           "nonportable optimization": [
             "-march=native"
-          ],
+          ], 
           "optimization": [
-            "-O3",
+            "-O3", 
             "-DNDEBUG"
-          ],
+          ], 
           "profile generate": [
             "-fprofile-generate='{profile_path}'"
-          ],
+          ], 
           "profile use": [
             "-fprofile-use='{profile_path}'"
-          ],
+          ], 
           "static": [
             "-static"
-          ],
+          ], 
           "strict": [
             "-Werror"
-          ],
-          "subproject": [],
+          ], 
+          "subproject": [], 
           "warning": [
-            "-Wall",
-            "-Wextra",
+            "-Wall", 
+            "-Wextra", 
             "-Wpedantic"
           ]
-        },
+        }, 
         "standard": {
-          "c++11": "-std=c++11",
-          "c++14": "-std=c++14",
+          "c++11": "-std=c++11", 
+          "c++14": "-std=c++14", 
+          "c++17": "-std=c++17", 
           "c++98": "-std=c++98"
         }
       }
-    },
+    }, 
     "g++": {
-      "linux": {
+      "cygwin": {
         "flags": {
-          "base project": [],
+          "base project": [], 
           "common": [
             "-Wno-subobject-linkage"
-          ],
+          ], 
           "coverage": [
             "--coverage"
-          ],
+          ], 
           "debug": [
-            "-O0",
-            "-g",
-            "-gdwarf-3",
+            "-O0", 
+            "-g", 
+            "-gdwarf-3", 
             "-fsignaling-nans"
-          ],
+          ], 
           "link time optimization": [
             "-flto"
-          ],
+          ], 
           "nonportable optimization": [
             "-march=native"
-          ],
+          ], 
           "optimization": [
-            "-O3",
+            "-O3", 
             "-DNDEBUG"
-          ],
+          ], 
           "profile generate": [
             "-fprofile-generate='{profile_path}'"
-          ],
+          ], 
           "profile use": [
             "-fprofile-use='{profile_path}'"
-          ],
+          ], 
           "static": [
             "-static"
-          ],
+          ], 
           "strict": [
             "-Werror"
-          ],
-          "subproject": [],
+          ], 
+          "subproject": [], 
           "warning": [
-            "-Wall",
-            "-Wextra",
+            "-Wall", 
+            "-Wextra", 
             "-Wpedantic"
           ]
-        },
+        }, 
         "standard": {
-          "c++11": "-std=c++11",
-          "c++14": "-std=c++14",
+          "c++11": "-std=gnu++11", 
+          "c++14": "-std=gnu++14", 
+          "c++17": "-std=gnu++17", 
+          "c++98": "-std=gnu++98"
+        }
+      }, 
+      "linux": {
+        "flags": {
+          "base project": [], 
+          "common": [
+            "-Wno-subobject-linkage"
+          ], 
+          "coverage": [
+            "--coverage"
+          ], 
+          "debug": [
+            "-O0", 
+            "-g", 
+            "-gdwarf-3", 
+            "-fsignaling-nans"
+          ], 
+          "link time optimization": [
+            "-flto"
+          ], 
+          "nonportable optimization": [
+            "-march=native"
+          ], 
+          "optimization": [
+            "-O3", 
+            "-DNDEBUG"
+          ], 
+          "profile generate": [
+            "-fprofile-generate='{profile_path}'"
+          ], 
+          "profile use": [
+            "-fprofile-use='{profile_path}'"
+          ], 
+          "static": [
+            "-static"
+          ], 
+          "strict": [
+            "-Werror"
+          ], 
+          "subproject": [], 
+          "warning": [
+            "-Wall", 
+            "-Wextra", 
+            "-Wpedantic"
+          ]
+        }, 
+        "standard": {
+          "c++11": "-std=c++11", 
+          "c++14": "-std=c++14", 
+          "c++17": "-std=c++17", 
           "c++98": "-std=c++98"
         }
-      },
-      "minimum version": "6.2",
+      }, 
+      "mingw": {
+        "flags": {
+          "base project": [], 
+          "common": [
+            "-Wno-subobject-linkage"
+          ], 
+          "coverage": [
+            "--coverage"
+          ], 
+          "debug": [
+            "-O0", 
+            "-g", 
+            "-gdwarf-3", 
+            "-fsignaling-nans"
+          ], 
+          "link time optimization": [
+            "-flto"
+          ], 
+          "nonportable optimization": [
+            "-march=native"
+          ], 
+          "optimization": [
+            "-O3", 
+            "-DNDEBUG"
+          ], 
+          "profile generate": [
+            "-fprofile-generate='{profile_path}'"
+          ], 
+          "profile use": [
+            "-fprofile-use='{profile_path}'"
+          ], 
+          "static": [
+            "-static"
+          ], 
+          "strict": [
+            "-Werror"
+          ], 
+          "subproject": [], 
+          "warning": [
+            "-Wall", 
+            "-Wextra", 
+            "-Wpedantic"
+          ]
+        }, 
+        "standard": {
+          "c++11": "-std=c++11", 
+          "c++14": "-std=c++14", 
+          "c++17": "-std=c++17", 
+          "c++98": "-std=c++98"
+        }
+      }, 
+      "minimum version": "6.2", 
       "osx": {
         "flags": {
-          "base project": [],
-          "common": [],
+          "base project": [], 
+          "common": [
+            "-Wno-subobject-linkage"
+          ], 
           "coverage": [
             "--coverage"
-          ],
+          ], 
           "debug": [
-            "-O0",
-            "-g",
-            "-gdwarf-3",
+            "-O0", 
+            "-g", 
+            "-gdwarf-3", 
             "-fsignaling-nans"
-          ],
+          ], 
           "link time optimization": [
             "-flto"
-          ],
+          ], 
           "nonportable optimization": [
             "-march=native"
-          ],
+          ], 
           "optimization": [
-            "-O3",
+            "-O3", 
             "-DNDEBUG"
-          ],
+          ], 
           "profile generate": [
             "-fprofile-generate='{profile_path}'"
-          ],
+          ], 
           "profile use": [
             "-fprofile-use='{profile_path}'"
-          ],
+          ], 
           "static": [
             "-static"
-          ],
+          ], 
           "strict": [
             "-Werror"
-          ],
-          "subproject": [],
+          ], 
+          "subproject": [], 
           "warning": [
-            "-Wall",
-            "-Wextra",
+            "-Wall", 
+            "-Wextra", 
             "-Wpedantic"
           ]
-        },
+        }, 
         "standard": {
-          "c++11": "-std=c++11",
-          "c++14": "-std=c++14",
+          "c++11": "-std=c++11", 
+          "c++14": "-std=c++14", 
+          "c++17": "-std=c++17", 
           "c++98": "-std=c++98"
         }
-      },
+      }, 
       "windows": {
         "flags": {
-          "base project": [],
-          "common": [],
+          "base project": [], 
+          "common": [
+            "-Wno-subobject-linkage"
+          ], 
           "coverage": [
             "--coverage"
-          ],
+          ], 
           "debug": [
-            "-O0",
-            "-g",
-            "-gdwarf-3",
+            "-O0", 
+            "-g", 
+            "-gdwarf-3", 
             "-fsignaling-nans"
-          ],
+          ], 
           "link time optimization": [
             "-flto"
-          ],
+          ], 
           "nonportable optimization": [
             "-march=native"
-          ],
+          ], 
           "optimization": [
-            "-O3",
+            "-O3", 
             "-DNDEBUG"
-          ],
+          ], 
           "profile generate": [
             "-fprofile-generate='{profile_path}'"
-          ],
+          ], 
           "profile use": [
             "-fprofile-use='{profile_path}'"
-          ],
+          ], 
           "static": [
             "-static"
-          ],
+          ], 
           "strict": [
             "-Werror"
-          ],
-          "subproject": [],
+          ], 
+          "subproject": [], 
           "warning": [
-            "-Wall",
-            "-Wextra",
+            "-Wall", 
+            "-Wextra", 
             "-Wpedantic"
           ]
-        },
+        }, 
         "standard": {
-          "c++11": "-std=c++11",
-          "c++14": "-std=c++14",
+          "c++11": "-std=c++11", 
+          "c++14": "-std=c++14", 
+          "c++17": "-std=c++17", 
           "c++98": "-std=c++98"
         }
       }
-    },
+    }, 
     "llvm clang++": {
+      "cygwin": {
+        "flags": {
+          "base project": [], 
+          "common": [
+            "-Wno-subobject-linkage"
+          ], 
+          "coverage": [
+            "--coverage"
+          ], 
+          "debug": [
+            "-O0", 
+            "-g", 
+            "-gdwarf-3", 
+            "-fsignaling-nans"
+          ], 
+          "link time optimization": [
+            "-flto"
+          ], 
+          "nonportable optimization": [
+            "-march=native"
+          ], 
+          "optimization": [
+            "-O3", 
+            "-DNDEBUG"
+          ], 
+          "profile generate": [
+            "-fprofile-generate='{profile_path}'"
+          ], 
+          "profile use": [
+            "-fprofile-use='{profile_path}'"
+          ], 
+          "static": [
+            "-static"
+          ], 
+          "strict": [
+            "-Werror"
+          ], 
+          "subproject": [], 
+          "warning": [
+            "-Wall", 
+            "-Wextra", 
+            "-Wpedantic"
+          ]
+        }, 
+        "standard": {
+          "c++11": "-std=gnu++11", 
+          "c++14": "-std=gnu++14", 
+          "c++17": "-std=gnu++17", 
+          "c++98": "-std=gnu++98"
+        }
+      }, 
       "linux": {
         "flags": {
-          "base project": [],
+          "base project": [], 
           "common": [
             "-stdlib=libstdc++"
-          ],
+          ], 
           "coverage": [
             "--coverage"
-          ],
+          ], 
           "debug": [
-            "-O0",
-            "-g",
+            "-O0", 
+            "-g", 
             "-gdwarf-3"
-          ],
+          ], 
           "link time optimization": [
             "-flto"
-          ],
+          ], 
           "nonportable optimization": [
             "-march=native"
-          ],
+          ], 
           "optimization": [
-            "-O3",
+            "-O3", 
             "-DNDEBUG"
-          ],
+          ], 
           "profile generate": [
             "-fprofile-generate='{profile_path}'"
-          ],
+          ], 
           "profile use": [
             "-fprofile-use='{profile_path}'"
-          ],
+          ], 
           "static": [
             "-static"
-          ],
+          ], 
           "strict": [
             "-Werror"
-          ],
-          "subproject": [],
+          ], 
+          "subproject": [], 
           "warning": [
-            "-Wall",
-            "-Wextra",
+            "-Wall", 
+            "-Wextra", 
             "-Wpedantic"
           ]
-        },
+        }, 
         "standard": {
-          "c++11": "-std=c++11",
-          "c++14": "-std=c++14",
+          "c++11": "-std=c++11", 
+          "c++14": "-std=c++14", 
+          "c++17": "-std=c++17", 
           "c++98": "-std=c++98"
         }
-      },
-      "minimum version": "3.8",
+      }, 
+      "mingw": {
+        "flags": {
+          "base project": [], 
+          "common": [
+            "-Wno-subobject-linkage"
+          ], 
+          "coverage": [
+            "--coverage"
+          ], 
+          "debug": [
+            "-O0", 
+            "-g", 
+            "-gdwarf-3", 
+            "-fsignaling-nans"
+          ], 
+          "link time optimization": [
+            "-flto"
+          ], 
+          "nonportable optimization": [
+            "-march=native"
+          ], 
+          "optimization": [
+            "-O3", 
+            "-DNDEBUG"
+          ], 
+          "profile generate": [
+            "-fprofile-generate='{profile_path}'"
+          ], 
+          "profile use": [
+            "-fprofile-use='{profile_path}'"
+          ], 
+          "static": [
+            "-static"
+          ], 
+          "strict": [
+            "-Werror"
+          ], 
+          "subproject": [], 
+          "warning": [
+            "-Wall", 
+            "-Wextra", 
+            "-Wpedantic"
+          ]
+        }, 
+        "standard": {
+          "c++11": "-std=c++11", 
+          "c++14": "-std=c++14", 
+          "c++17": "-std=c++17", 
+          "c++98": "-std=c++98"
+        }
+      }, 
+      "minimum version": "3.8", 
       "osx": {
         "flags": {
-          "base project": [],
+          "base project": [], 
           "common": [
             "-stdlib=libc++"
-          ],
+          ], 
           "coverage": [
             "--coverage"
-          ],
+          ], 
           "debug": [
-            "-O0",
-            "-g",
+            "-O0", 
+            "-g", 
             "-gdwarf-3"
-          ],
+          ], 
           "link time optimization": [
             "-flto"
-          ],
+          ], 
           "nonportable optimization": [
             "-march=native"
-          ],
+          ], 
           "optimization": [
-            "-O3",
+            "-O3", 
             "-DNDEBUG"
-          ],
+          ], 
           "profile generate": [
             "-fprofile-generate='{profile_path}'"
-          ],
+          ], 
           "profile use": [
             "-fprofile-use='{profile_path}'"
-          ],
+          ], 
           "static": [
             "-static"
-          ],
+          ], 
           "strict": [
             "-Werror"
-          ],
-          "subproject": [],
+          ], 
+          "subproject": [], 
           "warning": [
-            "-Wall",
-            "-Wextra",
+            "-Wall", 
+            "-Wextra", 
             "-Wpedantic"
           ]
-        },
+        }, 
         "standard": {
-          "c++11": "-std=c++11",
-          "c++14": "-std=c++14",
+          "c++11": "-std=c++11", 
+          "c++14": "-std=c++14", 
+          "c++17": "-std=c++17", 
           "c++98": "-std=c++98"
         }
-      },
+      }, 
       "windows": {
         "flags": {
-          "base project": [],
+          "base project": [], 
           "common": [
             "-stdlib=libc++"
-          ],
+          ], 
           "coverage": [
             "--coverage"
-          ],
+          ], 
           "debug": [
-            "-O0",
-            "-g",
+            "-O0", 
+            "-g", 
             "-gdwarf-3"
-          ],
+          ], 
           "link time optimization": [
             "-flto"
-          ],
+          ], 
           "nonportable optimization": [
             "-march=native"
-          ],
+          ], 
           "optimization": [
-            "-O3",
+            "-O3", 
             "-DNDEBUG"
-          ],
+          ], 
           "profile generate": [
             "-fprofile-generate='{profile_path}'"
-          ],
+          ], 
           "profile use": [
             "-fprofile-use='{profile_path}'"
-          ],
+          ], 
           "static": [
             "-static"
-          ],
+          ], 
           "strict": [
             "-Werror"
-          ],
-          "subproject": [],
+          ], 
+          "subproject": [], 
           "warning": [
-            "-Wall",
-            "-Wextra",
+            "-Wall", 
+            "-Wextra", 
             "-Wpedantic"
           ]
-        },
+        }, 
         "standard": {
-          "c++11": "-std=c++11",
-          "c++14": "-std=c++14",
+          "c++11": "-std=c++11", 
+          "c++14": "-std=c++14", 
+          "c++17": "-std=c++17", 
           "c++98": "-std=c++98"
         }
       }
     }
-  },
+  }, 
+  "configure files": [], 
   "file extension": {
+    "configure files": [
+      "in"
+    ], 
     "header files": [
-      "h++",
-      "hxx",
-      "hpp",
-      "hh",
+      "h++", 
+      "hxx", 
+      "hpp", 
+      "hh", 
       "h"
-    ],
+    ], 
     "implementation files": [
-      "c++",
-      "cxx",
-      "cpp",
-      "cc"
+      "c++", 
+      "cxx", 
+      "cpp", 
+      "cc", 
+      "C"
     ]
-  },
+  }, 
   "header files": [
-    "src/resonanceReconstruction.hpp",
-    "src/resonanceReconstruction/breitWigner.hpp",
-    "src/resonanceReconstruction/EnergyRange.hpp",
-    "src/resonanceReconstruction/ZeroWidth.hpp",
-    "src/resonanceReconstruction/reichMoore.hpp",
-    "src/resonanceReconstruction/pack.hpp",
-    "src/resonanceReconstruction/reichMoore/Resonance.hpp",
-    "src/resonanceReconstruction/reichMoore/Type.hpp",
-    "src/resonanceReconstruction/reichMoore/Apply.hpp",
-    "src/resonanceReconstruction/reichMoore/Inspector.hpp",
-    "src/resonanceReconstruction/reichMoore/Lvalue.hpp",
-    "src/resonanceReconstruction/reichMoore/Base.hpp",
-    "src/resonanceReconstruction/reichMoore/Apply/src/resonance.hpp",
-    "src/resonanceReconstruction/reichMoore/Apply/src/build.hpp",
-    "src/resonanceReconstruction/reichMoore/Apply/src/lvalue.hpp",
-    "src/resonanceReconstruction/reichMoore/Apply/src/call.hpp",
-    "src/resonanceReconstruction/reichMoore/Lvalue/src/ap.hpp",
-    "src/resonanceReconstruction/reichMoore/Lvalue/src/penetrationShift.hpp",
-    "src/resonanceReconstruction/reichMoore/Lvalue/src/ctor.hpp",
-    "src/resonanceReconstruction/reichMoore/Lvalue/src/solveRmatrix.hpp",
-    "src/resonanceReconstruction/reichMoore/Lvalue/src/call.hpp",
-    "src/resonanceReconstruction/reichMoore/Lvalue/src/solveRfunction.hpp",
-    "src/resonanceReconstruction/reichMoore/Lvalue/src/phaseShift.hpp",
-    "src/resonanceReconstruction/reichMoore/Lvalue/src/hasFission.hpp",
-    "src/resonanceReconstruction/reichMoore/Type/src/ctor1.hpp",
-    "src/resonanceReconstruction/reichMoore/Type/src/ctor2.hpp",
-    "src/resonanceReconstruction/reichMoore/Type/src/evaluate1.hpp",
-    "src/resonanceReconstruction/reichMoore/Type/src/evaluate2.hpp",
-    "src/resonanceReconstruction/reichMoore/Resonance/src/ctor.hpp",
-    "src/resonanceReconstruction/reichMoore/Resonance/src/call.hpp",
-    "src/resonanceReconstruction/reichMoore/Base/src/order.hpp",
-    "src/resonanceReconstruction/reichMoore/Base/src/evaluate.hpp",
-    "src/resonanceReconstruction/reichMoore/Base/src/ctor.hpp",
-    "src/resonanceReconstruction/reichMoore/Base/src/neutronWaveNumber.hpp",
-    "src/resonanceReconstruction/breitWigner/resonance.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel.hpp",
-    "src/resonanceReconstruction/breitWigner/Type.hpp",
-    "src/resonanceReconstruction/breitWigner/CrossSection.hpp",
-    "src/resonanceReconstruction/breitWigner/lvalue.hpp",
-    "src/resonanceReconstruction/breitWigner/CRTP.hpp",
-    "src/resonanceReconstruction/breitWigner/singleLevel.hpp",
-    "src/resonanceReconstruction/breitWigner/CRTP/src/evaluate.hpp",
-    "src/resonanceReconstruction/breitWigner/CRTP/src/derived.hpp",
-    "src/resonanceReconstruction/breitWigner/CRTP/src/call.hpp",
-    "src/resonanceReconstruction/breitWigner/CRTP/src/isTemperature.hpp",
-    "src/resonanceReconstruction/breitWigner/lvalue/Type.hpp",
-    "src/resonanceReconstruction/breitWigner/lvalue/Type/src/withCompetitiveWidth.hpp",
-    "src/resonanceReconstruction/breitWigner/lvalue/Type/src/penetrationShift.hpp",
-    "src/resonanceReconstruction/breitWigner/lvalue/Type/src/withoutCompetitiveWidth.hpp",
-    "src/resonanceReconstruction/breitWigner/lvalue/Type/src/competitiveWidth.hpp",
-    "src/resonanceReconstruction/breitWigner/lvalue/Type/src/ctor.hpp",
-    "src/resonanceReconstruction/breitWigner/lvalue/Type/src/waveNumber.hpp",
-    "src/resonanceReconstruction/breitWigner/lvalue/Type/src/call.hpp",
-    "src/resonanceReconstruction/breitWigner/lvalue/Type/src/phaseShift.hpp",
-    "src/resonanceReconstruction/breitWigner/lvalue/Type/src/statisticalFactorSummation.hpp",
-    "src/resonanceReconstruction/breitWigner/Type/src/ctor.hpp",
-    "src/resonanceReconstruction/breitWigner/Type/src/neutronWaveNumber.hpp",
-    "src/resonanceReconstruction/breitWigner/Type/src/isTemperature.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Resonance.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Type.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Apply.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Lvalue.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Base.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Apply/src/resonance.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Apply/src/build.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Apply/src/competitiveWidth.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Apply/src/call.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Lvalue/src/evaluate.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Lvalue/src/competitiveWidth.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Lvalue/src/resonances.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Lvalue/src/call.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Lvalue/src/D.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Type/src/ctor1.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Type/src/ctor2.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Type/src/evaluate1.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Type/src/evaluate2.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Resonance/src/call.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Base/src/order.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Base/src/psiChi.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Base/src/evaluate.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Base/src/ctor.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Base/src/lvalues.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/src/psiChi.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/src/D.hpp",
-    "src/resonanceReconstruction/breitWigner/resonance/Type.hpp",
-    "src/resonanceReconstruction/breitWigner/resonance/Type/src/ctor.hpp",
-    "src/resonanceReconstruction/breitWigner/resonance/src/call.hpp",
-    "src/resonanceReconstruction/breitWigner/singleLevel/Resonance.hpp",
-    "src/resonanceReconstruction/breitWigner/singleLevel/Type.hpp",
-    "src/resonanceReconstruction/breitWigner/singleLevel/Apply.hpp",
-    "src/resonanceReconstruction/breitWigner/singleLevel/Lvalue.hpp",
-    "src/resonanceReconstruction/breitWigner/singleLevel/Base.hpp",
-    "src/resonanceReconstruction/breitWigner/singleLevel/Apply/src/resonance.hpp",
-    "src/resonanceReconstruction/breitWigner/singleLevel/Apply/src/build.hpp",
-    "src/resonanceReconstruction/breitWigner/singleLevel/Apply/src/competitiveWidth.hpp",
-    "src/resonanceReconstruction/breitWigner/singleLevel/Apply/src/lvalue.hpp",
-    "src/resonanceReconstruction/breitWigner/singleLevel/Apply/src/call.hpp",
-    "src/resonanceReconstruction/breitWigner/singleLevel/Lvalue/src/evaluate.hpp",
-    "src/resonanceReconstruction/breitWigner/singleLevel/Lvalue/src/competitiveWidth.hpp",
-    "src/resonanceReconstruction/breitWigner/singleLevel/Lvalue/src/resonances.hpp",
-    "src/resonanceReconstruction/breitWigner/singleLevel/Lvalue/src/call.hpp",
-    "src/resonanceReconstruction/breitWigner/singleLevel/Lvalue/src/evaluated.hpp",
-    "src/resonanceReconstruction/breitWigner/singleLevel/Type/src/ctor1.hpp",
-    "src/resonanceReconstruction/breitWigner/singleLevel/Type/src/ctor2.hpp",
-    "src/resonanceReconstruction/breitWigner/singleLevel/Type/src/evaluate1.hpp",
-    "src/resonanceReconstruction/breitWigner/singleLevel/Type/src/evaluate2.hpp",
-    "src/resonanceReconstruction/breitWigner/singleLevel/Resonance/src/call.hpp",
-    "src/resonanceReconstruction/breitWigner/singleLevel/Base/src/psiChi.hpp",
-    "src/resonanceReconstruction/breitWigner/singleLevel/Base/src/evaluate.hpp",
-    "src/resonanceReconstruction/breitWigner/singleLevel/Base/src/lvalues.hpp",
-    "src/resonanceReconstruction/breitWigner/src/psiChi.hpp",
-    "src/resonanceReconstruction/src/radius.hpp",
-    "src/resonanceReconstruction/src/penetrationShift.hpp",
-    "src/resonanceReconstruction/src/root.hpp",
-    "src/resonanceReconstruction/src/neutronWaveNumber.hpp",
-    "src/resonanceReconstruction/src/channelRadius.hpp",
-    "src/resonanceReconstruction/src/phaseShift.hpp"
-  ],
-  "ignore pattern": "$^",
-  "implementation files": [],
-  "include path": "src",
-  "initialized": true,
-  "is external project": false,
-  "language": "c++",
-  "name": "resonanceReconstruction",
-  "standard": "c++14",
+    "src/resonanceReconstruction.hpp", 
+    "src/resonanceReconstruction/breitWigner.hpp", 
+    "src/resonanceReconstruction/EnergyRange.hpp", 
+    "src/resonanceReconstruction/pack.hpp", 
+    "src/resonanceReconstruction/reichMoore.hpp", 
+    "src/resonanceReconstruction/ZeroWidth.hpp", 
+    "src/resonanceReconstruction/breitWigner/CrossSection.hpp", 
+    "src/resonanceReconstruction/breitWigner/CRTP.hpp", 
+    "src/resonanceReconstruction/breitWigner/lvalue.hpp", 
+    "src/resonanceReconstruction/breitWigner/multilevel.hpp", 
+    "src/resonanceReconstruction/breitWigner/resonance.hpp", 
+    "src/resonanceReconstruction/breitWigner/singleLevel.hpp", 
+    "src/resonanceReconstruction/breitWigner/Type.hpp", 
+    "src/resonanceReconstruction/breitWigner/CRTP/src/call.hpp", 
+    "src/resonanceReconstruction/breitWigner/CRTP/src/derived.hpp", 
+    "src/resonanceReconstruction/breitWigner/CRTP/src/evaluate.hpp", 
+    "src/resonanceReconstruction/breitWigner/CRTP/src/isTemperature.hpp", 
+    "src/resonanceReconstruction/breitWigner/lvalue/Type.hpp", 
+    "src/resonanceReconstruction/breitWigner/lvalue/Type/src/call.hpp", 
+    "src/resonanceReconstruction/breitWigner/lvalue/Type/src/competitiveWidth.hpp", 
+    "src/resonanceReconstruction/breitWigner/lvalue/Type/src/ctor.hpp", 
+    "src/resonanceReconstruction/breitWigner/lvalue/Type/src/penetrationShift.hpp", 
+    "src/resonanceReconstruction/breitWigner/lvalue/Type/src/phaseShift.hpp", 
+    "src/resonanceReconstruction/breitWigner/lvalue/Type/src/statisticalFactorSummation.hpp", 
+    "src/resonanceReconstruction/breitWigner/lvalue/Type/src/waveNumber.hpp", 
+    "src/resonanceReconstruction/breitWigner/lvalue/Type/src/withCompetitiveWidth.hpp", 
+    "src/resonanceReconstruction/breitWigner/lvalue/Type/src/withoutCompetitiveWidth.hpp", 
+    "src/resonanceReconstruction/breitWigner/multilevel/Apply.hpp", 
+    "src/resonanceReconstruction/breitWigner/multilevel/Base.hpp", 
+    "src/resonanceReconstruction/breitWigner/multilevel/Lvalue.hpp", 
+    "src/resonanceReconstruction/breitWigner/multilevel/Resonance.hpp", 
+    "src/resonanceReconstruction/breitWigner/multilevel/Type.hpp", 
+    "src/resonanceReconstruction/breitWigner/multilevel/Apply/src/build.hpp", 
+    "src/resonanceReconstruction/breitWigner/multilevel/Apply/src/call.hpp", 
+    "src/resonanceReconstruction/breitWigner/multilevel/Apply/src/competitiveWidth.hpp", 
+    "src/resonanceReconstruction/breitWigner/multilevel/Apply/src/resonance.hpp", 
+    "src/resonanceReconstruction/breitWigner/multilevel/Base/src/ctor.hpp", 
+    "src/resonanceReconstruction/breitWigner/multilevel/Base/src/evaluate.hpp", 
+    "src/resonanceReconstruction/breitWigner/multilevel/Base/src/lvalues.hpp", 
+    "src/resonanceReconstruction/breitWigner/multilevel/Base/src/order.hpp", 
+    "src/resonanceReconstruction/breitWigner/multilevel/Base/src/psiChi.hpp", 
+    "src/resonanceReconstruction/breitWigner/multilevel/Lvalue/src/call.hpp", 
+    "src/resonanceReconstruction/breitWigner/multilevel/Lvalue/src/competitiveWidth.hpp", 
+    "src/resonanceReconstruction/breitWigner/multilevel/Lvalue/src/D.hpp", 
+    "src/resonanceReconstruction/breitWigner/multilevel/Lvalue/src/evaluate.hpp", 
+    "src/resonanceReconstruction/breitWigner/multilevel/Lvalue/src/resonances.hpp", 
+    "src/resonanceReconstruction/breitWigner/multilevel/Resonance/src/call.hpp", 
+    "src/resonanceReconstruction/breitWigner/multilevel/src/D.hpp", 
+    "src/resonanceReconstruction/breitWigner/multilevel/src/psiChi.hpp", 
+    "src/resonanceReconstruction/breitWigner/multilevel/Type/src/ctor1.hpp", 
+    "src/resonanceReconstruction/breitWigner/multilevel/Type/src/ctor2.hpp", 
+    "src/resonanceReconstruction/breitWigner/multilevel/Type/src/evaluate1.hpp", 
+    "src/resonanceReconstruction/breitWigner/multilevel/Type/src/evaluate2.hpp", 
+    "src/resonanceReconstruction/breitWigner/resonance/Type.hpp", 
+    "src/resonanceReconstruction/breitWigner/resonance/src/call.hpp", 
+    "src/resonanceReconstruction/breitWigner/resonance/Type/src/ctor.hpp", 
+    "src/resonanceReconstruction/breitWigner/singleLevel/Apply.hpp", 
+    "src/resonanceReconstruction/breitWigner/singleLevel/Base.hpp", 
+    "src/resonanceReconstruction/breitWigner/singleLevel/Lvalue.hpp", 
+    "src/resonanceReconstruction/breitWigner/singleLevel/Resonance.hpp", 
+    "src/resonanceReconstruction/breitWigner/singleLevel/Type.hpp", 
+    "src/resonanceReconstruction/breitWigner/singleLevel/Apply/src/build.hpp", 
+    "src/resonanceReconstruction/breitWigner/singleLevel/Apply/src/call.hpp", 
+    "src/resonanceReconstruction/breitWigner/singleLevel/Apply/src/competitiveWidth.hpp", 
+    "src/resonanceReconstruction/breitWigner/singleLevel/Apply/src/lvalue.hpp", 
+    "src/resonanceReconstruction/breitWigner/singleLevel/Apply/src/resonance.hpp", 
+    "src/resonanceReconstruction/breitWigner/singleLevel/Base/src/evaluate.hpp", 
+    "src/resonanceReconstruction/breitWigner/singleLevel/Base/src/lvalues.hpp", 
+    "src/resonanceReconstruction/breitWigner/singleLevel/Base/src/psiChi.hpp", 
+    "src/resonanceReconstruction/breitWigner/singleLevel/Lvalue/src/call.hpp", 
+    "src/resonanceReconstruction/breitWigner/singleLevel/Lvalue/src/competitiveWidth.hpp", 
+    "src/resonanceReconstruction/breitWigner/singleLevel/Lvalue/src/evaluate.hpp", 
+    "src/resonanceReconstruction/breitWigner/singleLevel/Lvalue/src/evaluated.hpp", 
+    "src/resonanceReconstruction/breitWigner/singleLevel/Lvalue/src/resonances.hpp", 
+    "src/resonanceReconstruction/breitWigner/singleLevel/Resonance/src/call.hpp", 
+    "src/resonanceReconstruction/breitWigner/singleLevel/Type/src/ctor1.hpp", 
+    "src/resonanceReconstruction/breitWigner/singleLevel/Type/src/ctor2.hpp", 
+    "src/resonanceReconstruction/breitWigner/singleLevel/Type/src/evaluate1.hpp", 
+    "src/resonanceReconstruction/breitWigner/singleLevel/Type/src/evaluate2.hpp", 
+    "src/resonanceReconstruction/breitWigner/src/psiChi.hpp", 
+    "src/resonanceReconstruction/breitWigner/Type/src/ctor.hpp", 
+    "src/resonanceReconstruction/breitWigner/Type/src/isTemperature.hpp", 
+    "src/resonanceReconstruction/breitWigner/Type/src/neutronWaveNumber.hpp", 
+    "src/resonanceReconstruction/reichMoore/Apply.hpp", 
+    "src/resonanceReconstruction/reichMoore/Base.hpp", 
+    "src/resonanceReconstruction/reichMoore/Inspector.hpp", 
+    "src/resonanceReconstruction/reichMoore/Lvalue.hpp", 
+    "src/resonanceReconstruction/reichMoore/Resonance.hpp", 
+    "src/resonanceReconstruction/reichMoore/Type.hpp", 
+    "src/resonanceReconstruction/reichMoore/Apply/src/build.hpp", 
+    "src/resonanceReconstruction/reichMoore/Apply/src/call.hpp", 
+    "src/resonanceReconstruction/reichMoore/Apply/src/lvalue.hpp", 
+    "src/resonanceReconstruction/reichMoore/Apply/src/resonance.hpp", 
+    "src/resonanceReconstruction/reichMoore/Base/src/ctor.hpp", 
+    "src/resonanceReconstruction/reichMoore/Base/src/evaluate.hpp", 
+    "src/resonanceReconstruction/reichMoore/Base/src/neutronWaveNumber.hpp", 
+    "src/resonanceReconstruction/reichMoore/Base/src/order.hpp", 
+    "src/resonanceReconstruction/reichMoore/Lvalue/src/ap.hpp", 
+    "src/resonanceReconstruction/reichMoore/Lvalue/src/call.hpp", 
+    "src/resonanceReconstruction/reichMoore/Lvalue/src/ctor.hpp", 
+    "src/resonanceReconstruction/reichMoore/Lvalue/src/hasFission.hpp", 
+    "src/resonanceReconstruction/reichMoore/Lvalue/src/penetrationShift.hpp", 
+    "src/resonanceReconstruction/reichMoore/Lvalue/src/phaseShift.hpp", 
+    "src/resonanceReconstruction/reichMoore/Lvalue/src/solveRfunction.hpp", 
+    "src/resonanceReconstruction/reichMoore/Lvalue/src/solveRmatrix.hpp", 
+    "src/resonanceReconstruction/reichMoore/Resonance/src/call.hpp", 
+    "src/resonanceReconstruction/reichMoore/Resonance/src/ctor.hpp", 
+    "src/resonanceReconstruction/reichMoore/Type/src/ctor1.hpp", 
+    "src/resonanceReconstruction/reichMoore/Type/src/ctor2.hpp", 
+    "src/resonanceReconstruction/reichMoore/Type/src/evaluate1.hpp", 
+    "src/resonanceReconstruction/reichMoore/Type/src/evaluate2.hpp", 
+    "src/resonanceReconstruction/src/channelRadius.hpp", 
+    "src/resonanceReconstruction/src/neutronWaveNumber.hpp", 
+    "src/resonanceReconstruction/src/penetrationShift.hpp", 
+    "src/resonanceReconstruction/src/phaseShift.hpp", 
+    "src/resonanceReconstruction/src/radius.hpp", 
+    "src/resonanceReconstruction/src/root.hpp"
+  ], 
+  "ignore pattern": "$^", 
+  "implementation files": [], 
+  "include path": "src", 
+  "initialized": true, 
+  "is external project": false, 
+  "language": "c++", 
+  "name": "resonanceReconstruction", 
+  "standard": "c++17", 
   "standards": [
-    "c++98",
-    "c++11",
-    "c++14"
-  ],
-  "strict": true,
-  "test pattern": "test$",
+    "c++98", 
+    "c++11", 
+    "c++14", 
+    "c++17"
+  ], 
+  "strict": true, 
+  "test pattern": "test$", 
   "tests": {
     "resonanceReconstruction": [
-      "src/resonanceReconstruction/test/penetrationShift.test.cpp",
-      "src/resonanceReconstruction/test/resonanceReconstruction.test.cpp",
-      "src/resonanceReconstruction/test/neutronWaveNumber.test.cpp",
-      "src/resonanceReconstruction/test/channelRadius.test.cpp",
-      "src/resonanceReconstruction/test/phaseShift.test.cpp",
-      "src/resonanceReconstruction/test/radius.test.cpp"
-    ],
+      "src/resonanceReconstruction/test/channelRadius.test.cpp", 
+      "src/resonanceReconstruction/test/neutronWaveNumber.test.cpp", 
+      "src/resonanceReconstruction/test/penetrationShift.test.cpp", 
+      "src/resonanceReconstruction/test/phaseShift.test.cpp", 
+      "src/resonanceReconstruction/test/radius.test.cpp", 
+      "src/resonanceReconstruction/test/resonanceReconstruction.test.cpp"
+    ], 
     "resonanceReconstruction.breitWigner.multilevel.Apply": [
       "src/resonanceReconstruction/breitWigner/multilevel/Apply/test/Apply.test.cpp"
-    ],
+    ], 
     "resonanceReconstruction.breitWigner.multilevel.Resonance": [
       "src/resonanceReconstruction/breitWigner/multilevel/Resonance/test/Resonance.test.cpp"
-    ],
+    ], 
     "resonanceReconstruction.breitWigner.multilevel.Type": [
       "src/resonanceReconstruction/breitWigner/multilevel/Type/test/Type.test.cpp"
-    ],
+    ], 
     "resonanceReconstruction.breitWigner.singleLevel.Apply": [
       "src/resonanceReconstruction/breitWigner/singleLevel/Apply/test/Apply.test.cpp"
-    ],
+    ], 
     "resonanceReconstruction.breitWigner.singleLevel.Lvalue": [
-      "src/resonanceReconstruction/breitWigner/singleLevel/Lvalue/test/call.test.cpp",
-      "src/resonanceReconstruction/breitWigner/singleLevel/Lvalue/test/penetrationShift.test.cpp",
-      "src/resonanceReconstruction/breitWigner/singleLevel/Lvalue/test/Lvalue.test.cpp",
+      "src/resonanceReconstruction/breitWigner/singleLevel/Lvalue/test/call.test.cpp", 
+      "src/resonanceReconstruction/breitWigner/singleLevel/Lvalue/test/Lvalue.test.cpp", 
+      "src/resonanceReconstruction/breitWigner/singleLevel/Lvalue/test/penetrationShift.test.cpp", 
       "src/resonanceReconstruction/breitWigner/singleLevel/Lvalue/test/phaseShift.test.cpp"
-    ],
+    ], 
     "resonanceReconstruction.breitWigner.singleLevel.Resonance": [
       "src/resonanceReconstruction/breitWigner/singleLevel/Resonance/test/Resonance.test.cpp"
-    ],
+    ], 
     "resonanceReconstruction.breitWigner.singleLevel.Type": [
       "src/resonanceReconstruction/breitWigner/singleLevel/Type/test/Type.test.cpp"
-    ],
+    ], 
     "resonanceReconstruction.reichMoore.Apply": [
       "src/resonanceReconstruction/reichMoore/Apply/test/Apply.test.cpp"
-    ],
+    ], 
     "resonanceReconstruction.reichMoore.Type": [
       "src/resonanceReconstruction/reichMoore/Type/test/Type.test.cpp"
     ]
-  },
+  }, 
   "update": true
 }
