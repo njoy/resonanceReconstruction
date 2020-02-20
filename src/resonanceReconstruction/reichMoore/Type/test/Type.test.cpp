@@ -129,12 +129,10 @@ resonances( const std::string& id ){
   };
 
   auto section151 = [&]{
+
     auto endfFile = njoy::utility::slurpFileToMemory( id + ".endf" );
 
-    auto begin = endfFile.begin();
-    auto end = endfFile.end();
-
-    njoy::ENDFtk::syntaxTree::Tape< std::string::iterator > tape( begin, end );
+    njoy::ENDFtk::syntaxTree::Tape< std::string > tape( endfFile );
 
     auto& material = *( tape.begin() );
 
