@@ -35,7 +35,7 @@ SCENARIO( "Integration test" ){
     const auto& section151 = std::get<0>( Fe56 );
     const auto& isotope = section151.isotopes.front();
     const auto& energyRange = isotope.energyRanges().front();
-    const auto& rm = std::experimental::get< 3 >( energyRange );
+    const auto& rm = std::get< 3 >( energyRange );
 
     njoy::Log::info("\n Iron-56"
                     "\n --------------"
@@ -61,7 +61,7 @@ SCENARIO( "Integration test" ){
     const auto& section151 = std::get<0>( U235 );
     const auto& isotope = section151.isotopes.front();
     const auto& energyRange = isotope.energyRanges().front();
-    const auto& rm = std::experimental::get< 3 >( energyRange );
+    const auto& rm = std::get< 3 >( energyRange );
 
     njoy::Log::info("\n Uranium-235"
                     "\n --------------"
@@ -87,7 +87,7 @@ SCENARIO( "Integration test" ){
     const auto& section151 = std::get<0>( U238 );
     const auto& isotope = section151.isotopes.front();
     const auto& energyRange = isotope.energyRanges().front();
-    const auto& rm = std::experimental::get< 3 >( energyRange );
+    const auto& rm = std::get< 3 >( energyRange );
 
     njoy::Log::info("\n Uranium-238"
                     "\n --------------"

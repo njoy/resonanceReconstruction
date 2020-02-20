@@ -23,7 +23,7 @@ SCENARIO( "Integration test" ){
   const auto Al27 = resonances();
   const auto& isotope = Al27.isotopes.front();
   const auto& energyRange = isotope.energyRanges().front();
-  const auto& rm = std::experimental::get< 3 >( energyRange );
+  const auto& rm = std::get< 3 >( energyRange );
   njoy::Log::info(
     "\n Al-27"
     "\n============="
