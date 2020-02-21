@@ -62,12 +62,10 @@ SCENARIO( "Integration test" ){
 
 njoy::ENDFtk::section::Type<2>
 resonances(){
+
   auto endfFile = njoy::utility::slurpFileToMemory( "n-013_Al_027.endf" );
 
-  auto begin = endfFile.begin();
-  auto end = endfFile.end();
-
-  njoy::ENDFtk::syntaxTree::Tape< std::string::iterator > tape( begin, end );
+  njoy::ENDFtk::syntaxTree::Tape< std::string > tape( endfFile );
 
   auto& material = *( tape.begin() );
 
