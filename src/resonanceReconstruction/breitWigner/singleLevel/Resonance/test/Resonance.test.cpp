@@ -92,7 +92,8 @@ SCENARIO("a SLBW resonance reconstruction"){
                        + fwhmFission;
 
       THEN("the shape will be correct"){
-        REQUIRE( 0.5 * resonanceTotal == Approx( fwhmTotal ) );
+        REQUIRE( static_cast< double >( 0.5 * resonanceTotal ) == 
+                 Approx( static_cast< double >( fwhmTotal ) ) );
       }
       
       THEN("the magnitude will match an alternative formulation"){
@@ -118,7 +119,8 @@ SCENARIO("a SLBW resonance reconstruction"){
                    + neutronWidth, Ratio<2> )
               + 4. * pow( energy - primedResonanceEnergy, Ratio<2> ) );
 
-        REQUIRE( reference == Approx(fwhmCapture) );
+        REQUIRE( static_cast< double >( reference ) == 
+                 Approx( static_cast< double >( fwhmCapture ) ) );
       }
     }
     
@@ -133,7 +135,8 @@ SCENARIO("a SLBW resonance reconstruction"){
                        + fwhmFission;
 
       THEN("the shape will be correct"){
-        REQUIRE( 0.5 * resonanceTotal == Approx( fwhmTotal ) );
+        REQUIRE( static_cast< double >( 0.5 * resonanceTotal ) == 
+                 Approx( static_cast< double >( fwhmTotal ) ) );
       }
       
       THEN("the magnitude will match an alternative formulation"){
@@ -159,7 +162,8 @@ SCENARIO("a SLBW resonance reconstruction"){
                    + neutronWidth, Ratio<2> )
               + 4. * pow( energy - primedResonanceEnergy, Ratio<2> ) );
 
-        REQUIRE( reference == Approx(fwhmCapture) );
+        REQUIRE( static_cast< double >( reference ) == 
+                 Approx( static_cast< double >( fwhmCapture ) ) );
       }
     }    
   }
