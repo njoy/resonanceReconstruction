@@ -23,7 +23,7 @@ SCENARIO( "Integration test" ){
   const auto Na22 = resonances();
   const auto& isotope = Na22.isotopes.front();
   const auto& energyRange = isotope.energyRanges().front();
-  const auto& mlbw = std::experimental::get< 2 >( energyRange );
+  const auto& mlbw = std::get< 2 >( energyRange );
   const auto type = Apply().build( mlbw, channelRadius( 22. ), radius( mlbw.AP() ) );
   {
     const auto xs = type( 11129.000000001111 * electronVolts );

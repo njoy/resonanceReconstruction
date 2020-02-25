@@ -37,7 +37,7 @@ SCENARIO( "Integration test" ){
     auto& section151 = std::get<0>( Co58 );
     auto& isotope = section151.isotopes.front();
     auto& energyRange = isotope.energyRanges().front();
-    auto& mlbw = std::experimental::get< 2 >( energyRange );
+    auto& mlbw = std::get< 2 >( energyRange );
 
     njoy::Log::info("\n Cobalt-58 "
                     "\n --------------- "
@@ -58,7 +58,7 @@ SCENARIO( "Integration test" ){
     auto& section151 = std::get<0>( Tm168 );
     auto& isotope = section151.isotopes.front();
     auto& energyRange = isotope.energyRanges().front();
-    auto& mlbw = std::experimental::get< 2 >( energyRange );
+    auto& mlbw = std::get< 2 >( energyRange );
 
     njoy::Log::info("\n Tulium-168 "
                     "\n --------------- "
@@ -79,7 +79,7 @@ SCENARIO( "Integration test" ){
     auto& section151 = std::get<0>( Np238 );
     auto& isotope = section151.isotopes.front();
     auto& energyRange = isotope.energyRanges().front();
-    auto& mlbw = std::experimental::get< 2 >( energyRange );
+    auto& mlbw = std::get< 2 >( energyRange );
 
     njoy::Log::info( "\n Neptunium-238 "
                      "\n --------------- "
@@ -109,12 +109,10 @@ resonances( const std::string& id ){
   };
 
   auto section151 = [&]{
+
     auto endfFile = njoy::utility::slurpFileToMemory( id + ".endf" );
 
-    auto begin = endfFile.begin();
-    auto end = endfFile.end();
-
-    njoy::ENDFtk::syntaxTree::Tape< std::string::iterator > tape( begin, end );
+    njoy::ENDFtk::syntaxTree::Tape< std::string > tape( endfFile );
 
     auto& material = *( tape.begin() );
 

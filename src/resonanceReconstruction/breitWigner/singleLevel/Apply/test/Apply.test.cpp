@@ -20,7 +20,7 @@ SCENARIO( "Integration test" ){
   const auto Rh105 = resonances();
   const auto& isotope = Rh105.isotopes.front();
   const auto& energyRange = isotope.energyRanges().front();
-  const auto& slbw = std::experimental::get< 1 >( energyRange );
+  const auto& slbw = std::get< 1 >( energyRange );
 
   const auto type = Apply().build( slbw, channelRadius( 104. ), radius( 0.62 ) );
   const auto xs = type( 6.9010160000006886 * electronVolts );
