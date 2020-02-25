@@ -6,7 +6,7 @@
  */
 void evaluateTMatrix(
          const Energy& energy,
-         tsl::hopscotch_map< ReactionID, std::complex< double > >& result ) {
+         std::map< ReactionID, std::complex< double > >& result ) {
 
   ranges::for_each( this->groups_,
                     [&] ( auto& group )

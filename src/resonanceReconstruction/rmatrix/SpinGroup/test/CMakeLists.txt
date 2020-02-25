@@ -1,9 +1,9 @@
 
 add_executable( resonanceReconstruction.rmatrix.SpinGroup.test
-                switchIncidentPair.test.cpp
-                SpinGroup.test.cpp
                 evaluateTMatrix.test.cpp
-                evaluate.test.cpp )
+                evaluate.test.cpp
+                SpinGroup.test.cpp
+                switchIncidentPair.test.cpp )
 target_compile_options( resonanceReconstruction.rmatrix.SpinGroup.test PRIVATE ${${PREFIX}_common_flags}
 $<$<BOOL:${strict}>:${${PREFIX}_strict_flags}>$<$<CONFIG:DEBUG>:
 ${${PREFIX}_DEBUG_flags}

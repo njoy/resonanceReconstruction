@@ -1,11 +1,11 @@
 
 add_executable( resonanceReconstruction.test
-                channelRadius.test.cpp
-                neutronWaveNumber.test.cpp
-                penetrationShift.test.cpp
                 phaseShift.test.cpp
+                penetrationShift.test.cpp
+                resonanceReconstruction.test.cpp
                 radius.test.cpp
-                resonanceReconstruction.test.cpp )
+                channelRadius.test.cpp
+                neutronWaveNumber.test.cpp )
 target_compile_options( resonanceReconstruction.test PRIVATE ${${PREFIX}_common_flags}
 $<$<BOOL:${strict}>:${${PREFIX}_strict_flags}>$<$<CONFIG:DEBUG>:
 ${${PREFIX}_DEBUG_flags}

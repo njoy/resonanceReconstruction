@@ -5,7 +5,7 @@
  *  @param[in,out] result   a map containing the accumulated cross sections
  */
 void evaluate( const Energy& energy,
-               tsl::hopscotch_map< ReactionID, Quantity< Barn > >& result ) {
+               std::map< ReactionID, Quantity< Barn > >& result ) {
 
   // penetrability, Coulomb phase shift, sqrt(P) and Omega = exp( i(w - phi) )
   // for each channel except the eliminated capture channel

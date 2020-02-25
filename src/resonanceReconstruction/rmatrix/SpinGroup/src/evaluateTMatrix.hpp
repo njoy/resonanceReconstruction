@@ -11,7 +11,7 @@
  */
 void evaluateTMatrix(
          const Energy& energy,
-         tsl::hopscotch_map< ReactionID, std::complex< double > >& result ) {
+         std::map< ReactionID, std::complex< double > >& result ) {
 
   // penetrability, sqrt(P) and channel identifiers for each channel
   const auto penetrabilities = this->penetrabilities( energy );

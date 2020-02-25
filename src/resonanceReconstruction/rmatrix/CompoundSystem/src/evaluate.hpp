@@ -5,7 +5,7 @@
  *  @param[in,out] result   a map containing the accumulated cross sections
  */
 void evaluate( const Energy& energy,
-               tsl::hopscotch_map< ReactionID, Quantity< Barn > >& result ) {
+               std::map< ReactionID, Quantity< Barn > >& result ) {
 
   ranges::for_each( this->groups_,
                     [&] ( auto& group )

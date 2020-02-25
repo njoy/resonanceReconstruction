@@ -1,7 +1,7 @@
 
 add_executable( resonanceReconstruction.rmatrix.ParticlePair.test
-                functions.test.cpp
-                ParticlePair.test.cpp )
+                ParticlePair.test.cpp
+                functions.test.cpp )
 target_compile_options( resonanceReconstruction.rmatrix.ParticlePair.test PRIVATE ${${PREFIX}_common_flags}
 $<$<BOOL:${strict}>:${${PREFIX}_strict_flags}>$<$<CONFIG:DEBUG>:
 ${${PREFIX}_DEBUG_flags}

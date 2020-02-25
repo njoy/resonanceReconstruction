@@ -1,7 +1,7 @@
 
 add_executable( resonanceReconstruction.rmatrix.Resonance.test
-                Resonance.test.cpp
-                rmatrix.test.cpp )
+                rmatrix.test.cpp
+                Resonance.test.cpp )
 target_compile_options( resonanceReconstruction.rmatrix.Resonance.test PRIVATE ${${PREFIX}_common_flags}
 $<$<BOOL:${strict}>:${${PREFIX}_strict_flags}>$<$<CONFIG:DEBUG>:
 ${${PREFIX}_DEBUG_flags}
