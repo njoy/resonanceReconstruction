@@ -45,13 +45,11 @@ namespace rmatrix {
   #include "resonanceReconstruction/rmatrix/Resonance.hpp"
   #include "resonanceReconstruction/rmatrix/ResonanceTable.hpp"
 
-  // R-Matrix formalism options and RL matrix calculation
+  // R-Matrix formalism options
   struct ReichMoore {};
   struct GeneralRMatrix {};
-//  #include "resonanceReconstruction/rmatrix/src/calculateRLMatrix.hpp"
 
   // spin group and compound system
   #include "resonanceReconstruction/rmatrix/SpinGroup.hpp"
   #include "resonanceReconstruction/rmatrix/CompoundSystem.hpp"
 }
-
