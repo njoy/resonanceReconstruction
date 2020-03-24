@@ -1,6 +1,7 @@
 template< typename Tag, typename Radius >
 static auto
-build( const ENDF::resolved::ReichMoore& rm,
+build( const EnergyRange& energyRange,
+       const ENDF::resolved::ReichMoore& rm,
        Tag tag,
        Radius&& radius,
        bool useAPL ){
@@ -17,14 +18,14 @@ build( const ENDF::resolved::ReichMoore& rm,
   return Type< std::decay_t< Radius > >
     ( std::move(lstates),
       atomicWeightRatio,
-      EnergyRange{ rm.EL() * electronVolts,
-                   rm.EH() * electronVolts },
+      energyRange,
       tag,
       std::move(radius) );
 }
 
 template< typename Tag, typename ChannelRadius, typename ScatteringRadius >
-static auto build( const ENDF::resolved::ReichMoore& rm,
+static auto build( const EnergyRange& energyRange,
+                   const ENDF::resolved::ReichMoore& rm,
                    Tag tag,
                    ChannelRadius&& channelRadius,
                    ScatteringRadius&& scatteringRadius,
@@ -44,8 +45,7 @@ static auto build( const ENDF::resolved::ReichMoore& rm,
                std::decay_t< ScatteringRadius > >
     ( std::move(lstates),
       atomicWeightRatio,
-      EnergyRange{ rm.EL() * electronVolts,
-                   rm.EH() * electronVolts },
+      energyRange,
       tag,
       std::move(channelRadius),
       std::move(scatteringRadius) );

@@ -6,7 +6,7 @@
 using namespace njoy::resonanceReconstruction;
 using namespace dimwits;
 
-njoy::ENDFtk::section::Type<2> resonances();
+njoy::ENDFtk::section::Type< 2, 151 > resonances();
 
 namespace {
 
@@ -18,11 +18,13 @@ struct Apply : breitWigner::singleLevel::Apply {
 
 SCENARIO( "Integration test" ){
   const auto Rh105 = resonances();
-  const auto& isotope = Rh105.isotopes.front();
-  const auto& energyRange = isotope.energyRanges().front();
-  const auto& slbw = std::get< 1 >( energyRange );
+  const auto& isotope = Rh105.isotopes().front();
+  const auto& resonanceRange = isotope.resonanceRanges().front();
+  EnergyRange energyRange{ resonanceRange.EL() * electronVolts,
+                           resonanceRange.EH() * electronVolts };
+  const auto& slbw = std::get< 1 >( resonanceRange.parameters() );
 
-  const auto type = Apply().build( slbw, channelRadius( 104. ), radius( 0.62 ) );
+  const auto type = Apply().build( energyRange, slbw, channelRadius( 104. ), radius( 0.62 ) );
   const auto xs = type( 6.9010160000006886 * electronVolts );
   REQUIRE( xs.elastic.value  == Approx( 4756.4247452801756 ).epsilon( 0.0015 ) );
   REQUIRE( xs.capture.value  == Approx( 1350.5936213845366 ).epsilon( 1E-6 ) );
@@ -30,7 +32,7 @@ SCENARIO( "Integration test" ){
 
 std::string Rhodium105Resonances();
 
-njoy::ENDFtk::section::Type<2>
+njoy::ENDFtk::section::Type< 2, 151 >
 resonances(){
   auto string = Rhodium105Resonances();
   auto start = string.begin();
@@ -39,7 +41,7 @@ resonances(){
   long lineNumber = 1;
 
   auto head = njoy::ENDFtk::HEAD( it, end, lineNumber );
-  return njoy::ENDFtk::section::Type<2>( head, it, end, lineNumber, 4531 );
+  return njoy::ENDFtk::section::Type< 2, 151 >( head, it, end, lineNumber, 4531 );
 }
 
 std::string Rhodium105Resonances(){
@@ -415,5 +417,6 @@ std::string Rhodium105Resonances(){
     " 6.000000+4 1.808800+1 0.000000+0 1.012900-3 1.500000-1 0.000000+04531 2151  369\n"
     " 7.000000+4 1.791200+1 0.000000+0 1.003100-3 1.500000-1 0.000000+04531 2151  370\n"
     " 8.000000+4 1.773700+1 0.000000+0 9.932800-4 1.500000-1 0.000000+04531 2151  371\n"
-    " 1.000000+5 1.739900+1 0.000000+0 9.743600-4 1.500000-1 0.000000+04531 2151  372\n";
+    " 1.000000+5 1.739900+1 0.000000+0 9.743600-4 1.500000-1 0.000000+04531 2151  372\n"
+    "                                                                  4531 2  0  373\n";
 }

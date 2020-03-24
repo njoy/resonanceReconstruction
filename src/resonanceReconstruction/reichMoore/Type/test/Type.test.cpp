@@ -8,7 +8,7 @@
 using namespace njoy::resonanceReconstruction;
 using namespace dimwits;
 
-std::pair< njoy::ENDFtk::section::Type<2>, std::vector< double > >
+std::pair< njoy::ENDFtk::section::Type< 2, 151 >, std::vector< double > >
 resonances( const std::string& id );
 
 auto test( const std::vector< double >& testData ){
@@ -33,9 +33,8 @@ SCENARIO( "Integration test" ){
     const auto Fe56 = resonances("Fe-56");
 
     const auto& section151 = std::get<0>( Fe56 );
-    const auto& isotope = section151.isotopes.front();
-    const auto& energyRange = isotope.energyRanges().front();
-    const auto& rm = std::get< 3 >( energyRange );
+    const auto& isotope = section151.isotopes().front();
+    const auto& resonanceRange = isotope.resonanceRanges().front();
 
     njoy::Log::info("\n Iron-56"
                     "\n --------------"
@@ -43,12 +42,13 @@ SCENARIO( "Integration test" ){
                     "\n LRF: {}"
                     "\n NRO: {}"
                     "\n NAPS: {}\n",
-                    rm.LRU(), rm.LRF(), rm.NRO(), rm.NAPS() );
+                    resonanceRange.LRU(), resonanceRange.LRF(),
+                    resonanceRange.NRO(), resonanceRange.NAPS() );
 
     auto& testData = std::get<1>( Fe56 );
 
     auto start = std::chrono::high_resolution_clock::now();
-    reichMoore::Apply{}( rm, test( testData ) );
+    reichMoore::Apply{}( resonanceRange, test( testData ) );
     auto finish = std::chrono::high_resolution_clock::now();
     auto milliseconds =
       std::chrono::duration_cast<std::chrono::milliseconds>(finish-start);
@@ -59,9 +59,8 @@ SCENARIO( "Integration test" ){
     const auto U235 = resonances("U-235");
 
     const auto& section151 = std::get<0>( U235 );
-    const auto& isotope = section151.isotopes.front();
-    const auto& energyRange = isotope.energyRanges().front();
-    const auto& rm = std::get< 3 >( energyRange );
+    const auto& isotope = section151.isotopes().front();
+    const auto& resonanceRange = isotope.resonanceRanges().front();
 
     njoy::Log::info("\n Uranium-235"
                     "\n --------------"
@@ -69,12 +68,13 @@ SCENARIO( "Integration test" ){
                     "\n LRF: {}"
                     "\n NRO: {}"
                     "\n NAPS: {}\n",
-                    rm.LRU(), rm.LRF(), rm.NRO(), rm.NAPS() );
+                    resonanceRange.LRU(), resonanceRange.LRF(),
+                    resonanceRange.NRO(), resonanceRange.NAPS() );
 
     auto& testData = std::get<1>( U235 );
 
     auto start = std::chrono::high_resolution_clock::now();
-    reichMoore::Apply{}( rm, test( testData ) );
+    reichMoore::Apply{}( resonanceRange, test( testData ) );
     auto finish = std::chrono::high_resolution_clock::now();
     auto milliseconds =
       std::chrono::duration_cast<std::chrono::milliseconds>(finish-start);
@@ -85,9 +85,8 @@ SCENARIO( "Integration test" ){
     const auto U238 = resonances("U-238");
 
     const auto& section151 = std::get<0>( U238 );
-    const auto& isotope = section151.isotopes.front();
-    const auto& energyRange = isotope.energyRanges().front();
-    const auto& rm = std::get< 3 >( energyRange );
+    const auto& isotope = section151.isotopes().front();
+    const auto& resonanceRange = isotope.resonanceRanges().front();
 
     njoy::Log::info("\n Uranium-238"
                     "\n --------------"
@@ -95,12 +94,13 @@ SCENARIO( "Integration test" ){
                     "\n LRF: {}"
                     "\n NRO: {}"
                     "\n NAPS: {}\n",
-                    rm.LRU(), rm.LRF(), rm.NRO(), rm.NAPS() );
+                    resonanceRange.LRU(), resonanceRange.LRF(),
+                    resonanceRange.NRO(), resonanceRange.NAPS() );
 
     auto& testData = std::get<1>( U238 );
 
     auto start = std::chrono::high_resolution_clock::now();
-    reichMoore::Apply{}( rm, test( testData ) );
+    reichMoore::Apply{}( resonanceRange, test( testData ) );
     auto finish = std::chrono::high_resolution_clock::now();
     auto milliseconds =
       std::chrono::duration_cast<std::chrono::milliseconds>(finish-start);
@@ -108,7 +108,7 @@ SCENARIO( "Integration test" ){
   }
 }
 
-std::pair< njoy::ENDFtk::section::Type<2>, std::vector< double > >
+std::pair< njoy::ENDFtk::section::Type< 2, 151 >, std::vector< double > >
 resonances( const std::string& id ){
   auto testData = [&]{
     std::vector< double > data;
@@ -139,7 +139,7 @@ resonances( const std::string& id ){
     auto MAT = material.MAT();
     return material
            .fileNumber(2)
-           .sectionNumber(151).parse<2>();
+           .sectionNumber(151).parse< 2, 151 >();
   };
 
   return std::make_pair( section151(), testData() );
