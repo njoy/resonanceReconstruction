@@ -26,7 +26,7 @@ class Channel {
   //! @todo the boundary condition may be dependent on the channel radius (see
   //!       equation d.41 in the ENDF manual)
   //! @todo the default P, S, phi functions can be overridden
-  //! @todo P, S, phi only depend on rho for all channel types except charged 
+  //! @todo P, S, phi only depend on rho for all channel types except charged
   //!       particle channels for which it also depends on the permeability.
 
 public:
@@ -53,6 +53,12 @@ public:
    *  @brief Return the channel radii
    */
   const ChannelRadii& radii() const { return this->radii_; }
+
+  /**
+   *  @brief Return the Q value for going from the incident channel to this
+   *         channel
+   */
+  const QValue& Q() const { return this->particlePair().Q(); }
 
   /**
    *  @brief Return the channel boundary condition

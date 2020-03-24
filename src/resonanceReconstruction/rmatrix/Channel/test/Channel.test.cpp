@@ -57,6 +57,7 @@ SCENARIO( "Channel" ) {
       REQUIRE( 5.437300e-1 ==
           Approx( channel.radii().phaseShiftRadius( 1e-5 * electronVolt ).value ) );
       REQUIRE( 0.0 == channel.boundaryCondition() );
+      REQUIRE( 0.0 == Approx( channel.Q().value ) );
     }
 
     THEN( "a Channel can be constructed with an alternate ParticleID" ) {
@@ -85,8 +86,7 @@ SCENARIO( "Channel" ) {
       REQUIRE( 5.437300e-1 ==
           Approx( channel.radii().phaseShiftRadius( 1e-5 * electronVolt ).value ) );
       REQUIRE( 0.0 == channel.boundaryCondition() );
+      REQUIRE( 0.0 == Approx( channel.Q().value ) );
     }
   } // GIVEN
 } // SCENARIO
-
-

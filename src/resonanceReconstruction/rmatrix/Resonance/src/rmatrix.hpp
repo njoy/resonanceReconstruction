@@ -1,6 +1,5 @@
 /**
- *  @brief Generate the R-matrix contribution for the resonance in the
- *         Reich-Moore approximation
+ *  @brief Generate the R-matrix contribution for the resonance
  *
  *  The R-matrix element R_{ij} for channel i to i is given by:
  *      R_{ij} = \frac{ \gamma_i \gamma_j }{ E_r - E - i \Gamma/2 }
@@ -11,20 +10,22 @@
  *  Because the eliminated channel is a capture channel, the value of \Gamma
  *  is energy independent and does not require a penetrability value.
  *
- *  When using generalised R matrix in which there is no eliminated capture
+ *  When using generalised R-matrix in which there is no eliminated capture
  *  channel (i.e. the eleminated width is zero), it is possible that the
  *  R-matrix becomes undefined when evaluating it for the resonance energy.
+ *
+ *  SAMMY uses a very small value \Gamma to simulate generalised R-matrix.
  *
  *  @param[in] energy   the energy at which the resonance must be evaluated
  */
 auto rmatrix( const Energy& energy ) const {
 
-  const auto terminator = [&] { 
+  const auto terminator = [&] {
     const auto deltaEnergy = this->energy() - energy;
     const auto eliminatedWidth = this->eliminatedWidth();
     const auto halfCaptureWidth = eliminatedWidth * eliminatedWidth;
     return 1. / std::complex< double >(  deltaEnergy / electronVolt,
-                                        -halfCaptureWidth / electronVolt ); 
+                                        -halfCaptureWidth / electronVolt );
   }();
 
   const auto widths = this->widths();
@@ -42,4 +43,3 @@ auto rmatrix( const Energy& energy ) const {
                               { return element * terminator; } )
            | ranges::view::chunk( size );
 }
-

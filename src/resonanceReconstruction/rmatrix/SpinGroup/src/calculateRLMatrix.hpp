@@ -1,6 +1,5 @@
 void calculateRLMatrix( const Energy& energy, ReichMoore ) {
 
-// BEGIN REALLY BAD FOR NOW - GET TESTING GOING
   // range with the R-matrices for each resonance
   auto rmatrices = this->resonanceTable().resonances()
                      | ranges::view::transform(
@@ -29,13 +28,11 @@ void calculateRLMatrix( const Energy& energy, ReichMoore ) {
     }
   }
 
-  // calculate and return T = ( 1 - RL )^-1 R
+  // calculate and return R_L = ( 1 - RL )^-1 R
   this->matrix_ = Matrix< double >::Identity( size, size );
   this->matrix_ -= this->rmatrix_ *
              Eigen::Map< Eigen::VectorXcd >( this->diagonalLMatrix_.data(),
                                              size ).asDiagonal();
   this->matrix_ = this->matrix_.inverse();
   this->matrix_ *= this->rmatrix_;
-// END REALLY BAD FOR NOW - GET TESTING GOING
 }
-

@@ -2,9 +2,9 @@
  *  @class
  *  @brief Information for a particle pair
  *
- *  A ParticlePair represents the two particles involved in a entrance or exit 
+ *  A ParticlePair represents the two particles involved in a entrance or exit
  *  reaction channel (we assume that the reaction is a two-body reaction). The
- *  pair consists of a "small" incident or outgoing particle (e.g. a neutron, 
+ *  pair consists of a "small" incident or outgoing particle (e.g. a neutron,
  *  photon, alpha, etc.) and a "larger" target or residual nucleus (e.g. H1,
  *  He4, U235, etc.).
  */
@@ -39,7 +39,8 @@ public:
   const Particle& residual() const { return this->pair_.second; }
 
   /**
-   *  @brief Return the Q value associated to the particle pair
+   *  @brief Return the Q value associated to the transition of the incident
+   *         particle pair to this particle pair
    */
   const QValue& Q() const { return this->qvalue_; }
 

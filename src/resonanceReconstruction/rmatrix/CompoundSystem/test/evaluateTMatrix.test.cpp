@@ -110,7 +110,7 @@ SCENARIO( "evaluateTMatrix" ) {
     THEN( "T matrix elements can be calculated for a single resonance using "
           "the ShiftFactor boundary condition" ) {
 
-      tsl::hopscotch_map< ReactionID, std::complex< double > > elements;
+      tsl::map< ReactionID, std::complex< double > > elements;
       group1.evaluateTMatrix( 1e-5 * electronVolt, elements );
       REQUIRE( 1 == elements.size() );
       REQUIRE( 2.7315635336518469E-06 == Approx( elements[ t11 ].real() ) );
@@ -180,7 +180,7 @@ SCENARIO( "evaluateTMatrix" ) {
     THEN( "T matrix elements can be calculated for multiple resonances using "
           "the ShiftFactor boundary condition" ) {
 
-      tsl::hopscotch_map< ReactionID, std::complex< double > > elements;
+      tsl::map< ReactionID, std::complex< double > > elements;
       group2.evaluateTMatrix( 1e-5 * electronVolt, elements );
       REQUIRE( 1 == elements.size() );
       REQUIRE( 3.1378337586014968E-06 == Approx( elements[ t11 ].real() ) );
@@ -260,7 +260,7 @@ SCENARIO( "evaluateTMatrix" ) {
     THEN( "T matrix elements can be calculated for a single resonance using "
           "the Constant boundary condition" ) {
 
-      tsl::hopscotch_map< ReactionID, std::complex< double > > elements;
+      tsl::map< ReactionID, std::complex< double > > elements;
       group3.evaluateTMatrix( 1e-5 * electronVolt, elements );
       REQUIRE( 1 == elements.size() );
       REQUIRE( 2.7315635336518469E-06 == Approx( elements[ t11 ].real() ) );
@@ -330,7 +330,7 @@ SCENARIO( "evaluateTMatrix" ) {
     THEN( "T matrix elements can be calculated for multiple resonances using "
           "the Constant boundary condition" ) {
 
-      tsl::hopscotch_map< ReactionID, std::complex< double > > elements;
+      tsl::map< ReactionID, std::complex< double > > elements;
       group4.evaluateTMatrix( 1e-5 * electronVolt, elements );
       REQUIRE( 1 == elements.size() );
       REQUIRE( 3.1378337586014968E-06 == Approx( elements[ t11 ].real() ) );
@@ -565,7 +565,7 @@ SCENARIO( "evaluateTMatrix" ) {
     THEN( "T matrix elements can be calculated for multiple resonances using "
           "the ShiftFactor boundary condition" ) {
 
-      tsl::hopscotch_map< ReactionID, std::complex< double > > elements;
+      tsl::map< ReactionID, std::complex< double > > elements;
       system.evaluateTMatrix( 1e-5 * electronVolt, elements );
       REQUIRE( 5 == elements.size() );
       REQUIRE( 3.1378337586014968E-06 == Approx( elements[ s1t11 ].real() ) );
@@ -764,5 +764,3 @@ SCENARIO( "evaluateTMatrix" ) {
     }
   } // GIVEN*/
 } // SCENARIO
-
-

@@ -6,7 +6,6 @@ auto belowThreshold( const Energy& energy ) {
         [value] ( const auto& channel )
             { decltype(auto) q =
                 std::visit( [] ( const auto& channel )
-                               { return channel.particlePair().Q(); }, channel );
+                               { return channel.Q(); }, channel );
               return ( value + q ) < 0.0 * electronVolt; } );
 }
-

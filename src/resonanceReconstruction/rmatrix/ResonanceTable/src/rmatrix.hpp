@@ -9,7 +9,6 @@ Matrix< std::complex< double > > rmatrix( const Energy& energy ) const {
                          [&] ( const auto& resonance )
                              { return resonance.rmatrix( energy ); } );
 
-// BEGIN REALLY BAD - GET TESTING GOING
   const unsigned int size = this->numberChannels();
   Matrix< std::complex< double > > rMatrix =
       Matrix< std::complex< double > >::Zero( size, size );
@@ -21,5 +20,4 @@ Matrix< std::complex< double > > rmatrix( const Energy& energy ) const {
     }
   }
   return rMatrix;
-// END REALLY BAD - GET TESTING GOING
 }

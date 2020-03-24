@@ -12,6 +12,8 @@ void switchIncidentPair( const ParticlePair& incident ) {
 
   if ( incident.pairID() != this->incidentPair().pairID() ) {
 
+    //! @todo adjust Q values as required
+
     // change the incident channels and verify them
     this->incident_ =
       determineIncidentChannels( incident.pairID(), this->channels_ );
@@ -22,4 +24,3 @@ void switchIncidentPair( const ParticlePair& incident ) {
       makeReactionIdentifiers( this->channels_, this->incident_, Formalism() );
   }
 }
-
