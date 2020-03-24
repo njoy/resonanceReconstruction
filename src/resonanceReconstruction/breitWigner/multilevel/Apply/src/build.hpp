@@ -1,5 +1,7 @@
 template< typename Radius >
-static auto build( const ENDF::resolved::MLBW& mlbw, Radius&& radius ){
+static auto build( const EnergyRange& energyRange,
+                   const ENDF::resolved::MLBW& mlbw,
+                   Radius&& radius ){
   const double atomicWeightRatio = mlbw.lValues().front().AWRI();
 
   const auto rho =
@@ -17,15 +19,15 @@ static auto build( const ENDF::resolved::MLBW& mlbw, Radius&& radius ){
   return Type< std::decay_t< Radius > >
     ( std::move(lstates),
       atomicWeightRatio,
-      EnergyRange{ mlbw.EL() * electronVolts,
-                   mlbw.EH() * electronVolts },
+      energyRange,
       nucleonNumber( mlbw ),
       mlbw.SPI(),
       std::move(radius) );
 }
 
 template< typename ChannelRadius, typename ScatteringRadius >
-static auto build( const ENDF::resolved::MLBW& mlbw,
+static auto build( const EnergyRange& energyRange,
+                   const ENDF::resolved::MLBW& mlbw,
                    ChannelRadius&& channelRadius,
                    ScatteringRadius&& scatteringRadius ){
 
@@ -47,8 +49,7 @@ static auto build( const ENDF::resolved::MLBW& mlbw,
                std::decay_t< ScatteringRadius > >
     ( std::move(lstates),
       atomicWeightRatio,
-      EnergyRange{ mlbw.EL() * electronVolts,
-                   mlbw.EH() * electronVolts },
+      energyRange,
       nucleonNumber( mlbw ),
       mlbw.SPI(),
       std::move(channelRadius),

@@ -1,7 +1,7 @@
 template< typename ChannelRatio,
           typename StatisticalFactor,
           typename PenetrationShift >
-static auto lvalue( const ENDF::resolved::SLBW::Lvalue& lstate,
+static auto lvalue( const ENDF::resolved::SLBW::LValue& lstate,
                     ChannelRatio&& rho,
                     StatisticalFactor&& g,
                     PenetrationShift&& penetrationShift,
@@ -26,12 +26,12 @@ static auto lvalue( const ENDF::resolved::SLBW::Lvalue& lstate,
 
 template< typename ChannelRatio,
           typename StatisticalFactor >
-static auto lvalue( const ENDF::resolved::SLBW::Lvalue& lstate,
+static auto lvalue( const ENDF::resolved::SLBW::LValue& lstate,
                     ChannelRatio&& rho,
                     StatisticalFactor&& g,
                     double targetSpin ){
   switch( lstate.L() ){
-  case 0: 
+  case 0:
     return lvalue( lstate, rho, g, penetrationShift( Integer<0>{} ), targetSpin );
   case 1:
     return lvalue( lstate, rho, g, penetrationShift( Integer<1>{} ), targetSpin );
