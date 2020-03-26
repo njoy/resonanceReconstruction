@@ -36,7 +36,7 @@ SCENARIO( "Integration test" ){
 
     auto& section151 = std::get<0>( Co58 );
     auto& isotope = section151.isotopes().front();
-    auto& resonanceRange = isotope.energyRanges().front();
+    auto& resonanceRange = isotope.resonanceRanges().front();
 
     njoy::Log::info("\n Cobalt-58 "
                     "\n --------------- "
@@ -57,7 +57,7 @@ SCENARIO( "Integration test" ){
 
     auto& section151 = std::get<0>( Tm168 );
     auto& isotope = section151.isotopes().front();
-    auto& resonanceRange = isotope.energyRanges().front();
+    auto& resonanceRange = isotope.resonanceRanges().front();
 
     njoy::Log::info("\n Tulium-168 "
                     "\n --------------- "
@@ -78,7 +78,7 @@ SCENARIO( "Integration test" ){
 
     auto& section151 = std::get<0>( Np238 );
     auto& isotope = section151.isotopes().front();
-    auto& resonanceRange = isotope.energyRanges().front();
+    auto& resonanceRange = isotope.resonanceRanges().front();
 
     njoy::Log::info( "\n Neptunium-238 "
                      "\n --------------- "
