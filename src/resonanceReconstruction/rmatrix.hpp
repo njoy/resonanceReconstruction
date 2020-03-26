@@ -52,4 +52,7 @@ namespace rmatrix {
   // spin group and compound system
   #include "resonanceReconstruction/rmatrix/SpinGroup.hpp"
   #include "resonanceReconstruction/rmatrix/CompoundSystem.hpp"
+
+  // make CompoundSystem instances from ENDF
+  #include "resonanceReconstruction/rmatrix/src/makeFromENDF.hpp"
 }
