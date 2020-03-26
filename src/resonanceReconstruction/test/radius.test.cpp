@@ -27,15 +27,16 @@ SCENARIO("radius"){
 
   SECTION("TAB1 overload"){
     auto tab1 = []{
-      auto regionPairs = std::make_tuple( std::vector< long >{ 3, 6 },
-                                          std::vector< long >{ 1, 2 } );
-      auto orderedPairs =
-        std::make_tuple( std::vector< double >{ 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 },
-                         std::vector< double >{ 3.0, 4.0, 5.0, 6.0, 7.0, 8.0 } );
+      std::vector< long > boundaries = { 3, 6 };
+      std::vector< long > interpolants = { 1, 2 };
+      std::vector< double > energies = { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 };
+      std::vector< double > radii = { 3.0, 4.0, 5.0, 6.0, 7.0, 8.0 };
 
       return njoy::ENDFtk::resonanceParameters::ScatteringRadius(
-                                             std::move( regionPairs ),
-                                             std::move( orderedPairs ) );
+                                             std::move( boundaries ),
+                                             std::move( interpolants ),
+                                             std::move( energies ),
+                                             std::move( radii ) );
     }();
 
     auto trial = ranges::view::linear_distribute( 1.0, 6.0, 11 )
