@@ -21,7 +21,7 @@ void ignore( T&& ){}
 
 SCENARIO( "Integration test" ){
   const auto Na22 = resonances();
-  const auto& isotope = Na22.isotopes.front();
+  const auto& isotope = Na22.isotopes().front();
   const auto& resonanceRange = isotope.resonanceRanges().front();
   EnergyRange energyRange{ resonanceRange.EL() * electronVolts,
                            resonanceRange.EH() * electronVolts }
