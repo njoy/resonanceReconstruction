@@ -1,5 +1,3 @@
-#define CATCH_CONFIG_MAIN
-
 #include "catch.hpp"
 #include "resonanceReconstruction.hpp"
 
@@ -61,4 +59,3 @@ SCENARIO( "possibleChannelSpinValues" ) {
     }
   } // GIVEN
 } // SCENARIO
-

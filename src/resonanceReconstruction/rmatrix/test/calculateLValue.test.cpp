@@ -20,4 +20,3 @@ SCENARIO( "calculateLValue" ) {
     }
   } // GIVEN
 } // SCENARIO
-

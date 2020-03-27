@@ -47,4 +47,3 @@ SCENARIO( "calculateCoulombPhaseShift" ) {
     }
   } // GIVEN
 } // SCENARIO
-

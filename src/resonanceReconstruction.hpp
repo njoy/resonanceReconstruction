@@ -49,8 +49,8 @@ namespace ENDF = ENDFtk::resonanceParameters;
 #include "resonanceReconstruction/EnergyRange.hpp"
 #include "resonanceReconstruction/ZeroWidth.hpp"
 
-#include "resonanceReconstruction/breitWigner.hpp"
-#include "resonanceReconstruction/reichMoore.hpp"
+//#include "resonanceReconstruction/breitWigner.hpp"
+//#include "resonanceReconstruction/reichMoore.hpp"
 
 // physical constants and quantities
 
@@ -61,10 +61,10 @@ using CoulombSquaredSecondPerMeter = decltype( Coulomb() * Coulomb() *
                                                Seconds() / Meters() );
 using FaradPerMeter = decltype( farad / meter );
 
-// hbar constant in eV s - taken from 2014 CODATA 
+// hbar constant in eV s - taken from 2014 CODATA
 constexpr Quantity< ElectronVoltSecond > hbar = 6.582119514e-16 * electronVolt * second;
 
-// epsilon0 constant in F m^-1 - taken from 2014 CODATA 
+// epsilon0 constant in F m^-1 - taken from 2014 CODATA
 constexpr Quantity< FaradPerMeter > epsilon0 = 8.854187817e-12 * farad / meter;
 
 constexpr Quantity< RootElectronVolt > rootElectronVolt = 1.0 * unit::sqrt( electronVolt );

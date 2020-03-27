@@ -479,6 +479,7 @@ target_sources( resonanceReconstruction INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/s
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/src/coh3-asympt.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/src/coh3-coulomb.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/src/coh3-extwave.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/src/makeFromENDF.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/src/possibleChannelSpinValues.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/src/possibleChannelTotalAngularMomentumValues.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/src/channelRadius.hpp"

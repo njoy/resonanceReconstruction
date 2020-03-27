@@ -132,4 +132,3 @@ SCENARIO( "getPossibleChannelTotalAngularMomentumValues" ) {
     }
   } // GIVEN
 } // SCENARIO
-
