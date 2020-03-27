@@ -763,8 +763,8 @@
     "src/resonanceReconstruction/rmatrix/src/coh3-asympt.hpp", 
     "src/resonanceReconstruction/rmatrix/src/coh3-coulomb.hpp", 
     "src/resonanceReconstruction/rmatrix/src/coh3-extwave.hpp", 
-    "src/resonanceReconstruction/rmatrix/src/fromENDF.hpp", 
     "src/resonanceReconstruction/rmatrix/src/makeParticleChannels.hpp", 
+    "src/resonanceReconstruction/rmatrix/src/makeParticlePairs.hpp", 
     "src/resonanceReconstruction/rmatrix/src/possibleChannelSpinValues.hpp", 
     "src/resonanceReconstruction/rmatrix/src/possibleChannelTotalAngularMomentumValues.hpp", 
     "src/resonanceReconstruction/src/channelRadius.hpp", 
@@ -832,7 +832,7 @@
     "resonanceReconstruction.rmatrix": [
       "src/resonanceReconstruction/rmatrix/test/calculateCoulombPhaseShift.test.cpp", 
       "src/resonanceReconstruction/rmatrix/test/calculateLValue.test.cpp", 
-      "src/resonanceReconstruction/rmatrix/test/makeParticlePairs.test.cpp", 
+      "src/resonanceReconstruction/rmatrix/test/fromENDF.test.cpp", 
       "src/resonanceReconstruction/rmatrix/test/possibleChannelSpinValues.test.cpp", 
       "src/resonanceReconstruction/rmatrix/test/possibleChannelTotalAngularMomentumValues.test.cpp", 
       "src/resonanceReconstruction/rmatrix/test/rmatrix.test.cpp"

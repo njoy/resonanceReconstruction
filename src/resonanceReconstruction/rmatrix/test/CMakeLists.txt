@@ -2,7 +2,7 @@
 add_executable( resonanceReconstruction.rmatrix.test
                 calculateCoulombPhaseShift.test.cpp
                 calculateLValue.test.cpp
-                makeParticlePairs.test.cpp
+                fromENDF.test.cpp
                 possibleChannelSpinValues.test.cpp
                 possibleChannelTotalAngularMomentumValues.test.cpp
                 rmatrix.test.cpp )
