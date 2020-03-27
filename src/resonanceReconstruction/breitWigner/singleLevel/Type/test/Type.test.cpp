@@ -22,8 +22,8 @@ const std::vector< double >& capture();
 
 SCENARIO( "Integration test" ){
   const auto Rh105 = resonances();
-  const auto& isotope = Rh105.isotopes.front();
-  const auto& resonanceRange = isotope.energyRanges().front();
+  const auto& isotope = Rh105.isotopes().front();
+  const auto& resonanceRange = isotope.resonanceRanges().front();
   EnergyRange energyRange{ resonanceRange.EL() * electronVolts,
                            resonanceRange.EH() * electronVolts }
   const auto& slbw = std::get< 1 >( resonanceRange );

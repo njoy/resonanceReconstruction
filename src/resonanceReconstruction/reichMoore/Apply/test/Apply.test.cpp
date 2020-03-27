@@ -21,7 +21,7 @@ void ignore( T&& ){}
 
 SCENARIO( "Integration test" ){
   const auto Al27 = resonances();
-  const auto& isotope = Al27.isotopes.front();
+  const auto& isotope = Al27.isotopes().front();
   const auto& resonanceRange = isotope.resonanceRanges().front();
   EnergyRange energyRange{ resonanceRange.EL() * electronVolts,
                            resonanceRange.EH() * electronVolts };
@@ -34,7 +34,8 @@ SCENARIO( "Integration test" ){
     "\n NRO: {}"
     "\n NAPS: {}"
     "\n AP: {}\n\n",
-    rm.LRU(), rm.LRF(), rm.NRO(), rm.NAPS(), rm.AP() );
+    resonanceRange.LRU(), resonanceRange.LRF(),
+    resonanceRange.NRO(), resonanceRange.NAPS(), rm.AP() );
 
   const auto type =
     Apply().build( energyRange, rm, reichMoore::Both{}, radius( rm.AP() ), true );
