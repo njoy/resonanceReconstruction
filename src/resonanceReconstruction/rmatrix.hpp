@@ -54,5 +54,6 @@ namespace rmatrix {
   #include "resonanceReconstruction/rmatrix/CompoundSystem.hpp"
 
   // make CompoundSystem instances from ENDF
-  #include "resonanceReconstruction/rmatrix/src/makeFromENDF.hpp"
+  #include "resonanceReconstruction/rmatrix/src/makeParticlePairs.hpp"
+  #include "resonanceReconstruction/rmatrix/src/makeParticleChannels.hpp"
 }

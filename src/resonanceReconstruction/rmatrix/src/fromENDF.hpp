@@ -1,8 +1,8 @@
 inline unsigned int
-incident( const ENDF::resolved::RMatrixLimited::ParticlePairs& pairs ) {
+incident( const ENDF::resolved::RMatrixLimited::ParticlePairs& endfPairs ) {
 
   // determine the incident particle pair (the particle pair with mt == 2)
-  const auto reactions = pairs.MT();
+  const auto reactions = endfPairs.MT();
   auto found = std::find_if( ranges::begin( reactions ),
                              ranges::end( reactions ),
                              [&] ( const auto& mt ) { return mt == 2; } );
@@ -10,15 +10,15 @@ incident( const ENDF::resolved::RMatrixLimited::ParticlePairs& pairs ) {
 }
 
 inline std::vector< ParticlePair >
-makeParticlePairs( const ENDF::resolved::RMatrixLimited::ParticlePairs& pairs,
+makeParticlePairs( const ENDF::resolved::RMatrixLimited::ParticlePairs& endfPairs,
                    const AtomicMass& neutronMass,
                    const ElectricalCharge& elementaryCharge ) {
 
   // a few useful lambdas
-  auto makeParticleIdentifiers = [] ( const auto& pairs ) {
+  auto makeParticleIdentifiers = [] ( const auto& endfPairs ) {
 
     //! @todo replace these temporary identifiers
-    return pairs.MT()
+    return endfPairs.MT()
              | ranges::view::transform(
                    [] ( int mt ) -> std::pair< ParticleID, ParticleID > {
 
@@ -44,25 +44,25 @@ makeParticlePairs( const ENDF::resolved::RMatrixLimited::ParticlePairs& pairs,
   };
 
   // do some range magic
-  auto identifiers = makeParticleIdentifiers( pairs );
+  auto identifiers = makeParticleIdentifiers( endfPairs );
   auto particles = ranges::view::zip_with(
                        makeParticle,
                        identifiers | ranges::view::transform( first ),
-                       pairs.massParticleA(),
-                       pairs.chargeParticleA(),
-                       pairs.spinParticleA(),
-                       pairs.parityParticleA() );
+                       endfPairs.massParticleA(),
+                       endfPairs.chargeParticleA(),
+                       endfPairs.spinParticleA(),
+                       endfPairs.parityParticleA() );
   auto residuals = ranges::view::zip_with(
                        makeParticle,
                        identifiers | ranges::view::transform( second ),
-                       pairs.massParticleB(),
-                       pairs.chargeParticleB(),
-                       pairs.spinParticleB(),
-                       pairs.parityParticleB() );
+                       endfPairs.massParticleB(),
+                       endfPairs.chargeParticleB(),
+                       endfPairs.spinParticleB(),
+                       endfPairs.parityParticleB() );
 
   return ranges::view::zip_with(
              makeParticlePair,
              particles,
              residuals,
-             pairs.Q() );
+             endfPairs.Q() );
 }
