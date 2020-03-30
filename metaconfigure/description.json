@@ -765,6 +765,7 @@
     "src/resonanceReconstruction/rmatrix/src/coh3-extwave.hpp", 
     "src/resonanceReconstruction/rmatrix/src/makeParticleChannels.hpp", 
     "src/resonanceReconstruction/rmatrix/src/makeParticlePairs.hpp", 
+    "src/resonanceReconstruction/rmatrix/src/makeResonanceTable.hpp", 
     "src/resonanceReconstruction/rmatrix/src/possibleChannelSpinValues.hpp", 
     "src/resonanceReconstruction/rmatrix/src/possibleChannelTotalAngularMomentumValues.hpp", 
     "src/resonanceReconstruction/src/channelRadius.hpp", 

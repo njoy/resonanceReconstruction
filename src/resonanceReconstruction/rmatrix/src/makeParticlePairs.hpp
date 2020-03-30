@@ -17,7 +17,7 @@ makeParticlePairs( const ENDF::resolved::RMatrixLimited::ParticlePairs& endfPair
   // a few useful lambdas
   auto makeParticleIdentifiers = [] ( const auto& endfPairs ) {
 
-    //! @todo replace these temporary identifiers
+    //! @todo replace these temporary identifiers with proper ones
     return endfPairs.MT()
              | ranges::view::transform(
                    [] ( int mt ) -> std::pair< ParticleID, ParticleID > {
