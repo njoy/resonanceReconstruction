@@ -11,8 +11,8 @@ makeResonanceTable(
   // some usefull lambdas
   auto getID = [&] ( const ParticleChannel& channel ) {
 
-    return std::visit( [&] ( const auto& channel )
-                           { return channel.channelID(); },
+    return std::visit( [] ( const auto& channel )
+                          { return channel.channelID(); },
                        channel );
   };
   auto toEnergy = [&] ( double value ) -> Energy {

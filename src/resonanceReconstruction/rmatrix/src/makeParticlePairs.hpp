@@ -1,12 +1,28 @@
 inline unsigned int
-incident( const ENDF::resolved::RMatrixLimited::ParticlePairs& endfPairs ) {
+findParticlePairForReaction(
+    const ENDF::resolved::RMatrixLimited::ParticlePairs& endfPairs,
+    int mt ) {
 
-  // determine the incident particle pair (the particle pair with mt == 2)
   const auto reactions = endfPairs.MT();
   auto found = std::find_if( ranges::begin( reactions ),
                              ranges::end( reactions ),
-                             [&] ( const auto& mt ) { return mt == 2; } );
+                             [&] ( const auto& reaction )
+                                 { return mt == reaction; } );
   return std::distance( ranges::begin( reactions ), found );
+}
+
+inline unsigned int
+incident( const ENDF::resolved::RMatrixLimited::ParticlePairs& endfPairs ) {
+
+  // the incident particle pair is the one associated with mt2
+  return findParticlePairForReaction( endfPairs, 2 );
+}
+
+inline unsigned int
+eliminated( const ENDF::resolved::RMatrixLimited::ParticlePairs& endfPairs ) {
+
+  // the incident particle pair is the one associated with mt102
+  return findParticlePairForReaction( endfPairs, 102 );
 }
 
 inline std::vector< ParticlePair >

@@ -53,8 +53,18 @@ namespace rmatrix {
   #include "resonanceReconstruction/rmatrix/SpinGroup.hpp"
   #include "resonanceReconstruction/rmatrix/CompoundSystem.hpp"
 
-  // make CompoundSystem instances from ENDF
+  // make components from ENDF
   #include "resonanceReconstruction/rmatrix/src/makeParticlePairs.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeParticleChannels.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeResonanceTable.hpp"
+  #include "resonanceReconstruction/rmatrix/src/makeSpinGroup.hpp"
+  #include "resonanceReconstruction/rmatrix/src/makeCompoundSystem.hpp"
+
+  // make the compund system variant from ENDF
+  using CompoundSystemVariant =
+      std::variant< CompoundSystem< ReichMoore, ShiftFactor >,
+                    CompoundSystem< ReichMoore, Constant >/*,
+                    CompoundSystem< GeneralRMatrix, ShiftFactor >,
+                    CompoundSystem< GeneralRMatrix, Constant >*/ >;
+  #include "resonanceReconstruction/rmatrix/src/fromENDF.hpp"
 }

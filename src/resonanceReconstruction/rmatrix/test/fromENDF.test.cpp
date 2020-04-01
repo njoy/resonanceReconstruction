@@ -4,11 +4,6 @@
 using namespace njoy::resonanceReconstruction;
 using namespace njoy::resonanceReconstruction::rmatrix;
 using ResonanceRange = ENDF::ResonanceRange;
-using RMatrixLimited = ENDF::resolved::RMatrixLimited;
-using ParticlePairs = ENDF::resolved::RMatrixLimited::ParticlePairs;
-using ResonanceChannels = ENDF::resolved::RMatrixLimited::ResonanceChannels;
-using ResonanceParameters = ENDF::resolved::RMatrixLimited::ResonanceParameters;
-using EndfSpinGroup = ENDF::resolved::RMatrixLimited::SpinGroup;
 
 constexpr AtomicMass neutronMass = 1.008664 * daltons;
 constexpr ElectricalCharge elementaryCharge = 1.602e-19 * coulomb;
@@ -16,7 +11,7 @@ constexpr ElectricalCharge elementaryCharge = 1.602e-19 * coulomb;
 std::string Fe54();
 std::string Cl35();
 
-SCENARIO( "makeParticlePairs" ) {
+SCENARIO( "fromENDF" ) {
 
   GIVEN( "valid ENDF data" ) {
 
@@ -27,172 +22,122 @@ SCENARIO( "makeParticlePairs" ) {
 
     njoy::ENDFtk::HeadRecord head( begin, end, lineNumber );
     njoy::ENDFtk::section::Type< 2, 151 > endf( head, begin, end, lineNumber, 2625 );
-    RMatrixLimited endfResonances = std::get< RMatrixLimited >( endf.isotopes().front().resonanceRanges().front().parameters() );
-    ParticlePairs endfPairs = endfResonances.particlePairs();
+    ResonanceRange endfResonanceRange = endf.isotopes().front().resonanceRanges().front();
 
-    THEN( "a vector of ParticlePair is returned" ) {
+    THEN( "the appropriate CompoundSystem is returned" ) {
 
-      auto pairs = makeParticlePairs( endfPairs, neutronMass, elementaryCharge );
+      auto compoundsystem = fromENDF( endfResonanceRange, neutronMass, elementaryCharge );
 
-      CHECK( 2 == pairs.size() );
+      // spin groups
+      auto spingroups = std::get< CompoundSystem< ReichMoore, ShiftFactor > >( compoundsystem ).spinGroups();
+      CHECK( 5 == spingroups.size() );
 
-      const auto pair1 = pairs[0];
-      CHECK( 0.0 == Approx( pair1.particle().mass().value ) );
-      CHECK( 0.0 == Approx( pair1.particle().charge().value ) );
-      CHECK( 1.0 == Approx( pair1.particle().spin() ) );
-      CHECK( +1 == pair1.particle().parity() );
-      CHECK( 54.46635 * 1.008664 == Approx( pair1.residual().mass().value ) );
-      CHECK( 26.0 * 1.602e-19 == Approx( pair1.residual().charge().value ) );
-      CHECK( 0.0 == Approx( pair1.residual().spin() ) );
-      CHECK( +1 == pair1.residual().parity() );
-      CHECK( 0.0 == Approx( pair1.Q().value ) );
-      CHECK( "mt102-a,mt102-b" == pair1.pairID() );
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 0
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      auto spingroup0 = spingroups[0];
 
-      const auto pair2 = pairs[1];
-      CHECK( 1.008664 == Approx( pair2.particle().mass().value ) );
-      CHECK( 0.0 == Approx( pair2.particle().charge().value ) );
-      CHECK( 0.5 == Approx( pair2.particle().spin() ) );
-      CHECK( +1 == pair2.particle().parity() );
-      CHECK( 53.47624 * 1.008664 == Approx( pair2.residual().mass().value ) );
-      CHECK( 26.0 * 1.602e-19 == Approx( pair2.residual().charge().value ) );
-      CHECK( 0.0 == Approx( pair2.residual().spin() ) );
-      CHECK( +1 == pair2.residual().parity() );
-      CHECK( 0.0 == Approx( pair2.Q().value ) );
-      CHECK( "mt2-a,mt2-b" == pair2.pairID() );
-    } // THEN
-  } // GIVEN
-} // SCENARIO
+      // channels
+      auto channels0 = spingroup0.channels();
 
-SCENARIO( "makeParticleChannels" ) {
-
-  GIVEN( "valid ENDF data" ) {
-
-    std::string string = Fe54();
-    auto begin = string.begin();
-    auto end = string.end();
-    long lineNumber = 1;
-
-    njoy::ENDFtk::HeadRecord head( begin, end, lineNumber );
-    njoy::ENDFtk::section::Type< 2, 151 > endf( head, begin, end, lineNumber, 2625 );
-    RMatrixLimited endfResonances = std::get< RMatrixLimited >( endf.isotopes().front().resonanceRanges().front().parameters() );
-    ParticlePairs endfPairs = endfResonances.particlePairs();
-    ResonanceChannels endfChannels = endfResonances.spinGroups().front().channels();
-
-    std::vector< ParticlePair > pairs = makeParticlePairs( endfPairs, neutronMass, elementaryCharge );
-
-    THEN( "a vector of ParticleChannel is returned" ) {
-
-      auto channels = makeParticleChannels( pairs, endfPairs, endfChannels );
-
-      CHECK( 2 == channels.size() );
-
-      const auto channel1 = std::get< Channel< Photon > >( channels[0] );
-      const auto channel2 = std::get< Channel< Neutron > >( channels[1] );
+      CHECK( 1 == channels0.size() ); // 1 normal channel + 1 eliminated
+      const auto channel00 = std::get< Channel< Neutron > >( channels0[0] );
 
       // particle pairs
-      const auto pair1 = channel1.particlePair();
-      CHECK( 0.0 == Approx( pair1.particle().mass().value ) );
-      CHECK( 0.0 == Approx( pair1.particle().charge().value ) );
-      CHECK( 1.0 == Approx( pair1.particle().spin() ) );
-      CHECK( +1 == pair1.particle().parity() );
-      CHECK( 54.46635 * 1.008664 == Approx( pair1.residual().mass().value ) );
-      CHECK( 26.0 * 1.602e-19 == Approx( pair1.residual().charge().value ) );
-      CHECK( 0.0 == Approx( pair1.residual().spin() ) );
-      CHECK( +1 == pair1.residual().parity() );
-      CHECK( 0.0 == Approx( pair1.Q().value ) );
-      CHECK( "mt102-a,mt102-b" == pair1.pairID() );
-
-      const auto pair2 = channel2.particlePair();
-      CHECK( 1.008664 == Approx( pair2.particle().mass().value ) );
-      CHECK( 0.0 == Approx( pair2.particle().charge().value ) );
-      CHECK( 0.5 == Approx( pair2.particle().spin() ) );
-      CHECK( +1 == pair2.particle().parity() );
-      CHECK( 53.47624 * 1.008664 == Approx( pair2.residual().mass().value ) );
-      CHECK( 26.0 * 1.602e-19 == Approx( pair2.residual().charge().value ) );
-      CHECK( 0.0 == Approx( pair2.residual().spin() ) );
-      CHECK( +1 == pair2.residual().parity() );
-      CHECK( 0.0 == Approx( pair2.Q().value ) );
-      CHECK( "mt2-a,mt2-b" == pair2.pairID() );
+      const auto pair00 = channel00.particlePair();
+      CHECK( 1.008664 == Approx( pair00.particle().mass().value ) );
+      CHECK( 0.0 == Approx( pair00.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair00.particle().spin() ) );
+      CHECK( +1 == pair00.particle().parity() );
+      CHECK( 53.47624 * 1.008664 == Approx( pair00.residual().mass().value ) );
+      CHECK( 26.0 * 1.602e-19 == Approx( pair00.residual().charge().value ) );
+      CHECK( 0.0 == Approx( pair00.residual().spin() ) );
+      CHECK( +1 == pair00.residual().parity() );
+      CHECK( 0.0 == Approx( pair00.Q().value ) );
+      CHECK( "mt2-a,mt2-b" == pair00.pairID() );
 
       // quantum numbers
-      const auto numbers1 = channel1.quantumNumbers();
-      CHECK( 0 == numbers1.orbitalAngularMomentum() );
-      CHECK( 0.0 == numbers1.spin() );
-      CHECK( 0.5 == numbers1.totalAngularMomentum() );
-      CHECK( +1 == numbers1.parity() );
-      CHECK( "{0,0,1/2+}" == numbers1.toString() );
-
-      const auto numbers2 = channel2.quantumNumbers();
-      CHECK( 0 == numbers2.orbitalAngularMomentum() );
-      CHECK( 0.5 == numbers2.spin() );
-      CHECK( 0.5 == numbers2.totalAngularMomentum() );
-      CHECK( +1 == numbers2.parity() );
-      CHECK( "{0,1/2,1/2+}" == numbers2.toString() );
+      const auto numbers00 = channel00.quantumNumbers();
+      CHECK( 0 == numbers00.orbitalAngularMomentum() );
+      CHECK( 0.5 == numbers00.spin() );
+      CHECK( 0.5 == numbers00.totalAngularMomentum() );
+      CHECK( +1 == numbers00.parity() );
+      CHECK( "{0,1/2,1/2+}" == numbers00.toString() );
 
       // radii
-      const auto radii1 = channel1.radii();
-      CHECK( 0. == radii1.penetrabilityRadius( 1e-5 * electronVolt ).value );
-      CHECK( 0. == radii1.shiftFactorRadius( 1e-5 * electronVolt ).value );
-      CHECK( 0. == radii1.phaseShiftRadius( 1e-5 * electronVolt ).value );
-
-      const auto radii2 = channel2.radii();
-      CHECK( .54373 == Approx( radii2.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
-      CHECK( .54373 == Approx( radii2.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
-      CHECK( .54373 == Approx( radii2.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+      const auto radii00 = channel00.radii();
+      CHECK( .54373 == Approx( radii00.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .54373 == Approx( radii00.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .54373 == Approx( radii00.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
 
       // boundary conditions
-      CHECK( 0. == channel1.boundaryCondition() );
-      CHECK( 0. == channel2.boundaryCondition() );
-    } // THEN
-  } // GIVEN
-} // SCENARIO
+      CHECK( 0. == channel00.boundaryCondition() );
 
-SCENARIO( "makeResonanceTable" ) {
+      // resonance table
+      auto table0 = spingroup0.resonanceTable();
 
-  GIVEN( "valid ENDF data" ) {
+      CHECK( 1 == table0.numberChannels() ); // 1 normal channel + 1 eliminated
+      CHECK( 148 == table0.numberResonances() );
 
-    std::string string = Fe54();
-    auto begin = string.begin();
-    auto end = string.end();
-    long lineNumber = 1;
+      auto energies0 = table0.energies();
+      CHECK( -1.223300e+6 == Approx( energies0.front().value ) );
+      CHECK( 1.505510e+6 == Approx( energies0.back().value ) );
 
-    njoy::ENDFtk::HeadRecord head( begin, end, lineNumber );
-    njoy::ENDFtk::section::Type< 2, 151 > endf( head, begin, end, lineNumber, 2625 );
-    RMatrixLimited endfResonances = std::get< RMatrixLimited >( endf.isotopes().front().resonanceRanges().front().parameters() );
-    ParticlePairs endfPairs = endfResonances.particlePairs();
-    ResonanceChannels endfChannels = endfResonances.spinGroups().front().channels();
-    ResonanceParameters endfParameters = endfResonances.spinGroups().front().parameters();
+      auto resonances0 = table0.resonances();
+      CHECK( -1.223300e+6 == Approx( resonances0.front().energy().value ) );
+      CHECK( 1.505510e+6 == Approx( resonances0.back().energy().value ) );
+      CHECK( 1 == resonances0.front().widths().size() );
+      CHECK( 1 == resonances0.back().widths().size() );
+      CHECK( std::sqrt( 961108.6 / 2. / channel00.penetrability( -1.223300e+6 * electronVolt ) )
+             == Approx( resonances0.front().widths().front().value ) );
+      CHECK( std::sqrt( 1601.084 / 2. / channel00.penetrability( 1.505510e+6 * electronVolt ) )
+             == Approx( resonances0.back().widths().front().value ) );
+      CHECK( std::sqrt( 1. / 2. ) == Approx( resonances0.front().eliminatedWidth().value ) );
+      CHECK( std::sqrt( .64906 / 2. ) == Approx( resonances0.back().eliminatedWidth().value ) );
 
-    std::vector< ParticlePair > pairs = makeParticlePairs( endfPairs, neutronMass, elementaryCharge );
-    std::vector< ParticleChannel > channels = makeParticleChannels( pairs, endfPairs, endfChannels );
-    bool reducedWidthsFlag = endfResonances.reducedWidths() == 0 ? false : true;
-    int eliminated = 0;
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 1
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      auto spingroup1 = spingroups[1];
 
-    THEN( "a ResonanceTable is returned" ) {
+      // channels
+      auto channels1 = spingroup1.channels();
 
-      auto table = makeResonanceTable( channels, endfParameters,
-                                       reducedWidthsFlag, eliminated );
+      CHECK( 1 == channels1.size() ); // 1 normal channel + 1 eliminated
+      const auto channel10 = std::get< Channel< Neutron > >( channels1[0] );
 
-      CHECK( 1 == table.numberChannels() ); // 1 normal channel + 1 eliminated
-      CHECK( 148 == table.numberResonances() );
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 2
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      auto spingroup2 = spingroups[2];
 
-      const auto elastic = std::get< Channel< Neutron > >( channels[1] );
+      // channels
+      auto channels2 = spingroup2.channels();
 
-      auto energies = table.energies();
-      CHECK( -1.223300e+6 == Approx( energies.front().value ) );
-      CHECK( 1.505510e+6 == Approx( energies.back().value ) );
+      CHECK( 1 == channels2.size() ); // 1 normal channel + 1 eliminated
+      const auto channel20 = std::get< Channel< Neutron > >( channels2[0] );
 
-      auto resonances = table.resonances();
-      CHECK( -1.223300e+6 == Approx( resonances.front().energy().value ) );
-      CHECK( 1.505510e+6 == Approx( resonances.back().energy().value ) );
-      CHECK( 1 == resonances.front().widths().size() );
-      CHECK( 1 == resonances.back().widths().size() );
-      CHECK( std::sqrt( 961108.6 / 2. / elastic.penetrability( -1.223300e+6 * electronVolt ) )
-             == Approx( resonances.front().widths().front().value ) );
-      CHECK( std::sqrt( 1601.084 / 2. / elastic.penetrability( 1.505510e+6 * electronVolt ) )
-             == Approx( resonances.back().widths().front().value ) );
-      CHECK( std::sqrt( 1. / 2. ) == Approx( resonances.front().eliminatedWidth().value ) );
-      CHECK( std::sqrt( .64906 / 2. ) == Approx( resonances.back().eliminatedWidth().value ) );
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 3
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      auto spingroup3 = spingroups[3];
+
+      // channels
+      auto channels3 = spingroup3.channels();
+
+      CHECK( 1 == channels3.size() ); // 1 normal channel + 1 eliminated
+      const auto channel30 = std::get< Channel< Neutron > >( channels3[0] );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 4
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      auto spingroup4 = spingroups[4];
+
+      // channels
+      auto channels4 = spingroup4.channels();
+
+      CHECK( 1 == channels4.size() ); // 1 normal channel + 1 eliminated
+      const auto channel40 = std::get< Channel< Neutron > >( channels4[0] );
     } // THEN
   } // GIVEN
 } // SCENARIO
