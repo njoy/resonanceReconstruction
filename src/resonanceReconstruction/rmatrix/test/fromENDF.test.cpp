@@ -106,6 +106,36 @@ SCENARIO( "fromENDF" ) {
       CHECK( 1 == channels1.size() ); // 1 normal channel + 1 eliminated
       const auto channel10 = std::get< Channel< Neutron > >( channels1[0] );
 
+      // particle pairs
+      const auto pair10 = channel10.particlePair();
+      CHECK( 1.008664 == Approx( pair10.particle().mass().value ) );
+      CHECK( 0.0 == Approx( pair10.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair10.particle().spin() ) );
+      CHECK( +1 == pair10.particle().parity() );
+      CHECK( 53.47624 * 1.008664 == Approx( pair10.residual().mass().value ) );
+      CHECK( 26.0 * 1.602e-19 == Approx( pair10.residual().charge().value ) );
+      CHECK( 0.0 == Approx( pair10.residual().spin() ) );
+      CHECK( +1 == pair10.residual().parity() );
+      CHECK( 0.0 == Approx( pair10.Q().value ) );
+      CHECK( "mt2-a,mt2-b" == pair10.pairID() );
+
+      // quantum numbers
+      const auto numbers10 = channel10.quantumNumbers();
+      CHECK( 1 == numbers10.orbitalAngularMomentum() );
+      CHECK( 0.5 == numbers10.spin() );
+      CHECK( 0.5 == numbers10.totalAngularMomentum() );
+      CHECK( -1 == numbers10.parity() );
+      CHECK( "{1,1/2,1/2-}" == numbers10.toString() );
+
+      // radii
+      const auto radii10 = channel10.radii();
+      CHECK( .54373 == Approx( radii10.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .54373 == Approx( radii10.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .54373 == Approx( radii10.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel10.boundaryCondition() );
+
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // spin group 2
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -116,6 +146,36 @@ SCENARIO( "fromENDF" ) {
 
       CHECK( 1 == channels2.size() ); // 1 normal channel + 1 eliminated
       const auto channel20 = std::get< Channel< Neutron > >( channels2[0] );
+
+      // particle pairs
+      const auto pair20 = channel20.particlePair();
+      CHECK( 1.008664 == Approx( pair20.particle().mass().value ) );
+      CHECK( 0.0 == Approx( pair20.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair20.particle().spin() ) );
+      CHECK( +1 == pair20.particle().parity() );
+      CHECK( 53.47624 * 1.008664 == Approx( pair20.residual().mass().value ) );
+      CHECK( 26.0 * 1.602e-19 == Approx( pair20.residual().charge().value ) );
+      CHECK( 0.0 == Approx( pair20.residual().spin() ) );
+      CHECK( +1 == pair20.residual().parity() );
+      CHECK( 0.0 == Approx( pair20.Q().value ) );
+      CHECK( "mt2-a,mt2-b" == pair20.pairID() );
+
+      // quantum numbers
+      const auto numbers20 = channel20.quantumNumbers();
+      CHECK( 1 == numbers20.orbitalAngularMomentum() );
+      CHECK( 0.5 == numbers20.spin() );
+      CHECK( 1.5 == numbers20.totalAngularMomentum() );
+      CHECK( -1 == numbers20.parity() );
+      CHECK( "{1,1/2,3/2-}" == numbers20.toString() );
+
+      // radii
+      const auto radii20 = channel20.radii();
+      CHECK( .54373 == Approx( radii20.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .54373 == Approx( radii20.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .54373 == Approx( radii20.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel20.boundaryCondition() );
 
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // spin group 3
@@ -128,6 +188,36 @@ SCENARIO( "fromENDF" ) {
       CHECK( 1 == channels3.size() ); // 1 normal channel + 1 eliminated
       const auto channel30 = std::get< Channel< Neutron > >( channels3[0] );
 
+      // particle pairs
+      const auto pair30 = channel30.particlePair();
+      CHECK( 1.008664 == Approx( pair30.particle().mass().value ) );
+      CHECK( 0.0 == Approx( pair30.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair30.particle().spin() ) );
+      CHECK( +1 == pair30.particle().parity() );
+      CHECK( 53.47624 * 1.008664 == Approx( pair30.residual().mass().value ) );
+      CHECK( 26.0 * 1.602e-19 == Approx( pair30.residual().charge().value ) );
+      CHECK( 0.0 == Approx( pair30.residual().spin() ) );
+      CHECK( +1 == pair30.residual().parity() );
+      CHECK( 0.0 == Approx( pair30.Q().value ) );
+      CHECK( "mt2-a,mt2-b" == pair30.pairID() );
+
+      // quantum numbers
+      const auto numbers30 = channel30.quantumNumbers();
+      CHECK( 2 == numbers30.orbitalAngularMomentum() );
+      CHECK( 0.5 == numbers30.spin() );
+      CHECK( 1.5 == numbers30.totalAngularMomentum() );
+      CHECK( +1 == numbers30.parity() );
+      CHECK( "{2,1/2,3/2+}" == numbers30.toString() );
+
+      // radii
+      const auto radii30 = channel30.radii();
+      CHECK( .54373 == Approx( radii30.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .54373 == Approx( radii30.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .54373 == Approx( radii30.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel30.boundaryCondition() );
+
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // spin group 4
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -138,7 +228,36 @@ SCENARIO( "fromENDF" ) {
 
       CHECK( 1 == channels4.size() ); // 1 normal channel + 1 eliminated
       const auto channel40 = std::get< Channel< Neutron > >( channels4[0] );
-    } // THEN
+
+      // particle pairs
+      const auto pair40 = channel40.particlePair();
+      CHECK( 1.008664 == Approx( pair40.particle().mass().value ) );
+      CHECK( 0.0 == Approx( pair40.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair40.particle().spin() ) );
+      CHECK( +1 == pair40.particle().parity() );
+      CHECK( 53.47624 * 1.008664 == Approx( pair40.residual().mass().value ) );
+      CHECK( 26.0 * 1.602e-19 == Approx( pair40.residual().charge().value ) );
+      CHECK( 0.0 == Approx( pair40.residual().spin() ) );
+      CHECK( +1 == pair40.residual().parity() );
+      CHECK( 0.0 == Approx( pair40.Q().value ) );
+      CHECK( "mt2-a,mt2-b" == pair40.pairID() );
+
+      // quantum numbers
+      const auto numbers40 = channel40.quantumNumbers();
+      CHECK( 2 == numbers40.orbitalAngularMomentum() );
+      CHECK( 0.5 == numbers40.spin() );
+      CHECK( 2.5 == numbers40.totalAngularMomentum() );
+      CHECK( +1 == numbers40.parity() );
+      CHECK( "{2,1/2,5/2+}" == numbers40.toString() );
+
+      // radii
+      const auto radii40 = channel40.radii();
+      CHECK( .54373 == Approx( radii40.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .54373 == Approx( radii40.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .54373 == Approx( radii40.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel40.boundaryCondition() );    } // THEN
   } // GIVEN
 } // SCENARIO
 
