@@ -26,10 +26,15 @@ SCENARIO( "fromENDF" ) {
 
     THEN( "the appropriate CompoundSystem is returned" ) {
 
-      auto compoundsystem = fromENDF( endfResonanceRange, neutronMass, elementaryCharge );
+      auto resonances = fromENDF( endfResonanceRange, neutronMass, elementaryCharge );
+      auto compoundsystem = std::get< CompoundSystem< ReichMoore, ShiftFactor > >( resonances );
+
+      // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+      // content verification
+      // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
       // spin groups
-      auto spingroups = std::get< CompoundSystem< ReichMoore, ShiftFactor > >( compoundsystem ).spinGroups();
+      auto spingroups = compoundsystem.spinGroups();
       CHECK( 5 == spingroups.size() );
 
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -54,7 +59,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.0 == Approx( pair00.residual().spin() ) );
       CHECK( +1 == pair00.residual().parity() );
       CHECK( 0.0 == Approx( pair00.Q().value ) );
-      CHECK( "mt2-a,mt2-b" == pair00.pairID() );
+      CHECK( "n,Fe54_e0" == pair00.pairID() );
 
       // quantum numbers
       const auto numbers00 = channel00.quantumNumbers();
@@ -117,7 +122,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.0 == Approx( pair10.residual().spin() ) );
       CHECK( +1 == pair10.residual().parity() );
       CHECK( 0.0 == Approx( pair10.Q().value ) );
-      CHECK( "mt2-a,mt2-b" == pair10.pairID() );
+      CHECK( "n,Fe54_e0" == pair10.pairID() );
 
       // quantum numbers
       const auto numbers10 = channel10.quantumNumbers();
@@ -158,7 +163,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.0 == Approx( pair20.residual().spin() ) );
       CHECK( +1 == pair20.residual().parity() );
       CHECK( 0.0 == Approx( pair20.Q().value ) );
-      CHECK( "mt2-a,mt2-b" == pair20.pairID() );
+      CHECK( "n,Fe54_e0" == pair20.pairID() );
 
       // quantum numbers
       const auto numbers20 = channel20.quantumNumbers();
@@ -199,7 +204,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.0 == Approx( pair30.residual().spin() ) );
       CHECK( +1 == pair30.residual().parity() );
       CHECK( 0.0 == Approx( pair30.Q().value ) );
-      CHECK( "mt2-a,mt2-b" == pair30.pairID() );
+      CHECK( "n,Fe54_e0" == pair30.pairID() );
 
       // quantum numbers
       const auto numbers30 = channel30.quantumNumbers();
@@ -240,7 +245,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.0 == Approx( pair40.residual().spin() ) );
       CHECK( +1 == pair40.residual().parity() );
       CHECK( 0.0 == Approx( pair40.Q().value ) );
-      CHECK( "mt2-a,mt2-b" == pair40.pairID() );
+      CHECK( "n,Fe54_e0" == pair40.pairID() );
 
       // quantum numbers
       const auto numbers40 = channel40.quantumNumbers();
@@ -257,7 +262,13 @@ SCENARIO( "fromENDF" ) {
       CHECK( .54373 == Approx( radii40.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
 
       // boundary conditions
-      CHECK( 0. == channel40.boundaryCondition() );    } // THEN
+      CHECK( 0. == channel40.boundaryCondition() );
+
+      // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+      // resonance reconstruction verification
+      // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+    } // THEN
   } // GIVEN
 } // SCENARIO
 
