@@ -60,7 +60,7 @@ namespace rmatrix {
   #include "resonanceReconstruction/rmatrix/src/makeSpinGroup.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeCompoundSystem.hpp"
 
-  // make the compund system variant from ENDF
+  // make the compound system variant from ENDF
   using CompoundSystemVariant =
       std::variant< CompoundSystem< ReichMoore, ShiftFactor >,
                     CompoundSystem< ReichMoore, Constant >/*,

@@ -58,14 +58,14 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
                                            GeneralRMatrix(), Constant() );
               }*/
               throw std::runtime_error( "fromENDF is not implemented for "
-                                        "general R-matrix in the R-matric limited "
+                                        "general R-matrix in the R-matrix limited "
                                         "resolved resonances" );
             }
             // SLBW and MLBW
             default : {
 
               throw std::runtime_error( "fromENDF is not implemented for SLBW "
-                                        "and MLBW in the R-matric limited "
+                                        "and MLBW in the R-matrix limited "
                                         "resolved resonances" );
             }
           }
