@@ -25,8 +25,8 @@ SCENARIO( "Integration test" ){
   const auto& isotope = Rh105.isotopes().front();
   const auto& resonanceRange = isotope.resonanceRanges().front();
   EnergyRange energyRange{ resonanceRange.EL() * electronVolts,
-                           resonanceRange.EH() * electronVolts }
-  const auto& slbw = std::get< 1 >( resonanceRange );
+                           resonanceRange.EH() * electronVolts };
+  const auto& slbw = std::get< 1 >( resonanceRange.parameters() );
 
   const auto type = Apply().build( energyRange, slbw,
                                    channelRadius( 104. ), radius( 0.62 ) );
