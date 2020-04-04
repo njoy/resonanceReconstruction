@@ -51,6 +51,6 @@ operator()( const ENDF::ResonanceRange& range,
   catch ( ... ) {
 
     throw std::runtime_error( "The resonance range does not appear to contain "
-                              "SLBW parameters" );
+                              "Reich-Moore parameters" );
   }
 }
