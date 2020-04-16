@@ -23,9 +23,9 @@ auto test( const std::vector< double >& testData ){
       double referenceCapture = tuple[3];
 
       auto trial = xs( energy );
-      REQUIRE( referenceElastic == Approx( trial.elastic.value ) );
-      REQUIRE( referenceFission == Approx( trial.fission.value ) );
-      REQUIRE( referenceCapture == Approx( trial.capture.value ) );
+      CHECK( referenceElastic == Approx( trial.elastic.value ) );
+      CHECK( referenceFission == Approx( trial.fission.value ) );
+      CHECK( referenceCapture == Approx( trial.capture.value ) );
     }
   };
 }
@@ -97,31 +97,25 @@ SCENARIO( "Integration test" ){
 
 std::pair< njoy::ENDFtk::section::Type< 2, 151 >, std::vector< double > >
 resonances( const std::string& id ){
-  auto testData = [&]{
-    std::vector< double > data;
-    std::ifstream tupleFile( id + "-tuples.txt" );
-    for ( std::istream_iterator< double > it( tupleFile );
-          it != std::istream_iterator< double >();
-          ++it ){
-      data.push_back( *it );
-    }
-    return data;
-  };
+  std::vector< double > data;
+  std::ifstream tupleFile( id + "-tuples.txt" );
+  for ( std::istream_iterator< double > it( tupleFile );
+        it != std::istream_iterator< double >();
+        ++it ){
+    data.push_back( *it );
+  }
 
-  auto section151 = [&]{
+  auto endfFile = njoy::utility::slurpFileToMemory( id + ".endf" );
 
-    auto endfFile = njoy::utility::slurpFileToMemory( id + ".endf" );
+  njoy::ENDFtk::syntaxTree::Tape< std::string > tape( endfFile );
 
-    njoy::ENDFtk::syntaxTree::Tape< std::string > tape( endfFile );
+  auto& material = *( tape.begin() );
 
-    auto& material = *( tape.begin() );
+  auto MAT = material.MAT();
+  long lineNumber = 1;
+  auto mt151 = material.fileNumber(2)
+                       .sectionNumber(151)
+                       .parse< 2, 151 >();
 
-    auto MAT = material.MAT();
-    long lineNumber = 1;
-    return material
-           .fileNumber(2)
-           .sectionNumber(151).parse< 2, 151 >();
-  };
-
-  return std::make_pair( section151(), testData() );
+  return std::make_pair( mt151, data );
 }
