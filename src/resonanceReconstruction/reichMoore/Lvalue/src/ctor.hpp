@@ -8,7 +8,7 @@ Lvalue( std::vector< Resonance >&& resonances, int l ) :
   resonances( std::move( resonances ) ),
   orbitalAngularMomentum( l ){}
 
-Lvalue( const Lvalue& ) = default;
+// Lvalue( const Lvalue& ) = default;
 
 //working arouynd gcc bug regarding move ctors of lambdas with captures
 Lvalue( Lvalue&& other ) :
@@ -16,7 +16,7 @@ Lvalue( Lvalue&& other ) :
   resonances( std::move( other.resonances ) ),
   orbitalAngularMomentum( other.orbitalAngularMomentum ){}
 
-Lvalue& operator=( const Lvalue& ) = default;
+// Lvalue& operator=( const Lvalue& ) = default;
 Lvalue& operator=( Lvalue&& other ){
   (*this).~Lvalue();
   new(this) Lvalue( std::move(other) );

@@ -9,8 +9,7 @@ operator()( const ENDF::ResonanceRange& range,
                              range.EH() * electronVolts };
     auto rm = std::get< ENDF::resolved::RM >( range.parameters() );
 
-    switch( range.NRO() ){
-    case 0:
+    if( range.NRO() ){
       switch( range.NAPS() ){
       case 0:
         return callback( build( energyRange,
@@ -23,7 +22,7 @@ operator()( const ENDF::ResonanceRange& range,
         return callback( build( energyRange,
                                 rm, Both{}, radius( rm.AP() ), true ) );
       }
-    case 1:
+    } else {
       switch( range.NAPS() ){
       case 0:
         return callback( build( energyRange,
