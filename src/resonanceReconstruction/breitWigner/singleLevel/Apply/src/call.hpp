@@ -9,8 +9,7 @@ operator()( const ENDF::ResonanceRange& range,
                             range.EH() * electronVolts };
     auto slbw = std::get< ENDF::resolved::SLBW >( range.parameters() );
 
-    switch( range.NRO() ){
-    case 0:
+    if( range.NRO() ){
       switch( range.NAPS() ){
       case 0:
         return callback( build( energyRange, slbw,
@@ -19,7 +18,7 @@ operator()( const ENDF::ResonanceRange& range,
       case 1:
         return callback( build( energyRange, slbw, radius( slbw.AP() ) ) );
       }
-    case 1:
+    } else {
       switch( range.NAPS() ){
       case 0:
         return callback( build( energyRange, slbw,
@@ -36,7 +35,8 @@ operator()( const ENDF::ResonanceRange& range,
   }
   catch ( ... ) {
 
-    throw std::runtime_error( "The resonance range does not appear to contain "
-                              "SLBW parameters" );
+    Log::error( 
+      "The resonance range does not appear to contain SLBW parameters" );
+    throw;
   }
 }

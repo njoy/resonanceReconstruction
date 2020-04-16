@@ -9,42 +9,41 @@ operator()( const ENDF::ResonanceRange& range,
                              range.EH() * electronVolts };
     auto rm = std::get< ENDF::resolved::RM >( range.parameters() );
 
-    switch( range.NRO() ){
-    case 0:
+    if( range.NRO() ){
       switch( range.NAPS() ){
-      case 0:
-        return callback( build( energyRange,
-                                rm,
-                                Scattering{},
-                                channelRadius( rm.lValues().front().AWRI() ),
-                                radius( rm.AP() ),
-                                false ) );
-      case 1:
-        return callback( build( energyRange,
-                                rm, Both{}, radius( rm.AP() ), true ) );
+        case 0:
+          return callback( build( energyRange,
+                                  rm,
+                                  Scattering{},
+                                  channelRadius( rm.lValues().front().AWRI() ),
+                                  radius( rm.AP() ),
+                                  false ) );
+        case 1:
+          return callback( build( energyRange,
+                                  rm, Both{}, radius( rm.AP() ), true ) );
       }
-    case 1:
+    } else {
       switch( range.NAPS() ){
-      case 0:
-        return callback( build( energyRange,
-                                rm,
-                                Neither{},
-                                channelRadius( rm.lValues().front().AWRI() ),
-                                radius( range.scatteringRadius().value() ),
-                                false ) );
-      case 1:
-        return callback( build( energyRange,
-                                rm,
-                                Neither{},
-                                radius( range.scatteringRadius().value() ),
-                                false ) );
-      case 2:
-        return callback( build( energyRange,
-                                rm,
-                                Channel{},
-                                radius( rm.AP() ),
-                                radius( range.scatteringRadius().value() ),
-                                true ) );
+        case 0:
+          return callback( build( energyRange,
+                                  rm,
+                                  Neither{},
+                                  channelRadius( rm.lValues().front().AWRI() ),
+                                  radius( range.scatteringRadius().value() ),
+                                  false ) );
+        case 1:
+          return callback( build( energyRange,
+                                  rm,
+                                  Neither{},
+                                  radius( range.scatteringRadius().value() ),
+                                  false ) );
+        case 2:
+          return callback( build( energyRange,
+                                  rm,
+                                  Channel{},
+                                  radius( rm.AP() ),
+                                  radius( range.scatteringRadius().value() ),
+                                  true ) );
       }
     }
   }
