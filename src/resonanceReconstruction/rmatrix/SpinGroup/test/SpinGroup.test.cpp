@@ -87,7 +87,8 @@ SCENARIO( "SpinGroup" ) {
       REQUIRE( 4 == group.channels().size() );
 
       // channel 1 - elastic
-      auto channel1 = std::get< Channel< Neutron > >( group.channels()[0] );
+      auto channel1 =
+          std::experimental::get< Channel< Neutron > >( group.channels()[0] );
       REQUIRE( "n,Pu239_e0{0,1/2,1+}" == channel1.channelID() );
 
       auto particlePair = channel1.particlePair();
@@ -119,7 +120,8 @@ SCENARIO( "SpinGroup" ) {
       REQUIRE( 0.0 == channel1.boundaryCondition() );
 
       // channel 2 - fission1
-      auto channel2 = std::get< Channel< Fission > >( group.channels()[1] );
+      auto channel2 =
+          std::experimental::get< Channel< Fission > >( group.channels()[1] );
       REQUIRE( "fission1{0,0,1+}" == channel2.channelID() );
 
       particlePair = channel2.particlePair();
@@ -151,7 +153,8 @@ SCENARIO( "SpinGroup" ) {
       REQUIRE( 0.0 == channel2.boundaryCondition() );
 
       // channel 3 - fission2
-      auto channel3 = std::get< Channel< Fission > >( group.channels()[2] );
+      auto channel3 =
+          std::experimental::get< Channel< Fission > >( group.channels()[2] );
       REQUIRE( "fission2{0,0,1+}" == channel3.channelID() );
 
       particlePair = channel3.particlePair();
@@ -183,7 +186,8 @@ SCENARIO( "SpinGroup" ) {
       REQUIRE( 0.0 == channel3.boundaryCondition() );
 
       // channel 4 - emission
-      auto channel4 = std::get< Channel< ChargedParticle > >
+      auto channel4 =
+          std::experimental::get< Channel< ChargedParticle > >
               ( group.channels()[3] );
       REQUIRE( "p,Np240_e0{0,1/2,1+}" == channel4.channelID() );
 
@@ -262,7 +266,8 @@ SCENARIO( "SpinGroup" ) {
       REQUIRE( 4 == group.channels().size() );
 
       // channel 1 - elastic
-      auto channel1 = std::get< Channel< Neutron > >( group.channels()[0] );
+      auto channel1 =
+          std::experimental::get< Channel< Neutron > >( group.channels()[0] );
       REQUIRE( "n,Pu239_e0{0,1/2,1+}" == channel1.channelID() );
 
       auto particlePair = channel1.particlePair();
@@ -293,7 +298,8 @@ SCENARIO( "SpinGroup" ) {
       REQUIRE( 0.0 == channel1.boundaryCondition() );
 
       // channel 2 - fission1
-      auto channel2 = std::get< Channel< Fission > >( group.channels()[1] );
+      auto channel2 =
+          std::experimental::get< Channel< Fission > >( group.channels()[1] );
       REQUIRE( "fission1{0,0,1+}" == channel2.channelID() );
 
       particlePair = channel2.particlePair();
@@ -325,7 +331,8 @@ SCENARIO( "SpinGroup" ) {
       REQUIRE( 0.0 == channel2.boundaryCondition() );
 
       // channel 3 - fission2
-      auto channel3 = std::get< Channel< Fission > >( group.channels()[2] );
+      auto channel3 =
+          std::experimental::get< Channel< Fission > >( group.channels()[2] );
       REQUIRE( "fission2{0,0,1+}" == channel3.channelID() );
 
       particlePair = channel3.particlePair();
@@ -358,7 +365,8 @@ SCENARIO( "SpinGroup" ) {
 
       // channel 4 - emission
       auto channel4 =
-          std::get< Channel< ChargedParticle > >( group.channels()[3] );
+          std::experimental::get< Channel< ChargedParticle > >
+              ( group.channels()[3] );
       REQUIRE( "p,Np240_e0{0,1/2,1+}" == channel4.channelID() );
 
       particlePair = channel4.particlePair();

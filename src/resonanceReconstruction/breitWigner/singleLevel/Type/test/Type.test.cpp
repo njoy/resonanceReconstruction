@@ -8,36 +8,36 @@ using namespace dimwits;
 
 njoy::ENDFtk::section::Type< 2, 151 > resonances();
 
+namespace {
+
+struct Apply : breitWigner::singleLevel::Apply {
+  using breitWigner::singleLevel::Apply::build;
+};
+
+}
+
 const std::vector< Quantity< ElectronVolts > >& energies();
 const std::vector< double >& elastic();
 const std::vector< double >& capture();
-
-template< typename Range >
-auto test( const Range& testData ){
-  return [&testData]( auto&& xs ){
-    for ( auto tuple : testData ){
-      auto energy = std::get<0>( tuple );
-      auto elastic = std::get<1>( tuple );
-      auto capture = std::get<2>( tuple );
-      const auto trial = xs( energy );
-      CHECK( trial.elastic.value  == Approx( elastic ) );
-      CHECK( trial.capture.value  == Approx( capture ) );
-    }
-  };
-}
 
 SCENARIO( "Integration test" ){
   const auto Rh105 = resonances();
   const auto& isotope = Rh105.isotopes().front();
   const auto& resonanceRange = isotope.resonanceRanges().front();
-  // EnergyRange energyRange{ resonanceRange.EL() * electronVolts,
-  //                          resonanceRange.EH() * electronVolts };
-  // auto& slbw = std::get< 0 >( resonanceRange );
+  EnergyRange energyRange{ resonanceRange.EL() * electronVolts,
+                           resonanceRange.EH() * electronVolts }
+  const auto& slbw = std::get< 1 >( resonanceRange );
 
-  auto testData = ranges::view::zip( energies(), elastic(), capture() );
-  breitWigner::singleLevel::Apply{}( resonanceRange, test( testData ) );
-  // const auto type = Apply().build( energyRange, slbw,
-  //                                  channelRadius( 104. ), radius( 0.62 ) );
+  const auto type = Apply().build( energyRange, slbw,
+                                   channelRadius( 104. ), radius( 0.62 ) );
+  for ( auto tuple : ranges::view::zip( energies(), elastic(), capture() ) ){
+    auto energy = std::get<0>( tuple );
+    auto elastic = std::get<1>( tuple );
+    auto capture = std::get<2>( tuple );
+    const auto xs = type( energy );
+    REQUIRE( xs.elastic.value  == Approx( elastic ) );
+    REQUIRE( xs.capture.value  == Approx( capture ) );
+  }
 }
 
 std::string Rhodium105Resonances();
@@ -427,8 +427,7 @@ std::string Rhodium105Resonances(){
     " 6.000000+4 1.808800+1 0.000000+0 1.012900-3 1.500000-1 0.000000+04531 2151  369\n"
     " 7.000000+4 1.791200+1 0.000000+0 1.003100-3 1.500000-1 0.000000+04531 2151  370\n"
     " 8.000000+4 1.773700+1 0.000000+0 9.932800-4 1.500000-1 0.000000+04531 2151  371\n"
-    " 1.000000+5 1.739900+1 0.000000+0 9.743600-4 1.500000-1 0.000000+04531 2151  372\n"
-    " 0.000000+0 0.000000+0          0          0          0          04531 2  099999\n";
+    " 1.000000+5 1.739900+1 0.000000+0 9.743600-4 1.500000-1 0.000000+04531 2151  372\n";
 }
 
 const std::vector< Quantity< ElectronVolts > >& energies(){

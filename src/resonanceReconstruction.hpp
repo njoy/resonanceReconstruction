@@ -49,8 +49,8 @@ namespace ENDF = ENDFtk::resonanceParameters;
 #include "resonanceReconstruction/EnergyRange.hpp"
 #include "resonanceReconstruction/ZeroWidth.hpp"
 
-#include "resonanceReconstruction/breitWigner.hpp"
-#include "resonanceReconstruction/reichMoore.hpp"
+//#include "resonanceReconstruction/breitWigner.hpp"
+//#include "resonanceReconstruction/reichMoore.hpp"
 
 // physical constants and quantities
 

@@ -8,7 +8,8 @@ operator()( const ENDF::ResonanceRange& range,
                             range.EH() * electronVolts };
     auto mlbw = std::get< ENDF::resolved::MLBW >( range.parameters() );
 
-    if( range.NRO() ){
+    switch( range.NRO() ){
+    case 0:
       switch( range.NAPS() ){
       case 0:
         return callback( build( energyRange, mlbw,
@@ -17,7 +18,7 @@ operator()( const ENDF::ResonanceRange& range,
       case 1:
         return callback( build( energyRange, mlbw, radius( mlbw.AP() ) ) );
       }
-    } else {
+    case 1:
       switch( range.NAPS() ){
       case 0:
         return callback( build( energyRange, mlbw,
