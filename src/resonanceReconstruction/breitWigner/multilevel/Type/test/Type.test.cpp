@@ -52,7 +52,6 @@ SCENARIO( "Integration test" ){
     breitWigner::multilevel::Apply{}( resonanceRange, test( testData ) );
   }
 
-  /*
   SECTION( "Tulium-168" ){
     auto Tm168 = resonances("Tm-168");
 
@@ -94,7 +93,6 @@ SCENARIO( "Integration test" ){
 
     breitWigner::multilevel::Apply{}( resonanceRange, test( testData ) );
   }
-  */
 }
 
 std::pair< njoy::ENDFtk::section::Type< 2, 151 >, std::vector< double > >

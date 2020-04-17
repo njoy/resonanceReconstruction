@@ -14,19 +14,6 @@ operator()( const ENDF::ResonanceRange& range,
         case 0:
           return callback( build( energyRange,
                                   rm,
-                                  Scattering{},
-                                  channelRadius( rm.lValues().front().AWRI() ),
-                                  radius( rm.AP() ),
-                                  false ) );
-        case 1:
-          return callback( build( energyRange,
-                                  rm, Both{}, radius( rm.AP() ), true ) );
-      }
-    } else {
-      switch( range.NAPS() ){
-        case 0:
-          return callback( build( energyRange,
-                                  rm,
                                   Neither{},
                                   channelRadius( rm.lValues().front().AWRI() ),
                                   radius( range.scatteringRadius().value() ),
@@ -44,6 +31,19 @@ operator()( const ENDF::ResonanceRange& range,
                                   radius( rm.AP() ),
                                   radius( range.scatteringRadius().value() ),
                                   true ) );
+      }
+    } else {
+      switch( range.NAPS() ){
+        case 0:
+          return callback( build( energyRange,
+                                  rm,
+                                  Scattering{},
+                                  channelRadius( rm.lValues().front().AWRI() ),
+                                  radius( rm.AP() ),
+                                  false ) );
+        case 1:
+          return callback( build( energyRange,
+                                  rm, Both{}, radius( rm.AP() ), true ) );
       }
     }
   }

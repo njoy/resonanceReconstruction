@@ -13,15 +13,6 @@ operator()( const ENDF::ResonanceRange& range,
       case 0:
         return callback( build( energyRange, mlbw,
                                 channelRadius( mlbw.lValues().front().AWRI() ),
-                                radius( mlbw.AP() ) ) );
-      case 1:
-        return callback( build( energyRange, mlbw, radius( mlbw.AP() ) ) );
-      }
-    } else {
-      switch( range.NAPS() ){
-      case 0:
-        return callback( build( energyRange, mlbw,
-                                channelRadius( mlbw.lValues().front().AWRI() ),
                                 radius( range.scatteringRadius().value() ) ) );
       case 1:
         return callback( build( energyRange, mlbw,
@@ -30,10 +21,22 @@ operator()( const ENDF::ResonanceRange& range,
         return callback( build( energyRange, mlbw, radius( mlbw.AP() ),
                                 radius( range.scatteringRadius().value() ) ) );
       }
+    } else {
+      switch( range.NAPS() ){
+      case 0:
+        return callback( build( energyRange, mlbw,
+                                channelRadius( mlbw.lValues().front().AWRI() ),
+                                radius( mlbw.AP() ) ) );
+      case 1:
+        return callback( build( energyRange, mlbw, radius( mlbw.AP() ) ) );
+      }
     }
   }
+  catch( std::bad_optional_access& ){
+    Log::error( "Resonance range doesn't have scattering radius." );
+    throw;
+  }
   catch ( ... ) {
-
     Log::error( 
       "The resonance range does not appear to contain MLBW parameters" );
     throw;
