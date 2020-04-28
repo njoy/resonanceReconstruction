@@ -9,10 +9,10 @@ protected:
 
   double targetSpin;
 
-  #include "resonanceReconstruction/breitWigner/multilevel/Base/src/lvalues.hpp"
-  #include "resonanceReconstruction/breitWigner/multilevel/Base/src/evaluate.hpp"
-  #include "resonanceReconstruction/breitWigner/multilevel/Base/src/order.hpp"
-  #include "resonanceReconstruction/breitWigner/multilevel/Base/src/ctor.hpp"
+  #include "resonanceReconstruction/breitWigner/multiLevel/Base/src/lvalues.hpp"
+  #include "resonanceReconstruction/breitWigner/multiLevel/Base/src/evaluate.hpp"
+  #include "resonanceReconstruction/breitWigner/multiLevel/Base/src/order.hpp"
+  #include "resonanceReconstruction/breitWigner/multiLevel/Base/src/ctor.hpp"
 
 public:
 

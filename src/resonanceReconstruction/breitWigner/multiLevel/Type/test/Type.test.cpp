@@ -49,7 +49,7 @@ SCENARIO( "Integration test" ){
 
     auto& testData = std::get<1>( Co58 );
 
-    breitWigner::multilevel::Apply{}( resonanceRange, test( testData ) );
+    breitWigner::multiLevel::Apply{}( resonanceRange, test( testData ) );
   }
 
   SECTION( "Tulium-168" ){
@@ -70,7 +70,7 @@ SCENARIO( "Integration test" ){
 
     auto& testData = std::get<1>( Tm168 );
 
-    breitWigner::multilevel::Apply{}( resonanceRange, test( testData ) );
+    breitWigner::multiLevel::Apply{}( resonanceRange, test( testData ) );
   }
 
   SECTION( "Neptunium-238" ){
@@ -91,7 +91,7 @@ SCENARIO( "Integration test" ){
 
     auto& testData = std::get<1>( Np238 );
 
-    breitWigner::multilevel::Apply{}( resonanceRange, test( testData ) );
+    breitWigner::multiLevel::Apply{}( resonanceRange, test( testData ) );
   }
 }
 
