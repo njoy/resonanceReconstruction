@@ -6,7 +6,7 @@
 using namespace njoy::resonanceReconstruction;
 using namespace dimwits;
 
-njoy::ENDFtk::section::Type<2> resonances();
+njoy::ENDFtk::section::Type< 2, 151 > resonances();
 
 namespace {
 
@@ -21,10 +21,13 @@ void ignore( T&& ){}
 
 SCENARIO( "Integration test" ){
   const auto Na22 = resonances();
-  const auto& isotope = Na22.isotopes.front();
-  const auto& energyRange = isotope.energyRanges().front();
-  const auto& mlbw = std::get< 2 >( energyRange );
-  const auto type = Apply().build( mlbw, channelRadius( 22. ), radius( mlbw.AP() ) );
+  const auto& isotope = Na22.isotopes().front();
+  const auto& resonanceRange = isotope.resonanceRanges().front();
+  EnergyRange energyRange{ resonanceRange.EL() * electronVolts,
+                           resonanceRange.EH() * electronVolts };
+  const auto& mlbw = std::get< 2 >( resonanceRange.parameters() );
+  const auto type = Apply().build( energyRange, mlbw,
+                                   channelRadius( 22. ), radius( mlbw.AP() ) );
   {
     const auto xs = type( 11129.000000001111 * electronVolts );
     REQUIRE( xs.capture.value  == Approx( 7.6715238015690504E-005 ) );
@@ -39,7 +42,7 @@ SCENARIO( "Integration test" ){
 
 std::string Sodium22Resonances();
 
-njoy::ENDFtk::section::Type<2>
+njoy::ENDFtk::section::Type< 2, 151 >
 resonances(){
   auto string = Sodium22Resonances();
   auto start = string.begin();
@@ -48,7 +51,7 @@ resonances(){
   long lineNumber = 1;
 
   auto head = njoy::ENDFtk::HEAD( it, end, lineNumber );
-  return njoy::ENDFtk::section::Type<2>( head, it, end, lineNumber, 1122 );
+  return njoy::ENDFtk::section::Type< 2, 151 >( head, it, end, lineNumber, 1122 );
 }
 
 std::string Sodium22Resonances(){

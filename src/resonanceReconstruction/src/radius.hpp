@@ -5,10 +5,10 @@ inline auto radius( double scalar ){
     { return r; };
 }
 
-inline auto radius( const ENDFtk::TAB1& tab1 ){
+inline auto radius( const ENDFtk::resonanceParameters::ScatteringRadius& tab1 ){
   using namespace interpolation;
   using namespace ranges;
-  
+
   auto constructTable = []( auto&& region, int interpolant ){
     auto energy =
       region.first
@@ -49,13 +49,13 @@ inline auto radius( const ENDFtk::TAB1& tab1 ){
     }
     throw std::exception();
   };
-  
-  auto tables = 
+
+  auto tables =
     view::zip_with( constructTable, tab1.regions(), tab1.interpolants() )
     | to_vector;
 
   using ENDFvariant = decltype(tables)::value_type;
-  
+
   auto table = Table< table::Vector< ENDFvariant >,
                       table::left::interval::Throws,
                       table::right::interval::Throws >{ std::move( tables ) };

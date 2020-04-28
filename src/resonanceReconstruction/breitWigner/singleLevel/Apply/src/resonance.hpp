@@ -1,10 +1,13 @@
 template< typename ChannelRatio,
           typename StatisticalFactor,
-          typename PenetrationShift >
-static auto resonance( const ENDF::resolved::SLBW::Lvalue::Resonance& resonance,
-                       ChannelRatio&& rho,
-                       StatisticalFactor&& g,
-                       PenetrationShift&& penetrationShift ){
+          typename PenetrationShift,
+          typename Range >
+static auto resonance(
+              const ENDF::resolved::SLBW::LValue::Resonance< Range >& resonance,
+              ChannelRatio&& rho,
+              StatisticalFactor&& g,
+              PenetrationShift&& penetrationShift ) {
+
   const auto energy = resonance.ER() * electronVolts;
   const auto neutronWidth = resonance.GN() * electronVolts;
   const auto captureWidth = resonance.GG() * electronVolts;
@@ -31,12 +34,15 @@ static auto resonance( const ENDF::resolved::SLBW::Lvalue::Resonance& resonance,
 template< typename ChannelRatio,
           typename StatisticalFactor,
           typename PenetrationShift,
-          typename CompetitiveWidth >
-static auto resonance( const ENDF::resolved::SLBW::Lvalue::Resonance& resonance,
-                       ChannelRatio&& rho,
-                       StatisticalFactor&& g,
-                       PenetrationShift&& penetrationShift,
-                       CompetitiveWidth&& GX ){
+          typename CompetitiveWidth,
+          typename Range >
+static auto resonance(
+              const ENDF::resolved::SLBW::LValue::Resonance< Range >& resonance,
+              ChannelRatio&& rho,
+              StatisticalFactor&& g,
+              PenetrationShift&& penetrationShift,
+              CompetitiveWidth&& GX ) {
+                
   const auto energy = resonance.ER() * electronVolts;
   const auto neutronWidth = resonance.GN() * electronVolts;
   const auto captureWidth = resonance.GG() * electronVolts;

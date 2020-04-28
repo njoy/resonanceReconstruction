@@ -1,28 +1,44 @@
 template< typename Functor >
 decltype(auto)
-operator()( const ENDF::resolved::MLBW& mlbw, Functor&& callback ) const {
-  switch( mlbw.NRO() ){
-  case 0:
-    switch( mlbw.NAPS() ){
-    case 0:
-      return callback( build( mlbw,
-                              channelRadius( mlbw.lValues().front().AWRI() ),
-                              radius( mlbw.AP() ) ) );
-    case 1:
-      return callback( build( mlbw, radius( mlbw.AP() ) ) );
+operator()( const ENDF::ResonanceRange& range,
+            Functor&& callback ) const {
+  try {
+
+    EnergyRange energyRange{ range.EL() * electronVolts,
+                            range.EH() * electronVolts };
+    auto mlbw = std::get< ENDF::resolved::MLBW >( range.parameters() );
+
+    if( range.NRO() ){
+      switch( range.NAPS() ){
+      case 0:
+        return callback( build( energyRange, mlbw,
+                                channelRadius( mlbw.lValues().front().AWRI() ),
+                                radius( range.scatteringRadius().value() ) ) );
+      case 1:
+        return callback( build( energyRange, mlbw,
+                                radius( range.scatteringRadius().value() ) ) );
+      case 2:
+        return callback( build( energyRange, mlbw, radius( mlbw.AP() ),
+                                radius( range.scatteringRadius().value() ) ) );
+      }
+    } else {
+      switch( range.NAPS() ){
+      case 0:
+        return callback( build( energyRange, mlbw,
+                                channelRadius( mlbw.lValues().front().AWRI() ),
+                                radius( mlbw.AP() ) ) );
+      case 1:
+        return callback( build( energyRange, mlbw, radius( mlbw.AP() ) ) );
+      }
     }
-  case 1:
-    switch( mlbw.NAPS() ){
-    case 0:
-      return callback( build( mlbw,
-                              channelRadius( mlbw.lValues().front().AWRI() ),
-                              radius( mlbw.APE() ) ) );
-    case 1:
-      return callback( build( mlbw, radius( mlbw.APE() ) ) );
-    case 2:
-      return callback( build( mlbw,
-                              radius( mlbw.AP() ),
-                              radius( mlbw.APE() ) ) );
-    }
+  }
+  catch( std::bad_optional_access& ){
+    Log::error( "Resonance range doesn't have scattering radius." );
+    throw;
+  }
+  catch ( ... ) {
+    Log::error( 
+      "The resonance range does not appear to contain MLBW parameters" );
+    throw;
   }
 }

@@ -1,8 +1,9 @@
 template< typename ChannelRatio,
           typename StatisticalFactor,
-          typename PenetrationShift >
+          typename PenetrationShift,
+          typename Range >
 static auto
-resonance( const ENDF::resolved::ReichMoore::Lvalue::Resonance& resonance,
+resonance( const ENDF::resolved::ReichMoore::LValue::Resonance< Range >& resonance,
            ChannelRatio&& rho,
            StatisticalFactor&& g,
            PenetrationShift&& penetrationShift ){

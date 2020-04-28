@@ -6,7 +6,7 @@
 using namespace njoy::resonanceReconstruction;
 using namespace dimwits;
 
-njoy::ENDFtk::section::Type<2> resonances();
+njoy::ENDFtk::section::Type< 2, 151 > resonances();
 
 namespace {
 
@@ -21,9 +21,11 @@ void ignore( T&& ){}
 
 SCENARIO( "Integration test" ){
   const auto Al27 = resonances();
-  const auto& isotope = Al27.isotopes.front();
-  const auto& energyRange = isotope.energyRanges().front();
-  const auto& rm = std::get< 3 >( energyRange );
+  const auto& isotope = Al27.isotopes().front();
+  const auto& resonanceRange = isotope.resonanceRanges().front();
+  EnergyRange energyRange{ resonanceRange.EL() * electronVolts,
+                           resonanceRange.EH() * electronVolts };
+  const auto& rm = std::get< 3 >( resonanceRange.parameters() );
   njoy::Log::info(
     "\n Al-27"
     "\n============="
@@ -32,10 +34,11 @@ SCENARIO( "Integration test" ){
     "\n NRO: {}"
     "\n NAPS: {}"
     "\n AP: {}\n\n",
-    rm.LRU(), rm.LRF(), rm.NRO(), rm.NAPS(), rm.AP() );
+    resonanceRange.LRU(), resonanceRange.LRF(),
+    resonanceRange.NRO(), resonanceRange.NAPS(), rm.AP() );
 
   const auto type =
-    Apply().build( rm, reichMoore::Both{}, radius( rm.AP() ), true );
+    Apply().build( energyRange, rm, reichMoore::Both{}, radius( rm.AP() ), true );
 
   {
     const auto xs = type( 1.E-5 * electronVolts );
@@ -60,7 +63,7 @@ SCENARIO( "Integration test" ){
   }
 }
 
-njoy::ENDFtk::section::Type<2>
+njoy::ENDFtk::section::Type< 2, 151 >
 resonances(){
 
   auto endfFile = njoy::utility::slurpFileToMemory( "n-013_Al_027.endf" );
@@ -72,5 +75,5 @@ resonances(){
   auto MAT = material.MAT();
   return material
          .fileNumber(2)
-         .sectionNumber(151).parse<2>();
+         .sectionNumber(151).parse< 2, 151 >();
 }

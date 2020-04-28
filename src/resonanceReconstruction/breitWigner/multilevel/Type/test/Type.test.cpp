@@ -10,7 +10,7 @@
 using namespace njoy::resonanceReconstruction;
 using namespace dimwits;
 
-std::pair< njoy::ENDFtk::section::Type<2>, std::vector< double > >
+std::pair< njoy::ENDFtk::section::Type< 2, 151 >, std::vector< double > >
 resonances( const std::string& id );
 
 auto test( const std::vector< double >& testData ){
@@ -35,9 +35,8 @@ SCENARIO( "Integration test" ){
     auto Co58 = resonances("Co-58");
 
     auto& section151 = std::get<0>( Co58 );
-    auto& isotope = section151.isotopes.front();
-    auto& energyRange = isotope.energyRanges().front();
-    auto& mlbw = std::get< 2 >( energyRange );
+    auto& isotope = section151.isotopes().front();
+    auto& resonanceRange = isotope.resonanceRanges().front();
 
     njoy::Log::info("\n Cobalt-58 "
                     "\n --------------- "
@@ -45,20 +44,20 @@ SCENARIO( "Integration test" ){
                     "\n LRF: {}"
                     "\n NRO: {}"
                     "\n NAPS: {}\n",
-                    mlbw.LRU(), mlbw.LRF(), mlbw.NRO(), mlbw.NAPS() );
+                    resonanceRange.LRU(), resonanceRange.LRF(),
+                    resonanceRange.NRO(), resonanceRange.NAPS() );
 
     auto& testData = std::get<1>( Co58 );
 
-    breitWigner::multilevel::Apply{}( mlbw, test( testData ) );
+    breitWigner::multilevel::Apply{}( resonanceRange, test( testData ) );
   }
 
   SECTION( "Tulium-168" ){
     auto Tm168 = resonances("Tm-168");
 
     auto& section151 = std::get<0>( Tm168 );
-    auto& isotope = section151.isotopes.front();
-    auto& energyRange = isotope.energyRanges().front();
-    auto& mlbw = std::get< 2 >( energyRange );
+    auto& isotope = section151.isotopes().front();
+    auto& resonanceRange = isotope.resonanceRanges().front();
 
     njoy::Log::info("\n Tulium-168 "
                     "\n --------------- "
@@ -66,20 +65,20 @@ SCENARIO( "Integration test" ){
                     "\n LRF: {}"
                     "\n NRO: {}"
                     "\n NAPS: {}\n",
-                    mlbw.LRU(), mlbw.LRF(), mlbw.NRO(), mlbw.NAPS() );
+                    resonanceRange.LRU(), resonanceRange.LRF(),
+                    resonanceRange.NRO(), resonanceRange.NAPS() );
 
     auto& testData = std::get<1>( Tm168 );
 
-    breitWigner::multilevel::Apply{}( mlbw, test( testData ) );
+    breitWigner::multilevel::Apply{}( resonanceRange, test( testData ) );
   }
 
   SECTION( "Neptunium-238" ){
     auto Np238 = resonances("Np-238");
 
     auto& section151 = std::get<0>( Np238 );
-    auto& isotope = section151.isotopes.front();
-    auto& energyRange = isotope.energyRanges().front();
-    auto& mlbw = std::get< 2 >( energyRange );
+    auto& isotope = section151.isotopes().front();
+    auto& resonanceRange = isotope.resonanceRanges().front();
 
     njoy::Log::info( "\n Neptunium-238 "
                      "\n --------------- "
@@ -87,15 +86,16 @@ SCENARIO( "Integration test" ){
                      "\n LRF: {}"
                      "\n NRO: {}"
                      "\n NAPS: {}\n",
-                     mlbw.LRU(), mlbw.LRF(), mlbw.NRO(), mlbw.NAPS() );
+                     resonanceRange.LRU(), resonanceRange.LRF(),
+                     resonanceRange.NRO(), resonanceRange.NAPS() );
 
     auto& testData = std::get<1>( Np238 );
 
-    breitWigner::multilevel::Apply{}( mlbw, test( testData ) );
+    breitWigner::multilevel::Apply{}( resonanceRange, test( testData ) );
   }
 }
 
-std::pair< njoy::ENDFtk::section::Type<2>, std::vector< double > >
+std::pair< njoy::ENDFtk::section::Type< 2, 151 >, std::vector< double > >
 resonances( const std::string& id ){
   auto testData = [&]{
     std::vector< double > data;
@@ -120,7 +120,7 @@ resonances( const std::string& id ){
     long lineNumber = 1;
     return material
            .fileNumber(2)
-           .sectionNumber(151).parse<2>();
+           .sectionNumber(151).parse< 2, 151 >();
   };
 
   return std::make_pair( section151(), testData() );

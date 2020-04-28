@@ -1,13 +1,9 @@
 static auto competitiveWidth( const Quantity< ElectronVolts > offset ){
   return
-    [offset]( const ENDF::resolved::SLBW::Lvalue::Resonance& resonance,
-              auto&& rho, auto&& penetrationShift ){
+    [offset]( auto&& resonance, auto&& rho, auto&& penetrationShift ) {
 
     const auto energy = resonance.ER() * electronVolts + offset;
-    const auto competitiveWidth = ( resonance.GT()
-                                    - resonance.GN()
-                                    - resonance.GG()
-                                    - resonance.GF() ) * electronVolts;
+    const auto competitiveWidth = resonance.GX() * electronVolts;
 
     return competitiveWidth / penetrationShift( rho( energy ) )[0];
   };
