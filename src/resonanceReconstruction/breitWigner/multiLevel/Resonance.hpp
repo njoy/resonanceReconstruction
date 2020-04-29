@@ -3,5 +3,5 @@ class Resonance : public resonance::Type {
   Resonance( const Resonance& ) = delete;
   Resonance( Resonance&& ) = delete;
 public:
-  #include "resonanceReconstruction/breitWigner/multilevel/Resonance/src/call.hpp"
+  #include "resonanceReconstruction/breitWigner/multiLevel/Resonance/src/call.hpp"
 };

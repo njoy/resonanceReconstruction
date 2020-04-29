@@ -8,10 +8,10 @@ class Type< Radius > : public Base< Type< Radius > > {
 protected:
   friend Base< Type< Radius > >;
   using Parent = Base< Type< Radius > >;  
-  #include "resonanceReconstruction/breitWigner/multilevel/Type/src/evaluate1.hpp"
+  #include "resonanceReconstruction/breitWigner/multiLevel/Type/src/evaluate1.hpp"
 
 public:
-  #include "resonanceReconstruction/breitWigner/multilevel/Type/src/ctor1.hpp"
+  #include "resonanceReconstruction/breitWigner/multiLevel/Type/src/ctor1.hpp"
 }; 
 
 template< typename ChannelRadius, typename ScatteringRadius >
@@ -23,8 +23,8 @@ class Type< ChannelRadius, ScatteringRadius > :
 protected:
   friend Base< Type< ChannelRadius, ScatteringRadius > >;
   using Parent = Base< Type< ChannelRadius, ScatteringRadius > >;
-  #include "resonanceReconstruction/breitWigner/multilevel/Type/src/evaluate2.hpp"
+  #include "resonanceReconstruction/breitWigner/multiLevel/Type/src/evaluate2.hpp"
 
 public:
-  #include "resonanceReconstruction/breitWigner/multilevel/Type/src/ctor2.hpp"
+  #include "resonanceReconstruction/breitWigner/multiLevel/Type/src/ctor2.hpp"
 };

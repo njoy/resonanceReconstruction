@@ -10,8 +10,8 @@ njoy::ENDFtk::section::Type< 2, 151 > resonances();
 
 namespace {
 
-struct Apply : breitWigner::multilevel::Apply {
-  using breitWigner::multilevel::Apply::build;
+struct Apply : breitWigner::multiLevel::Apply {
+  using breitWigner::multiLevel::Apply::build;
 };
 
 }
