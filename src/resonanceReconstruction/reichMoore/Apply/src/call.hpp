@@ -48,8 +48,10 @@ operator()( const ENDF::ResonanceRange& range,
     }
   }
   catch ( ... ) {
-
-    throw std::runtime_error( "The resonance range does not appear to contain "
-                              "Reich-Moore parameters" );
+    Log::error( 
+      "The resonance range does not appear to contain Reich-Moore parameters" );
+    throw;
   }
+  // To avoid compiler warning.
+  return 1;
 }

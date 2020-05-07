@@ -38,8 +38,10 @@ operator()( const ENDF::ResonanceRange& range,
     throw;
   }
   catch ( ... ) {
-
-    throw std::runtime_error( "The resonance range does not appear to contain "
-                              "SLBW parameters" );
+    Log::error( 
+      "The resonance range does not appear to contain SLBW parameters" );
+    throw;
   }
+  // To avoid compiler warning.
+  return 1;
 }
