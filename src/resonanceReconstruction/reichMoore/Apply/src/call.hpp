@@ -52,6 +52,4 @@ operator()( const ENDF::ResonanceRange& range,
       "The resonance range does not appear to contain Reich-Moore parameters" );
     throw;
   }
-  // To avoid compiler warning.
-  return 1;
 }

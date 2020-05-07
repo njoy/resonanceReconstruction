@@ -42,6 +42,4 @@ operator()( const ENDF::ResonanceRange& range,
       "The resonance range does not appear to contain SLBW parameters" );
     throw;
   }
-  // To avoid compiler warning.
-  return 1;
 }
