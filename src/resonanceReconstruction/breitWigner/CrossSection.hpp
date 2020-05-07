@@ -26,5 +26,19 @@ struct CrossSection {
              this->capture - other.capture,
              this->fission - other.fission };
   }
+
+  template< typename T >
+  CrossSection operator*( const T& other ) const {
+    return { this->elastic*other,
+             this->capture*other,
+             this->fission*other };
+  }
+
+  template< typename T >
+  CrossSection operator/( const T& other ) const {
+    return { this->elastic/other,
+             this->capture/other,
+             this->fission/other };
+  }
 };
 
