@@ -1,8 +1,8 @@
 
 add_executable( resonanceReconstruction.breitWigner.singleLevel.Lvalue.test
                 call.test.cpp
-                Lvalue.test.cpp
                 penetrationShift.test.cpp
+                Lvalue.test.cpp
                 phaseShift.test.cpp )
 target_compile_options( resonanceReconstruction.breitWigner.singleLevel.Lvalue.test PRIVATE ${${PREFIX}_common_flags}
 $<$<BOOL:${strict}>:${${PREFIX}_strict_flags}>$<$<CONFIG:DEBUG>:

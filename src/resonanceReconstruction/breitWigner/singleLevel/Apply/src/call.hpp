@@ -9,17 +9,7 @@ operator()( const ENDF::ResonanceRange& range,
                             range.EH() * electronVolts };
     auto slbw = std::get< ENDF::resolved::SLBW >( range.parameters() );
 
-    switch( range.NRO() ){
-    case 0:
-      switch( range.NAPS() ){
-      case 0:
-        return callback( build( energyRange, slbw,
-                                channelRadius( slbw.lValues().front().AWRI() ),
-                                radius( slbw.AP() ) ) );
-      case 1:
-        return callback( build( energyRange, slbw, radius( slbw.AP() ) ) );
-      }
-    case 1:
+    if( range.NRO() ){
       switch( range.NAPS() ){
       case 0:
         return callback( build( energyRange, slbw,
@@ -32,7 +22,20 @@ operator()( const ENDF::ResonanceRange& range,
         return callback( build( energyRange, slbw, radius( slbw.AP() ),
                                 radius( range.scatteringRadius().value() ) ) );
       }
+    } else {
+      switch( range.NAPS() ){
+      case 0:
+        return callback( build( energyRange, slbw,
+                                channelRadius( slbw.lValues().front().AWRI() ),
+                                radius( slbw.AP() ) ) );
+      case 1:
+        return callback( build( energyRange, slbw, radius( slbw.AP() ) ) );
+      }
     }
+  }
+  catch( std::bad_optional_access& ){
+    Log::error( "Resonance range doesn't have scattering radius." );
+    throw;
   }
   catch ( ... ) {
 

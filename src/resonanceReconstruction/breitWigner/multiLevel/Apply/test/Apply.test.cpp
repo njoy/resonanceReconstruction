@@ -10,8 +10,8 @@ njoy::ENDFtk::section::Type< 2, 151 > resonances();
 
 namespace {
 
-struct Apply : breitWigner::multilevel::Apply {
-  using breitWigner::multilevel::Apply::build;
+struct Apply : breitWigner::multiLevel::Apply {
+  using breitWigner::multiLevel::Apply::build;
 };
 
 }
@@ -24,8 +24,8 @@ SCENARIO( "Integration test" ){
   const auto& isotope = Na22.isotopes().front();
   const auto& resonanceRange = isotope.resonanceRanges().front();
   EnergyRange energyRange{ resonanceRange.EL() * electronVolts,
-                           resonanceRange.EH() * electronVolts }
-  const auto& mlbw = std::get< 2 >( resonanceRange );
+                           resonanceRange.EH() * electronVolts };
+  const auto& mlbw = std::get< 2 >( resonanceRange.parameters() );
   const auto type = Apply().build( energyRange, mlbw,
                                    channelRadius( 22. ), radius( mlbw.AP() ) );
   {

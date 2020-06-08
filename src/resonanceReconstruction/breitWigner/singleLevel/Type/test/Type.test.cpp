@@ -25,8 +25,8 @@ SCENARIO( "Integration test" ){
   const auto& isotope = Rh105.isotopes().front();
   const auto& resonanceRange = isotope.resonanceRanges().front();
   EnergyRange energyRange{ resonanceRange.EL() * electronVolts,
-                           resonanceRange.EH() * electronVolts }
-  const auto& slbw = std::get< 1 >( resonanceRange );
+                           resonanceRange.EH() * electronVolts };
+  const auto& slbw = std::get< 1 >( resonanceRange.parameters() );
 
   const auto type = Apply().build( energyRange, slbw,
                                    channelRadius( 104. ), radius( 0.62 ) );
@@ -56,9 +56,12 @@ resonances(){
 
 std::string Rhodium105Resonances(){
   return
-    " 4.510500+4 1.040000+2          0          0          1          04531 2151    1\n"
-    " 4.510500+4 1.000000+0          0          0          2          04531 2151    2\n"
-    " 1.000000-5 7.500000+0          1          1          0          04531 2151    3\n"
+    //        ZA        AWR                              NIS
+    " 4.510500+4 1.040000+2          0          0          1          04531 2151    1\n" // HEAD
+    //       ZAI        ABN                   LFW        NER
+    " 4.510500+4 1.000000+0          0          0          2          04531 2151    2\n" // CONT (isotope)
+    //        EL         EH        LRU        LRF        NRO       NAPS
+    " 1.000000-5 7.500000+0          1          1          0          04531 2151    3\n" // CONT (range)
     " 5.000000-1 6.200000-1          0          0          1          04531 2151    4\n"
     " 1.040050+2 0.000000+0          0          0         12          24531 2151    5\n"
     "-5.000000+0 1.000000+0 1.610000+0 1.450000+0 1.600000-1 0.000000+04531 2151    6\n"
@@ -427,7 +430,8 @@ std::string Rhodium105Resonances(){
     " 6.000000+4 1.808800+1 0.000000+0 1.012900-3 1.500000-1 0.000000+04531 2151  369\n"
     " 7.000000+4 1.791200+1 0.000000+0 1.003100-3 1.500000-1 0.000000+04531 2151  370\n"
     " 8.000000+4 1.773700+1 0.000000+0 9.932800-4 1.500000-1 0.000000+04531 2151  371\n"
-    " 1.000000+5 1.739900+1 0.000000+0 9.743600-4 1.500000-1 0.000000+04531 2151  372\n";
+    " 1.000000+5 1.739900+1 0.000000+0 9.743600-4 1.500000-1 0.000000+04531 2151  372\n"
+    " 0.000000+0 0.000000+0          0          0          0          04531 2  0  373\n";
 }
 
 const std::vector< Quantity< ElectronVolts > >& energies(){

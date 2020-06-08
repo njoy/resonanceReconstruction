@@ -9,6 +9,6 @@ namespace breitWigner {
 #include "resonanceReconstruction/breitWigner/Type.hpp"
 
 #include "resonanceReconstruction/breitWigner/singleLevel.hpp"
-#include "resonanceReconstruction/breitWigner/multilevel.hpp"
+#include "resonanceReconstruction/breitWigner/multiLevel.hpp"
 
 }
