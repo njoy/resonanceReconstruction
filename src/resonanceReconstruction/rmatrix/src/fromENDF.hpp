@@ -1,4 +1,4 @@
-inline CompoundSystemVariant
+inline Reconstructor
 fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
           const AtomicMass& neutronMass,
           const ElectricalCharge& elementaryCharge ) {
@@ -31,15 +31,21 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
 
               if ( shiftFactorBoundary ) {
 
-                return makeCompoundSystem( endfRMatrix,
-                                           neutronMass, elementaryCharge,
-                                           ReichMoore(), ShiftFactor() );
+                return Reconstructor(
+                           endfResonanceRange.lowerEnergy() * electronVolt,
+                           endfResonanceRange.upperEnergy() * electronVolt,
+                           makeCompoundSystem( endfRMatrix,
+                                               neutronMass, elementaryCharge,
+                                               ReichMoore(), ShiftFactor() ) );
               }
               else {
 
-                return makeCompoundSystem( endfRMatrix,
-                                           neutronMass, elementaryCharge,
-                                           ReichMoore(), Constant() );
+                return Reconstructor(
+                           endfResonanceRange.lowerEnergy() * electronVolt,
+                           endfResonanceRange.upperEnergy() * electronVolt,
+                           makeCompoundSystem( endfRMatrix,
+                                               neutronMass, elementaryCharge,
+                                               ReichMoore(), Constant() ) );
               }
             }
             // general R-matrix

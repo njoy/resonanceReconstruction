@@ -66,5 +66,6 @@ namespace rmatrix {
                     CompoundSystem< ReichMoore, Constant >/*,
                     CompoundSystem< GeneralRMatrix, ShiftFactor >,
                     CompoundSystem< GeneralRMatrix, Constant >*/ >;
+  #include "resonanceReconstruction/rmatrix/Reconstructor.hpp"
   #include "resonanceReconstruction/rmatrix/src/fromENDF.hpp"
 }

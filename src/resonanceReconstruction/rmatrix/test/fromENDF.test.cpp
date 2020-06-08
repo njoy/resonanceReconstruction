@@ -24,10 +24,11 @@ SCENARIO( "fromENDF" ) {
     njoy::ENDFtk::section::Type< 2, 151 > endf( head, begin, end, lineNumber, 2625 );
     ResonanceRange endfResonanceRange = endf.isotopes().front().resonanceRanges().front();
 
+    auto resonances = fromENDF( endfResonanceRange, neutronMass, elementaryCharge );
+
     THEN( "the appropriate CompoundSystem is returned" ) {
 
-      auto resonances = fromENDF( endfResonanceRange, neutronMass, elementaryCharge );
-      auto compoundsystem = std::get< CompoundSystem< ReichMoore, ShiftFactor > >( resonances );
+      auto compoundsystem = std::get< CompoundSystem< ReichMoore, ShiftFactor > >( resonances.compoundSystem() );
 
       // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
       // content verification
@@ -268,6 +269,13 @@ SCENARIO( "fromENDF" ) {
       // resonance reconstruction verification
       // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
+    } // THEN
+
+    THEN( "cross sections can be reconstructed" ) {
+
+      std::map< ReactionID, CrossSection > result = resonances( 1e-5 * electronVolt );
+
+      
     } // THEN
   } // GIVEN
 } // SCENARIO

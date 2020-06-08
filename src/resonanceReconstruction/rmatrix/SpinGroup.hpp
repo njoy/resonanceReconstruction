@@ -3,7 +3,7 @@
  *  @brief Channel types
  *
  *  Some of the data for a given channel will actually depend on the particle
- *  type of the channel. The penetrability, shift factor, phase shift and 
+ *  type of the channel. The penetrability, shift factor, phase shift and
  *  coulomb phase shift will depend on whether the channel is a neutron, photon,
  *  charged particle or fission channel. This variant will allow us to capture
  *  that distinction.
@@ -70,13 +70,13 @@ public:
   /**
    *  @brief Return the current incident particle pair
    */
-  const ParticlePair incidentPair() const {
+  auto incidentPair() const {
 
     //! @todo for some reason debug fails when using const ParticlePair& as
     //!       the return type for this function and the lambda function inside
     //!       the visit function
     return std::visit(
-               [&] ( const auto& channel ) -> const ParticlePair
+               [&] ( const auto& channel )
                    { return channel.particlePair(); },
                this->incidentChannels().front() );
   }
@@ -86,7 +86,7 @@ public:
    *
    *  These reaction identifiers are not unique: a given reaction identifier
    *  may appear multiple times because multiple channels can contribute to the
-   *  same reactions (e.g. multiple fission channels). The order in which these 
+   *  same reactions (e.g. multiple fission channels). The order in which these
    *  are given equals the order of the channels in the spin group.
    */
   auto reactionIDs() const { return ranges::view::all( this->reactions_ ); }
@@ -102,7 +102,7 @@ public:
   auto channelIDs() const {
 
     return this->channels()
-             | ranges::view::transform( 
+             | ranges::view::transform(
                    [] ( const auto& channel )
                       { return std::visit(
                                    [&] ( const auto& channel )
@@ -119,4 +119,3 @@ public:
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/evaluate.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/evaluateTMatrix.hpp"
 };
-
