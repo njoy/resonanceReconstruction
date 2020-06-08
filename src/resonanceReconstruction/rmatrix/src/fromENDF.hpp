@@ -14,7 +14,7 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
         case 3 : {
 
           throw std::runtime_error( "fromENDF is not implemented for ENDF "
-                                "Reich-Moore resolved resonances (LRF = 3)" );
+                                    "Reich-Moore resolved resonances (LRF = 3)" );
         }
         // R-matrix limited
         case 7 : {

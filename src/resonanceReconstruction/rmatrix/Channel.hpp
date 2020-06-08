@@ -26,8 +26,6 @@ class Channel {
   //! @todo the boundary condition may be dependent on the channel radius (see
   //!       equation d.41 in the ENDF manual)
   //! @todo the default P, S, phi functions can be overridden
-  //! @todo P, S, phi only depend on rho for all channel types except charged
-  //!       particle channels for which it also depends on the permeability.
 
 public:
 

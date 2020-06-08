@@ -56,7 +56,7 @@ void evaluate( const Energy& energy,
     const auto incidentSqrtP = diagonalSqrtPMatrix[c];
     const auto incidentOmega = diagonalOmegaMatrix[c];
     const auto uElements =
-        ranges::view::zip_with( 
+        ranges::view::zip_with(
             [&] ( const auto delta, const auto tValue,
                   const auto sqrtP, const auto omega )
                 { return incidentOmega *
@@ -73,7 +73,7 @@ void evaluate( const Energy& energy,
                           { return std::pow( std::abs( value ), 2. ); };
 
     // the cross section values
-    //! @todo this is still formalism dependent
+    //! @todo this is still formalism dependent: Reich-Moore
     const auto crossSections =
       ranges::view::concat(
           ranges::view::zip_with(
@@ -101,4 +101,3 @@ void evaluate( const Energy& energy,
   // process the incident channels
   ranges::for_each( this->incident_, processIncidentChannel );
 }
-

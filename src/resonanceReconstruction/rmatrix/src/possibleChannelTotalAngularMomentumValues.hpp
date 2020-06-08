@@ -3,7 +3,7 @@
  *
  *  The total angular momentum J for a channel can only have values  between
  *  abs(l - s) and l + s where l is the orbital momentum of the incoming wave
- *  and s is the channel spin (which in turn depends on the spin i of the 
+ *  and s is the channel spin (which in turn depends on the spin i of the
  *  incident particle and spin I of the target nucleus).
  *
  *  @param l   the orbital angular momentum of the incoming wave
@@ -22,6 +22,7 @@ getPossibleChannelTotalAngularMomentumValues( const OrbitalAngularMomentum& l,
   TotalAngularMomentum max = l + I + i;
   std::vector< TotalAngularMomentum > values = { min };
   while ( max > values.back() ) {
+
     values.push_back( values.back() + 1.0 );
   }
   return values;
@@ -32,7 +33,7 @@ getPossibleChannelTotalAngularMomentumValues( const OrbitalAngularMomentum& l,
  *
  *  The total angular momentum J for a channel can only have values  between
  *  abs(l - s) and l + s where l is the orbital momentum of the incoming wave
- *  and s is the channel spin (which in turn depends on the spin i of the 
+ *  and s is the channel spin (which in turn depends on the spin i of the
  *  incident particle and spin I of the target nucleus).
  *
  *  @param l   the orbital angular momentum of the incoming wave
@@ -48,6 +49,7 @@ getPossibleChannelTotalAngularMomentumValues( const OrbitalAngularMomentum& l,
   TotalAngularMomentum max = l + s;
   std::vector< TotalAngularMomentum > values = { min };
   while ( max > values.back() ) {
+    
     values.push_back( values.back() + 1.0 );
   }
   return values;

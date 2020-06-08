@@ -12,7 +12,7 @@ void switchIncidentPair( const ParticlePair& incident ) {
 
   if ( incident.pairID() != this->incidentPair().pairID() ) {
 
-    //! @todo adjust Q values as required
+    //! @todo adjust Q values as required (switching incident pair changes Q)
 
     // change the incident channels and verify them
     this->incident_ =

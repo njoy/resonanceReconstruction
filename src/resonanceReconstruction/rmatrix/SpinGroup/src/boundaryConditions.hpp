@@ -1,4 +1,5 @@
 auto boundaryConditions() const {
+  
   return this->channels_
            | ranges::view::transform(
                [&] ( const auto& channel )
@@ -7,4 +8,3 @@ auto boundaryConditions() const {
                            { return channel.boundaryCondition(); },
                        channel ); } );
 }
-

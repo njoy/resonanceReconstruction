@@ -1,7 +1,7 @@
 /**
  *  @brief Calculate possible values for the channel spin s
  *
- *  The channel spin s for a channel can only have values  between abs(i - I) 
+ *  The channel spin s for a channel can only have values  between abs(i - I)
  *  and i + I where i is the spin i of the incident particle (for a neutron that
  *  would be 0.5) and I is the spin of the target nucleus.
  *
@@ -17,6 +17,7 @@ possibleChannelSpinValues( const Spin& i, const Spin& I ) {
   Spin max = i + I;
   std::vector< Spin > values = { min };
   while ( max > values.back() ) {
+    
     values.push_back( values.back() + 1.0 );
   }
   return values;

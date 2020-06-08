@@ -20,6 +20,9 @@
  */
 auto rmatrix( const Energy& energy ) const {
 
+  //! @todo This function assumes Reich-Moore, full rmatrix will require
+  //!       a templated function.
+
   const auto terminator = [&] {
     const auto deltaEnergy = this->energy() - energy;
     const auto eliminatedWidth = this->eliminatedWidth();

@@ -1,4 +1,5 @@
 auto coulombShifts( const Energy& energy ) const {
+  
   return this->channels_
            | ranges::view::transform(
                [&] ( const auto& channel )
@@ -7,4 +8,3 @@ auto coulombShifts( const Energy& energy ) const {
                            { return channel.coulombPhaseShift( energy ); },
                        channel ); } );
 }
-
