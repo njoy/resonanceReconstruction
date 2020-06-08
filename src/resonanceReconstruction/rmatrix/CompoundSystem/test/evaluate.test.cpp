@@ -111,7 +111,7 @@ SCENARIO( "evaluate" ) {
     THEN( "cross sections can be calculated for a single resonance using the "
           "ShiftFactor boundary condition" ) {
 
-      tsl::map< ReactionID, Quantity< Barn > > xs;
+      std::map< ReactionID, CrossSection > xs;
       system1.evaluate( 1e-5 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
       REQUIRE( 2.575879e-1 == Approx( xs[ elas ].value ) );
@@ -194,7 +194,7 @@ SCENARIO( "evaluate" ) {
     THEN( "cross sections can be calculated for multiple resonances using the "
           "ShiftFactor boundary condition" ) {
 
-      tsl::map< ReactionID, Quantity< Barn > > xs;
+      std::map< ReactionID, CrossSection > xs;
       system2.evaluate( 1e-5 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
       REQUIRE( 8.781791e-2 == Approx( xs[ elas ].value ) );
@@ -289,7 +289,7 @@ SCENARIO( "evaluate" ) {
     THEN( "cross sections can be calculated for a single resonance using the "
           "Constant boundary condition" ) {
 
-      tsl::map< ReactionID, Quantity< Barn > > xs;
+      std::map< ReactionID, CrossSection > xs;
       system3.evaluate( 1e-5 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
       REQUIRE( 2.575879e-1 == Approx( xs[ elas ].value ) );
@@ -372,7 +372,7 @@ SCENARIO( "evaluate" ) {
     THEN( "cross sections can be calculated for multiple resonances using the "
           "Constant boundary condition" ) {
 
-      tsl::map< ReactionID, Quantity< Barn > > xs;
+      std::map< ReactionID, CrossSection > xs;
       system4.evaluate( 1e-5 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
       REQUIRE( 8.781791e-2 == Approx( xs[ elas ].value ) );
@@ -618,7 +618,7 @@ SCENARIO( "evaluate" ) {
 
     THEN( "cross sections can be calculated" ) {
 
-      tsl::map< ReactionID, Quantity< Barn > > xs;
+      std::map< ReactionID, CrossSection > xs;
       system.evaluate( 1e-5 * electronVolt, xs );
       REQUIRE( 2 == xs.size() );
       REQUIRE( 8.781787e-2 == Approx( xs[ elas ].value ) );
