@@ -72,6 +72,7 @@ constexpr Quantity< RootElectronVolt > rootElectronVolts = rootElectronVolt;
 
 // physical quantities
 using AtomicMass = Quantity< Dalton >;
+using CrossSection = Quantity< Barn >;
 using ElectricalCharge = Quantity< Coulomb >;
 using Energy = Quantity< ElectronVolt >;
 using QValue = Quantity< ElectronVolt >;
