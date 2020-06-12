@@ -12,5 +12,8 @@ protected:
   #include "resonanceReconstruction/breitWigner/singleLevel/Apply/src/build.hpp"
 
 public:
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wreturn-type"
   #include "resonanceReconstruction/breitWigner/singleLevel/Apply/src/call.hpp"
+#pragma GCC diagnostic pop
 };
