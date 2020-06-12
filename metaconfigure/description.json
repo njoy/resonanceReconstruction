@@ -719,32 +719,32 @@
     "src/resonanceReconstruction/breitWigner/Type/src/ctor.hpp",
     "src/resonanceReconstruction/breitWigner/Type/src/neutronWaveNumber.hpp",
     "src/resonanceReconstruction/breitWigner/Type/src/isTemperature.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Resonance.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Type.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Apply.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Lvalue.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Base.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Apply/src/resonance.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Apply/src/build.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Apply/src/competitiveWidth.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Apply/src/call.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Lvalue/src/evaluate.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Lvalue/src/competitiveWidth.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Lvalue/src/resonances.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Lvalue/src/call.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Lvalue/src/D.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Type/src/ctor1.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Type/src/ctor2.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Type/src/evaluate1.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Type/src/evaluate2.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Resonance/src/call.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Base/src/order.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Base/src/psiChi.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Base/src/evaluate.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Base/src/ctor.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/Base/src/lvalues.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/src/psiChi.hpp",
-    "src/resonanceReconstruction/breitWigner/multilevel/src/D.hpp",
+    "src/resonanceReconstruction/breitWigner/multiLevel/Resonance.hpp",
+    "src/resonanceReconstruction/breitWigner/multiLevel/Type.hpp",
+    "src/resonanceReconstruction/breitWigner/multiLevel/Apply.hpp",
+    "src/resonanceReconstruction/breitWigner/multiLevel/Lvalue.hpp",
+    "src/resonanceReconstruction/breitWigner/multiLevel/Base.hpp",
+    "src/resonanceReconstruction/breitWigner/multiLevel/Apply/src/resonance.hpp",
+    "src/resonanceReconstruction/breitWigner/multiLevel/Apply/src/build.hpp",
+    "src/resonanceReconstruction/breitWigner/multiLevel/Apply/src/competitiveWidth.hpp",
+    "src/resonanceReconstruction/breitWigner/multiLevel/Apply/src/call.hpp",
+    "src/resonanceReconstruction/breitWigner/multiLevel/Lvalue/src/evaluate.hpp",
+    "src/resonanceReconstruction/breitWigner/multiLevel/Lvalue/src/competitiveWidth.hpp",
+    "src/resonanceReconstruction/breitWigner/multiLevel/Lvalue/src/resonances.hpp",
+    "src/resonanceReconstruction/breitWigner/multiLevel/Lvalue/src/call.hpp",
+    "src/resonanceReconstruction/breitWigner/multiLevel/Lvalue/src/D.hpp",
+    "src/resonanceReconstruction/breitWigner/multiLevel/Type/src/ctor1.hpp",
+    "src/resonanceReconstruction/breitWigner/multiLevel/Type/src/ctor2.hpp",
+    "src/resonanceReconstruction/breitWigner/multiLevel/Type/src/evaluate1.hpp",
+    "src/resonanceReconstruction/breitWigner/multiLevel/Type/src/evaluate2.hpp",
+    "src/resonanceReconstruction/breitWigner/multiLevel/Resonance/src/call.hpp",
+    "src/resonanceReconstruction/breitWigner/multiLevel/Base/src/order.hpp",
+    "src/resonanceReconstruction/breitWigner/multiLevel/Base/src/psiChi.hpp",
+    "src/resonanceReconstruction/breitWigner/multiLevel/Base/src/evaluate.hpp",
+    "src/resonanceReconstruction/breitWigner/multiLevel/Base/src/ctor.hpp",
+    "src/resonanceReconstruction/breitWigner/multiLevel/Base/src/lvalues.hpp",
+    "src/resonanceReconstruction/breitWigner/multiLevel/src/psiChi.hpp",
+    "src/resonanceReconstruction/breitWigner/multiLevel/src/D.hpp",
     "src/resonanceReconstruction/breitWigner/resonance/Type.hpp",
     "src/resonanceReconstruction/breitWigner/resonance/Type/src/ctor.hpp",
     "src/resonanceReconstruction/breitWigner/resonance/src/call.hpp",
@@ -804,14 +804,14 @@
       "src/resonanceReconstruction/test/phaseShift.test.cpp",
       "src/resonanceReconstruction/test/radius.test.cpp"
     ],
-    "resonanceReconstruction.breitWigner.multilevel.Apply": [
-      "src/resonanceReconstruction/breitWigner/multilevel/Apply/test/Apply.test.cpp"
+    "resonanceReconstruction.breitWigner.multiLevel.Apply": [
+      "src/resonanceReconstruction/breitWigner/multiLevel/Apply/test/Apply.test.cpp"
     ],
-    "resonanceReconstruction.breitWigner.multilevel.Resonance": [
-      "src/resonanceReconstruction/breitWigner/multilevel/Resonance/test/Resonance.test.cpp"
+    "resonanceReconstruction.breitWigner.multiLevel.Resonance": [
+      "src/resonanceReconstruction/breitWigner/multiLevel/Resonance/test/Resonance.test.cpp"
     ],
-    "resonanceReconstruction.breitWigner.multilevel.Type": [
-      "src/resonanceReconstruction/breitWigner/multilevel/Type/test/Type.test.cpp"
+    "resonanceReconstruction.breitWigner.multiLevel.Type": [
+      "src/resonanceReconstruction/breitWigner/multiLevel/Type/test/Type.test.cpp"
     ],
     "resonanceReconstruction.breitWigner.singleLevel.Apply": [
       "src/resonanceReconstruction/breitWigner/singleLevel/Apply/test/Apply.test.cpp"
