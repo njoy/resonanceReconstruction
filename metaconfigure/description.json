@@ -635,7 +635,6 @@
     "src/resonanceReconstruction/rmatrix/ParticlePair.hpp",
     "src/resonanceReconstruction/rmatrix/ResonanceTable/src/verifyTable.hpp",
     "src/resonanceReconstruction/rmatrix/ResonanceTable/src/ctor.hpp",
-    "src/resonanceReconstruction/rmatrix/ResonanceTable/src/rmatrix.hpp",
     "src/resonanceReconstruction/rmatrix/ChannelQuantumNumbers/src/toString.hpp",
     "src/resonanceReconstruction/rmatrix/ChannelQuantumNumbers/src/ctor.hpp",
     "src/resonanceReconstruction/rmatrix/SpinGroup/src/makeReactionIdentifiers.hpp",
@@ -865,8 +864,7 @@
       "src/resonanceReconstruction/rmatrix/Resonance/test/rmatrix.test.cpp"
     ],
     "resonanceReconstruction.rmatrix.ResonanceTable": [
-      "src/resonanceReconstruction/rmatrix/ResonanceTable/test/ResonanceTable.test.cpp",
-      "src/resonanceReconstruction/rmatrix/ResonanceTable/test/rmatrix.test.cpp"
+      "src/resonanceReconstruction/rmatrix/ResonanceTable/test/ResonanceTable.test.cpp"
     ],
     "resonanceReconstruction.rmatrix.SpinGroup": [
       "src/resonanceReconstruction/rmatrix/SpinGroup/test/evaluate.test.cpp",

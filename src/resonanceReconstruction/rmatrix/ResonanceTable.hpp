@@ -52,6 +52,4 @@ public:
              | ranges::view::transform( [] ( const auto& resonance )
                                            { return resonance.energy(); } );
   }
-
-  #include "resonanceReconstruction/rmatrix/ResonanceTable/src/rmatrix.hpp"
 };
