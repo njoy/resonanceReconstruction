@@ -31,13 +31,13 @@ void evaluateTMatrix(
 
     // the elements of the ( 1 - RL )^-1 R matrix for the current channel
     const auto row = ranges::make_iterator_range(
-                        this->matrix_.data() + c * size,
-                        this->matrix_.data() + ( c + 1 ) * size );
+                        this->rlmatrix_.data() + c * size,
+                        this->rlmatrix_.data() + ( c + 1 ) * size );
 
     // the row of the T or X matrix corresponding with the current channel
     const auto currentSqrtP = diagonalSqrtPMatrix[c];
     const auto elements =
-        ranges::view::zip_with( 
+        ranges::view::zip_with(
             [&] ( const auto tValue, const auto sqrtP )
                 { return currentSqrtP * tValue * sqrtP; },
             row, diagonalSqrtPMatrix );
@@ -61,4 +61,3 @@ void evaluateTMatrix(
   const unsigned int start = 0;
   ranges::for_each( ranges::view::indices( start, size ), processChannel );
 }
-

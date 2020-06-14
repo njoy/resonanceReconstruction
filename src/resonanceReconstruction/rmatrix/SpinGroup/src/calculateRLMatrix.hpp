@@ -8,11 +8,11 @@ void calculateRLMatrix( const Energy& energy, ReichMoore ) {
 
   // accumulate the rmatrix
   const unsigned int size = this->resonanceTable().numberChannels();
-  this->rmatrix_ = Matrix< std::complex< double > >::Zero( size, size );
+  this->matrix_ = Matrix< std::complex< double > >::Zero( size, size );
   for ( const auto& rmatrix : rmatrices ) {
     for ( unsigned int c = 0; c < size; ++c ) {
       for ( unsigned int cprime = 0; cprime < size; ++cprime ) {
-        this->rmatrix_( c, cprime ) += rmatrix[c][cprime];
+        this->matrix_( c, cprime ) += rmatrix[c][cprime];
       }
     }
   }
@@ -23,16 +23,16 @@ void calculateRLMatrix( const Energy& energy, ReichMoore ) {
 
     if ( belowThreshold[c] ) {
 
-      this->rmatrix_.row(c).setZero();
-      this->rmatrix_.col(c).setZero();
+      this->matrix_.row(c).setZero();
+      this->matrix_.col(c).setZero();
     }
   }
 
   // calculate and return R_L = ( 1 - RL )^-1 R
-  this->matrix_ = Matrix< double >::Identity( size, size );
-  this->matrix_ -= this->rmatrix_ *
+  this->rlmatrix_ = Matrix< double >::Identity( size, size );
+  this->rlmatrix_ -= this->matrix_ *
              Eigen::Map< Eigen::VectorXcd >( this->diagonalLMatrix_.data(),
                                              size ).asDiagonal();
-  this->matrix_ = this->matrix_.inverse();
-  this->matrix_ *= this->rmatrix_;
+  this->rlmatrix_ = this->rlmatrix_.inverse();
+  this->rlmatrix_ *= this->matrix_;
 }

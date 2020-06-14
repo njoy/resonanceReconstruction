@@ -49,8 +49,8 @@ void evaluate( const Energy& energy,
 
     // the elements of the ( 1 - RL )^-1 R matrix for the incident channel
     const auto row = ranges::make_iterator_range(
-                        this->matrix_.data() + c * size,
-                        this->matrix_.data() + ( c + 1 ) * size );
+                        this->rlmatrix_.data() + c * size,
+                        this->rlmatrix_.data() + ( c + 1 ) * size );
 
     // the row of the S or U matrix corresponding with the incident channel
     const auto incidentSqrtP = diagonalSqrtPMatrix[c];
