@@ -28,7 +28,7 @@ SCENARIO( "changeQ" ) {
       Channel< Photon > channel( pair, numbers, radii, true );
       REQUIRE( 0.0 == Approx( channel.Q().value ) );
 
-      pair.changeQ( 10.0 * electronVolt );
+      channel.changeQ( 10.0 * electronVolt );
       REQUIRE( 10.0 == Approx( channel.Q().value ) );
     } // THEN
   } // GIVEN
