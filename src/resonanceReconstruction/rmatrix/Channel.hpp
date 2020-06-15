@@ -63,6 +63,24 @@ public:
    */
   const BoundaryCondition& boundaryCondition() const { return this->boundary_; }
 
+  /**
+   *  @brief Return whether or not the channel is an incident channel
+   */
+  bool incident() const { return this->particlePair().incident(); }
+
+  /**
+   *  @brief Toggle the incident channel state
+   */
+  void toggleIncident() { this->pair_.toggleIncident(); }
+
+  /**
+  *  @brief Set the Q value associated to the transition of the incident
+  *         particle pair to this particle pair
+  *
+  *  @param[in] q   the new Q value for this particle pair
+   */
+  void changeQ( const QValue& q ) { this->pair_.changeQ( q ); }
+
   #include "resonanceReconstruction/rmatrix/Channel/src/statisticalSpinFactor.hpp"
   #include "resonanceReconstruction/rmatrix/Channel/src/penetrability.hpp"
   #include "resonanceReconstruction/rmatrix/Channel/src/shiftFactor.hpp"

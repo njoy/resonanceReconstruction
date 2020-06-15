@@ -55,7 +55,7 @@ Channel( const ParticlePair& pair,
  *
  *  In a few rare cases, the automatically generated channel ID is not unique
  *  (e.g. when using multiple fission channels in which the ParticlePair for
- *  both channels is a dummy fission pair). In those cases, the user has to 
+ *  both channels is a dummy fission pair). In those cases, the user has to
  *  override the ChannelId to insure that the ChannelId is unique over all
  *  channels.
  *
@@ -77,4 +77,3 @@ Channel( const ParticlePair& pair,
          const ChannelRadii& radii,
          const BoundaryCondition& boundary = 0.0 ) :
   Channel( makeID( id, numbers ), pair, numbers, radii, boundary ) {}
-

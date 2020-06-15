@@ -1,5 +1,8 @@
 
-add_executable( resonanceReconstruction.rmatrix.Channel.test Channel.test.cpp )
+add_executable( resonanceReconstruction.rmatrix.Channel.test
+                changeQ.test.cpp
+                Channel.test.cpp
+                incident.test.cpp )
 target_compile_options( resonanceReconstruction.rmatrix.Channel.test PRIVATE ${${PREFIX}_common_flags}
 $<$<BOOL:${strict}>:${${PREFIX}_strict_flags}>$<$<CONFIG:DEBUG>:
 ${${PREFIX}_DEBUG_flags}
