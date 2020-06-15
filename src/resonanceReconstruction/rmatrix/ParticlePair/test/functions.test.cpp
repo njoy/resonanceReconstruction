@@ -38,7 +38,6 @@ SCENARIO( "special functions" ) {
         protonPair.waveNumber( 1e-5 * electronVolt ).value ) );
       REQUIRE( 4598354.56357695 == Approx(
         protonPair.sommerfeldParameter( 1e-5 * electronVolt ) ) );
-    }
+    } // THEN
   } // GIVEN
 } // SCENARIO
-

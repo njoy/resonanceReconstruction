@@ -14,6 +14,7 @@ class ParticlePair {
   std::pair< Particle, Particle > pair_;
   QValue qvalue_;
   ParticlePairID id_;
+  bool incident_;
 
   AtomicMass reduced_;
   double massratio_;
@@ -45,9 +46,28 @@ public:
   const QValue& Q() const { return this->qvalue_; }
 
   /**
+   *  @brief Set the Q value associated to the transition of the incident
+   *         particle pair to this particle pair
+   *
+   *  @param[in] q   the new Q value for this particle pair
+   */
+  void changeQ( const QValue& q ) { this->qvalue_ = q; }
+
+  /**
    *  @brief Return the identifier of the particle pair
    */
   const ParticlePairID& pairID() const { return this->id_; }
+
+  /**
+   *  @brief Return whether or not the particle pair is the incident particle
+   *         pair
+   */
+  bool incident() const { return this->incident_; }
+
+  /**
+  *  @brief Toggle the incident channel state
+   */
+  void toggleIncident() { this->incident_ = not this->incident_; }
 
   /**
    *  @brief Return the mass ratio M / ( m + M ) of the particle pair

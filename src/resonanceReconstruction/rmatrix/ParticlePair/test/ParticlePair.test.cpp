@@ -25,6 +25,7 @@ SCENARIO( "ParticlePair" ) {
     ParticlePairID id( "fission" );
 
     THEN( "a ParticlePair can be constructed without a pair ID" ) {
+
       ParticlePair pair( neutron, u235, qValue );
 
       REQUIRE( 1.008664 == Approx( pair.particle().mass().value ) );
@@ -43,14 +44,17 @@ SCENARIO( "ParticlePair" ) {
       REQUIRE( 0.0 == Approx( pair.Q().value ) );
       REQUIRE( "n,U235_e0" == pair.pairID() );
 
+      REQUIRE( false == pair.incident() );
+
       REQUIRE( 1.00435393058671 == Approx( pair.reducedMass().value ) );
       REQUIRE( 6.9172282659633E-06 == Approx(
         pair.waveNumber( 1e-5 * electronVolt ).value ) );
       REQUIRE( 0.0 == Approx(
         pair.sommerfeldParameter( 1e-5 * electronVolt ) ) );
-    }
+    } // THEN
 
     THEN( "a ParticlePair can be constructed with a pair ID" ) {
+
       ParticlePair pair( neutron, u235, qValue, id );
 
       REQUIRE( 1.008664 == Approx( pair.particle().mass().value ) );
@@ -69,12 +73,13 @@ SCENARIO( "ParticlePair" ) {
       REQUIRE( 0.0 == Approx( pair.Q().value ) );
       REQUIRE( "fission" == pair.pairID() );
 
+      REQUIRE( false == pair.incident() );
+
       REQUIRE( 1.00435393058671 == Approx( pair.reducedMass().value ) );
       REQUIRE( 6.9172282659633E-06 == Approx(
         pair.waveNumber( 1e-5 * electronVolt ).value ) );
       REQUIRE( 0.0 == Approx(
         pair.sommerfeldParameter( 1e-5 * electronVolt ) ) );
-    }
+    } // THEN
   } // GIVEN
 } // SCENARIO
-
