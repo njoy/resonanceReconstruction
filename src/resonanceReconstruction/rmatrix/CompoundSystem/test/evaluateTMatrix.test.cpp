@@ -175,7 +175,7 @@ SCENARIO( "evaluateTMatrix" ) {
       REQUIRE( 1 == elements.size() );
       REQUIRE( -1.3081573474631189E-12 == Approx( elements[ t11 ].real() ) );
       REQUIRE(  0.99877608598185263 == Approx( elements[ t11 ].imag() ) );
-    }
+    } // THEN
 
     THEN( "T matrix elements can be calculated for multiple resonances using "
           "the ShiftFactor boundary condition" ) {
@@ -255,7 +255,7 @@ SCENARIO( "evaluateTMatrix" ) {
       REQUIRE( 1 == elements.size() );
       REQUIRE( -1.1241471569546157E-07 == Approx( elements[ t11 ].real() ) );
       REQUIRE(  0.99887879243030220 == Approx( elements[ t11 ].imag() ) );
-    }
+    } // THEN
 
     THEN( "T matrix elements can be calculated for a single resonance using "
           "the Constant boundary condition" ) {
@@ -325,7 +325,7 @@ SCENARIO( "evaluateTMatrix" ) {
       REQUIRE( 1 == elements.size() );
       REQUIRE( -1.3081573474631189E-12 == Approx( elements[ t11 ].real() ) );
       REQUIRE(  0.99877608598185263 == Approx( elements[ t11 ].imag() ) );
-    }
+    } // THEN
 
     THEN( "T matrix elements can be calculated for multiple resonances using "
           "the Constant boundary condition" ) {
@@ -405,7 +405,7 @@ SCENARIO( "evaluateTMatrix" ) {
       REQUIRE( 1 == elements.size() );
       REQUIRE( -1.1241471569546157E-07 == Approx( elements[ t11 ].real() ) );
       REQUIRE(  0.99887879243030220 == Approx( elements[ t11 ].imag() ) );
-    }
+    } // THEN
   } // GIVEN
 
   GIVEN( "valid data for a CompoundSystem with five SpinGroup without "
@@ -761,6 +761,6 @@ SCENARIO( "evaluateTMatrix" ) {
       REQUIRE(  2.5408917902376525E-05 == Approx( elements[ s4t11 ].imag() ) );
       REQUIRE(  1.0099014080820087E-05 == Approx( elements[ s5t11 ].real() ) );
       REQUIRE(  1.8909887190968213E-10 == Approx( elements[ s5t11 ].imag() ) );
-    }
-  } // GIVEN*/
+    } // THEN
+  } // GIVEN
 } // SCENARIO

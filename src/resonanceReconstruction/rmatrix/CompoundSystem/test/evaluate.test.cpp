@@ -189,7 +189,7 @@ SCENARIO( "evaluate" ) {
       REQUIRE( 3.424287e+2 == Approx( xs[ elas ].value ) );
       REQUIRE( 4.241421e-1 == Approx( xs[ capt ].value ) );
       xs.clear();
-    }
+    } // THEN
 
     THEN( "cross sections can be calculated for multiple resonances using the "
           "ShiftFactor boundary condition" ) {
@@ -284,7 +284,7 @@ SCENARIO( "evaluate" ) {
       REQUIRE( 3.390972e+1 == Approx( xs[ elas ].value ) );
       REQUIRE( 4.208797e-2 == Approx( xs[ capt ].value ) );
       xs.clear();
-    }
+    } // THEN
 
     THEN( "cross sections can be calculated for a single resonance using the "
           "Constant boundary condition" ) {
@@ -367,7 +367,7 @@ SCENARIO( "evaluate" ) {
       REQUIRE( 3.424287e+2 == Approx( xs[ elas ].value ) );
       REQUIRE( 4.241421e-1 == Approx( xs[ capt ].value ) );
       xs.clear();
-    }
+    } // THEN
 
     THEN( "cross sections can be calculated for multiple resonances using the "
           "Constant boundary condition" ) {
@@ -462,7 +462,7 @@ SCENARIO( "evaluate" ) {
       REQUIRE( 3.390972e+1 == Approx( xs[ elas ].value ) );
       REQUIRE( 4.208797e-2 == Approx( xs[ capt ].value ) );
       xs.clear();
-    }
+    } // THEN
   } // GIVEN
 
   GIVEN( "valid data for a CompoundSystem with five SpinGroup without "
@@ -780,6 +780,6 @@ SCENARIO( "evaluate" ) {
       REQUIRE( 2.010266e+1 == Approx( xs[ elas ].value ) );
       REQUIRE( 1.099364e+1 == Approx( xs[ capt ].value ) );
       xs.clear();
-    }
+    } // THEN
   } // GIVEN
 } // SCENARIO

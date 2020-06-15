@@ -22,7 +22,7 @@ using ReichMoore = rmatrix::ReichMoore;
 constexpr AtomicMass neutronMass = 1.008664 * daltons;
 constexpr ElectricalCharge elementary = dimwits::constant::elementaryCharge;
 
-SCENARIO( "evaluateTMatrix" ) {
+SCENARIO( "evaluateTMatrix for Reich-Moore" ) {
 
   //! @todo add test with more than one entrance channel
   //! @todo add test with a charged particle channel
@@ -172,7 +172,7 @@ SCENARIO( "evaluateTMatrix" ) {
       REQUIRE( 1 == elements.size() );
       REQUIRE( -1.3081573474631189E-12 == Approx( elements[ t11 ].real() ) );
       REQUIRE(  0.99877608598185263 == Approx( elements[ t11 ].imag() ) );
-    }
+    } // THEN
 
     THEN( "T matrix elements can be calculated for multiple resonances using "
           "the ShiftFactor boundary condition" ) {
@@ -252,7 +252,7 @@ SCENARIO( "evaluateTMatrix" ) {
       REQUIRE( 1 == elements.size() );
       REQUIRE( -1.1241471569546157E-07 == Approx( elements[ t11 ].real() ) );
       REQUIRE(  0.99887879243030220 == Approx( elements[ t11 ].imag() ) );
-    }
+    } // THEN
 
     THEN( "T matrix elements can be calculated for a single resonance using "
           "the Constant boundary condition" ) {
@@ -322,7 +322,7 @@ SCENARIO( "evaluateTMatrix" ) {
       REQUIRE( 1 == elements.size() );
       REQUIRE( -1.3081573474631189E-12 == Approx( elements[ t11 ].real() ) );
       REQUIRE(  0.99877608598185263 == Approx( elements[ t11 ].imag() ) );
-    }
+    } // THEN
 
     THEN( "T matrix elements can be calculated for multiple resonances using "
           "the Constant boundary condition" ) {
@@ -402,7 +402,7 @@ SCENARIO( "evaluateTMatrix" ) {
       REQUIRE( 1 == elements.size() );
       REQUIRE( -1.1241471569546157E-07 == Approx( elements[ t11 ].real() ) );
       REQUIRE(  0.99887879243030220 == Approx( elements[ t11 ].imag() ) );
-    }
+    } // THEN
   } // GIVEN
 
   GIVEN( "valid data for a SpinGroup with one eliminated capture channel, "
@@ -745,7 +745,7 @@ SCENARIO( "evaluateTMatrix" ) {
       REQUIRE(  1.1394171746724397E-03 == Approx( elements[ t32 ].imag() ) );
       REQUIRE( -3.6555782926814681E-12 == Approx( elements[ t33 ].real() ) );
       REQUIRE(  0.94658990350152139 == Approx( elements[ t33 ].imag() ) );
-    }
+    } // THEN
 
     THEN( "T matrix elements can be calculated for multiple resonances using "
           "the ShiftFactor boundary condition" ) {
@@ -1023,7 +1023,7 @@ SCENARIO( "evaluateTMatrix" ) {
       REQUIRE(  4.4999676874436616E-04 == Approx( elements[ t32 ].imag() ) );
       REQUIRE( -1.5953769305589553E-02 == Approx( elements[ t33 ].real() ) );
       REQUIRE(  2.6927772660929330E-04 == Approx( elements[ t33 ].imag() ) );
-    }
+    } // THEN
 
     THEN( "T matrix elements can be calculated for a single resonance using "
           "the Constant boundary condition" ) {
@@ -1259,7 +1259,7 @@ SCENARIO( "evaluateTMatrix" ) {
       REQUIRE(  1.1394171746724397E-03 == Approx( elements[ t32 ].imag() ) );
       REQUIRE( -3.6555782926814681E-12 == Approx( elements[ t33 ].real() ) );
       REQUIRE(  0.94658990350152139 == Approx( elements[ t33 ].imag() ) );
-    }
+    } // THEN
 
     THEN( "T matrix elements can be calculated for multiple resonances using "
           "the Constant boundary condition" ) {
@@ -1537,7 +1537,7 @@ SCENARIO( "evaluateTMatrix" ) {
       REQUIRE(  4.4999676874436616E-04 == Approx( elements[ t32 ].imag() ) );
       REQUIRE( -1.5953769305589553E-02 == Approx( elements[ t33 ].real() ) );
       REQUIRE(  2.6927772660929330E-04 == Approx( elements[ t33 ].imag() ) );
-    }
+    } // THEN
   } // GIVEN
 
   GIVEN( "valid data for a SpinGroup with a resonance at a negative energy" ) {
@@ -1875,7 +1875,7 @@ SCENARIO( "evaluateTMatrix" ) {
       REQUIRE(  4.5080252732947884E-04 == Approx( elements[ t32 ].imag() ) );
       REQUIRE( -1.0199940603831528E-02 == Approx( elements[ t33 ].real() ) );
       REQUIRE(  1.1252686951477420E-04 == Approx( elements[ t33 ].imag() ) );
-    }
+    } // THEN
   } // GIVEN
 
   GIVEN( "valid data for a SpinGroup with resonances using negative widths" ) {
@@ -2239,7 +2239,7 @@ SCENARIO( "evaluateTMatrix" ) {
       REQUIRE( -4.5245392366873201E-04 == Approx( elements[ t32 ].imag() ) );
       REQUIRE( -1.5953943874582942E-02 == Approx( elements[ t33 ].real() ) );
       REQUIRE(  2.6830949543030767E-04 == Approx( elements[ t33 ].imag() ) );
-    }
+    } // THEN
   } // GIVEN
 
   GIVEN( "valid data for a SpinGroup with one eliminated capture channel, "
@@ -2338,6 +2338,8 @@ SCENARIO( "evaluateTMatrix" ) {
     ReactionID t21 = "p,S36_e0{0,1,1+}->n,Cl35_e0{0,1,1+}";
     ReactionID t22 = "p,S36_e0{0,1,1+}->p,S36_e0{0,1,1+}";
 
+    //! @todo this is incomplete, pending correction for the Coulomb wave functions
+
     THEN( "cross sections can be calculated for a single resonance using the "
           "ShiftFactor boundary condition" ) {
 
@@ -2352,7 +2354,7 @@ SCENARIO( "evaluateTMatrix" ) {
       REQUIRE(  2.1312926800826200E-15 == Approx( elements[ t21 ].imag() ) );
       REQUIRE(  2.7910517059230386E-11 == Approx( elements[ t22 ].real() ) );
       REQUIRE(  8.0987942362204981E-17 == Approx( elements[ t22 ].imag() ) );
-    }
+    } // THEN
 
     THEN( "cross sections can be calculated for multiple resonances using the "
           "ShiftFactor boundary condition" ) {
@@ -2368,7 +2370,7 @@ SCENARIO( "evaluateTMatrix" ) {
       REQUIRE(  1.4100873250164967E-13 == Approx( elements[ t21 ].imag() ) );
       REQUIRE(  1.1048788944230737E-07 == Approx( elements[ t22 ].real() ) );
       REQUIRE(  2.4179854102688846E-13 == Approx( elements[ t22 ].imag() ) );
-    }
+    } // THEN
 
     THEN( "cross sections can be calculated for a single resonance using the "
           "Constant boundary condition" ) {
@@ -2384,7 +2386,7 @@ SCENARIO( "evaluateTMatrix" ) {
       REQUIRE(  2.1312926800826200E-15 == Approx( elements[ t21 ].imag() ) );
       REQUIRE(  2.7910517059230386E-11 == Approx( elements[ t22 ].real() ) );
       REQUIRE(  8.0987942362204981E-17 == Approx( elements[ t22 ].imag() ) );
-    }
+    } // THEN
 
     THEN( "cross sections can be calculated for multiple resonances using the "
           "Constant boundary condition" ) {
@@ -2400,6 +2402,6 @@ SCENARIO( "evaluateTMatrix" ) {
       REQUIRE(  1.4100873250164967E-13 == Approx( elements[ t21 ].imag() ) );
       REQUIRE(  1.1048788944230737E-07 == Approx( elements[ t22 ].real() ) );
       REQUIRE(  2.4179854102688846E-13 == Approx( elements[ t22 ].imag() ) );
-    }
+    } // THEN
   } // GIVEN
 } // SCENARIO

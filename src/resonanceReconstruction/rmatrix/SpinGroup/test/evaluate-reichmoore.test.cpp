@@ -22,7 +22,7 @@ using ReichMoore = rmatrix::ReichMoore;
 constexpr AtomicMass neutronMass = 1.008664 * daltons;
 constexpr ElectricalCharge elementary = dimwits::constant::elementaryCharge;
 
-SCENARIO( "evaluate" ) {
+SCENARIO( "evaluate for Reich-Moore" ) {
 
   //! @todo add test with more than one entrance channel
   //! @todo add test with a charged particle channel
@@ -186,7 +186,7 @@ SCENARIO( "evaluate" ) {
       REQUIRE( 3.424287e+2 == Approx( xs[ elas ].value ) );
       REQUIRE( 4.241421e-1 == Approx( xs[ capt ].value ) );
       xs.clear();
-    }
+    } // THEN
 
     THEN( "cross sections can be calculated for multiple resonances using the "
           "ShiftFactor boundary condition" ) {
@@ -281,7 +281,7 @@ SCENARIO( "evaluate" ) {
       REQUIRE( 3.390972e+1 == Approx( xs[ elas ].value ) );
       REQUIRE( 4.208797e-2 == Approx( xs[ capt ].value ) );
       xs.clear();
-    }
+    } // THEN
 
     THEN( "cross sections can be calculated for a single resonance using the "
           "Constant boundary condition" ) {
@@ -364,7 +364,7 @@ SCENARIO( "evaluate" ) {
       REQUIRE( 3.424287e+2 == Approx( xs[ elas ].value ) );
       REQUIRE( 4.241421e-1 == Approx( xs[ capt ].value ) );
       xs.clear();
-    }
+    } // THEN
 
     THEN( "cross sections can be calculated for multiple resonances using the "
           "Constant boundary condition" ) {
@@ -459,7 +459,7 @@ SCENARIO( "evaluate" ) {
       REQUIRE( 3.390972e+1 == Approx( xs[ elas ].value ) );
       REQUIRE( 4.208797e-2 == Approx( xs[ capt ].value ) );
       xs.clear();
-    }
+    } // THEN
   } // GIVEN
 
   GIVEN( "valid data for a SpinGroup with one eliminated capture channel, "
@@ -641,7 +641,7 @@ SCENARIO( "evaluate" ) {
       REQUIRE( 1.039122e+2 == Approx( xs[ fiss ].value ) );
       REQUIRE( 5.579952e+0 == Approx( xs[ capt ].value ) );
       xs.clear();
-    }
+    } // THEN
 
     THEN( "cross sections can be calculated for multiple resonances using the "
           "ShiftFactor boundary condition" ) {
@@ -737,7 +737,7 @@ SCENARIO( "evaluate" ) {
       REQUIRE( 1.140901e+2 == Approx( xs[ fiss ].value ) );
       REQUIRE( 6.042426e+0 == Approx( xs[ capt ].value ) );
       xs.clear();
-    }
+    } // THEN
 
     THEN( "cross sections can be calculated for a single resonance using the "
           "Constant boundary condition" ) {
@@ -819,7 +819,7 @@ SCENARIO( "evaluate" ) {
       REQUIRE( 1.039122e+2 == Approx( xs[ fiss ].value ) );
       REQUIRE( 5.579952e+0 == Approx( xs[ capt ].value ) );
       xs.clear();
-    }
+    } // THEN
 
     THEN( "cross sections can be calculated for multiple resonances using the "
           "Constant boundary condition" ) {
@@ -915,7 +915,7 @@ SCENARIO( "evaluate" ) {
       REQUIRE( 1.140901e+2 == Approx( xs[ fiss ].value ) );
       REQUIRE( 6.042426e+0 == Approx( xs[ capt ].value ) );
       xs.clear();
-    }
+    } // THEN
   } // GIVEN
 
   GIVEN( "valid data for a SpinGroup with a resonance at a negative energy" ) {
@@ -1078,7 +1078,7 @@ SCENARIO( "evaluate" ) {
       REQUIRE( 1.140803e+2 == Approx( xs[ fiss ].value ) );
       REQUIRE( 6.042125e+0 == Approx( xs[ capt ].value ) );
       xs.clear();
-    }
+    } // THEN
   } // GIVEN
 
   GIVEN( "valid data for a SpinGroup with resonances using negative widths" ) {
@@ -1253,7 +1253,7 @@ SCENARIO( "evaluate" ) {
       REQUIRE( 1.140768e+2 == Approx( xs[ fiss ].value ) );
       REQUIRE( 6.042620e+0 == Approx( xs[ capt ].value ) );
       xs.clear();
-    }
+    } // THEN
   } // GIVEN
 
   GIVEN( "valid data for a SpinGroup with one eliminated capture channel, "
@@ -1445,7 +1445,7 @@ SCENARIO( "evaluate" ) {
       REQUIRE( 6.926440e-7 == Approx( xs[ pemi ].value ) );
       REQUIRE( 2.724583e-2 == Approx( xs[ capt ].value ) );
       xs.clear();
-    }
+    } // THEN
 
     THEN( "cross sections can be calculated for multiple resonances using the "
           "ShiftFactor boundary condition" ) {
@@ -1548,7 +1548,7 @@ SCENARIO( "evaluate" ) {
       REQUIRE( 3.03460e-12 == Approx( xs[ pemi ].value ) );
       REQUIRE( 1.097562e-2 == Approx( xs[ capt ].value ) );
       xs.clear();
-    }
+    } // THEN
 
     THEN( "cross sections can be calculated for a single resonance using the "
           "Constant boundary condition" ) {
@@ -1644,7 +1644,7 @@ SCENARIO( "evaluate" ) {
       REQUIRE( 6.926440e-7 == Approx( xs[ pemi ].value ) );
       REQUIRE( 2.724583e-2 == Approx( xs[ capt ].value ) );
       xs.clear();
-    }
+    } // THEN
 
     THEN( "cross sections can be calculated for multiple resonances using the "
           "Constant boundary condition" ) {
@@ -1747,6 +1747,6 @@ SCENARIO( "evaluate" ) {
       REQUIRE( 3.03460e-12 == Approx( xs[ pemi ].value ) );
       REQUIRE( 1.097562e-2 == Approx( xs[ capt ].value ) );
       xs.clear();
-    }
+    } // THEN
   } // GIVEN
 } // SCENARIO

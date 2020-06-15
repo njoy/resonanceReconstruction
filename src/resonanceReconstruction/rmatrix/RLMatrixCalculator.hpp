@@ -155,8 +155,9 @@ public:
     }
     this->amatrix_ = this->amatrix_.inverse();
 
-    // calculate and return R_L = ( 1 - RL )^-1 R
-    this->rlmatrix_ = this->gmatrix_ * this->amatrix_ * this->gmatrix_.transpose();
+    // calculate and return R_L = ( 1 - RL )^-1 R = G A G^T
+    this->rlmatrix_ = this->gmatrix_ * this->amatrix_ *
+                      this->gmatrix_.transpose();
     return this->rlmatrix_;
   }
 };
