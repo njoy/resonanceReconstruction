@@ -14,12 +14,12 @@ void evaluate( const Energy& energy,
   const auto diagonalSqrtPMatrix = this->sqrtPenetrabilities( penetrabilities );
   const auto diagonalOmegaMatrix = this->omegas( energy, coulombShifts );
 
-  // calculate the diagonal of the L matrix based on the BoundaryOption template
-  this->diagonalLMatrix_ =
-      this->calculateLDiagonal( energy, penetrabilities, BoundaryOption() );
-
-  // calculate the R_L = ( 1 - RL )^-1 R matrix based on the Formalism template
-  this->calculateRLMatrix( energy, Formalism() );
+  // calculate the R_L = ( 1 - RL )^-1 R matrix
+  auto rlmatrix = this->rlmatrix_( energy,
+                                   this->resonanceTable(),
+                                   penetrabilities,
+                                   this->channels(),
+                                   this->belowThreshold( energy ) );
 
   // the pi/k2 * gJ factor
   const auto factor = [&] {
@@ -49,8 +49,8 @@ void evaluate( const Energy& energy,
 
     // the elements of the ( 1 - RL )^-1 R matrix for the incident channel
     const auto row = ranges::make_iterator_range(
-                        this->rlmatrix_.data() + c * size,
-                        this->rlmatrix_.data() + ( c + 1 ) * size );
+                        rlmatrix.data() + c * size,
+                        rlmatrix.data() + ( c + 1 ) * size );
 
     // the row of the S or U matrix corresponding with the incident channel
     const auto incidentSqrtP = diagonalSqrtPMatrix[c];

@@ -8,12 +8,10 @@
 SpinGroup( std::vector< unsigned int >&& incidentChannels,
            std::vector< ParticleChannel >&& channels,
            ResonanceTable&& table ) :
+  rlmatrix_( table ),
   reactions_( makeReactionIdentifiers( channels,
                                        incidentChannels,
                                        Formalism() ) ),
-  rlmatrix_( channels.size(), channels.size() ),
-  matrix_( makeTemporaryMatrix( table, Formalism() ) ),
-  diagonalLMatrix_( channels.size() ),
   incident_( std::move( incidentChannels ) ),
   channels_( std::move( channels ) ),
   parameters_( std::move( table ) ) {

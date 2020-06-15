@@ -21,11 +21,8 @@ template < typename Formalism, typename BoundaryOption >
 class SpinGroup {
 
   /* fields */
+  RLMatrixCalculator< Formalism, BoundaryOption > rlmatrix_;
   std::vector< ReactionID > reactions_;
-  Matrix< std::complex< double > > rlmatrix_;
-  Matrix< std::complex< double > > matrix_;
-  std::vector< std::complex< double > > diagonalLMatrix_;
-
   std::vector< unsigned int > incident_;
   std::vector< ParticleChannel > channels_;
   ResonanceTable parameters_;
@@ -33,18 +30,13 @@ class SpinGroup {
   /* auxiliary functions */
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/determineIncidentChannels.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/makeReactionIdentifiers.hpp"
-  #include "resonanceReconstruction/rmatrix/SpinGroup/src/makeTemporaryMatrix.hpp"
 
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/penetrabilities.hpp"
-  #include "resonanceReconstruction/rmatrix/SpinGroup/src/shiftFactors.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/phaseShifts.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/coulombShifts.hpp"
-  #include "resonanceReconstruction/rmatrix/SpinGroup/src/boundaryConditions.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/sqrtPenetrabilities.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/omegas.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/belowThreshold.hpp"
-  #include "resonanceReconstruction/rmatrix/SpinGroup/src/calculateLDiagonal.hpp"
-  #include "resonanceReconstruction/rmatrix/SpinGroup/src/calculateRLMatrix.hpp"
 
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/verifyChannels.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/verifyIncidentChannels.hpp"
@@ -73,9 +65,6 @@ public:
    */
   auto incidentPair() const {
 
-    //! @todo for some reason debug fails when using const ParticlePair& as
-    //!       the return type for this function and the lambda function inside
-    //!       the visit function
     return std::visit(
                [&] ( const auto& channel )
                    { return channel.particlePair(); },

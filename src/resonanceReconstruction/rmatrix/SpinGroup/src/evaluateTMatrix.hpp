@@ -18,12 +18,12 @@ void evaluateTMatrix(
   const auto diagonalSqrtPMatrix = this->sqrtPenetrabilities( penetrabilities );
   const auto channels = this->channelIDs();
 
-  // calculate the diagonal of the L matrix based on the BoundaryOption template
-  this->diagonalLMatrix_ =
-      this->calculateLDiagonal( energy, penetrabilities, BoundaryOption() );
-
-  // calculate the R_L = ( 1 - RL )^-1 R matrix based on the Formalism template
-  this->calculateRLMatrix( energy, Formalism() );
+  // calculate the R_L = ( 1 - RL )^-1 R matrix
+  auto rlmatrix = this->rlmatrix_( energy,
+                                   this->resonanceTable(),
+                                   penetrabilities,
+                                   this->channels(),
+                                   this->belowThreshold( energy ) );
 
   // a lambda to process each channel
   const unsigned int size = channels.size();
@@ -31,8 +31,8 @@ void evaluateTMatrix(
 
     // the elements of the ( 1 - RL )^-1 R matrix for the current channel
     const auto row = ranges::make_iterator_range(
-                        this->rlmatrix_.data() + c * size,
-                        this->rlmatrix_.data() + ( c + 1 ) * size );
+                        rlmatrix.data() + c * size,
+                        rlmatrix.data() + ( c + 1 ) * size );
 
     // the row of the T or X matrix corresponding with the current channel
     const auto currentSqrtP = diagonalSqrtPMatrix[c];
