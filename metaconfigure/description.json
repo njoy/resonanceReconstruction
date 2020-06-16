@@ -835,7 +835,6 @@
     "resonanceReconstruction.rmatrix": [
       "src/resonanceReconstruction/rmatrix/test/possibleChannelTotalAngularMomentumValues.test.cpp",
       "src/resonanceReconstruction/rmatrix/test/possibleChannelSpinValues.test.cpp",
-      "src/resonanceReconstruction/rmatrix/test/calculateLValue.test.cpp",
       "src/resonanceReconstruction/rmatrix/test/rmatrix.test.cpp",
       "src/resonanceReconstruction/rmatrix/test/calculateCoulombPhaseShift.test.cpp",
       "src/resonanceReconstruction/rmatrix/test/fromENDF.test.cpp"

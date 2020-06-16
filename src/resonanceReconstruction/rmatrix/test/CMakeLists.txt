@@ -2,7 +2,6 @@
 add_executable( resonanceReconstruction.rmatrix.test
                 possibleChannelTotalAngularMomentumValues.test.cpp
                 possibleChannelSpinValues.test.cpp
-                calculateLValue.test.cpp
                 rmatrix.test.cpp
                 calculateCoulombPhaseShift.test.cpp
                 fromENDF.test.cpp )
