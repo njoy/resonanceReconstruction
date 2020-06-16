@@ -83,6 +83,20 @@ SCENARIO( "switchIncidentPair" ) {
 
       REQUIRE( in.pairID() == group.incidentPair().pairID() );
 
+      auto channels = group.channels();
+      REQUIRE( true == std::visit( [] ( const auto& channel )
+                                      { return channel.incident(); },
+                                   channels[0] ) );
+      REQUIRE( false == std::visit( [] ( const auto& channel )
+                                       { return channel.incident(); },
+                                    channels[1] ) );
+      REQUIRE( false == std::visit( [] ( const auto& channel )
+                                       { return channel.incident(); },
+                                    channels[2] ) );
+      REQUIRE( false == std::visit( [] ( const auto& channel )
+                                       { return channel.incident(); },
+                                    channels[3] ) );
+
       group.switchIncidentPair( out3 );
 
       REQUIRE( 1 == group.incidentChannels().size() );
@@ -93,11 +107,26 @@ SCENARIO( "switchIncidentPair" ) {
 
       REQUIRE( out3.pairID() == group.incidentPair().pairID() );
 
+      channels = group.channels();
+      REQUIRE( false == std::visit( [] ( const auto& channel )
+                                       { return channel.incident(); },
+                                    channels[0] ) );
+      REQUIRE( false == std::visit( [] ( const auto& channel )
+                                       { return channel.incident(); },
+                                    channels[1] ) );
+      REQUIRE( false == std::visit( [] ( const auto& channel )
+                                       { return channel.incident(); },
+                                    channels[2] ) );
+      REQUIRE( true == std::visit( [] ( const auto& channel )
+                                      { return channel.incident(); },
+                                   channels[3] ) );
+
       REQUIRE( 4 == group.channels().size() );
 
       // channel 1 - elastic
       auto channel1 = std::get< Channel< Neutron > >( group.channels()[0] );
       REQUIRE( "n,Pu239_e0{0,1/2,1+}" == channel1.channelID() );
+      REQUIRE( false == channel1.incident() );
 
       auto particlePair = channel1.particlePair();
       REQUIRE( 1.008664 == Approx( particlePair.particle().mass().value ) );
@@ -110,6 +139,7 @@ SCENARIO( "switchIncidentPair" ) {
       REQUIRE( +1 == particlePair.residual().parity() );
       REQUIRE( 0.0 == Approx( particlePair.Q().value ) );
       REQUIRE( "n,Pu239_e0" == particlePair.pairID() );
+      REQUIRE( false == particlePair.incident() );
 
       auto numbers = channel1.quantumNumbers();
       REQUIRE( 0 == numbers.orbitalAngularMomentum() );
@@ -130,6 +160,7 @@ SCENARIO( "switchIncidentPair" ) {
       // channel 2 - fission1
       auto channel2 = std::get< Channel< Fission > >( group.channels()[1] );
       REQUIRE( "fission1{0,0,1+}" == channel2.channelID() );
+      REQUIRE( false == channel2.incident() );
 
       particlePair = channel2.particlePair();
       REQUIRE( 1.008664 == Approx( particlePair.particle().mass().value ) );
@@ -142,6 +173,7 @@ SCENARIO( "switchIncidentPair" ) {
       REQUIRE( +1 == particlePair.residual().parity() );
       REQUIRE( 0.0 == Approx( particlePair.Q().value ) );
       REQUIRE( "fission" == particlePair.pairID() );
+      REQUIRE( false == particlePair.incident() );
 
       numbers = channel2.quantumNumbers();
       REQUIRE( 0 == numbers.orbitalAngularMomentum() );
@@ -162,6 +194,7 @@ SCENARIO( "switchIncidentPair" ) {
       // channel 3 - fission2
       auto channel3 = std::get< Channel< Fission > >( group.channels()[2] );
       REQUIRE( "fission2{0,0,1+}" == channel3.channelID() );
+      REQUIRE( false == channel3.incident() );
 
       particlePair = channel3.particlePair();
       REQUIRE( 1.008664 == Approx( particlePair.particle().mass().value ) );
@@ -174,6 +207,7 @@ SCENARIO( "switchIncidentPair" ) {
       REQUIRE( +1 == particlePair.residual().parity() );
       REQUIRE( 0.0 == Approx( particlePair.Q().value ) );
       REQUIRE( "fission" == particlePair.pairID() );
+      REQUIRE( false == particlePair.incident() );
 
       numbers = channel3.quantumNumbers();
       REQUIRE( 0 == numbers.orbitalAngularMomentum() );
@@ -194,6 +228,7 @@ SCENARIO( "switchIncidentPair" ) {
       // channel 4 - emission
       auto channel4 = std::get< Channel< ChargedParticle > >( group.channels()[3] );
       REQUIRE( "p,Np240_e0{0,1/2,1+}" == channel4.channelID() );
+      REQUIRE( true == channel4.incident() );
 
       particlePair = channel4.particlePair();
       REQUIRE( 1.007276 == Approx( particlePair.particle().mass().value ) );
@@ -206,6 +241,7 @@ SCENARIO( "switchIncidentPair" ) {
       REQUIRE( +1 == particlePair.residual().parity() );
       REQUIRE( 0.0 == Approx( particlePair.Q().value ) );
       REQUIRE( "p,Np240_e0" == particlePair.pairID() );
+      REQUIRE( true == particlePair.incident() );
 
       numbers = channel4.quantumNumbers();
       REQUIRE( 0 == numbers.orbitalAngularMomentum() );
@@ -252,6 +288,6 @@ SCENARIO( "switchIncidentPair" ) {
       REQUIRE( 2.0 == Approx( resonance.widths()[1].value ) );
       REQUIRE( 3.0 == Approx( resonance.widths()[2].value ) );
       REQUIRE( 4.0 == Approx( resonance.widths()[3].value ) );
-    }
+    } // THEN
   } // GIVEN
 } // SCENARIO

@@ -17,7 +17,7 @@ void switchIncidentPair( const ParticlePair& incident ) {
     // change the incident channels and verify them
     this->incident_ =
       determineIncidentChannels( incident.pairID(), this->channels_ );
-    verifyIncidentChannels( this->channels_, this->incident_ );
+    verifyIncidentChannels( this->incident_ );
 
     // regenerate the reaction identifiers
     this->reactions_ =

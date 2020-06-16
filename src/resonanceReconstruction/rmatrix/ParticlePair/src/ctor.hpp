@@ -15,10 +15,9 @@
 ParticlePair( const Particle& particle,
               const Particle& residual,
               const QValue& qvalue,
-              const ParticlePairID& id,
-              bool incident = false ) :
+              const ParticlePairID& id ) :
   pair_( particle, residual ), qvalue_( qvalue ),
-  id_( id ), incident_( incident ),
+  id_( id ), incident_( false ),
   reduced_( [&] { const auto ma = particle.mass();
                   const auto mb = residual.mass();
                   return ma * mb / ( ma + mb ); }() ),
@@ -39,8 +38,6 @@ ParticlePair( const Particle& particle,
  */
 ParticlePair( const Particle& particle,
               const Particle& residual,
-              const QValue& qvalue,
-              bool incident = false ) :
+              const QValue& qvalue ) :
   ParticlePair( particle, residual, qvalue,
-                makeID( particle.particleID(), residual.particleID() ),
-                incident ) {}
+                makeID( particle.particleID(), residual.particleID() ) ) {}

@@ -1,3 +1,5 @@
+private:
+
 /**
  *  @brief Constructor
  *
@@ -17,9 +19,11 @@ SpinGroup( std::vector< unsigned int >&& incidentChannels,
   parameters_( std::move( table ) ) {
 
   verifyChannels( this->channels_ );
-  verifyIncidentChannels( this->channels_, this->incident_ );
+  verifyIncidentChannels( this->incident_ );
   verifyResonanceChannels( this->channels_, this->parameters_ );
 }
+
+public:
 
 /**
  *  @brief Constructor
