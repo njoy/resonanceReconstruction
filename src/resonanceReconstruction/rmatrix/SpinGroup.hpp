@@ -36,7 +36,6 @@ class SpinGroup {
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/coulombShifts.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/sqrtPenetrabilities.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/omegas.hpp"
-  #include "resonanceReconstruction/rmatrix/SpinGroup/src/belowThreshold.hpp"
 
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/verifyChannels.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/verifyIncidentChannels.hpp"

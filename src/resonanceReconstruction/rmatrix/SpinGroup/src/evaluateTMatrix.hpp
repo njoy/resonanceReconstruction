@@ -22,8 +22,7 @@ void evaluateTMatrix(
   auto rlmatrix = this->rlmatrix_( energy,
                                    this->resonanceTable(),
                                    penetrabilities,
-                                   this->channels(),
-                                   this->belowThreshold( energy ) );
+                                   this->channels() );
 
   // a lambda to process each channel
   const unsigned int size = channels.size();

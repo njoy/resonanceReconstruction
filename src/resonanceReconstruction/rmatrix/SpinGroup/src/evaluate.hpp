@@ -18,8 +18,7 @@ void evaluate( const Energy& energy,
   auto rlmatrix = this->rlmatrix_( energy,
                                    this->resonanceTable(),
                                    penetrabilities,
-                                   this->channels(),
-                                   this->belowThreshold( energy ) );
+                                   this->channels() );
 
   // the pi/k2 * gJ factor
   const auto factor = [&] {

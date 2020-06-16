@@ -14,6 +14,9 @@ class RLMatrixCalculator< ReichMoore, BoundaryOption > {
   Matrix< std::complex< double > > rmatrix_;
   Matrix< std::complex< double > > rlmatrix_;
 
+  /* auxiliary functions */
+  #include "resonanceReconstruction/rmatrix/RLMatrixCalculator/src/belowThreshold.hpp"
+
 public:
 
   /**
@@ -33,17 +36,15 @@ public:
    *  @param[in] table             the resonance table
    *  @param[in] penetrabilities   the channel penetrabilities
    *  @param[in] channels          the channels
-   *  @param[in] belowThreshold    which channels are below the threshold
    *
    *  @return The resulting ( I - RL )^-1 R matrix
    */
-  template < typename Penetrabilities, typename Channels, typename BelowThreshold >
+  template < typename Penetrabilities, typename Channels >
   const Matrix< std::complex< double > >&
   operator()( const Energy& energy,
               const ResonanceTable& table,
               const Penetrabilities& penetrabilities,
-              const Channels& channels,
-              const BelowThreshold& belowThreshold ) {
+              const Channels& channels ) {
 
     // range with the R-matrices for each resonance
     auto rmatrices = table.resonances()
@@ -63,6 +64,7 @@ public:
     }
 
     // zero out threshold reactions
+    auto belowThreshold = this->belowThreshold( energy, channels );
     for ( unsigned int c = 0; c < size; ++c ) {
 
       if ( belowThreshold[c] ) {
@@ -96,7 +98,7 @@ class RLMatrixCalculator< GeneralRMatrix, BoundaryOption > {
   Matrix< std::complex< double > > amatrix_;
   Matrix< std::complex< double > > rlmatrix_;
 
-  /* fields */
+  /* auxiliary functions */
   #include "resonanceReconstruction/rmatrix/RLMatrixCalculator/src/makeGMatrix.hpp"
 
 public:
@@ -123,13 +125,12 @@ public:
    *
    *  @return The resulting ( I - RL )^-1 R matrix
    */
-  template < typename Penetrabilities, typename Channels, typename BelowThreshold >
+  template < typename Penetrabilities, typename Channels >
   const Matrix< std::complex< double > >&
   operator()( const Energy& energy,
               const ResonanceTable& table,
               const Penetrabilities& penetrabilities,
-              const Channels& channels,
-              const BelowThreshold& belowThreshold ) {
+              const Channels& channels ) {
 
     //! @todo handle threshold reactions?
 
