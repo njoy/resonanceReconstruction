@@ -12,12 +12,12 @@
  *  @param energy   the energy at which the relativistic wave number needs
  *                  to be evaluated
  */
-WaveNumber waveNumber( const Energy& energy ) const {
+WaveNumber relativisticWaveNumber( const Energy& energy ) const {
 
   const auto s = this->mandelstam( energy );
   const auto particle = this->particle().mass() * c * c;
   const auto residual = this->residual().mass() * c * c;
   const auto pair = particle + residual;
   const auto delta = particle - residual;
-  return 0.5 * sqrt( ( s - pair * pair ) * ( s - delta * delta ) / s );
+  return 0.5 * sqrt( ( s - pair * pair ) * ( s - delta * delta ) / s ) / c / hbar;
 }
