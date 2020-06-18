@@ -32,12 +32,16 @@ SCENARIO( "special functions" ) {
         neutronPair.waveNumber( 1e-5 * electronVolt ).value ) );
       REQUIRE( 0.0 == Approx(
         neutronPair.sommerfeldParameter( 1e-5 * electronVolt ) ) );
+      REQUIRE( 4.8347917E+22 == Approx(
+        neutronPair.mandelstam( 1e-5 * electronVolt ).value ) );
 
       REQUIRE( 1.00297775913185 == Approx( protonPair.reducedMass().value ) );
       REQUIRE( 6.91250795174449E-06 == Approx(
         protonPair.waveNumber( 1e-5 * electronVolt ).value ) );
       REQUIRE( 4598354.56357695 == Approx(
         protonPair.sommerfeldParameter( 1e-5 * electronVolt ) ) );
+      REQUIRE( 4.8347348E+22 == Approx(
+        neutronPair.mandelstam( 1e-5 * electronVolt ).value ) );
     } // THEN
   } // GIVEN
 } // SCENARIO

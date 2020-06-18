@@ -75,6 +75,7 @@ public:
   double massRatio() const { return this->massratio_; }
 
   #include "resonanceReconstruction/rmatrix/ParticlePair/src/reducedMass.hpp"
+  #include "resonanceReconstruction/rmatrix/ParticlePair/src/mandelstam.hpp"
   #include "resonanceReconstruction/rmatrix/ParticlePair/src/waveNumber.hpp"
   #include "resonanceReconstruction/rmatrix/ParticlePair/src/sommerfeldParameter.hpp"
 };
