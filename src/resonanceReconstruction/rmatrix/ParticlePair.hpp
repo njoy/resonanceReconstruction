@@ -78,4 +78,5 @@ public:
   #include "resonanceReconstruction/rmatrix/ParticlePair/src/mandelstam.hpp"
   #include "resonanceReconstruction/rmatrix/ParticlePair/src/waveNumber.hpp"
   #include "resonanceReconstruction/rmatrix/ParticlePair/src/sommerfeldParameter.hpp"
+  #include "resonanceReconstruction/rmatrix/ParticlePair/src/relativisticWaveNumber.hpp"
 };

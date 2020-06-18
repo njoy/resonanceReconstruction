@@ -13,8 +13,8 @@
  */
 EnergySquared mandelstam( const Energy& energy ) const {
 
-  const auto ma = this->particle().mass() * c * c;
-  const auto mb = this->residual().mass() * c * c;
-  const auto m = ma + mb;
-  return m * m + 2. * mb * energy;
+  const auto particle = this->particle().mass() * c * c;
+  const auto residual = this->residual().mass() * c * c;
+  const auto pair = particle + residual;
+  return pair * pair + 2. * residual * energy;
 }
