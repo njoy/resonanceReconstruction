@@ -47,12 +47,16 @@ void evaluate( const Energy& energy,
                  ranges::view::repeat_n( 0., size - c - 1 ) );
     };
 
-    // the elements of the ( 1 - RL )^-1 R matrix for the incident channel
+    // the elements of the R_L = ( 1 - RL )^-1 R matrix for the incident channel
     const auto row = ranges::make_iterator_range(
                         this->matrix_.data() + c * size,
                         this->matrix_.data() + ( c + 1 ) * size );
 
     // the row of the S or U matrix corresponding with the incident channel
+    // S = U = Omega ( I + 2 i P^1/2 ( I - RL )^-1 R P^1/2 ) Omega
+    // S = U = Omega ( I + 2 i P^1/2 R_L P^1/2 ) Omega
+    // S = U = Omega ( I + 2 i T ) Omega
+    // S = U = Omega W Omega
     const auto incidentSqrtP = diagonalSqrtPMatrix[c];
     const auto incidentOmega = diagonalOmegaMatrix[c];
     const auto uElements =
@@ -68,30 +72,32 @@ void evaluate( const Energy& energy,
     const auto exponential =
       std::exp( std::complex< double >( 0., coulombShifts[c] ) );
 
-    // lambda to calculate a norm squared
-    auto normSquared = [] ( const auto value ) -> double
-                          { return std::pow( std::abs( value ), 2. ); };
+    // the cross section values for channel c to c' - independent of formalism
+    // sigma_cc' = norm( exp( iw_c ) delta_cc' - U_cc' )
+    const auto sigma =
+      ranges::view::zip_with(
+          [&] ( const auto delta, const auto uValue )
+              { return std::norm( delta - uValue ); },
+          delta( exponential ),
+          uElements );
 
-    // the cross section values
-    //! @todo this is still formalism dependent: Reich-Moore
+    // the eliminated capture channel - Reich-Moore only
+    const auto capture =
+      ranges::view::single(
+          ranges::accumulate(
+              uElements | ranges::view::transform(
+                              [] ( const auto value ) -> double
+                                 { return std::norm( value ); } ),
+              1., ranges::minus() ) );
+
+    // concat and multiply by pi / k^2 g_J
     const auto crossSections =
-      ranges::view::concat(
-          ranges::view::zip_with(
-              [&] ( const auto delta, const auto uValue )
-                  { return normSquared( delta - uValue ); },
-              delta( exponential ),
-              uElements ),
-          ranges::view::single(
-              ranges::accumulate(
-                  uElements | ranges::view::transform( normSquared ), 1.,
-                  ranges::minus() ) ) )
+      ranges::view::concat( sigma, capture )
         | ranges::view::transform(
               [=] ( const auto value ) -> Quantity< Barn >
                   { return factor * value; } );
 
-    // accumulate results
-    //! @todo debug build requires accumulating cross section values inside the
-    //        processIncidentChannel lambda
+    // accumulate results in the map
     ranges::for_each(
       ranges::view::zip( identifiers, crossSections ),
       [&] ( const auto& pair ) -> void

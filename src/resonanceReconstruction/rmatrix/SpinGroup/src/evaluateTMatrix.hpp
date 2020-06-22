@@ -29,15 +29,19 @@ void evaluateTMatrix(
   const unsigned int size = channels.size();
   auto processChannel = [&] ( const unsigned int c ) {
 
-    // the elements of the ( 1 - RL )^-1 R matrix for the current channel
+    // the elements of the R_L = ( 1 - RL )^-1 R matrix for the current channel
     const auto row = ranges::make_iterator_range(
                         this->matrix_.data() + c * size,
                         this->matrix_.data() + ( c + 1 ) * size );
 
-    // the row of the T or X matrix corresponding with the current channel
+    // the row of the S or U matrix corresponding with the incident channel
+    // S = U = Omega ( I + 2 i P^1/2 ( I - RL )^-1 R P^1/2 ) Omega
+    // S = U = Omega ( I + 2 i P^1/2 R_L P^1/2 ) Omega
+    // S = U = Omega ( I + 2 i T ) Omega
+    // S = U = Omega W Omega
     const auto currentSqrtP = diagonalSqrtPMatrix[c];
     const auto elements =
-        ranges::view::zip_with( 
+        ranges::view::zip_with(
             [&] ( const auto tValue, const auto sqrtP )
                 { return currentSqrtP * tValue * sqrtP; },
             row, diagonalSqrtPMatrix );
@@ -50,7 +54,7 @@ void evaluateTMatrix(
                 [&] ( const auto& id )
                     { return ReactionID( current + "->" + id ); } );
 
-    // accumulate results
+    // assign into the map
     ranges::for_each(
       ranges::view::zip( identifiers, elements ),
       [&] ( const auto& pair ) -> void
@@ -61,4 +65,3 @@ void evaluateTMatrix(
   const unsigned int start = 0;
   ranges::for_each( ranges::view::indices( start, size ), processChannel );
 }
-

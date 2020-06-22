@@ -1,9 +1,9 @@
-const double HBAR       =  6.582119514e-22; /* Planck's constant/2pi [MeV sec]*/
-const double VLIGHT     =  2.99792458e+23 ; /* light velocty [fm/sec]         */
-const double AMUNIT     =  931.4943335    ; /* MeV = 1amu                     */
-const double COULOMB    =  1.60217733e-19 ; /* J = 1eV                        */
-const double COULOMBSQ  =  2.56697220e-38 ; /* COULOMB*COULOMB                */
-const double PERMITTIV  =  5.60958617e+37 ; /* permittivity [MeV fm /C^2]     */
+//const double HBAR       =  6.582119514e-22; /* Planck's constant/2pi [MeV sec]*/
+//const double VLIGHT     =  2.99792458e+23 ; /* light velocty [fm/sec]         */
+//const double AMUNIT     =  931.4943335    ; /* MeV = 1amu                     */
+//const double COULOMB    =  1.60217733e-19 ; /* J = 1eV                        */
+//const double COULOMBSQ  =  2.56697220e-38 ; /* COULOMB*COULOMB                */
+//const double PERMITTIV  =  5.60958617e+37 ; /* permittivity [MeV fm /C^2]     */
 
 const double CRIT_WRONSK   =  1.0e-06; /* wronskian satisfaction criterion    */
 const double CRIT_LMAX     =  1.0e-10; /* maximum angular momentum criterion  */
@@ -36,4 +36,3 @@ inline void coulombWaveFunctions( int l, double ratio, double eta,
   delete [] Cou0;
   delete [] Cou1;
 }
-

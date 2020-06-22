@@ -1,6 +1,6 @@
 auto belowThreshold( const Energy& energy ) {
 
-  Energy value = this->incidentPair().massRatio() * energy;
+  const Energy value = this->incidentPair().massRatio() * energy;
   return this->channels()
     | ranges::view::transform(
         [value] ( const auto& channel )

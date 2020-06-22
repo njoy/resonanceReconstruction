@@ -18,9 +18,9 @@ Channel( const ChannelID& id,
          const BoundaryCondition& boundary ) :
   id_( id ), pair_( pair ), numbers_( numbers ),
   radii_( radii ), boundary_( boundary ),
-  spinfactor_( [&] { auto J = numbers.totalAngularMomentum();
-                     auto ia = pair.particle().spin();
-                     auto ib = pair.residual().spin();
+  spinfactor_( [&] { const auto J = numbers.totalAngularMomentum();
+                     const auto ia = pair.particle().spin();
+                     const auto ib = pair.residual().spin();
                      return  ( 2. * J + 1. ) / ( 2. * ia + 1. )
                                              / ( 2. * ib + 1. ); }() ) {}
 
@@ -55,7 +55,7 @@ Channel( const ParticlePair& pair,
  *
  *  In a few rare cases, the automatically generated channel ID is not unique
  *  (e.g. when using multiple fission channels in which the ParticlePair for
- *  both channels is a dummy fission pair). In those cases, the user has to 
+ *  both channels is a dummy fission pair). In those cases, the user has to
  *  override the ChannelId to insure that the ChannelId is unique over all
  *  channels.
  *
@@ -77,4 +77,3 @@ Channel( const ParticlePair& pair,
          const ChannelRadii& radii,
          const BoundaryCondition& boundary = 0.0 ) :
   Channel( makeID( id, numbers ), pair, numbers, radii, boundary ) {}
-

@@ -192,17 +192,15 @@ inline int omExternalClosed(int lmax, double rho_match, double coulomb, std::com
 /**********************************************************/
 /*     Coulomb Parameters                                 */
 /**********************************************************/
-inline void omCoulombParameter(int zz, double mu, double e, double *eta, double *sig0)
-{
-  double y1,y2,y3,y4;
-
-  *eta = y1 = PERMITTIV*COULOMBSQ * zz * std::sqrt(AMUNIT*mu/(2.0*e))/VLIGHT/HBAR;
-  y2 = y1*y1;
-  y3 = 16.0 + y2;
-  y4 = y3*y3;
-  *sig0 = -y1+y1*log(y3)/2.+3.5*atan(y1/4.)-(atan(y1)+atan(y1/2.)+atan(y1/3.))
-          -y1*(1.+(y2-48.)/(30.*y4)+(y2*y2-160.*y2+1280.)/(105.*y4*y4))
-          /(12.*y3);
-}
-
-
+//inline void omCoulombParameter(int zz, double mu, double e, double *eta, double *sig0)
+//{
+//  double y1,y2,y3,y4;
+//
+//  *eta = y1 = PERMITTIV*COULOMBSQ * zz * std::sqrt(AMUNIT*mu/(2.0*e))/VLIGHT/HBAR;
+//  y2 = y1*y1;
+//  y3 = 16.0 + y2;
+//  y4 = y3*y3;
+//  *sig0 = -y1+y1*log(y3)/2.+3.5*atan(y1/4.)-(atan(y1)+atan(y1/2.)+atan(y1/3.))
+//          -y1*(1.+(y2-48.)/(30.*y4)+(y2*y2-160.*y2+1280.)/(105.*y4*y4))
+//          /(12.*y3);
+//}
