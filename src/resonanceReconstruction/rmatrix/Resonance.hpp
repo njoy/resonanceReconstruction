@@ -23,26 +23,17 @@ public:
   /**
    *  @brief Return the resonance energy (in eV)
    */
-  const Energy& energy() const {
-
-    return this->energy_;
-  }
+  const Energy& energy() const { return this->energy_; }
 
   /**
    *  @brief Return the eliminated capture width (in sqrt(eV))
    */
-  const ReducedWidth& eliminatedWidth() const {
-
-    return this->eliminated_;
-  }
+  const ReducedWidth& eliminatedWidth() const { return this->eliminated_; }
 
   /**
    *  @brief Return the reduced widths for this resonance (in sqrt(eV))
    */
-  auto widths() const {
-
-    return ranges::view::all( this->widths_ );
-  }
+  auto widths() const { return ranges::view::all( this->widths_ ); }
 
   #include "resonanceReconstruction/rmatrix/Resonance/src/rmatrix.hpp"
 };
