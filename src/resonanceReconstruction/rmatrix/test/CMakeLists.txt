@@ -2,7 +2,6 @@
 add_executable( resonanceReconstruction.rmatrix.test
                 possibleChannelTotalAngularMomentumValues.test.cpp
                 possibleChannelSpinValues.test.cpp
-                calculateLValue.test.cpp
                 rmatrix.test.cpp
                 calculateCoulombPhaseShift.test.cpp
                 fromENDF.test.cpp )
@@ -16,5 +15,5 @@ $<$<BOOL:${link_time_optimization}>:${${PREFIX}_link_time_optimization_flags}>
 $<$<BOOL:${nonportable_optimization}>:${${PREFIX}_nonportable_optimization_flags}>>
 
 ${CXX_appended_flags} ${resonanceReconstruction_appended_flags} )
-target_link_libraries( resonanceReconstruction.rmatrix.test PUBLIC resonanceReconstruction ) 
+target_link_libraries( resonanceReconstruction.rmatrix.test PUBLIC resonanceReconstruction )
 add_test( NAME resonanceReconstruction.rmatrix COMMAND resonanceReconstruction.rmatrix.test )
