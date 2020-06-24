@@ -31,14 +31,11 @@ SCENARIO( "ParticlePair" ) {
                             16.0 * elementary, 1.5, +1);
 
     // custom particle pair identifier
-    QValue qValue = 0.0 * electronVolt;
-
-    // custom particle pair identifier
     ParticlePairID id( "neutron" );
 
     THEN( "a ParticlePair can be constructed without a pair ID" ) {
 
-      ParticlePair pair( neutron, cl35, qValue );
+      ParticlePair pair( neutron, cl35 );
 
       CHECK( 1.00866491582 == Approx( pair.particle().mass().value ) );
       CHECK( 0.0 == Approx( pair.particle().charge().value ) );
@@ -50,8 +47,6 @@ SCENARIO( "ParticlePair" ) {
              == Approx( pair.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair.residual().spin() ) );
       CHECK( +1 == pair.residual().parity() );
-
-      CHECK( 0.0 == Approx( pair.Q().value ) );
 
       CHECK( "n,Cl35_e0" == pair.pairID() );
 
@@ -63,7 +58,7 @@ SCENARIO( "ParticlePair" ) {
 
     THEN( "a ParticlePair can be constructed with a pair ID" ) {
 
-      ParticlePair pair( neutron, cl35, qValue, id );
+      ParticlePair pair( neutron, cl35, id );
 
       CHECK( 1.00866491582 == Approx( pair.particle().mass().value ) );
       CHECK( 0.0 == Approx( pair.particle().charge().value ) );
@@ -75,8 +70,6 @@ SCENARIO( "ParticlePair" ) {
              == Approx( pair.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair.residual().spin() ) );
       CHECK( +1 == pair.residual().parity() );
-
-      CHECK( 0.0 == Approx( pair.Q().value ) );
 
       CHECK( "neutron" == pair.pairID() );
 

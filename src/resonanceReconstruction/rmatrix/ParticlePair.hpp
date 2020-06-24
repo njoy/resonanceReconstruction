@@ -15,7 +15,6 @@ class ParticlePair {
 
   /* fields */
   std::pair< Particle, Particle > pair_;
-  QValue qvalue_;
   ParticlePairID id_;
 
   AtomicMass reduced_;
@@ -38,12 +37,6 @@ public:
    *  @brief Return the second particle of the particle pair
    */
   const Particle& residual() const { return this->pair_.second; }
-
-  /**
-   *  @brief Return the Q value associated to the transition of the incident
-   *         particle pair to this particle pair
-   */
-  const QValue& Q() const { return this->qvalue_; }
 
   /**
    *  @brief Return the identifier of the particle pair
