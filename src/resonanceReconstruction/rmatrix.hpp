@@ -29,12 +29,13 @@ namespace rmatrix {
 
   // matrix
   template < typename T > using Matrix = Eigen::Matrix< T, Eigen::Dynamic, Eigen::Dynamic >;
+  template < typename T > using DiagonalMatrix = Eigen::DiagonalMatrix< T, Eigen::Dynamic >;
 
   // R-Matrix boundary condition and options
   using BoundaryCondition = double;
   struct ShiftFactor {};
   struct Constant {};
-  #include "resonanceReconstruction/rmatrix/src/calculateLValue.hpp"
+  #include "resonanceReconstruction/rmatrix/LMatrixCalculator.hpp"
 
   // R-matrix components (independent of formalism)
   #include "resonanceReconstruction/rmatrix/Particle.hpp"
