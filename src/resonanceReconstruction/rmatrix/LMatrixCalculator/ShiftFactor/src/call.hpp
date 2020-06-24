@@ -9,9 +9,9 @@
  */
 template < typename Penetrabilities, typename Channels >
 const DiagonalMatrix< std::complex< double > >&
-operator()( const Energy& energy,
+operator()( const Energy&,
             const Penetrabilities& penetrabilities,
-            const Channels& channels ) {
+            const Channels& ) {
 
   this->lmatrix_.setZero();
   for ( unsigned int i = 0; i < penetrabilities.size(); ++i ) {

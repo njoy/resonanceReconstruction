@@ -28,7 +28,10 @@ public:
    *  @param[in] numberChannels   the number of channels
    */
   LMatrixCalculator( unsigned int numberChannels ) :
-    lmatrix_( numberChannels ) {};
+    lmatrix_( numberChannels ) {
+
+    this->lmatrix_.setZero();
+  };
 
   /**
    *  @brief Return the diagonal L matrix
@@ -36,5 +39,5 @@ public:
   const DiagonalMatrix< std::complex< double > >&
   matrix() const { return this->lmatrix_; }
 
-  #include "resonanceReconstruction/rmatrix/LMatrixCalculator/ShiftFactor/call.hpp"
+  #include "resonanceReconstruction/rmatrix/LMatrixCalculator/ShiftFactor/src/call.hpp"
 };
