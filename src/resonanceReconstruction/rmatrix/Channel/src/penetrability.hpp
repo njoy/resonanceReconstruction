@@ -5,10 +5,9 @@
  */
 double penetrability( const Energy& energy ) const {
 
-  const double eta = this->particlePair().sommerfeldParameter( energy );
-  const double ratio = this->particlePair().waveNumber( energy ) *
+  const double eta = this->sommerfeldParameter( energy );
+  const double ratio = this->waveNumber( energy ) *
                        this->radii().penetrabilityRadius( energy );
   const unsigned int l = this->quantumNumbers().orbitalAngularMomentum();
   return calculatePenetrability< ChannelType >( l, ratio, eta );
 }
-

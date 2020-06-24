@@ -10,7 +10,10 @@ class Channel {
 
   /* fields */
   ChannelID id_;
+  ReactionID reaction_;
+  ParticlePair incident_;
   ParticlePair pair_;
+  QValue q_;
   ChannelQuantumNumbers numbers_;
   ChannelRadii radii_;
   BoundaryCondition boundary_;
@@ -18,14 +21,11 @@ class Channel {
   double spinfactor_;
 
   /* auxiliary functions */
-  #include "resonanceReconstruction/rmatrix/Channel/src/makeID.hpp"
+  #include "resonanceReconstruction/rmatrix/Channel/src/makeChannelID.hpp"
+  #include "resonanceReconstruction/rmatrix/Channel/src/makeReactionID.hpp"
 
-  //! @todo the channel has radii for P, S and phi which can be shared with
-  //!       other channels
-  //! @todo P, S and phi can be overriden with user defined functions
   //! @todo the boundary condition may be dependent on the channel radius (see
   //!       equation d.41 in the ENDF manual)
-  //! @todo the default P, S, phi functions can be overridden
 
 public:
 
@@ -36,6 +36,17 @@ public:
    *  @brief Return the unique channel ID
    */
   const ChannelID& channelID() const { return this->id_; }
+
+  /**
+   *  @brief Return the reaction ID fort he reaction to which this channel
+   *         constributes
+   */
+  const ReactionID& reactionID() const { return this->reaction_; }
+
+  /**
+   *  @brief Return the current incident particle pair in the channel
+   */
+  const ParticlePair& incidentParticlePair() const { return this->incident_; }
 
   /**
    *  @brief Return the particle pair in the channel
@@ -53,17 +64,43 @@ public:
   const ChannelRadii& radii() const { return this->radii_; }
 
   /**
-   *  @brief Return the Q value for going from the incident channel to this
-   *         channel
+   *  @brief Return the Q value for going from the current incident channel
+   *         to this channel
    */
-  const QValue& Q() const { return this->particlePair().Q(); }
+  const QValue& Q() const { return this->q_; }
 
   /**
    *  @brief Return the channel boundary condition
    */
   const BoundaryCondition& boundaryCondition() const { return this->boundary_; }
 
-  #include "resonanceReconstruction/rmatrix/Channel/src/statisticalSpinFactor.hpp"
+  /**
+   *  @brief Return whether or not the channel is an incident channel
+   */
+  bool isIncidentChannel() const {
+
+    return this->particlePair().pairID() ==
+           this->incidentParticlePair().pairID();
+  }
+
+  /**
+   *  @brief Return the statistical spin factor
+   *
+   *  The statistical spin factor g of a channel is defined as follows:
+   *     g = ( 2 * J + 1 ) / ( 2 * ia + 1 ) / ( 2 * ib + 1 )
+   *  in which J is the total angular momentum of the channel and ia and ib
+   *  are the spins of the particles in the particle pair.
+   *
+   *  For a particle pair involving a neutron (for which the particle spin is
+   *  0.5), this reduces to:
+   *    g = ( 2 * J + 1 ) / ( 2 * I + 1 ) / 2
+   *  in which I is the target nucleus spin value.
+   */
+  double statisticalSpinFactor() const { return this->spinfactor_; }
+
+  #include "resonanceReconstruction/rmatrix/Channel/src/belowThreshold.hpp"
+  #include "resonanceReconstruction/rmatrix/Channel/src/sommerfeldParameter.hpp"
+  #include "resonanceReconstruction/rmatrix/Channel/src/waveNumber.hpp"
   #include "resonanceReconstruction/rmatrix/Channel/src/penetrability.hpp"
   #include "resonanceReconstruction/rmatrix/Channel/src/shiftFactor.hpp"
   #include "resonanceReconstruction/rmatrix/Channel/src/phaseShift.hpp"

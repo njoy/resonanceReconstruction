@@ -6,8 +6,7 @@
  */
 double coulombPhaseShift( const Energy& energy ) const {
 
-  const double eta = this->particlePair().sommerfeldParameter( energy );
+  const double eta = this->sommerfeldParameter( energy );
   const unsigned int l = this->quantumNumbers().orbitalAngularMomentum();
   return calculateCoulombPhaseShift< ChannelType >( l, eta );
 }
-

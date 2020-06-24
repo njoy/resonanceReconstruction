@@ -14,6 +14,7 @@ using Parity = rmatrix::Parity;
 using ParticlePairID = rmatrix::ParticlePairID;
 
 constexpr ElectricalCharge elementary = dimwits::constant::elementaryCharge;
+constexpr double e = 1.6021766208e-19;
 
 SCENARIO( "ParticlePair" ) {
 
@@ -43,8 +44,7 @@ SCENARIO( "ParticlePair" ) {
       CHECK( +1 == pair.particle().parity() );
 
       CHECK( 34.968852694 == Approx( pair.residual().mass().value ) );
-      CHECK( 17.0 * 1.6021766208e-19
-             == Approx( pair.residual().charge().value ) );
+      CHECK( 17.0 * e == Approx( pair.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair.residual().spin() ) );
       CHECK( +1 == pair.residual().parity() );
 
@@ -66,8 +66,7 @@ SCENARIO( "ParticlePair" ) {
       CHECK( +1 == pair.particle().parity() );
 
       CHECK( 34.968852694 == Approx( pair.residual().mass().value ) );
-      CHECK( 17.0 * 1.6021766208e-19
-             == Approx( pair.residual().charge().value ) );
+      CHECK( 17.0 * e == Approx( pair.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair.residual().spin() ) );
       CHECK( +1 == pair.residual().parity() );
 
