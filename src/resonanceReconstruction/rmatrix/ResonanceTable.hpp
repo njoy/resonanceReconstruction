@@ -19,35 +19,28 @@ public:
   /**
    *  @brief Return the number of channels
    */
-  unsigned int numberChannels() const {
-    return this->channels_.size();
-  }
+  unsigned int numberChannels() const { return this->channels_.size(); }
 
   /**
    *  @brief Return the number of resonances
    */
-  unsigned int numberResonances() const {
-    return this->widths_.size();
-  }
+  unsigned int numberResonances() const { return this->widths_.size(); }
 
   /**
    *  @brief Return the channel IDs
    */
-  auto channels() const {
-    return ranges::view::all( this->channels_ );
-  }
+  auto channels() const { return ranges::view::all( this->channels_ ); }
 
   /**
    *  @brief Return the resonances
    */
-  auto resonances() const {
-    return ranges::view::all( this->widths_ );
-  }
+  auto resonances() const { return ranges::view::all( this->widths_ ); }
 
   /**
    *  @brief Return the resonance energies
    */
   auto energies() const {
+    
     return this->resonances()
              | ranges::view::transform( [] ( const auto& resonance )
                                            { return resonance.energy(); } );

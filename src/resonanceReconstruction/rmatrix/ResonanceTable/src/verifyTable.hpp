@@ -6,12 +6,12 @@ void verifyTable( const std::vector< ChannelID >& channels,
 
   unsigned int expected = channels.size();
 
-  const auto verifyNumberOfResonances = [&] ( const auto& entry ) {
+  const auto verifyNumberOfResonances = [expected] ( const auto& entry ) {
 
     unsigned int number = entry.widths().size();
     if ( expected != number ) {
 
-      Log::error( "Number of reduced resonance widths different from expected." );
+      Log::error( "Number of reduced widths different from expected." );
       Log::info( "Found {}, expected {}", number, expected );
       throw std::exception();
     }
