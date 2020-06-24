@@ -11,6 +11,7 @@ using ParticlePair = rmatrix::ParticlePair;
 using ParticlePairID = rmatrix::ParticlePairID;
 using Neutron = rmatrix::Neutron;
 using Photon = rmatrix::Photon;
+using ChargedParticle = rmatrix::ChargedParticle;
 template < typename Type > using Channel = rmatrix::Channel< Type >;
 using ChannelID = rmatrix::ChannelID;
 using ChannelQuantumNumbers = rmatrix::ChannelQuantumNumbers;
@@ -258,10 +259,11 @@ SCENARIO( "Channel" ) {
       // proton channel, not an incident channel, no threshold
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-      Channel< Neutron > protonEmission( elasticPair, protonEmissionPair,
-                                         protonEmissionQ,
-                                         protonEmissionNumbers,
-                                         protonEmissionRadii );
+      Channel< ChargedParticle > protonEmission( elasticPair,
+                                                 protonEmissionPair,
+                                                 protonEmissionQ,
+                                                 protonEmissionNumbers,
+                                                 protonEmissionRadii );
 
       CHECK( "p,S36_e0{0,1,1+}" == protonEmission.channelID() );
       CHECK( "n,Cl35_e0->p,S36_e0" == protonEmission.reactionID() );
@@ -311,12 +313,12 @@ SCENARIO( "Channel" ) {
 
       CHECK( 3.17996084E+00 == Approx( protonEmission.sommerfeldParameter( energy ) ) );
       CHECK( 1.69828445E+00 == Approx( protonEmission.waveNumber( energy ).value ) );
-      CHECK( 0.8189501184 == Approx( protonEmission.penetrability( energy ) ) );
-      CHECK( 0.0 == Approx( protonEmission.shiftFactor( energy ) ) );
-      CHECK( 0.6229273354 == Approx( protonEmission.phaseShift( energy ) ) );
+      CHECK( 0.000027793 == Approx( protonEmission.penetrability( energy ) ) );
+      CHECK( -1.8785876895 == Approx( protonEmission.shiftFactor( energy ) ) );
+      CHECK( 0.0000020468 == Approx( protonEmission.phaseShift( energy ) ) );
       CHECK( 0.0 == Approx( protonEmission.coulombPhaseShift( energy ) ) );
 
-      // remark: P and phi for proton channel copied from code output
+      // remark: P, S and phi for proton channel copied from code output
       // other values calculated by hand
     } // THEN
 
