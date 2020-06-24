@@ -22,15 +22,14 @@ SCENARIO( "ChannelQuantumNumbers" ) {
     Parity pi = +1;
 
     THEN( "a ChannelQuantumNumbers can be constructed" ) {
+
       ChannelQuantumNumbers numbers( l, s, J, pi );
 
-      REQUIRE( 1 == numbers.orbitalAngularMomentum() );
-      REQUIRE( 0.5 == numbers.spin() );
-      REQUIRE( 1.5 == numbers.totalAngularMomentum() );
-      REQUIRE( +1 == numbers.parity() );
-      REQUIRE( "{1,1/2,3/2+}" == numbers.toString() );
-    }
+      CHECK( 1 == numbers.orbitalAngularMomentum() );
+      CHECK( 0.5 == numbers.spin() );
+      CHECK( 1.5 == numbers.totalAngularMomentum() );
+      CHECK( +1 == numbers.parity() );
+      CHECK( "{1,1/2,3/2+}" == numbers.toString() );
+    } // THEN
   } // GIVEN
 } // SCENARIO
-
-

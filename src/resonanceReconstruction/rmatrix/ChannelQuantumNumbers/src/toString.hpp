@@ -1,5 +1,5 @@
 /**
- *  @brief Produce a string identifier for the set of quantum numbers 
+ *  @brief Produce a string identifier for the set of quantum numbers
  *
  *  This function produces a string identifier for the set of quantum numbers
  *  formatted like this: {l,s,Jpi} in which l values are integers, s and J
@@ -7,12 +7,14 @@
  */
 std::string toString() const {
 
-  auto toHalfIntegerString = 
+  auto toHalfIntegerString =
       [] ( const double a )
          { double half;
            return std::modf( a, &half ) == 0. ?
+                      // a is a full integer
                       std::to_string( static_cast<int>( half ) ) :
-                      std::to_string( 2 * static_cast<int>( half ) + 1 ) 
+                      // a is a half integer value
+                      std::to_string( 2 * static_cast<int>( half ) + 1 )
                         + "/2"; };
 
   return "{" + std::to_string( this->l_ ) + ","
@@ -20,4 +22,3 @@ std::string toString() const {
              + toHalfIntegerString( this->J_ )
              + ( this->parity_ > 0 ? "+" : "-" ) + "}";
 }
-

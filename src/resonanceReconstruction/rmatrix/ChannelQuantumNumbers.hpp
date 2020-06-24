@@ -1,9 +1,9 @@
 /**
  *  @class
- *  @brief The l,S,J,pi quantum numbers of a reaction channel
+ *  @brief The l,S,Jpi quantum numbers of a reaction channel
  *
- *  The ChannelQuantumNumbers class contains the quantum numbers associated to 
- *  a given reaction channel. Only channels that have the same J,pi contribute
+ *  The ChannelQuantumNumbers class contains the quantum numbers associated to
+ *  a given reaction channel. Only channels that have the same Jpi contribute
  *  to the cross section of a given reaction.
  */
 class ChannelQuantumNumbers {
