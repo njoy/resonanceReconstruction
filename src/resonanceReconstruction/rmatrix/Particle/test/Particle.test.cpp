@@ -33,32 +33,33 @@ SCENARIO( "Particle" ) {
     Parity u235Parity = +1;
 
     THEN( "a Particle can be constructed" ) {
+      
       Particle neutron( "n", neutronMass, neutronCharge,
                              neutronSpin, neutronParity );
 
-      REQUIRE( "n" == neutron.particleID() );
-      REQUIRE( 1.008664 == Approx( neutron.mass().value ) );
-      REQUIRE( 0.0 == Approx( neutron.charge().value ) );
-      REQUIRE( 0.5 == Approx( neutron.spin() ) );
-      REQUIRE( +1 == neutron.parity() );
+      CHECK( "n" == neutron.particleID() );
+      CHECK( 1.008664 == Approx( neutron.mass().value ) );
+      CHECK( 0.0 == Approx( neutron.charge().value ) );
+      CHECK( 0.5 == Approx( neutron.spin() ) );
+      CHECK( +1 == neutron.parity() );
 
       Particle proton( "p", protonMass, protonCharge,
                             protonSpin, protonParity );
 
-      REQUIRE( "p" == proton.particleID() );
-      REQUIRE( 1.007276 == Approx( proton.mass().value ) );
-      REQUIRE( 1.60217662e-19 == Approx( proton.charge().value ) );
-      REQUIRE( 0.5 == Approx( proton.spin() ) );
-      REQUIRE( +1 == proton.parity() );
+      CHECK( "p" == proton.particleID() );
+      CHECK( 1.007276 == Approx( proton.mass().value ) );
+      CHECK( 1.60217662e-19 == Approx( proton.charge().value ) );
+      CHECK( 0.5 == Approx( proton.spin() ) );
+      CHECK( +1 == proton.parity() );
 
       Particle u235( "U235", u235Mass, u235Charge, u235Spin, u235Parity );
 
-      REQUIRE( "U235" == u235.particleID() );
-      REQUIRE( 235.0439299 == Approx( u235.mass().value ) );
-      REQUIRE( 0.0 == Approx( u235.charge().value ) );
-      REQUIRE( 0.0 == Approx( u235.spin() ) );
-      REQUIRE( +1 == u235.parity() );
-    }
+      CHECK( "U235" == u235.particleID() );
+      CHECK( 235.0439299 == Approx( u235.mass().value ) );
+      CHECK( 0.0 == Approx( u235.charge().value ) );
+      CHECK( 0.0 == Approx( u235.spin() ) );
+      CHECK( +1 == u235.parity() );
+    } // THEN
   } // GIVEN
 
   GIVEN( "invalid data for a Particle" ) {
@@ -73,12 +74,13 @@ SCENARIO( "Particle" ) {
 
     THEN( "an exception is thrown" ) {
 
-      REQUIRE_THROWS( Particle( "n", negativeMass, neutronCharge,
-                                     neutronSpin, neutronParity ) );
-      REQUIRE_THROWS( Particle( "n", neutronMass, negativeCharge,
-                                     neutronSpin, neutronParity ) );
-    }
+      // negative mass
+      CHECK_THROWS( Particle( "n", negativeMass, neutronCharge,
+                              neutronSpin, neutronParity ) );
+
+      // negative charge
+      CHECK_THROWS( Particle( "n", neutronMass, negativeCharge,
+                              neutronSpin, neutronParity ) );
+    } // THEN
   } // GIVEN
 } // SCENARIO
-
-
