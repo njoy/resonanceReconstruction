@@ -7,6 +7,9 @@
  *  pair consists of a "small" incident or outgoing particle (e.g. a neutron,
  *  photon, alpha, etc.) and a "larger" target or residual nucleus (e.g. H1,
  *  He4, U235, etc.).
+ *
+ *  The ParticlePair class gives us access to information related to the
+ *  pair of particles such as the mass ratio and the reduced mass.
  */
 class ParticlePair {
 
@@ -17,8 +20,6 @@ class ParticlePair {
 
   AtomicMass reduced_;
   double massratio_;
-
-  //! @todo store reduced mass, wave number factor and permeability factor?
 
   /* auxiliary functions */
   #include "resonanceReconstruction/rmatrix/ParticlePair/src/makeID.hpp"
@@ -50,11 +51,22 @@ public:
   const ParticlePairID& pairID() const { return this->id_; }
 
   /**
-   *  @brief Return the mass ratio M / ( m + M ) of the particle pair
+   *  @brief Return the mass ratio of the particle pair
+   *
+   *  The mass ratio of the two particles is defined as follows:
+   *     ratio = mb / ( ma + mb )
+   *  in which ma and mb are the atomic mass values of the particles in the
+   *  particle pair.
    */
   double massRatio() const { return this->massratio_; }
 
-  #include "resonanceReconstruction/rmatrix/ParticlePair/src/reducedMass.hpp"
-  #include "resonanceReconstruction/rmatrix/ParticlePair/src/waveNumber.hpp"
-  #include "resonanceReconstruction/rmatrix/ParticlePair/src/sommerfeldParameter.hpp"
+  /**
+   *  @brief Return the reduced mass of the particle pair
+   *
+   *  The reduced mass mu of the two particles is defined as follows:
+   *     mu = ma * mb / ( ma + mb )
+   *  in which ma and mb are the atomic mass values of the particles in the
+   *  particle pair.
+   */
+  const AtomicMass& reducedMass() const { return this->reduced_; }
 };
