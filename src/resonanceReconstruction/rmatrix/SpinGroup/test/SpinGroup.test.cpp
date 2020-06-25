@@ -258,22 +258,22 @@ SCENARIO( "SpinGroup" ) {
 
       // resonance data
       auto table = group.resonanceTable();
-      REQUIRE( 3 == table.numberChannels() );
-      REQUIRE( 3 == table.channels().size() );
-      REQUIRE( "n,Cl35_e0{0,1,1+}" == table.channels()[0] );
-      REQUIRE( "n,Cl35_e1{0,1,1+}" == table.channels()[1] );
-      REQUIRE( "p,S36_e0{0,1,1+}" == table.channels()[2] );
-      REQUIRE( 1 == table.numberResonances() );
-      REQUIRE( 1 == table.resonances().size() );
-      REQUIRE( 1 == table.energies().size() );
-      REQUIRE( 0.25 == Approx( table.energies()[0].value ) );
+      CHECK( 3 == table.numberChannels() );
+      CHECK( 3 == table.channels().size() );
+      CHECK( "n,Cl35_e0{0,1,1+}" == table.channels()[0] );
+      CHECK( "n,Cl35_e1{0,1,1+}" == table.channels()[1] );
+      CHECK( "p,S36_e0{0,1,1+}" == table.channels()[2] );
+      CHECK( 1 == table.numberResonances() );
+      CHECK( 1 == table.resonances().size() );
+      CHECK( 1 == table.energies().size() );
+      CHECK( 0.25 == Approx( table.energies()[0].value ) );
       auto resonance = table.resonances()[0];
-      REQUIRE( 0.25 == Approx( resonance.energy().value ) );
-      REQUIRE( 0.5 == Approx( resonance.eliminatedWidth().value ) );
-      REQUIRE( 3 == resonance.widths().size() );
-      REQUIRE( 1.0 == Approx( resonance.widths()[0].value ) );
-      REQUIRE( 2.0 == Approx( resonance.widths()[1].value ) );
-      REQUIRE( 3.0 == Approx( resonance.widths()[2].value ) );
+      CHECK( 0.25 == Approx( resonance.energy().value ) );
+      CHECK( 0.5 == Approx( resonance.eliminatedWidth().value ) );
+      CHECK( 3 == resonance.widths().size() );
+      CHECK( 1.0 == Approx( resonance.widths()[0].value ) );
+      CHECK( 2.0 == Approx( resonance.widths()[1].value ) );
+      CHECK( 3.0 == Approx( resonance.widths()[2].value ) );
     }
   } // GIVEN
 
@@ -364,7 +364,7 @@ SCENARIO( "SpinGroup" ) {
     THEN( "an exception is thrown at construction for inconsistent Jpi" ) {
 
       ResonanceTable copy = single;
-      REQUIRE_THROWS( ReichMooreShiftFactorSpinGroup
+      CHECK_THROWS( ReichMooreShiftFactorSpinGroup
                           ( { incorrect, inelastic, protonEmission },
                             std::move( copy ) ) );
     }
@@ -372,7 +372,7 @@ SCENARIO( "SpinGroup" ) {
     THEN( "an exception is thrown at construction for out of order channels "
           "between the SpinGroup's Channels and ResonanceTable" ) {
 
-      REQUIRE_THROWS( ReichMooreShiftFactorSpinGroup
+      CHECK_THROWS( ReichMooreShiftFactorSpinGroup
                           ( { incorrect, inelastic, protonEmission },
                             std::move( wrongorder ) ) );
     }
@@ -381,7 +381,7 @@ SCENARIO( "SpinGroup" ) {
           "between the SpinGroup's Channels and ResonanceTable" ) {
 
       ResonanceTable copy = wrongsize;
-      REQUIRE_THROWS( ReichMooreShiftFactorSpinGroup
+      CHECK_THROWS( ReichMooreShiftFactorSpinGroup
                           ( { incorrect, inelastic, protonEmission },
                             std::move( copy ) ) );
     }
@@ -390,7 +390,7 @@ SCENARIO( "SpinGroup" ) {
           "unique" ) {
 
       ResonanceTable copy = wrongsize;
-      REQUIRE_THROWS( ReichMooreShiftFactorSpinGroup
+      CHECK_THROWS( ReichMooreShiftFactorSpinGroup
                           ( { incorrect, inelastic, inelastic, protonEmission },
                             std::move( wrongsize ) ) );
     }
@@ -399,7 +399,7 @@ SCENARIO( "SpinGroup" ) {
           "pair is not the same for each channel" ) {
 
       ResonanceTable copy = single;
-      REQUIRE_THROWS( ReichMooreShiftFactorSpinGroup
+      CHECK_THROWS( ReichMooreShiftFactorSpinGroup
                           ( { incorrect, inelastic, wrong },
                             std::move( copy ) ) );
     }

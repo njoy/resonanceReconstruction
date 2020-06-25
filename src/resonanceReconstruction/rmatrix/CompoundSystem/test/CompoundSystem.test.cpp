@@ -123,42 +123,42 @@ SCENARIO( "CompoundSystem" ) {
       CompoundSystem< ReichMoore, ShiftFactor >
           system( { group1, group2, group3, group4, group5 } );
 
-      REQUIRE( 5 == system.spinGroups().size() );
+      CHECK( 5 == system.spinGroups().size() );
 
       // group 1 - Jpi = 0.5+
       auto group = system.spinGroups()[0];
-      REQUIRE( 1 == group.incidentChannels().size() );
-      REQUIRE( 1 == group.channels().size() );
+      CHECK( 1 == group.incidentChannels().size() );
+      CHECK( 1 == group.channels().size() );
       auto channel = std::get< Channel< Neutron > >( group.channels()[0] );
-      REQUIRE( "n,Fe54_e0{0,1/2,1/2+}" == channel.channelID() );
+      CHECK( "n,Fe54_e0{0,1/2,1/2+}" == channel.channelID() );
 
       // group 2 - Jpi = 0.5-
       group = system.spinGroups()[1];
-      REQUIRE( 1 == group.incidentChannels().size() );
-      REQUIRE( 1 == group.channels().size() );
+      CHECK( 1 == group.incidentChannels().size() );
+      CHECK( 1 == group.channels().size() );
       channel = std::get< Channel< Neutron > >( group.channels()[0] );
-      REQUIRE( "n,Fe54_e0{1,1/2,1/2-}" == channel.channelID() );
+      CHECK( "n,Fe54_e0{1,1/2,1/2-}" == channel.channelID() );
 
       // group 3 - Jpi = 1.5-
       group = system.spinGroups()[2];
-      REQUIRE( 1 == group.incidentChannels().size() );
-      REQUIRE( 1 == group.channels().size() );
+      CHECK( 1 == group.incidentChannels().size() );
+      CHECK( 1 == group.channels().size() );
       channel = std::get< Channel< Neutron > >( group.channels()[0] );
-      REQUIRE( "n,Fe54_e0{1,1/2,3/2-}" == channel.channelID() );
+      CHECK( "n,Fe54_e0{1,1/2,3/2-}" == channel.channelID() );
 
       // group 4 - Jpi = 1.5+
       group = system.spinGroups()[3];
-      REQUIRE( 1 == group.incidentChannels().size() );
-      REQUIRE( 1 == group.channels().size() );
+      CHECK( 1 == group.incidentChannels().size() );
+      CHECK( 1 == group.channels().size() );
       channel = std::get< Channel< Neutron > >( group.channels()[0] );
-      REQUIRE( "n,Fe54_e0{2,1/2,3/2+}" == channel.channelID() );
+      CHECK( "n,Fe54_e0{2,1/2,3/2+}" == channel.channelID() );
 
       // group 5 - Jpi = 2.5+
       group = system.spinGroups()[4];
-      REQUIRE( 1 == group.incidentChannels().size() );
-      REQUIRE( 1 == group.channels().size() );
+      CHECK( 1 == group.incidentChannels().size() );
+      CHECK( 1 == group.channels().size() );
       channel = std::get< Channel< Neutron > >( group.channels()[0] );
-      REQUIRE( "n,Fe54_e0{2,1/2,5/2+}" == channel.channelID() );
+      CHECK( "n,Fe54_e0{2,1/2,5/2+}" == channel.channelID() );
     } // THEN
   } // GIVEN
 
@@ -251,13 +251,13 @@ SCENARIO( "CompoundSystem" ) {
     THEN( "an exception is thrown at construction when there are no spin "
           "groups" ) {
 
-      REQUIRE_THROWS( ReichMooreShiftFactorCompoundSystem( {} ) );
+      CHECK_THROWS( ReichMooreShiftFactorCompoundSystem( {} ) );
     } // THEN
 
     THEN( "an exception is thrown at construction when the spin groups are not "
           "unique" ) {
 
-      REQUIRE_THROWS( ReichMooreShiftFactorCompoundSystem
+      CHECK_THROWS( ReichMooreShiftFactorCompoundSystem
                           ( { group1, group2, group3, group4, group1 } ) );
     } // THEN
   } // GIVEN
