@@ -9,7 +9,7 @@
  *
  *  @param[in] energy   the energy to be tested
  */
-bool belowThreshold( const Energy& energy ) {
+bool belowThreshold( const Energy& energy ) const {
 
   const Energy value = this->incidentParticlePair().massRatio() * energy;
   return ( value + this->Q() ) < 0.0 * electronVolt;

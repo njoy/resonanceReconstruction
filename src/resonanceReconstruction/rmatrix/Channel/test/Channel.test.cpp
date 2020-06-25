@@ -17,7 +17,6 @@ using ChannelID = rmatrix::ChannelID;
 using ChannelQuantumNumbers = rmatrix::ChannelQuantumNumbers;
 using ChannelRadii = rmatrix::ChannelRadii;
 using BoundaryCondition = rmatrix::BoundaryCondition;
-using Photon = rmatrix::Photon;
 
 constexpr ElectricalCharge elementary = dimwits::constant::elementaryCharge;
 constexpr double e = 1.6021766208e-19;
