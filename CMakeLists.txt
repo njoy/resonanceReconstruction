@@ -103,18 +103,6 @@ set( resonanceReconstruction_AppleClang_Darwin_link_time_optimization_flags "-fl
 set( resonanceReconstruction_AppleClang_Darwin_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
 set( resonanceReconstruction_AppleClang_Darwin_nonportable_optimization_flags "-march=native" )
 set( resonanceReconstruction_AppleClang_Darwin_static_flags "-static" )
-set( resonanceReconstruction_GNU_Windows_common_flags "-Wno-subobject-linkage" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
-set( resonanceReconstruction_GNU_Windows_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
-set( resonanceReconstruction_GNU_Windows_RELEASE_flags "-O3" "-DNDEBUG" )
-set( resonanceReconstruction_GNU_Windows_strict_flags "-Werror" )
-set( resonanceReconstruction_GNU_Windows_coverage_flags "--coverage" )
-set( resonanceReconstruction_GNU_Windows_subproject_flags  )
-set( resonanceReconstruction_GNU_Windows_base_project_flags  )
-set( resonanceReconstruction_GNU_Windows_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
-set( resonanceReconstruction_GNU_Windows_link_time_optimization_flags "-flto" )
-set( resonanceReconstruction_GNU_Windows_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
-set( resonanceReconstruction_GNU_Windows_nonportable_optimization_flags "-march=native" )
-set( resonanceReconstruction_GNU_Windows_static_flags "-static" )
 set( resonanceReconstruction_GNU_CYGWIN_common_flags "-Wno-subobject-linkage" "-Wall" "-Wextra" "-Wpedantic" "-std=gnu++17" )
 set( resonanceReconstruction_GNU_CYGWIN_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
 set( resonanceReconstruction_GNU_CYGWIN_RELEASE_flags "-O3" "-DNDEBUG" )
@@ -139,18 +127,6 @@ set( resonanceReconstruction_GNU_Darwin_link_time_optimization_flags "-flto" )
 set( resonanceReconstruction_GNU_Darwin_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
 set( resonanceReconstruction_GNU_Darwin_nonportable_optimization_flags "-march=native" )
 set( resonanceReconstruction_GNU_Darwin_static_flags "-static" )
-set( resonanceReconstruction_GNU_MinGW_common_flags "-Wno-subobject-linkage" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
-set( resonanceReconstruction_GNU_MinGW_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
-set( resonanceReconstruction_GNU_MinGW_RELEASE_flags "-O3" "-DNDEBUG" )
-set( resonanceReconstruction_GNU_MinGW_strict_flags "-Werror" )
-set( resonanceReconstruction_GNU_MinGW_coverage_flags "--coverage" )
-set( resonanceReconstruction_GNU_MinGW_subproject_flags  )
-set( resonanceReconstruction_GNU_MinGW_base_project_flags  )
-set( resonanceReconstruction_GNU_MinGW_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
-set( resonanceReconstruction_GNU_MinGW_link_time_optimization_flags "-flto" )
-set( resonanceReconstruction_GNU_MinGW_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
-set( resonanceReconstruction_GNU_MinGW_nonportable_optimization_flags "-march=native" )
-set( resonanceReconstruction_GNU_MinGW_static_flags "-static" )
 set( resonanceReconstruction_GNU_Linux_common_flags "-Wno-subobject-linkage" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
 set( resonanceReconstruction_GNU_Linux_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
 set( resonanceReconstruction_GNU_Linux_RELEASE_flags "-O3" "-DNDEBUG" )
@@ -163,18 +139,30 @@ set( resonanceReconstruction_GNU_Linux_link_time_optimization_flags "-flto" )
 set( resonanceReconstruction_GNU_Linux_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
 set( resonanceReconstruction_GNU_Linux_nonportable_optimization_flags "-march=native" )
 set( resonanceReconstruction_GNU_Linux_static_flags "-static" )
-set( resonanceReconstruction_Clang_Windows_common_flags "-stdlib=libc++" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
-set( resonanceReconstruction_Clang_Windows_DEBUG_flags "-O0" "-g" "-gdwarf-3" )
-set( resonanceReconstruction_Clang_Windows_RELEASE_flags "-O3" "-DNDEBUG" )
-set( resonanceReconstruction_Clang_Windows_strict_flags "-Werror" )
-set( resonanceReconstruction_Clang_Windows_coverage_flags "--coverage" )
-set( resonanceReconstruction_Clang_Windows_subproject_flags  )
-set( resonanceReconstruction_Clang_Windows_base_project_flags  )
-set( resonanceReconstruction_Clang_Windows_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
-set( resonanceReconstruction_Clang_Windows_link_time_optimization_flags "-flto" )
-set( resonanceReconstruction_Clang_Windows_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
-set( resonanceReconstruction_Clang_Windows_nonportable_optimization_flags "-march=native" )
-set( resonanceReconstruction_Clang_Windows_static_flags "-static" )
+set( resonanceReconstruction_GNU_Windows_common_flags "-Wno-subobject-linkage" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
+set( resonanceReconstruction_GNU_Windows_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
+set( resonanceReconstruction_GNU_Windows_RELEASE_flags "-O3" "-DNDEBUG" )
+set( resonanceReconstruction_GNU_Windows_strict_flags "-Werror" )
+set( resonanceReconstruction_GNU_Windows_coverage_flags "--coverage" )
+set( resonanceReconstruction_GNU_Windows_subproject_flags  )
+set( resonanceReconstruction_GNU_Windows_base_project_flags  )
+set( resonanceReconstruction_GNU_Windows_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
+set( resonanceReconstruction_GNU_Windows_link_time_optimization_flags "-flto" )
+set( resonanceReconstruction_GNU_Windows_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
+set( resonanceReconstruction_GNU_Windows_nonportable_optimization_flags "-march=native" )
+set( resonanceReconstruction_GNU_Windows_static_flags "-static" )
+set( resonanceReconstruction_GNU_MinGW_common_flags "-Wno-subobject-linkage" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
+set( resonanceReconstruction_GNU_MinGW_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
+set( resonanceReconstruction_GNU_MinGW_RELEASE_flags "-O3" "-DNDEBUG" )
+set( resonanceReconstruction_GNU_MinGW_strict_flags "-Werror" )
+set( resonanceReconstruction_GNU_MinGW_coverage_flags "--coverage" )
+set( resonanceReconstruction_GNU_MinGW_subproject_flags  )
+set( resonanceReconstruction_GNU_MinGW_base_project_flags  )
+set( resonanceReconstruction_GNU_MinGW_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
+set( resonanceReconstruction_GNU_MinGW_link_time_optimization_flags "-flto" )
+set( resonanceReconstruction_GNU_MinGW_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
+set( resonanceReconstruction_GNU_MinGW_nonportable_optimization_flags "-march=native" )
+set( resonanceReconstruction_GNU_MinGW_static_flags "-static" )
 set( resonanceReconstruction_Clang_CYGWIN_common_flags "-Wno-subobject-linkage" "-Wall" "-Wextra" "-Wpedantic" "-std=gnu++17" )
 set( resonanceReconstruction_Clang_CYGWIN_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
 set( resonanceReconstruction_Clang_CYGWIN_RELEASE_flags "-O3" "-DNDEBUG" )
@@ -199,18 +187,6 @@ set( resonanceReconstruction_Clang_Darwin_link_time_optimization_flags "-flto" )
 set( resonanceReconstruction_Clang_Darwin_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
 set( resonanceReconstruction_Clang_Darwin_nonportable_optimization_flags "-march=native" )
 set( resonanceReconstruction_Clang_Darwin_static_flags "-static" )
-set( resonanceReconstruction_Clang_MinGW_common_flags "-Wno-subobject-linkage" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
-set( resonanceReconstruction_Clang_MinGW_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
-set( resonanceReconstruction_Clang_MinGW_RELEASE_flags "-O3" "-DNDEBUG" )
-set( resonanceReconstruction_Clang_MinGW_strict_flags "-Werror" )
-set( resonanceReconstruction_Clang_MinGW_coverage_flags "--coverage" )
-set( resonanceReconstruction_Clang_MinGW_subproject_flags  )
-set( resonanceReconstruction_Clang_MinGW_base_project_flags  )
-set( resonanceReconstruction_Clang_MinGW_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
-set( resonanceReconstruction_Clang_MinGW_link_time_optimization_flags "-flto" )
-set( resonanceReconstruction_Clang_MinGW_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
-set( resonanceReconstruction_Clang_MinGW_nonportable_optimization_flags "-march=native" )
-set( resonanceReconstruction_Clang_MinGW_static_flags "-static" )
 set( resonanceReconstruction_Clang_Linux_common_flags "-stdlib=libstdc++" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
 set( resonanceReconstruction_Clang_Linux_DEBUG_flags "-O0" "-g" "-gdwarf-3" )
 set( resonanceReconstruction_Clang_Linux_RELEASE_flags "-O3" "-DNDEBUG" )
@@ -223,6 +199,30 @@ set( resonanceReconstruction_Clang_Linux_link_time_optimization_flags "-flto" )
 set( resonanceReconstruction_Clang_Linux_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
 set( resonanceReconstruction_Clang_Linux_nonportable_optimization_flags "-march=native" )
 set( resonanceReconstruction_Clang_Linux_static_flags "-static" )
+set( resonanceReconstruction_Clang_Windows_common_flags "-stdlib=libc++" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
+set( resonanceReconstruction_Clang_Windows_DEBUG_flags "-O0" "-g" "-gdwarf-3" )
+set( resonanceReconstruction_Clang_Windows_RELEASE_flags "-O3" "-DNDEBUG" )
+set( resonanceReconstruction_Clang_Windows_strict_flags "-Werror" )
+set( resonanceReconstruction_Clang_Windows_coverage_flags "--coverage" )
+set( resonanceReconstruction_Clang_Windows_subproject_flags  )
+set( resonanceReconstruction_Clang_Windows_base_project_flags  )
+set( resonanceReconstruction_Clang_Windows_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
+set( resonanceReconstruction_Clang_Windows_link_time_optimization_flags "-flto" )
+set( resonanceReconstruction_Clang_Windows_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
+set( resonanceReconstruction_Clang_Windows_nonportable_optimization_flags "-march=native" )
+set( resonanceReconstruction_Clang_Windows_static_flags "-static" )
+set( resonanceReconstruction_Clang_MinGW_common_flags "-Wno-subobject-linkage" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
+set( resonanceReconstruction_Clang_MinGW_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
+set( resonanceReconstruction_Clang_MinGW_RELEASE_flags "-O3" "-DNDEBUG" )
+set( resonanceReconstruction_Clang_MinGW_strict_flags "-Werror" )
+set( resonanceReconstruction_Clang_MinGW_coverage_flags "--coverage" )
+set( resonanceReconstruction_Clang_MinGW_subproject_flags  )
+set( resonanceReconstruction_Clang_MinGW_base_project_flags  )
+set( resonanceReconstruction_Clang_MinGW_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
+set( resonanceReconstruction_Clang_MinGW_link_time_optimization_flags "-flto" )
+set( resonanceReconstruction_Clang_MinGW_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
+set( resonanceReconstruction_Clang_MinGW_nonportable_optimization_flags "-march=native" )
+set( resonanceReconstruction_Clang_MinGW_static_flags "-static" )
 get_directory_property( is_subproject PARENT_DIRECTORY )
 
 if( NOT TARGET range-v3-adapter )
@@ -341,6 +341,7 @@ target_sources( resonanceReconstruction INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/s
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Base/src/neutronWaveNumber.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/Resonance.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/ChannelQuantumNumbers.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/LMatrixCalculator.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/ChannelRadii.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/Channel.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/SpinGroup.hpp"
@@ -348,43 +349,39 @@ target_sources( resonanceReconstruction INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/s
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/ResonanceTable.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/Reconstructor.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/Particle.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/RLMatrixCalculator.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/ParticlePair.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/ResonanceTable/src/verifyTable.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/ResonanceTable/src/ctor.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/ChannelQuantumNumbers/src/toString.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/ChannelQuantumNumbers/src/ctor.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/SpinGroup/src/makeReactionIdentifiers.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/SpinGroup/src/shiftFactors.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/SpinGroup/src/verifyResonanceChannels.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/SpinGroup/src/calculateRLMatrix.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/SpinGroup/src/sqrtPenetrabilities.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/SpinGroup/src/evaluate.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/SpinGroup/src/boundaryConditions.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/SpinGroup/src/penetrabilities.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/SpinGroup/src/ctor.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/SpinGroup/src/omegas.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/SpinGroup/src/determineIncidentChannels.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/SpinGroup/src/calculateLDiagonal.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/SpinGroup/src/coulombShifts.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/SpinGroup/src/evaluateTMatrix.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/SpinGroup/src/verifyChannels.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/SpinGroup/src/phaseShifts.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/SpinGroup/src/calculateSqrtPDiagonal.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/SpinGroup/src/belowThreshold.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/SpinGroup/src/switchIncidentPair.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/SpinGroup/src/verifyIncidentChannels.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/ParticlePair/src/sommerfeldParameter.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/ParticlePair/src/ctor.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/ParticlePair/src/makeID.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/ParticlePair/src/waveNumber.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/ParticlePair/src/reducedMass.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/Channel/src/coulombPhaseShift.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/Channel/src/makeChannelID.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/Channel/src/makeReactionID.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/Channel/src/sommerfeldParameter.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/Channel/src/ctor.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/Channel/src/shiftFactor.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/Channel/src/makeID.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/Channel/src/waveNumber.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/Channel/src/penetrability.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/Channel/src/belowThreshold.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/Channel/src/phaseShift.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/Channel/src/statisticalSpinFactor.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/CompoundSystem/src/verifySpinGroups.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/CompoundSystem/src/evaluate.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/CompoundSystem/src/ctor.hpp"
@@ -392,8 +389,15 @@ target_sources( resonanceReconstruction INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/s
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/CompoundSystem/src/switchIncidentPair.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/Resonance/src/ctor.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/Resonance/src/rmatrix.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/LMatrixCalculator/Constant.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/LMatrixCalculator/ShiftFactor.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/LMatrixCalculator/ShiftFactor/src/call.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/LMatrixCalculator/Constant/src/call.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/ChannelRadii/src/ctor.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/Particle/src/ctor.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/Particle/src/verifyNotNegative.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/RLMatrixCalculator/ReichMoore.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/RLMatrixCalculator/ReichMoore/src/call.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/src/possibleChannelSpinValues.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/src/possibleChannelTotalAngularMomentumValues.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/src/coh3-extwave.hpp"
@@ -409,7 +413,6 @@ target_sources( resonanceReconstruction INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/s
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/src/makeResonanceTable.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/src/calculatePenetrability.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/src/makeParticleChannels.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/rmatrix/src/calculateLValue.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/resonance.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/Type.hpp"
@@ -518,7 +521,10 @@ if( NOT is_subproject )
         add_subdirectory( src/resonanceReconstruction/rmatrix/test )
         add_subdirectory( src/resonanceReconstruction/rmatrix/Channel/test )
         add_subdirectory( src/resonanceReconstruction/rmatrix/ChannelQuantumNumbers/test )
+        add_subdirectory( src/resonanceReconstruction/rmatrix/ChannelRadii/test )
         add_subdirectory( src/resonanceReconstruction/rmatrix/CompoundSystem/test )
+        add_subdirectory( src/resonanceReconstruction/rmatrix/LMatrixCalculator/Constant/test )
+        add_subdirectory( src/resonanceReconstruction/rmatrix/LMatrixCalculator/ShiftFactor/test )
         add_subdirectory( src/resonanceReconstruction/rmatrix/Particle/test )
         add_subdirectory( src/resonanceReconstruction/rmatrix/ParticlePair/test )
         add_subdirectory( src/resonanceReconstruction/rmatrix/Resonance/test )

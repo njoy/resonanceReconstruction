@@ -10,13 +10,13 @@ makeSpinGroup(
     BoundaryOption ) {
 
   std::vector< ParticleChannel > channels =
-      makeParticleChannels( pairs, endfPairs, endfSpinGroup.channels() );
+      makeParticleChannels( incident, pairs, endfPairs,
+                            endfSpinGroup.channels() );
   ResonanceTable table = makeResonanceTable( channels,
                                              endfSpinGroup.parameters(),
                                              reducedWidthsFlag );
 
-  return SpinGroup< Formalism, BoundaryOption >( incident,
-                                                 std::move( channels ),
+  return SpinGroup< Formalism, BoundaryOption >( std::move( channels ),
                                                  std::move( table ) );
 }
 
@@ -33,7 +33,8 @@ makeSpinGroup(
 
   // get channels and determine the eliminated channel index
   std::vector< ParticleChannel > channels =
-      makeParticleChannels( pairs, endfPairs, endfSpinGroup.channels() );
+      makeParticleChannels( incident, pairs, endfPairs,
+                            endfSpinGroup.channels() );
   unsigned int eliminated = [&] {
 
     auto getParticlePair = [] ( const ParticleChannel& channel ) {
@@ -58,7 +59,6 @@ makeSpinGroup(
                                              reducedWidthsFlag,
                                              eliminated );
   channels.erase( channels.begin() + eliminated );
-  return SpinGroup< ReichMoore, BoundaryOption >( incident,
-                                                  std::move( channels ),
+  return SpinGroup< ReichMoore, BoundaryOption >( std::move( channels ),
                                                   std::move( table ) );
 }

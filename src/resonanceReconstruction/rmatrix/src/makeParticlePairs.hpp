@@ -87,10 +87,9 @@ makeParticlePairs( const ENDF::resolved::RMatrixLimited::ParticlePairs& endfPair
                                  : ( spin > 0. ? Parity( +1 ) : Parity( -1 ) ) };
   };
   auto makeParticlePair = [&] ( const Particle& particle,
-                                const Particle& residual,
-                                double Q ) {
+                                const Particle& residual ) {
 
-    return ParticlePair{ particle, residual, Q * electronVolt };
+    return ParticlePair{ particle, residual };
   };
 
   // do some range magic
@@ -119,6 +118,5 @@ makeParticlePairs( const ENDF::resolved::RMatrixLimited::ParticlePairs& endfPair
   return ranges::view::zip_with(
              makeParticlePair,
              particles,
-             residuals,
-             endfPairs.Q() );
+             residuals );
 }

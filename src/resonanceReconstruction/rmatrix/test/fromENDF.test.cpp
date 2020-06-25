@@ -49,7 +49,19 @@ SCENARIO( "fromENDF" ) {
       CHECK( 1 == channels0.size() ); // 1 normal channel + 1 eliminated
       const auto channel00 = std::get< Channel< Neutron > >( channels0[0] );
 
-      // particle pairs
+      // incident particle pair
+      const auto incident00 = channel00.particlePair();
+      CHECK( 1.008664 == Approx( incident00.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident00.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident00.particle().spin() ) );
+      CHECK( +1 == incident00.particle().parity() );
+      CHECK( 53.47624 * 1.008664 == Approx( incident00.residual().mass().value ) );
+      CHECK( 26.0 * 1.602e-19 == Approx( incident00.residual().charge().value ) );
+      CHECK( 0.0 == Approx( incident00.residual().spin() ) );
+      CHECK( +1 == incident00.residual().parity() );
+      CHECK( "n,Fe54_e0" == incident00.pairID() );
+
+      // particle pair
       const auto pair00 = channel00.particlePair();
       CHECK( 1.008664 == Approx( pair00.particle().mass().value ) );
       CHECK( 0.0 == Approx( pair00.particle().charge().value ) );
@@ -59,7 +71,6 @@ SCENARIO( "fromENDF" ) {
       CHECK( 26.0 * 1.602e-19 == Approx( pair00.residual().charge().value ) );
       CHECK( 0.0 == Approx( pair00.residual().spin() ) );
       CHECK( +1 == pair00.residual().parity() );
-      CHECK( 0.0 == Approx( pair00.Q().value ) );
       CHECK( "n,Fe54_e0" == pair00.pairID() );
 
       // quantum numbers
@@ -78,6 +89,9 @@ SCENARIO( "fromENDF" ) {
 
       // boundary conditions
       CHECK( 0. == channel00.boundaryCondition() );
+
+      // Q value
+      CHECK( 0.0 == Approx( channel00.Q().value ) );
 
       // resonance table
       auto table0 = spingroup0.resonanceTable();
@@ -112,6 +126,18 @@ SCENARIO( "fromENDF" ) {
       CHECK( 1 == channels1.size() ); // 1 normal channel + 1 eliminated
       const auto channel10 = std::get< Channel< Neutron > >( channels1[0] );
 
+      // incident particle pair
+      const auto incident10 = channel10.particlePair();
+      CHECK( 1.008664 == Approx( incident10.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident10.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident10.particle().spin() ) );
+      CHECK( +1 == incident10.particle().parity() );
+      CHECK( 53.47624 * 1.008664 == Approx( incident10.residual().mass().value ) );
+      CHECK( 26.0 * 1.602e-19 == Approx( incident10.residual().charge().value ) );
+      CHECK( 0.0 == Approx( incident10.residual().spin() ) );
+      CHECK( +1 == incident10.residual().parity() );
+      CHECK( "n,Fe54_e0" == incident10.pairID() );
+
       // particle pairs
       const auto pair10 = channel10.particlePair();
       CHECK( 1.008664 == Approx( pair10.particle().mass().value ) );
@@ -122,7 +148,6 @@ SCENARIO( "fromENDF" ) {
       CHECK( 26.0 * 1.602e-19 == Approx( pair10.residual().charge().value ) );
       CHECK( 0.0 == Approx( pair10.residual().spin() ) );
       CHECK( +1 == pair10.residual().parity() );
-      CHECK( 0.0 == Approx( pair10.Q().value ) );
       CHECK( "n,Fe54_e0" == pair10.pairID() );
 
       // quantum numbers
@@ -142,6 +167,9 @@ SCENARIO( "fromENDF" ) {
       // boundary conditions
       CHECK( 0. == channel10.boundaryCondition() );
 
+      // Q value
+      CHECK( 0.0 == Approx( channel10.Q().value ) );
+
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // spin group 2
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -153,6 +181,18 @@ SCENARIO( "fromENDF" ) {
       CHECK( 1 == channels2.size() ); // 1 normal channel + 1 eliminated
       const auto channel20 = std::get< Channel< Neutron > >( channels2[0] );
 
+      // incident particle pair
+      const auto incident20 = channel20.particlePair();
+      CHECK( 1.008664 == Approx( incident20.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident20.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident20.particle().spin() ) );
+      CHECK( +1 == incident20.particle().parity() );
+      CHECK( 53.47624 * 1.008664 == Approx( incident20.residual().mass().value ) );
+      CHECK( 26.0 * 1.602e-19 == Approx( incident20.residual().charge().value ) );
+      CHECK( 0.0 == Approx( incident20.residual().spin() ) );
+      CHECK( +1 == incident20.residual().parity() );
+      CHECK( "n,Fe54_e0" == incident20.pairID() );
+
       // particle pairs
       const auto pair20 = channel20.particlePair();
       CHECK( 1.008664 == Approx( pair20.particle().mass().value ) );
@@ -163,7 +203,6 @@ SCENARIO( "fromENDF" ) {
       CHECK( 26.0 * 1.602e-19 == Approx( pair20.residual().charge().value ) );
       CHECK( 0.0 == Approx( pair20.residual().spin() ) );
       CHECK( +1 == pair20.residual().parity() );
-      CHECK( 0.0 == Approx( pair20.Q().value ) );
       CHECK( "n,Fe54_e0" == pair20.pairID() );
 
       // quantum numbers
@@ -183,6 +222,9 @@ SCENARIO( "fromENDF" ) {
       // boundary conditions
       CHECK( 0. == channel20.boundaryCondition() );
 
+      // Q value
+      CHECK( 0.0 == Approx( channel20.Q().value ) );
+
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // spin group 3
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -194,6 +236,18 @@ SCENARIO( "fromENDF" ) {
       CHECK( 1 == channels3.size() ); // 1 normal channel + 1 eliminated
       const auto channel30 = std::get< Channel< Neutron > >( channels3[0] );
 
+      // incident particle pair
+      const auto incident30 = channel30.particlePair();
+      CHECK( 1.008664 == Approx( incident30.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident30.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident30.particle().spin() ) );
+      CHECK( +1 == incident30.particle().parity() );
+      CHECK( 53.47624 * 1.008664 == Approx( incident30.residual().mass().value ) );
+      CHECK( 26.0 * 1.602e-19 == Approx( incident30.residual().charge().value ) );
+      CHECK( 0.0 == Approx( incident30.residual().spin() ) );
+      CHECK( +1 == incident30.residual().parity() );
+      CHECK( "n,Fe54_e0" == incident30.pairID() );
+
       // particle pairs
       const auto pair30 = channel30.particlePair();
       CHECK( 1.008664 == Approx( pair30.particle().mass().value ) );
@@ -204,7 +258,6 @@ SCENARIO( "fromENDF" ) {
       CHECK( 26.0 * 1.602e-19 == Approx( pair30.residual().charge().value ) );
       CHECK( 0.0 == Approx( pair30.residual().spin() ) );
       CHECK( +1 == pair30.residual().parity() );
-      CHECK( 0.0 == Approx( pair30.Q().value ) );
       CHECK( "n,Fe54_e0" == pair30.pairID() );
 
       // quantum numbers
@@ -224,6 +277,9 @@ SCENARIO( "fromENDF" ) {
       // boundary conditions
       CHECK( 0. == channel30.boundaryCondition() );
 
+      // Q value
+      CHECK( 0.0 == Approx( channel30.Q().value ) );
+
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // spin group 4
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -235,6 +291,18 @@ SCENARIO( "fromENDF" ) {
       CHECK( 1 == channels4.size() ); // 1 normal channel + 1 eliminated
       const auto channel40 = std::get< Channel< Neutron > >( channels4[0] );
 
+      // incident particle pair
+      const auto incident40 = channel40.particlePair();
+      CHECK( 1.008664 == Approx( incident40.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident40.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident40.particle().spin() ) );
+      CHECK( +1 == incident40.particle().parity() );
+      CHECK( 53.47624 * 1.008664 == Approx( incident40.residual().mass().value ) );
+      CHECK( 26.0 * 1.602e-19 == Approx( incident40.residual().charge().value ) );
+      CHECK( 0.0 == Approx( incident40.residual().spin() ) );
+      CHECK( +1 == incident40.residual().parity() );
+      CHECK( "n,Fe54_e0" == incident40.pairID() );
+
       // particle pairs
       const auto pair40 = channel40.particlePair();
       CHECK( 1.008664 == Approx( pair40.particle().mass().value ) );
@@ -245,7 +313,6 @@ SCENARIO( "fromENDF" ) {
       CHECK( 26.0 * 1.602e-19 == Approx( pair40.residual().charge().value ) );
       CHECK( 0.0 == Approx( pair40.residual().spin() ) );
       CHECK( +1 == pair40.residual().parity() );
-      CHECK( 0.0 == Approx( pair40.Q().value ) );
       CHECK( "n,Fe54_e0" == pair40.pairID() );
 
       // quantum numbers
@@ -265,6 +332,9 @@ SCENARIO( "fromENDF" ) {
       // boundary conditions
       CHECK( 0. == channel40.boundaryCondition() );
 
+      // Q value
+      CHECK( 0.0 == Approx( channel40.Q().value ) );
+
       // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
       // resonance reconstruction verification
       // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -275,7 +345,7 @@ SCENARIO( "fromENDF" ) {
 
       std::map< ReactionID, CrossSection > result = resonances( 1e-5 * electronVolt );
 
-      
+
     } // THEN
   } // GIVEN
 } // SCENARIO

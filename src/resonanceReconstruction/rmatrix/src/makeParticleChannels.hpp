@@ -1,5 +1,6 @@
 inline std::vector< ParticleChannel >
 makeParticleChannels(
+    const ParticlePair& incident,
     const std::vector< ParticlePair >& pairs,
     const ENDF::resolved::RMatrixLimited::ParticlePairs& endfPairs,
     const ENDF::resolved::RMatrixLimited::ResonanceChannels& endfChannels ) {
@@ -21,7 +22,9 @@ makeParticleChannels(
 
     return ChannelRadii{ apt * rootBarn, ape * rootBarn };
   };
-  auto makeParticleChannel = [&] ( const ParticlePair& pair,
+  auto makeParticleChannel = [&] ( const ParticlePair& incident,
+                                   const ParticlePair& pair,
+                                   double Q,
                                    const ChannelQuantumNumbers& numbers,
                                    const ChannelRadii& radii,
                                    const BoundaryCondition& boundary,
@@ -29,27 +32,36 @@ makeParticleChannels(
 
     switch ( mt ) {
 
-      case 102 : return Channel< Photon >{ pair, numbers, radii, boundary };
-      case  18 : return Channel< Fission >{ pair, numbers, radii, boundary };
-      case  19 : return Channel< Fission >{ pair, numbers, radii, boundary };
-      case  20 : return Channel< Fission >{ pair, numbers, radii, boundary };
-      case  21 : return Channel< Fission >{ pair, numbers, radii, boundary };
-      case  38 : return Channel< Fission >{ pair, numbers, radii, boundary };
+      case 102 : return Channel< Photon >{ incident, pair, Q * electronVolt,
+                                           numbers, radii, boundary };
+      case  18 : return Channel< Fission >{ incident, pair, Q * electronVolt,
+                                            numbers, radii, boundary };
+      case  19 : return Channel< Fission >{ incident, pair, Q * electronVolt,
+                                            numbers, radii, boundary };
+      case  20 : return Channel< Fission >{ incident, pair, Q * electronVolt,
+                                            numbers, radii, boundary };
+      case  21 : return Channel< Fission >{ incident, pair, Q * electronVolt,
+                                            numbers, radii, boundary };
+      case  38 : return Channel< Fission >{ incident, pair, Q * electronVolt,
+                                            numbers, radii, boundary };
       default : {
 
         if ( pair.particle().charge() > 0. * coulomb ) {
 
-          return Channel< ChargedParticle >{ pair, numbers, radii, boundary };
+          return Channel< ChargedParticle >{ incident, pair, Q * electronVolt,
+                                             numbers, radii, boundary };
         }
         else {
 
-          return Channel< Neutron >{ pair, numbers, radii, boundary };
+          return Channel< Neutron >{ incident, pair, Q * electronVolt,
+                                     numbers, radii, boundary };
         }
       }
     }
   };
 
   // do some range magic
+  auto incidentPairs = ranges::view::repeat_n( incident, pairs.size() );
   auto channelPairs = endfChannels.particlePairNumbers()
                           | ranges::view::transform( getParticlePair );
   auto channelNumbers = ranges::view::zip_with(
@@ -63,7 +75,9 @@ makeParticleChannels(
 
   return ranges::view::zip_with(
              makeParticleChannel,
+             incidentPairs,
              channelPairs,
+             endfPairs.Q(),
              channelNumbers,
              channelRadii,
              endfChannels.boundaryConditionValues(),
