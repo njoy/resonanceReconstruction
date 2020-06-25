@@ -9,11 +9,12 @@ constexpr AtomicMass neutronMass = 1.008664 * daltons;
 constexpr ElectricalCharge elementaryCharge = 1.602e-19 * coulomb;
 
 std::string Fe54();
+std::string Ca40();
 std::string Cl35();
 
 SCENARIO( "fromENDF" ) {
 
-  GIVEN( "valid ENDF data" ) {
+  GIVEN( "valid ENDF data for Fe54" ) {
 
     std::string string = Fe54();
     auto begin = string.begin();
@@ -47,10 +48,15 @@ SCENARIO( "fromENDF" ) {
       auto channels0 = spingroup0.channels();
 
       CHECK( 1 == channels0.size() ); // 1 normal channel + 1 eliminated
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 0, channel 0: elastic
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
       const auto channel00 = std::get< Channel< Neutron > >( channels0[0] );
 
       // incident particle pair
-      const auto incident00 = channel00.particlePair();
+      const auto incident00 = channel00.incidentParticlePair();
       CHECK( 1.008664 == Approx( incident00.particle().mass().value ) );
       CHECK( 0.0 == Approx( incident00.particle().charge().value ) );
       CHECK( 0.5 == Approx( incident00.particle().spin() ) );
@@ -124,10 +130,15 @@ SCENARIO( "fromENDF" ) {
       auto channels1 = spingroup1.channels();
 
       CHECK( 1 == channels1.size() ); // 1 normal channel + 1 eliminated
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 1, channel 0: elastic
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
       const auto channel10 = std::get< Channel< Neutron > >( channels1[0] );
 
       // incident particle pair
-      const auto incident10 = channel10.particlePair();
+      const auto incident10 = channel10.incidentParticlePair();
       CHECK( 1.008664 == Approx( incident10.particle().mass().value ) );
       CHECK( 0.0 == Approx( incident10.particle().charge().value ) );
       CHECK( 0.5 == Approx( incident10.particle().spin() ) );
@@ -179,10 +190,15 @@ SCENARIO( "fromENDF" ) {
       auto channels2 = spingroup2.channels();
 
       CHECK( 1 == channels2.size() ); // 1 normal channel + 1 eliminated
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 2, channel 0: elastic
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
       const auto channel20 = std::get< Channel< Neutron > >( channels2[0] );
 
       // incident particle pair
-      const auto incident20 = channel20.particlePair();
+      const auto incident20 = channel20.incidentParticlePair();
       CHECK( 1.008664 == Approx( incident20.particle().mass().value ) );
       CHECK( 0.0 == Approx( incident20.particle().charge().value ) );
       CHECK( 0.5 == Approx( incident20.particle().spin() ) );
@@ -234,10 +250,15 @@ SCENARIO( "fromENDF" ) {
       auto channels3 = spingroup3.channels();
 
       CHECK( 1 == channels3.size() ); // 1 normal channel + 1 eliminated
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 3, channel 0: elastic
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
       const auto channel30 = std::get< Channel< Neutron > >( channels3[0] );
 
       // incident particle pair
-      const auto incident30 = channel30.particlePair();
+      const auto incident30 = channel30.incidentParticlePair();
       CHECK( 1.008664 == Approx( incident30.particle().mass().value ) );
       CHECK( 0.0 == Approx( incident30.particle().charge().value ) );
       CHECK( 0.5 == Approx( incident30.particle().spin() ) );
@@ -289,10 +310,15 @@ SCENARIO( "fromENDF" ) {
       auto channels4 = spingroup4.channels();
 
       CHECK( 1 == channels4.size() ); // 1 normal channel + 1 eliminated
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 4, channel 0: elastic
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
       const auto channel40 = std::get< Channel< Neutron > >( channels4[0] );
 
       // incident particle pair
-      const auto incident40 = channel40.particlePair();
+      const auto incident40 = channel40.incidentParticlePair();
       CHECK( 1.008664 == Approx( incident40.particle().mass().value ) );
       CHECK( 0.0 == Approx( incident40.particle().charge().value ) );
       CHECK( 0.5 == Approx( incident40.particle().spin() ) );
@@ -339,6 +365,502 @@ SCENARIO( "fromENDF" ) {
       // resonance reconstruction verification
       // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
+    } // THEN
+
+    THEN( "cross sections can be reconstructed" ) {
+
+      std::map< ReactionID, CrossSection > result = resonances( 1e-5 * electronVolt );
+
+
+    } // THEN
+  } // GIVEN
+
+  GIVEN( "valid ENDF data for Ca40" ) {
+
+    std::string string = Ca40();
+    auto begin = string.begin();
+    auto end = string.end();
+    long lineNumber = 1;
+
+    njoy::ENDFtk::HeadRecord head( begin, end, lineNumber );
+    njoy::ENDFtk::section::Type< 2, 151 > endf( head, begin, end, lineNumber, 2025 );
+    ResonanceRange endfResonanceRange = endf.isotopes().front().resonanceRanges().front();
+
+    auto resonances = fromENDF( endfResonanceRange, neutronMass, elementaryCharge );
+
+    THEN( "the appropriate CompoundSystem is returned" ) {
+
+      auto compoundsystem = std::get< CompoundSystem< ReichMoore, ShiftFactor > >( resonances.compoundSystem() );
+
+      // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+      // content verification
+      // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+      // spin groups
+      auto spingroups = compoundsystem.spinGroups();
+      CHECK( 5 == spingroups.size() );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 0
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      auto spingroup0 = spingroups[0];
+
+      // channels
+      auto channels0 = spingroup0.channels();
+
+      CHECK( 2 == channels0.size() ); // 2 normal channel + 1 eliminated
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 0, channel 0: elastic
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel00 = std::get< Channel< Neutron > >( channels0[0] );
+
+      // incident particle pair
+      const auto incident00 = channel00.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident00.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident00.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident00.particle().spin() ) );
+      CHECK( +1 == incident00.particle().parity() );
+      CHECK( 39.61929 * 1.008664 == Approx( incident00.residual().mass().value ) );
+      CHECK( 20.0 * 1.602e-19 == Approx( incident00.residual().charge().value ) );
+      CHECK( 0.0 == Approx( incident00.residual().spin() ) );
+      CHECK( +1 == incident00.residual().parity() );
+      CHECK( "n,Ca40_e0" == incident00.pairID() );
+
+      // particle pair
+      const auto pair00 = channel00.particlePair();
+      CHECK( 1.008664 == Approx( pair00.particle().mass().value ) );
+      CHECK( 0.0 == Approx( pair00.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair00.particle().spin() ) );
+      CHECK( +1 == pair00.particle().parity() );
+      CHECK( 39.61929 * 1.008664 == Approx( pair00.residual().mass().value ) );
+      CHECK( 20.0 * 1.602e-19 == Approx( pair00.residual().charge().value ) );
+      CHECK( 0.0 == Approx( pair00.residual().spin() ) );
+      CHECK( +1 == pair00.residual().parity() );
+      CHECK( "n,Ca40_e0" == pair00.pairID() );
+
+      // quantum numbers
+      const auto numbers00 = channel00.quantumNumbers();
+      CHECK( 0 == numbers00.orbitalAngularMomentum() );
+      CHECK( 0.5 == numbers00.spin() );
+      CHECK( 0.5 == numbers00.totalAngularMomentum() );
+      CHECK( +1 == numbers00.parity() );
+      CHECK( "{0,1/2,1/2+}" == numbers00.toString() );
+
+      // radii
+      const auto radii00 = channel00.radii();
+      CHECK( 0.4993153 == Approx( radii00.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4993153 == Approx( radii00.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.3828792 == Approx( radii00.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel00.boundaryCondition() );
+
+      // Q value
+      CHECK( 0.0 == Approx( channel00.Q().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 0, channel 1: n,a
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel01 = std::get< Channel< ChargedParticle > >( channels0[1] );
+
+      // incident particle pair
+      const auto incident01 = channel01.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident01.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident01.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident01.particle().spin() ) );
+      CHECK( +1 == incident01.particle().parity() );
+      CHECK( 39.61929 * 1.008664 == Approx( incident01.residual().mass().value ) );
+      CHECK( 20.0 * 1.602e-19 == Approx( incident01.residual().charge().value ) );
+      CHECK( 0.0 == Approx( incident01.residual().spin() ) );
+      CHECK( +1 == incident01.residual().parity() );
+      CHECK( "n,Ca40_e0" == incident01.pairID() );
+
+      // particle pair
+      const auto pair01 = channel01.particlePair();
+      CHECK( 3.967131 * 1.008664 == Approx( pair01.particle().mass().value ) );
+      CHECK( 2.0 * 1.602e-19 == Approx( pair01.particle().charge().value ) );
+      CHECK( 0.0 == Approx( pair01.particle().spin() ) );
+      CHECK( +1 == pair01.particle().parity() );
+      CHECK( 36.64921 * 1.008664 == Approx( pair01.residual().mass().value ) );
+      CHECK( 18.0 * 1.602e-19 == Approx( pair01.residual().charge().value ) );
+      CHECK( 1.5 == Approx( pair01.residual().spin() ) );
+      CHECK( +1 == pair01.residual().parity() );
+      CHECK( "a,Ar37_e0" == pair01.pairID() );
+
+      // quantum numbers
+      const auto numbers01 = channel01.quantumNumbers();
+      CHECK( 2 == numbers01.orbitalAngularMomentum() );
+      CHECK( 1.5 == numbers01.spin() );
+      CHECK( 0.5 == numbers01.totalAngularMomentum() );
+      CHECK( +1 == numbers01.parity() );
+      CHECK( "{2,3/2,1/2+}" == numbers01.toString() );
+
+      // radii
+      const auto radii01 = channel01.radii();
+      CHECK( 0.4885639 == Approx( radii01.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4885639 == Approx( radii01.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4885639 == Approx( radii01.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel01.boundaryCondition() );
+
+      // Q value
+      CHECK( 1.747660e+6 == Approx( channel01.Q().value ) );
+
+      // resonance table
+      auto table0 = spingroup0.resonanceTable();
+
+      CHECK( 2 == table0.numberChannels() ); // 2 normal channel + 1 eliminated
+      CHECK( 39 == table0.numberResonances() );
+
+      auto energies0 = table0.energies();
+      CHECK( -4.586687e+5 == Approx( energies0.front().value ) );
+      CHECK( 1.913996e+6 == Approx( energies0.back().value ) );
+
+      auto resonances0 = table0.resonances();
+      CHECK( -4.586687e+5 == Approx( resonances0.front().energy().value ) );
+      CHECK( 1.913996e+6 == Approx( resonances0.back().energy().value ) );
+      CHECK( 2 == resonances0.front().widths().size() );
+      CHECK( 2 == resonances0.back().widths().size() );
+      CHECK( std::sqrt( 9.809761e+2 / 2. / channel00.penetrability( -4.586687e+5 * electronVolt ) )
+             == Approx( resonances0.front().widths()[0].value ) );
+      CHECK( std::sqrt( 2.199782e-3 / 2. / channel01.penetrability( -4.586687e+5 * electronVolt ) )
+             == Approx( resonances0.front().widths()[1].value ) );
+      CHECK( std::sqrt( 1.878975e+5 / 2. / channel00.penetrability( 1.913996e+6 * electronVolt ) )
+             == Approx( resonances0.back().widths()[0].value ) );
+      CHECK( std::sqrt( 2.784131e-4 / 2. / channel01.penetrability( 1.913996e+6 * electronVolt ) )
+             == Approx( resonances0.back().widths()[1].value ) );
+      CHECK( std::sqrt( 1.000091 / 2. ) == Approx( resonances0.front().eliminatedWidth().value ) );
+      CHECK( std::sqrt( 1. / 2. ) == Approx( resonances0.back().eliminatedWidth().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 1
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      auto spingroup1 = spingroups[1];
+
+      // channels
+      auto channels1 = spingroup1.channels();
+
+      CHECK( 2 == channels1.size() ); // 2 normal channel + 1 eliminated
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 1, channel 0: elastic
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel10 = std::get< Channel< Neutron > >( channels1[0] );
+
+      // incident particle pair
+      const auto incident10 = channel10.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident10.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident10.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident10.particle().spin() ) );
+      CHECK( +1 == incident10.particle().parity() );
+      CHECK( 39.61929 * 1.008664 == Approx( incident10.residual().mass().value ) );
+      CHECK( 20.0 * 1.602e-19 == Approx( incident10.residual().charge().value ) );
+      CHECK( 0.0 == Approx( incident10.residual().spin() ) );
+      CHECK( +1 == incident10.residual().parity() );
+      CHECK( "n,Ca40_e0" == incident10.pairID() );
+
+      // particle pair
+      const auto pair10 = channel10.particlePair();
+      CHECK( 1.008664 == Approx( pair10.particle().mass().value ) );
+      CHECK( 0.0 == Approx( pair10.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair10.particle().spin() ) );
+      CHECK( +1 == pair10.particle().parity() );
+      CHECK( 39.61929 * 1.008664 == Approx( pair10.residual().mass().value ) );
+      CHECK( 20.0 * 1.602e-19 == Approx( pair10.residual().charge().value ) );
+      CHECK( 0.0 == Approx( pair10.residual().spin() ) );
+      CHECK( +1 == pair10.residual().parity() );
+      CHECK( "n,Ca40_e0" == pair10.pairID() );
+
+      // quantum numbers
+      const auto numbers10 = channel10.quantumNumbers();
+      CHECK( 1 == numbers10.orbitalAngularMomentum() );
+      CHECK( 0.5 == numbers10.spin() );
+      CHECK( 0.5 == numbers10.totalAngularMomentum() );
+      CHECK( -1 == numbers10.parity() );
+      CHECK( "{1,1/2,1/2-}" == numbers10.toString() );
+
+      // radii
+      const auto radii10 = channel10.radii();
+      CHECK( 0.4993153 == Approx( radii10.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4993153 == Approx( radii10.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.5574746 == Approx( radii10.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel10.boundaryCondition() );
+
+      // Q value
+      CHECK( 0.0 == Approx( channel10.Q().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 1, channel 1: n,a
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel11 = std::get< Channel< ChargedParticle > >( channels1[1] );
+
+      // incident particle pair
+      const auto incident11 = channel11.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident11.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident11.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident11.particle().spin() ) );
+      CHECK( +1 == incident11.particle().parity() );
+      CHECK( 39.61929 * 1.008664 == Approx( incident11.residual().mass().value ) );
+      CHECK( 20.0 * 1.602e-19 == Approx( incident11.residual().charge().value ) );
+      CHECK( 0.0 == Approx( incident11.residual().spin() ) );
+      CHECK( +1 == incident11.residual().parity() );
+      CHECK( "n,Ca40_e0" == incident11.pairID() );
+
+      // particle pair
+      const auto pair11 = channel11.particlePair();
+      CHECK( 3.967131 * 1.008664 == Approx( pair11.particle().mass().value ) );
+      CHECK( 2.0 * 1.602e-19 == Approx( pair11.particle().charge().value ) );
+      CHECK( 0.0 == Approx( pair11.particle().spin() ) );
+      CHECK( +1 == pair11.particle().parity() );
+      CHECK( 36.64921 * 1.008664 == Approx( pair11.residual().mass().value ) );
+      CHECK( 18.0 * 1.602e-19 == Approx( pair11.residual().charge().value ) );
+      CHECK( 1.5 == Approx( pair11.residual().spin() ) );
+      CHECK( +1 == pair11.residual().parity() );
+      CHECK( "a,Ar37_e0" == pair11.pairID() );
+
+      // quantum numbers
+      const auto numbers11 = channel11.quantumNumbers();
+      CHECK( 1 == numbers11.orbitalAngularMomentum() );
+      CHECK( 1.5 == numbers11.spin() );
+      CHECK( 0.5 == numbers11.totalAngularMomentum() );
+      CHECK( -1 == numbers11.parity() );
+      CHECK( "{1,3/2,1/2-}" == numbers11.toString() );
+
+      // radii
+      const auto radii11 = channel11.radii();
+      CHECK( 0.4885639 == Approx( radii11.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4885639 == Approx( radii11.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4885639 == Approx( radii11.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel11.boundaryCondition() );
+
+      // Q value
+      CHECK( 1.747660e+6 == Approx( channel11.Q().value ) );
+
+      // resonance table
+      auto table1 = spingroup1.resonanceTable();
+
+      CHECK( 2 == table1.numberChannels() ); // 2 normal channel + 1 eliminated
+      CHECK( 51 == table1.numberResonances() );
+
+      auto energies1 = table1.energies();
+      CHECK( 2.880782e+3 == Approx( energies1.front().value ) );
+      CHECK( 1.496383e+6 == Approx( energies1.back().value ) );
+
+      auto resonances1 = table1.resonances();
+      CHECK( 2.880782e+3 == Approx( resonances1.front().energy().value ) );
+      CHECK( 1.496383e+6 == Approx( resonances1.back().energy().value ) );
+      CHECK( 2 == resonances1.front().widths().size() );
+      CHECK( 2 == resonances1.back().widths().size() );
+      CHECK( std::sqrt( 1.810972e-3 / 2. / channel10.penetrability( 2.880782e+3 * electronVolt ) )
+             == Approx( resonances1.front().widths()[0].value ) );
+      CHECK( std::sqrt( 1.000029e-3 / 2. / channel11.penetrability( 2.880782e+3 * electronVolt ) )
+             == Approx( resonances1.front().widths()[1].value ) );
+      CHECK( std::sqrt( 1.448484e+2 / 2. / channel10.penetrability( 1.496383e+6 * electronVolt ) )
+             == Approx( resonances1.back().widths()[0].value ) );
+      CHECK( std::sqrt( 1.012630e-3 / 2. / channel11.penetrability( 1.496383e+6 * electronVolt ) )
+             == Approx( resonances1.back().widths()[1].value ) );
+      CHECK( std::sqrt( 3.499989e-1 / 2. ) == Approx( resonances1.front().eliminatedWidth().value ) );
+      CHECK( std::sqrt( 1.050878 / 2. ) == Approx( resonances1.back().eliminatedWidth().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 2
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      auto spingroup2 = spingroups[2];
+
+      // channels
+      auto channels2 = spingroup2.channels();
+
+      CHECK( 3 == channels2.size() ); // 3 normal channel + 1 eliminated
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 1, channel 0: elastic
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel20 = std::get< Channel< Neutron > >( channels2[0] );
+
+      // incident particle pair
+      const auto incident20 = channel20.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident20.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident20.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident20.particle().spin() ) );
+      CHECK( +1 == incident20.particle().parity() );
+      CHECK( 39.61929 * 1.008664 == Approx( incident20.residual().mass().value ) );
+      CHECK( 20.0 * 1.602e-19 == Approx( incident20.residual().charge().value ) );
+      CHECK( 0.0 == Approx( incident20.residual().spin() ) );
+      CHECK( +1 == incident20.residual().parity() );
+      CHECK( "n,Ca40_e0" == incident20.pairID() );
+
+      // particle pair
+      const auto pair20 = channel20.particlePair();
+      CHECK( 1.008664 == Approx( pair20.particle().mass().value ) );
+      CHECK( 0.0 == Approx( pair20.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair20.particle().spin() ) );
+      CHECK( +1 == pair20.particle().parity() );
+      CHECK( 39.61929 * 1.008664 == Approx( pair20.residual().mass().value ) );
+      CHECK( 20.0 * 1.602e-19 == Approx( pair20.residual().charge().value ) );
+      CHECK( 0.0 == Approx( pair20.residual().spin() ) );
+      CHECK( +1 == pair20.residual().parity() );
+      CHECK( "n,Ca40_e0" == pair20.pairID() );
+
+      // quantum numbers
+      const auto numbers20 = channel20.quantumNumbers();
+      CHECK( 1 == numbers20.orbitalAngularMomentum() );
+      CHECK( 0.5 == numbers20.spin() );
+      CHECK( 1.5 == numbers20.totalAngularMomentum() );
+      CHECK( -1 == numbers20.parity() );
+      CHECK( "{1,1/2,3/2-}" == numbers20.toString() );
+
+      // radii
+      const auto radii20 = channel20.radii();
+      CHECK( 0.4993153 == Approx( radii20.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4993153 == Approx( radii20.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.5574746 == Approx( radii20.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel20.boundaryCondition() );
+
+      // Q value
+      CHECK( 0.0 == Approx( channel20.Q().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 1, channel 1: n,p
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel21 = std::get< Channel< ChargedParticle > >( channels2[1] );
+
+      // incident particle pair
+      const auto incident21 = channel21.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident21.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident21.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident21.particle().spin() ) );
+      CHECK( +1 == incident21.particle().parity() );
+      CHECK( 39.61929 * 1.008664 == Approx( incident21.residual().mass().value ) );
+      CHECK( 20.0 * 1.602e-19 == Approx( incident21.residual().charge().value ) );
+      CHECK( 0.0 == Approx( incident21.residual().spin() ) );
+      CHECK( +1 == incident21.residual().parity() );
+      CHECK( "n,Ca40_e0" == incident21.pairID() );
+
+      // particle pair
+      const auto pair21 = channel21.particlePair();
+      CHECK( 9.986235e-1 * 1.008664 == Approx( pair21.particle().mass().value ) );
+      CHECK( 1.0 * 1.602e-19 == Approx( pair21.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair21.particle().spin() ) );
+      CHECK( +1 == pair21.particle().parity() );
+      CHECK( 39.62069 * 1.008664 == Approx( pair21.residual().mass().value ) );
+      CHECK( 19.0 * 1.602e-19 == Approx( pair21.residual().charge().value ) );
+      CHECK( 4.0 == Approx( pair21.residual().spin() ) );
+      CHECK( -1 == pair21.residual().parity() );
+      CHECK( "p,K40_e1" == pair21.pairID() );
+
+      // quantum numbers
+      const auto numbers21 = channel21.quantumNumbers();
+      CHECK( 2 == numbers21.orbitalAngularMomentum() );
+      CHECK( 3.5 == numbers21.spin() );
+      CHECK( 1.5 == numbers21.totalAngularMomentum() );
+      CHECK( -1 == numbers21.parity() );
+      CHECK( "{2,7/2,3/2-}" == numbers21.toString() );
+
+      // radii
+      const auto radii21 = channel21.radii();
+      CHECK( 0.4993202 == Approx( radii21.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4993202 == Approx( radii21.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4993202 == Approx( radii21.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel21.boundaryCondition() );
+
+      // Q value
+      CHECK( -5.285469e+5 == Approx( channel21.Q().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 1, channel 2: n,a
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel22 = std::get< Channel< ChargedParticle > >( channels2[2] );
+
+      // incident particle pair
+      const auto incident22 = channel22.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident22.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident22.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident22.particle().spin() ) );
+      CHECK( +1 == incident22.particle().parity() );
+      CHECK( 39.61929 * 1.008664 == Approx( incident22.residual().mass().value ) );
+      CHECK( 20.0 * 1.602e-19 == Approx( incident22.residual().charge().value ) );
+      CHECK( 0.0 == Approx( incident22.residual().spin() ) );
+      CHECK( +1 == incident22.residual().parity() );
+      CHECK( "n,Ca40_e0" == incident22.pairID() );
+
+      // particle pair
+      const auto pair22 = channel22.particlePair();
+      CHECK( 3.967131 * 1.008664 == Approx( pair22.particle().mass().value ) );
+      CHECK( 2.0 * 1.602e-19 == Approx( pair22.particle().charge().value ) );
+      CHECK( 0.0 == Approx( pair22.particle().spin() ) );
+      CHECK( +1 == pair22.particle().parity() );
+      CHECK( 36.64921 * 1.008664 == Approx( pair22.residual().mass().value ) );
+      CHECK( 18.0 * 1.602e-19 == Approx( pair22.residual().charge().value ) );
+      CHECK( 1.5 == Approx( pair22.residual().spin() ) );
+      CHECK( +1 == pair22.residual().parity() );
+      CHECK( "a,Ar37_e0" == pair22.pairID() );
+
+      // quantum numbers
+      const auto numbers22 = channel22.quantumNumbers();
+      CHECK( 1 == numbers22.orbitalAngularMomentum() );
+      CHECK( 1.5 == numbers22.spin() );
+      CHECK( 1.5 == numbers22.totalAngularMomentum() );
+      CHECK( -1 == numbers22.parity() );
+      CHECK( "{1,3/2,3/2-}" == numbers22.toString() );
+
+      // radii
+      const auto radii22 = channel22.radii();
+      CHECK( 0.4885639 == Approx( radii22.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4885639 == Approx( radii22.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4885639 == Approx( radii22.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel22.boundaryCondition() );
+
+      // Q value
+      CHECK( 1.747660e+6 == Approx( channel22.Q().value ) );
+
+      // resonance table
+      auto table2 = spingroup2.resonanceTable();
+
+      CHECK( 3 == table2.numberChannels() ); // 3 normal channel + 1 eliminated
+      CHECK( 52 == table2.numberResonances() );
+
+      auto energies2 = table2.energies();
+      CHECK( 1.084167e+4 == Approx( energies2.front().value ) );
+      CHECK( 1.477528e+6 == Approx( energies2.back().value ) );
+
+      auto resonances2 = table2.resonances();
+      CHECK( 1.084167e+4 == Approx( resonances2.front().energy().value ) );
+      CHECK( 1.477528e+6 == Approx( resonances2.back().energy().value ) );
+      CHECK( 3 == resonances2.front().widths().size() );
+      CHECK( 3 == resonances2.back().widths().size() );
+      CHECK( std::sqrt( 5.834810e-1 / 2. / channel20.penetrability( 1.084167e+4 * electronVolt ) )
+             == Approx( resonances2.front().widths()[0].value ) );
+      CHECK( std::sqrt( 0.0 / 2. / channel21.penetrability( 1.084167e+4 * electronVolt ) )
+             == Approx( resonances2.front().widths()[1].value ) );
+      CHECK( std::sqrt( 9.999433e-4 / 2. / channel22.penetrability( 1.084167e+4 * electronVolt ) )
+             == Approx( resonances2.front().widths()[2].value ) );
+      CHECK( std::sqrt( 1.603824e+2 / 2. / channel20.penetrability( 1.477528e+6 * electronVolt ) )
+             == Approx( resonances2.back().widths()[0].value ) );
+      CHECK( std::sqrt( 1.500000e-4 / 2. / channel21.penetrability( 1.477528e+6 * electronVolt ) )
+             == Approx( resonances2.back().widths()[1].value ) );
+      CHECK( std::sqrt( 1.008688e-3 / 2. / channel22.penetrability( 1.477528e+6 * electronVolt ) )
+             == Approx( resonances2.back().widths()[2].value ) );
+      CHECK( std::sqrt( 0.6385209 / 2. ) == Approx( resonances2.front().eliminatedWidth().value ) );
+      CHECK( std::sqrt( 0.9389508 / 2. ) == Approx( resonances2.back().eliminatedWidth().value ) );
     } // THEN
 
     THEN( "cross sections can be reconstructed" ) {
@@ -1123,6 +1645,302 @@ std::string Fe54() {
     " 1.001152+6 4.000000-1 6.940802+1 0.000000+0 0.000000+0 0.000000+02625 2151     \n"
     " 0.000000+0 0.000000+0          0          0          0          02625 2  0     \n";
 }
+
+std::string Ca40() {
+
+  // Ca40 ENDF/B-VIII.0 LRF=7 resonance evaluation
+
+  return
+    " 2.004000+4 3.961930+1          0          0          1          02025 2151     \n"
+    " 2.004000+4 1.000000+0          0          0          1          02025 2151     \n"
+    " 1.000000-5 1.500000+6          1          7          0          12025 2151     \n"
+    " 0.000000+0 0.000000+0          0          3          5          02025 2151     \n"
+    " 0.000000+0 0.000000+0          4          0         48          82025 2151     \n"
+    " 0.000000+0 4.061929+1 0.000000+0 2.000000+1 1.000000+0 0.000000+02025 2151     \n"
+    " 0.000000+0 0.000000+0 0.000000+0 1.020000+2 0.000000+0 0.000000+02025 2151     \n"
+    " 1.000000+0 3.961929+1 0.000000+0 2.000000+1 5.000000-1 0.000000+02025 2151     \n"
+    " 0.000000+0 1.000000+0 0.000000+0 2.000000+0 0.000000+0 1.000000+02025 2151     \n"
+    " 3.967131+0 3.664921+1 2.000000+0 1.800000+1 0.000000+0 1.500000+02025 2151     \n"
+    " 1.747660+6 1.000000+0 0.000000+0 8.000000+2 1.000000+0 0.000000+02025 2151     \n"
+    " 9.986235-1 3.962069+1 1.000000+0 1.900000+1 5.000000-1-4.000000+02025 2151     \n"
+    "-5.285469+5 1.000000+0 0.000000+0 6.000000+2 0.000000+0 0.000000+02025 2151     \n"
+    " 5.000000-1 0.000000+0          0          0         18          32025 2151     \n"
+    " 1.000000+0 0.000000+0 0.000000+0 0.000000+0 0.000000+0 0.000000+02025 2151     \n"
+    " 2.000000+0 0.000000+0 5.000000-1 0.000000+0 3.828792-1 4.993153-12025 2151     \n"
+    " 3.000000+0 2.000000+0 1.500000+0 0.000000+0 4.885639-1 4.885639-12025 2151     \n"
+    " 0.000000+0 0.000000+0          0         39        234         392025 2151     \n"
+    "-4.586687+5 1.000091+0 9.809761+2 2.199782-3 0.000000+0 0.000000+02025 2151     \n"
+    "-2.394214+5 1.000309+0 7.041383+2 1.219849-3 0.000000+0 0.000000+02025 2151     \n"
+    "-1.929859+5 1.000388+0 5.076764+2 1.163776-3 0.000000+0 0.000000+02025 2151     \n"
+    "-1.613693+5 1.000550+0 4.653400+2 1.150728-3 0.000000+0 0.000000+02025 2151     \n"
+    "-3.033254+4 2.245017+0 6.554955+3 3.904361-3 0.000000+0 0.000000+02025 2151     \n"
+    " 8.889281+4 8.150475-1 1.592992+2 9.999180-4 0.000000+0 0.000000+02025 2151     \n"
+    " 1.326770+5 2.638134+0 2.510286+3 1.001433-3 0.000000+0 0.000000+02025 2151     \n"
+    " 1.694194+5 2.435083+0 1.965314+3 1.001717-3 0.000000+0 0.000000+02025 2151     \n"
+    " 2.176964+5 1.527959+0 4.751993+3 1.002430-3 0.000000+0 0.000000+02025 2151     \n"
+    " 2.459636+5 1.520527+0 1.349507+4 1.005421-3 0.000000+0 0.000000+02025 2151     \n"
+    " 2.918707+5 1.501569+0 1.368518+3 1.001707-3 0.000000+0 0.000000+02025 2151     \n"
+    " 3.302023+5 1.007862+0 9.773980+3 1.005546-3 0.000000+0 0.000000+02025 2151     \n"
+    " 3.557678+5 1.020744+0 1.549639+3 1.003722-3 0.000000+0 0.000000+02025 2151     \n"
+    " 3.854519+5 1.016840+0 1.542018+2 1.003254-3 0.000000+0 0.000000+02025 2151     \n"
+    " 4.394042+5 1.621389+0 6.101693+3 1.014057-3 0.000000+0 0.000000+02025 2151     \n"
+    " 5.063640+5 1.624534+0 5.903202+3 1.011205-3 0.000000+0 0.000000+02025 2151     \n"
+    " 5.915618+5 1.002107+0 3.368277+4 1.023269-3 0.000000+0 0.000000+02025 2151     \n"
+    " 6.353157+5 1.006814+0 1.565760+3 1.008622-3 0.000000+0 0.000000+02025 2151     \n"
+    " 6.746035+5 1.002731+0 1.969717+3 1.007068-3 0.000000+0 0.000000+02025 2151     \n"
+    " 7.379045+5 1.566334+0 2.138456+3 9.881453-4 0.000000+0 0.000000+02025 2151     \n"
+    " 7.430460+5 3.810711-1 2.869368+3 9.866825-4 0.000000+0 0.000000+02025 2151     \n"
+    " 7.711377+5 9.999194-1 1.014552+4 1.012918-3 0.000000+0 0.000000+02025 2151     \n"
+    " 7.924438+5 1.002873+0 1.842673+3 1.009080-3 0.000000+0 0.000000+02025 2151     \n"
+    " 8.225723+5 1.000811+0 8.013577+1 1.015026-3 0.000000+0 0.000000+02025 2151     \n"
+    " 8.620862+5 1.189165+0 2.037008+4 1.028543-3 0.000000+0 0.000000+02025 2151     \n"
+    " 8.802359+5 1.000346+0 2.734472+4 1.023587-3 0.000000+0 0.000000+02025 2151     \n"
+    " 9.700106+5 1.003842+0 5.871393+3 1.000075-3 0.000000+0 0.000000+02025 2151     \n"
+    " 1.004426+6 7.164432-1 9.493242+3 9.811743-4 0.000000+0 0.000000+02025 2151     \n"
+    " 1.093026+6 1.040785+0 1.817525+4 9.870769-4 0.000000+0 0.000000+02025 2151     \n"
+    " 1.189083+6 1.051919+0 2.836113+3 1.000522-3 0.000000+0 0.000000+02025 2151     \n"
+    " 1.283403+6 1.005859+0 2.510394+3 9.964546-4 0.000000+0 0.000000+02025 2151     \n"
+    " 1.315693+6 1.000000+0 3.659372+3 9.866041-4 0.000000+0 0.000000+02025 2151     \n"
+    " 1.373039+6 1.000000+0 3.518292+3 9.889280-4 0.000000+0 0.000000+02025 2151     \n"
+    " 1.656895+6 1.000000+0 2.562519+5 1.319899-4 0.000000+0 0.000000+02025 2151     \n"
+    " 1.767830+6 1.000000+0 1.601594+4 1.000914-3 0.000000+0 0.000000+02025 2151     \n"
+    " 1.839939+6 1.000000+0 2.834579+4 1.012114-3 0.000000+0 0.000000+02025 2151     \n"
+    " 1.850829+6 1.000000+0 7.005697+4 1.109617-3 0.000000+0 0.000000+02025 2151     \n"
+    " 1.857524+6 1.000000+0 3.863731+5 1.440615-3 0.000000+0 0.000000+02025 2151     \n"
+    " 1.913996+6 1.000000+0 1.878975+5 2.784131-4 0.000000+0 0.000000+02025 2151     \n"
+    "-5.000000-1 0.000000+0          0          0         18          32025 2151     \n"
+    " 1.000000+0 0.000000+0 0.000000+0 0.000000+0 0.000000+0 0.000000+02025 2151     \n"
+    " 2.000000+0 1.000000+0 5.000000-1 0.000000+0 5.574746-1 4.993153-12025 2151     \n"
+    " 3.000000+0 1.000000+0 1.500000+0 0.000000+0 4.885639-1 4.885639-12025 2151     \n"
+    " 0.000000+0 0.000000+0          0         51        306         512025 2151     \n"
+    " 2.880782+3 3.499989-1 1.810972-3 1.000029-3 0.000000+0 0.000000+02025 2151     \n"
+    " 6.957171+3 3.500785-1 1.122320-2 1.000184-3 0.000000+0 0.000000+02025 2151     \n"
+    " 1.003819+5 1.382810+0 1.388124+0 9.984372-4 0.000000+0 0.000000+02025 2151     \n"
+    " 1.012155+5 6.278765-1 2.915016+1 9.973021-4 0.000000+0 0.000000+02025 2151     \n"
+    " 1.295595+5 6.086651-1 4.388002-1 9.982139-4 0.000000+0 0.000000+02025 2151     \n"
+    " 1.454277+5 6.016671-1 1.883684+2 1.000038-3 0.000000+0 0.000000+02025 2151     \n"
+    " 1.580259+5 1.285404+0 3.974389-1 9.982235-4 0.000000+0 0.000000+02025 2151     \n"
+    " 1.608229+5 1.197518+0 4.609762+1 1.002500-3 0.000000+0 0.000000+02025 2151     \n"
+    " 2.114910+5 9.639369-1 3.426937+2 1.000291-3 0.000000+0 0.000000+02025 2151     \n"
+    " 2.269925+5 1.915996+0 3.960588-1 1.009046-3 0.000000+0 0.000000+02025 2151     \n"
+    " 2.295723+5 4.876817-1 3.569023+2 1.000273-3 0.000000+0 0.000000+02025 2151     \n"
+    " 2.810462+5 1.084696+0 6.031804+0 9.988448-4 0.000000+0 0.000000+02025 2151     \n"
+    " 2.938563+5 5.369699-1 1.612936+2 9.975840-4 0.000000+0 0.000000+02025 2151     \n"
+    " 3.032079+5 6.505238-1 5.833486+1 9.999339-4 0.000000+0 0.000000+02025 2151     \n"
+    " 3.059856+5 3.456795-1 6.955574+0 9.995323-4 0.000000+0 0.000000+02025 2151     \n"
+    " 3.152028+5 3.444033-1 2.412008+0 9.951710-4 0.000000+0 0.000000+02025 2151     \n"
+    " 3.322884+5 6.917381-1 1.990955+0 9.998567-4 0.000000+0 0.000000+02025 2151     \n"
+    " 3.641640+5 1.000000+0 3.824830+0 1.000524-3 0.000000+0 0.000000+02025 2151     \n"
+    " 4.194401+5 1.004392+0 1.049871+2 1.000059-3 0.000000+0 0.000000+02025 2151     \n"
+    " 4.253701+5 1.000510+0 6.785937+0 9.972687-4 0.000000+0 0.000000+02025 2151     \n"
+    " 4.371793+5 7.291594-1 5.576908+2 1.000090-3 0.000000+0 0.000000+02025 2151     \n"
+    " 4.693849+5 3.813829-1 2.295565+2 1.000592-3 0.000000+0 0.000000+02025 2151     \n"
+    " 4.931970+5 1.000000+0 5.898443+1 1.000429-3 0.000000+0 0.000000+02025 2151     \n"
+    " 5.372131+5 5.111008-1 2.104851+2 1.002137-3 0.000000+0 0.000000+02025 2151     \n"
+    " 6.026894+5 1.000000+0 1.229004+1 1.000982-3 0.000000+0 0.000000+02025 2151     \n"
+    " 6.198572+5 1.000000+0 4.588795+1 1.000164-3 0.000000+0 0.000000+02025 2151     \n"
+    " 6.307024+5 1.000000+0 4.875367+1 9.986493-4 0.000000+0 0.000000+02025 2151     \n"
+    " 6.517651+5 3.495588-1 2.457345+1 9.942275-4 0.000000+0 0.000000+02025 2151     \n"
+    " 6.585853+5 1.000000+0 6.445188+0 9.992971-4 0.000000+0 0.000000+02025 2151     \n"
+    " 6.678979+5 3.495588-1 1.259035+2 1.001379-3 0.000000+0 0.000000+02025 2151     \n"
+    " 6.942533+5 3.502237-1 8.926642+2 1.000665-3 0.000000+0 0.000000+02025 2151     \n"
+    " 7.127810+5 3.800376-1 2.214914+2 9.035939-4 0.000000+0 0.000000+02025 2151     \n"
+    " 8.234357+5 1.000496+0 2.024149+3 9.944059-4 0.000000+0 0.000000+02025 2151     \n"
+    " 8.481097+5 9.006851-1 6.526597+1 1.001352-3 0.000000+0 0.000000+02025 2151     \n"
+    " 8.674401+5 3.212123-1 4.117567+2 9.945676-4 0.000000+0 0.000000+02025 2151     \n"
+    " 9.410248+5 3.500940-1 1.013363+3 1.003742-3 0.000000+0 0.000000+02025 2151     \n"
+    " 9.650374+5 1.025332+0 1.609099+2 1.001175-3 0.000000+0 0.000000+02025 2151     \n"
+    " 1.018558+6 9.932257-1 1.302725+3 9.572095-4 0.000000+0 0.000000+02025 2151     \n"
+    " 1.024279+6 1.008507+0 2.021524+2 9.951288-4 0.000000+0 0.000000+02025 2151     \n"
+    " 1.037285+6 1.006532+0 1.728796+3 1.001917-3 0.000000+0 0.000000+02025 2151     \n"
+    " 1.057398+6 1.002368+0 8.359717+2 9.960064-4 0.000000+0 0.000000+02025 2151     \n"
+    " 1.060311+6 1.003334+0 4.763447+2 9.888550-4 0.000000+0 0.000000+02025 2151     \n"
+    " 1.100866+6 9.937983-1 4.382755+2 1.000022-3 0.000000+0 0.000000+02025 2151     \n"
+    " 1.141864+6 9.202789-1 3.770592+2 9.967338-4 0.000000+0 0.000000+02025 2151     \n"
+    " 1.242643+6 1.000077+0 1.730181+3 9.978615-4 0.000000+0 0.000000+02025 2151     \n"
+    " 1.432040+6 1.000000+0 7.285957+2 9.796377-4 0.000000+0 0.000000+02025 2151     \n"
+    " 1.439972+6 9.761681-1 3.451445+2 1.000397-3 0.000000+0 0.000000+02025 2151     \n"
+    " 1.468021+6 9.389508-1 1.271009+2 9.842338-4 0.000000+0 0.000000+02025 2151     \n"
+    " 1.470698+6 9.779341-1 1.445353+2 4.809440-4 0.000000+0 0.000000+02025 2151     \n"
+    " 1.489149+6 1.109174+0 3.636708+2 1.000787-3 0.000000+0 0.000000+02025 2151     \n"
+    " 1.496383+6 1.050878+0 1.448484+2 1.012630-3 0.000000+0 0.000000+02025 2151     \n"
+    "-1.500000+0 0.000000+0          0          0         24          42025 2151     \n"
+    " 1.000000+0 0.000000+0 0.000000+0 0.000000+0 0.000000+0 0.000000+02025 2151     \n"
+    " 2.000000+0 1.000000+0 5.000000-1 0.000000+0 5.574746-1 4.993153-12025 2151     \n"
+    " 4.000000+0 2.000000+0 3.500000+0 0.000000+0 4.993202-1 4.993202-12025 2151     \n"
+    " 3.000000+0 1.000000+0 1.500000+0 0.000000+0 4.885639-1 4.885639-12025 2151     \n"
+    " 0.000000+0 0.000000+0          0         52        312         522025 2151     \n"
+    " 1.084167+4 6.385209-1 5.834810-1 0.000000+0 9.999433-4 0.000000+02025 2151     \n"
+    " 1.933991+4 4.693232-1 7.927589-2 0.000000+0 1.000035-3 0.000000+02025 2151     \n"
+    " 5.258763+4 3.948809-1 2.712932-1 0.000000+0 9.998658-4 0.000000+02025 2151     \n"
+    " 8.505723+4 2.258309-1 1.717796+0 0.000000+0 9.938120-4 0.000000+02025 2151     \n"
+    " 1.325016+5 3.097500-1 2.669534-1 0.000000+0 1.001213-3 0.000000+02025 2151     \n"
+    " 1.515291+5 2.710230-1 1.357344+1 0.000000+0 9.999954-4 0.000000+02025 2151     \n"
+    " 1.785771+5 5.279479-1 7.206823+0 0.000000+0 1.001054-3 0.000000+02025 2151     \n"
+    " 2.215573+5 5.962590-1 2.379516+1 0.000000+0 1.007390-3 0.000000+02025 2151     \n"
+    " 2.693832+5 3.962471-1 4.093579+1 0.000000+0 9.999634-4 0.000000+02025 2151     \n"
+    " 2.884495+5 7.259105-1 7.754888-1 0.000000+0 9.994487-4 0.000000+02025 2151     \n"
+    " 2.905101+5 2.733106-1 4.927727+1 0.000000+0 1.001839-3 0.000000+02025 2151     \n"
+    " 3.210301+5 5.988639-1 2.819137-1 0.000000+0 9.976746-4 0.000000+02025 2151     \n"
+    " 3.423883+5 3.902199-1 7.632160+1 0.000000+0 1.001149-3 0.000000+02025 2151     \n"
+    " 3.457514+5 3.954839-1 1.226557+2 0.000000+0 1.001829-3 0.000000+02025 2151     \n"
+    " 3.538809+5 1.011334+0 9.533776+1 0.000000+0 1.007196-3 0.000000+02025 2151     \n"
+    " 3.715723+5 3.817660-1 1.081556+2 0.000000+0 1.001452-3 0.000000+02025 2151     \n"
+    " 3.767322+5 1.000000+0 1.943685+1 0.000000+0 1.000646-3 0.000000+02025 2151     \n"
+    " 3.973762+5 1.000000+0 1.337209+1 0.000000+0 9.997173-4 0.000000+02025 2151     \n"
+    " 4.778264+5 3.811228-1 1.902890+2 0.000000+0 1.000948-3 0.000000+02025 2151     \n"
+    " 4.871760+5 1.000000+0 3.910849+0 0.000000+0 1.007483-3 0.000000+02025 2151     \n"
+    " 6.099266+5 1.000000+0 2.978815+1 1.00000-28 1.001369-3 0.000000+02025 2151     \n"
+    " 6.406201+5 3.495588-1 6.761204+2 1.00000-23 9.996853-4 0.000000+02025 2151     \n"
+    " 6.526481+5 1.000000+0 3.834609+1 1.00000-21 9.996850-4 0.000000+02025 2151     \n"
+    " 6.886465+5 5.162762-1 1.024890+1 1.00000-20 9.999319-4 0.000000+02025 2151     \n"
+    " 7.277809+5 4.139505-1 1.669951+2 5.000000-6 1.001089-3 0.000000+02025 2151     \n"
+    " 7.643093+5 3.809662-1 1.351587+2 5.000000-6 9.988016-4 0.000000+02025 2151     \n"
+    " 7.728142+5 1.000000+0 8.088075+1 1.500000-4 9.997971-4 0.000000+02025 2151     \n"
+    " 8.256661+5 1.000496+0 3.727073+2 1.500000-4 1.000465-3 0.000000+02025 2151     \n"
+    " 8.418854+5 8.794051-1 4.176216+2 1.500000-4 1.016792-3 0.000000+02025 2151     \n"
+    " 8.523793+5 9.002441-1 2.022774+1 1.500000-4 9.984209-4 0.000000+02025 2151     \n"
+    " 8.840479+5 4.158173-1 3.456310+2 1.500000-4 9.892646-4 0.000000+02025 2151     \n"
+    " 9.075664+5 3.800084-1 6.364961+2 1.500000-4 9.961361-4 0.000000+02025 2151     \n"
+    " 9.387972+5 1.002308+0 2.823054+1 1.500000-4 1.016902-3 0.000000+02025 2151     \n"
+    " 9.585494+5 3.809018-1 4.532000+2 1.500000-4 9.982374-4 0.000000+02025 2151     \n"
+    " 1.040712+6 1.000967+0 3.945334+2 1.500000-4 1.000298-3 0.000000+02025 2151     \n"
+    " 1.082875+6 1.000676+0 7.546027+2 1.500000-4 9.991833-4 0.000000+02025 2151     \n"
+    " 1.145045+6 1.060216+0 4.948621+2 1.500000-4 1.006641-3 0.000000+02025 2151     \n"
+    " 1.159711+6 1.090563+0 4.579632+2 1.500000-4 9.981890-4 0.000000+02025 2151     \n"
+    " 1.166595+6 1.083161+0 2.160592+2 1.500000-4 9.850694-4 0.000000+02025 2151     \n"
+    " 1.185042+6 1.002685+0 1.879646+2 1.500000-4 1.018880-3 0.000000+02025 2151     \n"
+    " 1.200423+6 1.159214+0 5.743287+3 1.500000-4 9.544719-4 0.000000+02025 2151     \n"
+    " 1.214226+6 9.518523-1 6.166954+3 1.500000-4 9.991078-4 0.000000+02025 2151     \n"
+    " 1.298746+6 1.000000+0 3.409365+2 1.500000-4 9.476255-4 0.000000+02025 2151     \n"
+    " 1.301649+6 1.045509+0 1.917287+2 1.500000-4 9.971868-4 0.000000+02025 2151     \n"
+    " 1.327471+6 1.000000+0 1.306775+2 1.000000-4 9.950707-4 0.000000+02025 2151     \n"
+    " 1.347516+6 1.000000+0 1.159204+3 1.500000-4 9.972576-4 0.000000+02025 2151     \n"
+    " 1.404028+6 1.000000+0 4.138882+1 1.500000-4 1.002915-3 0.000000+02025 2151     \n"
+    " 1.406689+6 1.000000+0 4.318980+2 1.500000-4 9.989632-4 0.000000+02025 2151     \n"
+    " 1.423854+6 1.000005+0 7.303676+2 1.500000-4 9.993239-4 0.000000+02025 2151     \n"
+    " 1.445634+6 1.191034+0 1.491566+3 1.500000-4 1.000200-3 0.000000+02025 2151     \n"
+    " 1.464709+6 1.016184+0 1.436454+2 1.500000-4 1.048600-3 0.000000+02025 2151     \n"
+    " 1.477528+6 9.389508-1 1.603824+2 1.500000-4 1.008688-3 0.000000+02025 2151     \n"
+    " 1.500000+0 0.000000+0          0          0         24          42025 2151     \n"
+    " 1.000000+0 0.000000+0 0.000000+0 0.000000+0 0.000000+0 0.000000+02025 2151     \n"
+    " 2.000000+0 2.000000+0 5.000000-1 0.000000+0 3.833842-1 4.993153-12025 2151     \n"
+    " 3.000000+0 0.000000+0 1.500000+0 0.000000+0 4.885639-1 4.885639-12025 2151     \n"
+    " 3.000000+0 2.000000+0 1.500000+0 0.000000+0 4.885639-1 4.885639-12025 2151     \n"
+    " 0.000000+0 0.000000+0          0         54        324         542025 2151     \n"
+    " 3.026620+3 5.099998-1 1.501024-4 1.000013-3 1.000013-3 0.000000+02025 2151     \n"
+    " 4.657137+3 5.099760-1 4.947117-4 1.000004-3 1.000004-3 0.000000+02025 2151     \n"
+    " 2.043708+4 7.210495-1 4.938822+0 9.999247-4 1.000164-3 0.000000+02025 2151     \n"
+    " 4.623603+4 5.099926-1 2.026671-2 9.998318-4 9.998306-4 0.000000+02025 2151     \n"
+    " 6.264166+4 1.121466+0 6.335089-2 9.998755-4 9.998746-4 0.000000+02025 2151     \n"
+    " 6.557878+4 1.111692+0 5.383179-2 1.000216-3 1.000218-3 0.000000+02025 2151     \n"
+    " 1.065398+5 4.707627-1 9.616531-2 1.000511-3 1.000668-3 0.000000+02025 2151     \n"
+    " 1.385358+5 2.806143-1 9.549145-2 1.001714-3 1.000409-3 0.000000+02025 2151     \n"
+    " 1.432626+5 3.596077-1 9.937466-1 1.000070-3 1.000070-3 0.000000+02025 2151     \n"
+    " 1.500945+5 3.528211-1 6.032865-1 9.973723-4 9.968441-4 0.000000+02025 2151     \n"
+    " 1.647324+5 5.324688-1 2.791209+0 1.000915-3 9.998078-4 0.000000+02025 2151     \n"
+    " 1.722230+5 3.526227+0 8.406423-1 9.946027-4 9.967819-4 0.000000+02025 2151     \n"
+    " 1.856688+5 1.239514+0 9.646669+0 9.975083-4 9.990511-4 0.000000+02025 2151     \n"
+    " 1.924824+5 9.910902-1 3.775050-1 9.965835-4 9.999850-4 0.000000+02025 2151     \n"
+    " 2.141463+5 6.883913-1 6.154837+0 1.000658-3 1.000664-3 0.000000+02025 2151     \n"
+    " 2.227226+5 6.559927-1 9.108186+0 9.997763-4 9.980250-4 0.000000+02025 2151     \n"
+    " 2.416358+5 1.093544+0 2.129680+1 1.001655-3 1.001670-3 0.000000+02025 2151     \n"
+    " 2.805810+5 1.182492+0 7.251026+0 1.000530-3 9.941674-4 0.000000+02025 2151     \n"
+    " 3.001983+5 6.199414-1 2.733042+1 1.000516-3 1.000521-3 0.000000+02025 2151     \n"
+    " 3.798147+5 1.000000+0 1.287701+1 9.994548-4 9.994491-4 0.000000+02025 2151     \n"
+    " 4.167255+5 5.128116-1 4.541446+0 1.004093-3 1.003108-3 0.000000+02025 2151     \n"
+    " 4.700237+5 1.000000+0 4.799204+1 9.996709-4 9.996673-4 0.000000+02025 2151     \n"
+    " 4.999691+5 1.000000+0 1.112486+1 9.980574-4 9.980354-4 0.000000+02025 2151     \n"
+    " 5.035246+5 1.000000+0 4.336471+1 1.000728-3 1.000736-3 0.000000+02025 2151     \n"
+    " 5.200488+5 1.000000+0 9.004734+0 1.000806-3 1.000815-3 0.000000+02025 2151     \n"
+    " 5.250463+5 1.000000+0 5.904118+1 1.000435-3 1.000440-3 0.000000+02025 2151     \n"
+    " 5.586053+5 5.100690-1 2.771598+2 1.004890-3 9.999780-4 0.000000+02025 2151     \n"
+    " 6.293988+5 5.134487-1 1.499947+1 1.003408-3 1.001827-3 0.000000+02025 2151     \n"
+    " 6.430281+5 1.000000+0 5.261832+1 1.000549-3 1.000556-3 0.000000+02025 2151     \n"
+    " 7.472968+5 3.499870-1 4.616090+2 9.938156-4 9.984545-4 0.000000+02025 2151     \n"
+    " 8.577094+5 5.106777-1 2.093856+2 1.012277-3 1.012457-3 0.000000+02025 2151     \n"
+    " 8.736737+5 1.000000+0 9.569857+1 1.000208-3 1.000211-3 0.000000+02025 2151     \n"
+    " 8.891634+5 9.002356-1 4.484038+1 9.926082-4 9.924987-4 0.000000+02025 2151     \n"
+    " 8.914717+5 8.999572-1 4.317489+1 9.983370-4 9.983123-4 0.000000+02025 2151     \n"
+    " 9.447745+5 5.119372-1 5.416408+2 9.977040-4 9.976686-4 0.000000+02025 2151     \n"
+    " 9.688298+5 1.000000+0 2.363000-1 1.011136-3 1.011311-3 0.000000+02025 2151     \n"
+    " 9.776050+5 1.012831+0 4.804160+1 9.963013-4 9.962432-4 0.000000+02025 2151     \n"
+    " 9.933098+5 6.866854-1 9.094029+2 4.990968-5 1.000068-3 0.000000+02025 2151     \n"
+    " 1.070749+6 1.003334+0 1.074788+2 5.031243-4 1.002502-3 0.000000+02025 2151     \n"
+    " 1.094159+6 1.033640+0 3.819306+2 1.001033-3 1.001050-3 0.000000+02025 2151     \n"
+    " 1.126744+6 1.013611+0 2.017282+2 1.004744-3 1.004826-3 0.000000+02025 2151     \n"
+    " 1.128806+6 1.113102+0 8.801105+2 9.987654-4 9.987440-4 0.000000+02025 2151     \n"
+    " 1.182505+6 1.001087+0 2.844307+2 1.020610-3 1.020983-3 0.000000+02025 2151     \n"
+    " 1.231250+6 1.000157+0 8.685718+2 9.955052-4 9.954225-4 0.000000+02025 2151     \n"
+    " 1.263048+6 1.000740+0 1.409171+3 1.008584-3 1.008746-3 0.000000+02025 2151     \n"
+    " 1.281790+6 9.786015-1 2.563466+2 9.991459-4 9.991297-4 0.000000+02025 2151     \n"
+    " 1.290230+6 1.000000+0 1.844469+3 9.909057-4 9.907326-4 0.000000+02025 2151     \n"
+    " 1.333757+6 1.000000+0 5.978572+2 1.004338-3 9.995394-4 0.000000+02025 2151     \n"
+    " 1.345129+6 1.000000+0 4.658871+2 9.996799-4 9.996736-4 0.000000+02025 2151     \n"
+    " 1.380857+6 1.000000+0 5.188033+1 9.992091-4 9.991931-4 0.000000+02025 2151     \n"
+    " 1.389886+6 1.000000+0 5.537658+2 5.014843-4 9.994047-4 0.000000+02025 2151     \n"
+    " 1.432586+6 1.110417+0 2.342008+3 9.796801-4 9.984083-4 0.000000+02025 2151     \n"
+    " 1.470814+6 1.061456+0 2.337906+2 1.015015-3 1.006809-3 0.000000+02025 2151     \n"
+    " 1.515000+6 1.000000+0 2.500000+1 1.000000-3 1.000000-3 0.000000+02025 2151     \n"
+    " 2.500000+0 0.000000+0          0          0         24          42025 2151     \n"
+    " 1.000000+0 0.000000+0 0.000000+0 0.000000+0 0.000000+0 0.000000+02025 2151     \n"
+    " 2.000000+0 2.000000+0 5.000000-1 0.000000+0 3.833842-1 4.993153-12025 2151     \n"
+    " 4.000000+0 1.000000+0 3.500000+0 0.000000+0 4.993202-1 4.993202-12025 2151     \n"
+    " 3.000000+0 2.000000+0 1.500000+0 0.000000+0 4.885639-1 4.885639-12025 2151     \n"
+    " 0.000000+0 0.000000+0          0         50        300         502025 2151     \n"
+    " 3.453854+4 1.306229-1 3.772489-1 0.000000+0 1.000300-3 0.000000+02025 2151     \n"
+    " 4.209335+4 2.298787+0 5.142698-1 0.000000+0 1.000000-3 0.000000+02025 2151     \n"
+    " 8.286527+4 4.473985-1 2.238498-2 0.000000+0 9.990652-4 0.000000+02025 2151     \n"
+    " 1.102655+5 3.449248+0 8.887544-2 0.000000+0 1.001552-3 0.000000+02025 2151     \n"
+    " 1.216381+5 9.203542-2 3.191748+0 0.000000+0 1.000441-3 0.000000+02025 2151     \n"
+    " 1.591283+5 1.641489-2 9.477407-1 0.000000+0 1.001047-3 0.000000+02025 2151     \n"
+    " 2.342025+5 1.246419+0 4.576535+0 0.000000+0 1.001027-3 0.000000+02025 2151     \n"
+    " 2.584913+5 1.813201+0 1.722649+0 0.000000+0 9.874266-4 0.000000+02025 2151     \n"
+    " 2.951489+5 1.021136+0 8.857884+1 0.000000+0 1.000587-3 0.000000+02025 2151     \n"
+    " 3.085656+5 3.346849-1 1.108970+0 0.000000+0 1.000514-3 0.000000+02025 2151     \n"
+    " 3.298763+5 6.653593-1 1.814720+0 0.000000+0 1.001090-3 0.000000+02025 2151     \n"
+    " 3.397082+5 9.011701-1 2.576762-1 0.000000+0 9.968288-4 0.000000+02025 2151     \n"
+    " 4.022092+5 5.160704-1 3.043052+0 0.000000+0 1.000203-3 0.000000+02025 2151     \n"
+    " 4.751924+5 7.758394-1 4.342693+0 0.000000+0 1.000665-3 0.000000+02025 2151     \n"
+    " 5.216675+5 1.000000+0 2.525939+1 0.000000+0 1.000546-3 0.000000+02025 2151     \n"
+    " 5.699029+5 3.822176-1 1.924925+2 1.00000-44 9.991421-4 0.000000+02025 2151     \n"
+    " 5.769344+5 1.000000+0 1.372460+1 1.00000-39 1.001567-3 0.000000+02025 2151     \n"
+    " 5.941411+5 8.933261-1 1.082643+2 1.00000-31 1.003165-3 0.000000+02025 2151     \n"
+    " 6.165436+5 1.000000+0 2.803231+1 1.00000-25 1.000673-3 0.000000+02025 2151     \n"
+    " 6.230329+5 8.899142-1 7.007761+1 1.00000-24 1.003097-3 0.000000+02025 2151     \n"
+    " 6.382422+5 8.906220-1 6.105679+1 1.00000-22 1.001349-3 0.000000+02025 2151     \n"
+    " 7.411591+5 4.554076-1 7.018857+1 5.000000-6 1.002911-3 0.000000+02025 2151     \n"
+    " 7.577087+5 1.169547+0 4.196178+2 5.000000-6 9.998576-4 0.000000+02025 2151     \n"
+    " 7.898183+5 5.102981-1 7.601269+1 1.500000-4 9.979552-4 0.000000+02025 2151     \n"
+    " 8.000581+5 8.905724-1 4.668667+1 1.500000-4 9.970821-4 0.000000+02025 2151     \n"
+    " 8.297447+5 8.906578-1 3.507932+1 1.500000-4 1.002401-3 0.000000+02025 2151     \n"
+    " 8.311155+5 8.901137-1 3.737703+1 1.500000-4 9.966001-4 0.000000+02025 2151     \n"
+    " 8.417632+5 8.805770-1 4.232297+2 1.500000-4 1.000859-3 0.000000+02025 2151     \n"
+    " 9.238486+5 1.008796+0 8.757183+0 1.500000-4 9.415124-4 0.000000+02025 2151     \n"
+    " 9.244597+5 8.945398-1 2.227880+2 1.500000-4 9.989827-4 0.000000+02025 2151     \n"
+    " 9.999858+5 9.224902-1 2.827924+1 1.500000-4 1.016953-3 0.000000+02025 2151     \n"
+    " 1.045655+6 1.003072+0 2.247409+2 1.500000-4 9.989267-4 0.000000+02025 2151     \n"
+    " 1.086756+6 1.005137+0 3.971382+1 1.500000-4 9.854369-4 0.000000+02025 2151     \n"
+    " 1.098158+6 1.078827+0 8.173862+1 1.500000-4 1.001039-3 0.000000+02025 2151     \n"
+    " 1.137219+6 1.222333+0 3.580701+2 1.500000-4 1.000237-3 0.000000+02025 2151     \n"
+    " 1.169459+6 1.040866+0 4.714465+2 1.500000-4 9.993727-4 0.000000+02025 2151     \n"
+    " 1.235112+6 1.000259+0 3.222590+2 1.500000-4 9.999556-4 0.000000+02025 2151     \n"
+    " 1.249477+6 1.000056+0 9.000118+2 1.500000-4 9.968391-4 0.000000+02025 2151     \n"
+    " 1.254854+6 9.938044-1 3.227746+1 1.500000-4 9.996581-4 0.000000+02025 2151     \n"
+    " 1.257787+6 1.000058+0 1.629126+2 1.500000-4 1.001669-3 0.000000+02025 2151     \n"
+    " 1.267411+6 9.997524-1 9.046679+2 1.500000-4 1.009044-3 0.000000+02025 2151     \n"
+    " 1.306825+6 9.979807-1 4.509818+1 1.500000-4 1.007341-3 0.000000+02025 2151     \n"
+    " 1.309848+6 1.000000+0 4.062436+2 1.500000-4 1.000226-3 0.000000+02025 2151     \n"
+    " 1.338594+6 1.000000+0 2.752651+2 1.500000-4 1.000010-3 0.000000+02025 2151     \n"
+    " 1.355534+6 1.000487+0 5.944995+0 1.500000-4 1.008256-3 0.000000+02025 2151     \n"
+    " 1.356064+6 1.005737+0 1.275084+2 1.500000-4 1.002580-3 0.000000+02025 2151     \n"
+    " 1.385422+6 9.992268-1 3.216466+1 1.500000-4 9.877915-4 0.000000+02025 2151     \n"
+    " 1.458160+6 1.016184+0 1.566699+3 1.500000-4 1.033904-3 0.000000+02025 2151     \n"
+    " 1.468385+6 1.061456+0 1.180005+2 1.500000-4 1.004753-3 0.000000+02025 2151     \n"
+    " 1.530000+6 1.000000+0 4.500000+1 1.500000-4 1.000000-3 0.000000+02025 2151     \n"
+    " 0.000000+0 0.000000+0          0          0          0          02025 2  0     \n";
+}
+
 
 std::string Cl35() {
 
