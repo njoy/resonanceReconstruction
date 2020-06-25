@@ -8,10 +8,15 @@ using namespace njoy::resonanceReconstruction;
 // convenience typedefs
 using Particle = rmatrix::Particle;
 using ParticlePair = rmatrix::ParticlePair;
+using ParticlePairID = rmatrix::ParticlePairID;
 using Neutron = rmatrix::Neutron;
-using Fission = rmatrix::Fission;
-using ChargedParticle = rmatrix::ChargedParticle;
 using Photon = rmatrix::Photon;
+using ChargedParticle = rmatrix::ChargedParticle;
+template < typename Type > using Channel = rmatrix::Channel< Type >;
+using ChannelID = rmatrix::ChannelID;
+using ChannelQuantumNumbers = rmatrix::ChannelQuantumNumbers;
+using ChannelRadii = rmatrix::ChannelRadii;
+using BoundaryCondition = rmatrix::BoundaryCondition;
 template < typename Type > using Channel = rmatrix::Channel< Type >;
 using Resonance = rmatrix::Resonance;
 using ResonanceTable = rmatrix::ResonanceTable;
@@ -21,7 +26,8 @@ using Constant = rmatrix::Constant;
 using ReichMoore = rmatrix::ReichMoore;
 using ParticleChannel = rmatrix::ParticleChannel;
 
-constexpr AtomicMass neutronMass = 1.008664 * daltons;
+constexpr ElectricalCharge elementary = dimwits::constant::elementaryCharge;
+constexpr double e = 1.6021766208e-19;
 
 SCENARIO( "SpinGroup" ) {
 
@@ -29,208 +35,234 @@ SCENARIO( "SpinGroup" ) {
 
     // particles
     Particle photon( "g", 0.0 * daltons, 0.0 * coulombs, 1., +1);
-    Particle neutron( "n", neutronMass, 0.0 * coulombs, 0.5, +1);
-    Particle proton( "p", 1.007276 * daltons, 1.0 * coulombs, 0.5, +1);
-    Particle pu240( "Pu240_e0", 2.379916e+2 * neutronMass,
-                                94.0 * coulombs, 0.5, +1);
-    Particle pu239( "Pu239_e0", 2.369986e+2 * neutronMass,
-                                94.0 * coulombs, 0.5, +1);
-    Particle np240( "Np240_e0", 2.379940e+2 * neutronMass,
-                                93.0 * coulombs, 0.5, +1);
-    Particle fission( "fission", 0.0 * daltons, 0.0 * coulombs, 0.0, +1);
+    Particle neutron( "n", 1.00866491582 * daltons, 0.0 * coulombs, 0.5, +1);
+    Particle proton( "p", 1.00727647 * daltons, elementary, 0.5, +1);
+    Particle cl36( "Cl36_e0", 35.968306822 * daltons,
+                              17.0 * elementary, 0., +1);
+    Particle cl35( "Cl35_e0", 34.968852694 * daltons,
+                              17.0 * elementary, 1.5, +1);
+    Particle cl35_e1( "Cl35_e1", 34.968852694 * daltons,
+                                 17.0 * elementary, 1.5, +1);
+    Particle s36( "S36_e0", 35.967080699 * daltons,
+                            16.0 * elementary, 1.5, +1);
 
     // particle pairs
-    ParticlePair in( neutron, pu239, 0.0 * electronVolt );
-    ParticlePair out1( photon, pu240, 0.0 * electronVolt );
-    ParticlePair out2( neutron, fission, 0.0 * electronVolt, "fission" );
-    ParticlePair out3( proton, np240, 0.0 * electronVolt );
+    ParticlePair elasticPair( neutron, cl35 );
+    ParticlePair inelasticPair( neutron, cl35_e1 );
+    ParticlePair capturePair( photon, cl36 );
+    ParticlePair protonEmissionPair( proton, s36 );
+
+    // Q values
+    QValue elasticQ = 0.0 * electronVolt;
+    QValue inelasticQ = -1.219440e+6 * electronVolt;
+    QValue captureQ = 0.0 * electronVolt;
+    QValue protonEmissionQ = 6.152200e+5 * electronVolt;
+
+    // quantum numbers
+    ChannelQuantumNumbers elasticNumbers( 0, 1.0, 1.0, +1 );
+    ChannelQuantumNumbers inelasticNumbers( 0, 1.0, 1.0, +1 );
+    ChannelQuantumNumbers captureNumbers( 0, 0.0, 1.0, +1 );
+    ChannelQuantumNumbers protonEmissionNumbers( 0, 1.0, 1.0, +1 );
+
+    // channel radii
+    ChannelRadii elasticRadii( 4.822220e-1 * rootBarn,
+                               3.667980e-1 * rootBarn );
+    ChannelRadii inelasticRadii( 4.822220e-1 * rootBarn,
+                               3.667980e-1 * rootBarn );
+    ChannelRadii captureRadii( 0.0 * rootBarn );
+    ChannelRadii protonEmissionRadii( 4.822220e-1 * rootBarn,
+                                      3.667980e-1 * rootBarn );
 
     // channels
-    Channel< Photon > capture( out1, { 0, 0.0, 1.0, +1 },
-                               { 0.0 * rootBarn },
-                               0.0 );
-    Channel< Neutron > elastic( in, { 0, 0.5, 1.0, +1 },
-                                { 9.410000e-1 * rootBarn },
-                                0.0 );
-    Channel< Fission > fission1( out2, "fission1", { 0, 0.0, 1.0, +1 },
-                                 { 9.410000e-1 * rootBarn },
-                                 0.0 );
-    Channel< Fission > fission2( out2, "fission2", { 0, 0.0, 1.0, +1 },
-                                 { 9.410000e-1 * rootBarn },
-                                 0.0 );
-    Channel< ChargedParticle > emission( out3, { 0, 0.5, 1.0, +1 },
-                                         { 9.410000e-1 * rootBarn },
-                                         0.0 );
+    Channel< Photon > capture( elasticPair, capturePair, captureQ,
+                               captureNumbers, captureRadii );
+    Channel< Neutron > elastic( elasticPair, elasticPair, elasticQ,
+                                elasticNumbers, elasticRadii );
+    Channel< Neutron > inelastic( elasticPair, inelasticPair, inelasticQ,
+                                 inelasticNumbers, inelasticRadii );
+    Channel< ChargedParticle > protonEmission( elasticPair,
+                                               protonEmissionPair,
+                                               protonEmissionQ,
+                                               protonEmissionNumbers,
+                                               protonEmissionRadii );
 
     // single resonance table
     ResonanceTable single(
-      { elastic.channelID(), fission1.channelID(),
-        fission2.channelID(), emission.channelID() },
+      { elastic.channelID(), inelastic.channelID(), protonEmission.channelID() },
       { Resonance( 0.25 * electronVolt,
                    { 1.0 * rootElectronVolt, 2.0 * rootElectronVolt,
-                     3.0 * rootElectronVolt, 4.0 * rootElectronVolt },
+                     3.0 * rootElectronVolt },
                    0.5 * rootElectronVolt ) } );
 
-    THEN( "a SpinGroup can be constructed using the actual indices" ) {
+    // usefull lambdas
+    auto channelID = [] ( const auto& channel )
+                        { return channel.channelID(); };
+
+    THEN( "a SpinGroup can be constructed" ) {
+
+      Energy energy = 1e-5 * electronVolts;
+
       SpinGroup< ReichMoore, ShiftFactor >
-          group( { 0 }, { elastic, fission1, fission2, emission },
-                 std::move( single ) );
+          group( { elastic, inelastic, protonEmission }, std::move( single ) );
 
-      REQUIRE( 1 == group.incidentChannels().size() );
-      REQUIRE( "n,Pu239_e0{0,1/2,1+}" ==
-                   std::visit( [] ( const auto& channel )
-                                  { return channel.channelID(); },
-                               group.incidentChannels().front() ) );
+      CHECK( 1 == group.incidentChannels().size() );
+      CHECK( elastic.channelID()
+             == std::visit( channelID, group.incidentChannels().front() ) );
 
-      REQUIRE( in.pairID() == group.incidentPair().pairID() );
+      CHECK( elasticPair.pairID() == group.incidentPair().pairID() );
 
-      REQUIRE( 4 == group.channels().size() );
+      CHECK( 3 == group.channels().size() );
 
       // channel 1 - elastic
       auto channel1 = std::get< Channel< Neutron > >( group.channels()[0] );
-      REQUIRE( "n,Pu239_e0{0,1/2,1+}" == channel1.channelID() );
 
-      auto particlePair = channel1.particlePair();
-      REQUIRE( 1.008664 == Approx( particlePair.particle().mass().value ) );
-      REQUIRE( 0.0 == Approx( particlePair.particle().charge().value ) );
-      REQUIRE( 0.5 == Approx( particlePair.particle().spin() ) );
-      REQUIRE( +1 == particlePair.particle().parity() );
-      REQUIRE( 239.0519559 == Approx( particlePair.residual().mass().value ) );
-      REQUIRE( 94. == Approx( particlePair.residual().charge().value ) );
-      REQUIRE( 0.5 == Approx( particlePair.residual().spin() ) );
-      REQUIRE( +1 == particlePair.residual().parity() );
-      REQUIRE( 0.0 == Approx( particlePair.Q().value ) );
-      REQUIRE( "n,Pu239_e0" == particlePair.pairID() );
+      CHECK( "n,Cl35_e0{0,1,1+}" == channel1.channelID() );
+      CHECK( "n,Cl35_e0->n,Cl35_e0" == channel1.reactionID() );
+
+      CHECK( true == channel1.isIncidentChannel() );
+
+      auto incident = channel1.incidentParticlePair();
+      CHECK( 1.00866491582 == Approx( incident.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident.particle().spin() ) );
+      CHECK( +1 == incident.particle().parity() );
+      CHECK( 34.968852694 == Approx( incident.residual().mass().value ) );
+      CHECK( 17. * e == Approx( incident.residual().charge().value ) );
+      CHECK( 1.5 == Approx( incident.residual().spin() ) );
+      CHECK( +1 == incident.residual().parity() );
+      CHECK( "n,Cl35_e0" == incident.pairID() );
+
+      auto pair = channel1.particlePair();
+      CHECK( 1.00866491582 == Approx( pair.particle().mass().value ) );
+      CHECK( 0.0 == Approx( pair.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair.particle().spin() ) );
+      CHECK( +1 == pair.particle().parity() );
+      CHECK( 34.968852694 == Approx( pair.residual().mass().value ) );
+      CHECK( 17. * e == Approx( pair.residual().charge().value ) );
+      CHECK( 1.5 == Approx( pair.residual().spin() ) );
+      CHECK( +1 == pair.residual().parity() );
+      CHECK( "n,Cl35_e0" == pair.pairID() );
 
       auto numbers = channel1.quantumNumbers();
-      REQUIRE( 0 == numbers.orbitalAngularMomentum() );
-      REQUIRE( 0.5 == numbers.spin() );
-      REQUIRE( 1.0 == numbers.totalAngularMomentum() );
-      REQUIRE( +1 == numbers.parity() );
+      CHECK( 0 == numbers.orbitalAngularMomentum() );
+      CHECK( 1.0 == numbers.spin() );
+      CHECK( 1.0 == numbers.totalAngularMomentum() );
+      CHECK( +1 == numbers.parity() );
 
       auto radii = channel1.radii();
-      REQUIRE( 0.941 ==
-          Approx( radii.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
-      REQUIRE( 0.941 ==
-          Approx( radii.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
-      REQUIRE( 0.941 ==
-          Approx( radii.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .4822220 == Approx( radii.penetrabilityRadius( energy ).value ) );
+      CHECK( .4822220 == Approx( radii.shiftFactorRadius( energy ).value ) );
+      CHECK( .3667980 == Approx( radii.phaseShiftRadius( energy ).value ) );
 
-      REQUIRE( 0.0 == channel1.boundaryCondition() );
+      CHECK( 0.0 == channel1.boundaryCondition() );
 
-      // channel 2 - fission1
-      auto channel2 = std::get< Channel< Fission > >( group.channels()[1] );
-      REQUIRE( "fission1{0,0,1+}" == channel2.channelID() );
+      CHECK( 0.0 == Approx( channel1.Q().value ) );
 
-      particlePair = channel2.particlePair();
-      REQUIRE( 1.008664 == Approx( particlePair.particle().mass().value ) );
-      REQUIRE( 0.0 == Approx( particlePair.particle().charge().value ) );
-      REQUIRE( 0.5 == Approx( particlePair.particle().spin() ) );
-      REQUIRE( +1 == particlePair.particle().parity() );
-      REQUIRE( 0. == Approx( particlePair.residual().mass().value ) );
-      REQUIRE( 0. == Approx( particlePair.residual().charge().value ) );
-      REQUIRE( 0.0 == Approx( particlePair.residual().spin() ) );
-      REQUIRE( +1 == particlePair.residual().parity() );
-      REQUIRE( 0.0 == Approx( particlePair.Q().value ) );
-      REQUIRE( "fission" == particlePair.pairID() );
+      // channel 2 - inelastic
+      auto channel2 = std::get< Channel< Neutron > >( group.channels()[1] );
+
+      CHECK( "n,Cl35_e1{0,1,1+}" == channel2.channelID() );
+      CHECK( "n,Cl35_e0->n,Cl35_e1" == channel2.reactionID() );
+
+      CHECK( false == channel2.isIncidentChannel() );
+
+      incident = channel2.incidentParticlePair();
+      CHECK( 1.00866491582 == Approx( incident.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident.particle().spin() ) );
+      CHECK( +1 == incident.particle().parity() );
+      CHECK( 34.968852694 == Approx( incident.residual().mass().value ) );
+      CHECK( 17. * e == Approx( incident.residual().charge().value ) );
+      CHECK( 1.5 == Approx( incident.residual().spin() ) );
+      CHECK( +1 == incident.residual().parity() );
+      CHECK( "n,Cl35_e0" == incident.pairID() );
+
+      pair = channel2.particlePair();
+      CHECK( 1.00866491582 == Approx( pair.particle().mass().value ) );
+      CHECK( 0.0 == Approx( pair.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair.particle().spin() ) );
+      CHECK( +1 == pair.particle().parity() );
+      CHECK( 34.968852694 == Approx( pair.residual().mass().value ) );
+      CHECK( 17. * e == Approx( pair.residual().charge().value ) );
+      CHECK( 1.5 == Approx( pair.residual().spin() ) );
+      CHECK( +1 == pair.residual().parity() );
+      CHECK( "n,Cl35_e1" == pair.pairID() );
 
       numbers = channel2.quantumNumbers();
-      REQUIRE( 0 == numbers.orbitalAngularMomentum() );
-      REQUIRE( 0.0 == numbers.spin() );
-      REQUIRE( 1.0 == numbers.totalAngularMomentum() );
-      REQUIRE( +1 == numbers.parity() );
+      CHECK( 0 == numbers.orbitalAngularMomentum() );
+      CHECK( 1.0 == numbers.spin() );
+      CHECK( 1.0 == numbers.totalAngularMomentum() );
+      CHECK( +1 == numbers.parity() );
 
       radii = channel2.radii();
-      REQUIRE( 0.941 ==
-          Approx( radii.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
-      REQUIRE( 0.941 ==
-          Approx( radii.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
-      REQUIRE( 0.941 ==
-          Approx( radii.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .4822220 == Approx( radii.penetrabilityRadius( energy ).value ) );
+      CHECK( .4822220 == Approx( radii.shiftFactorRadius( energy ).value ) );
+      CHECK( .3667980 == Approx( radii.phaseShiftRadius( energy ).value ) );
 
-      REQUIRE( 0.0 == channel2.boundaryCondition() );
+      CHECK( 0.0 == channel2.boundaryCondition() );
 
-      // channel 3 - fission2
-      auto channel3 = std::get< Channel< Fission > >( group.channels()[2] );
-      REQUIRE( "fission2{0,0,1+}" == channel3.channelID() );
+      CHECK( -1.219440e+6 == Approx( channel2.Q().value ) );
 
-      particlePair = channel3.particlePair();
-      REQUIRE( 1.008664 == Approx( particlePair.particle().mass().value ) );
-      REQUIRE( 0.0 == Approx( particlePair.particle().charge().value ) );
-      REQUIRE( 0.5 == Approx( particlePair.particle().spin() ) );
-      REQUIRE( +1 == particlePair.particle().parity() );
-      REQUIRE( 0. == Approx( particlePair.residual().mass().value ) );
-      REQUIRE( 0. == Approx( particlePair.residual().charge().value ) );
-      REQUIRE( 0.0 == Approx( particlePair.residual().spin() ) );
-      REQUIRE( +1 == particlePair.residual().parity() );
-      REQUIRE( 0.0 == Approx( particlePair.Q().value ) );
-      REQUIRE( "fission" == particlePair.pairID() );
+      // channel 3 - proton emission
+      auto channel3 = std::get< Channel< ChargedParticle > >( group.channels()[2] );
+
+      CHECK( "p,S36_e0{0,1,1+}" == channel3.channelID() );
+      CHECK( "n,Cl35_e0->p,S36_e0" == channel3.reactionID() );
+
+      CHECK( false == channel3.isIncidentChannel() );
+
+      incident = channel3.incidentParticlePair();
+      CHECK( 1.00866491582 == Approx( incident.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident.particle().spin() ) );
+      CHECK( +1 == incident.particle().parity() );
+      CHECK( 34.968852694 == Approx( incident.residual().mass().value ) );
+      CHECK( 17. * e == Approx( incident.residual().charge().value ) );
+      CHECK( 1.5 == Approx( incident.residual().spin() ) );
+      CHECK( +1 == incident.residual().parity() );
+      CHECK( "n,Cl35_e0" == incident.pairID() );
+
+      pair = channel3.particlePair();
+      CHECK( 1.00727647 == Approx( pair.particle().mass().value ) );
+      CHECK( e == Approx( pair.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair.particle().spin() ) );
+      CHECK( +1 == pair.particle().parity() );
+      CHECK( 35.967080699 == Approx( pair.residual().mass().value ) );
+      CHECK( 16. * e == Approx( pair.residual().charge().value ) );
+      CHECK( 1.5 == Approx( pair.residual().spin() ) );
+      CHECK( +1 == pair.residual().parity() );
+      CHECK( "p,S36_e0" == pair.pairID() );
 
       numbers = channel3.quantumNumbers();
-      REQUIRE( 0 == numbers.orbitalAngularMomentum() );
-      REQUIRE( 0.0 == numbers.spin() );
-      REQUIRE( 1.0 == numbers.totalAngularMomentum() );
-      REQUIRE( +1 == numbers.parity() );
+      CHECK( 0 == numbers.orbitalAngularMomentum() );
+      CHECK( 1.0 == numbers.spin() );
+      CHECK( 1.0 == numbers.totalAngularMomentum() );
+      CHECK( +1 == numbers.parity() );
 
       radii = channel3.radii();
-      REQUIRE( 0.941 ==
-          Approx( radii.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
-      REQUIRE( 0.941 ==
-          Approx( radii.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
-      REQUIRE( 0.941 ==
-          Approx( radii.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .4822220 == Approx( radii.penetrabilityRadius( energy ).value ) );
+      CHECK( .4822220 == Approx( radii.shiftFactorRadius( energy ).value ) );
+      CHECK( .3667980 == Approx( radii.phaseShiftRadius( energy ).value ) );
 
-      REQUIRE( 0.0 == channel3.boundaryCondition() );
+      CHECK( 0.0 == channel3.boundaryCondition() );
 
-      // channel 4 - emission
-      auto channel4 = std::get< Channel< ChargedParticle > >( group.channels()[3] );
-      REQUIRE( "p,Np240_e0{0,1/2,1+}" == channel4.channelID() );
-
-      particlePair = channel4.particlePair();
-      REQUIRE( 1.007276 == Approx( particlePair.particle().mass().value ) );
-      REQUIRE( 1.0 == Approx( particlePair.particle().charge().value ) );
-      REQUIRE( 0.5 == Approx( particlePair.particle().spin() ) );
-      REQUIRE( +1 == particlePair.particle().parity() );
-      REQUIRE( 240.055980 == Approx( particlePair.residual().mass().value ) );
-      REQUIRE( 93. == Approx( particlePair.residual().charge().value ) );
-      REQUIRE( 0.5 == Approx( particlePair.residual().spin() ) );
-      REQUIRE( +1 == particlePair.residual().parity() );
-      REQUIRE( 0.0 == Approx( particlePair.Q().value ) );
-      REQUIRE( "p,Np240_e0" == particlePair.pairID() );
-
-      numbers = channel4.quantumNumbers();
-      REQUIRE( 0 == numbers.orbitalAngularMomentum() );
-      REQUIRE( 0.5 == numbers.spin() );
-      REQUIRE( 1.0 == numbers.totalAngularMomentum() );
-      REQUIRE( +1 == numbers.parity() );
-
-      radii = channel4.radii();
-      REQUIRE( 0.941 ==
-          Approx( radii.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
-      REQUIRE( 0.941 ==
-          Approx( radii.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
-      REQUIRE( 0.941 ==
-          Approx( radii.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
-
-      REQUIRE( 0.0 == channel4.boundaryCondition() );
+      CHECK( 6.152200e+5 == Approx( channel3.Q().value ) );
 
       // reactions in the spin group
       auto reactions = group.reactionIDs();
-      REQUIRE( 5 == reactions.size() );
-      REQUIRE( "n,Pu239_e0->n,Pu239_e0" == reactions[0] );
-      REQUIRE( "n,Pu239_e0->fission" == reactions[1] );
-      REQUIRE( "n,Pu239_e0->fission" == reactions[2] );
-      REQUIRE( "n,Pu239_e0->p,Np240_e0" == reactions[3] );
-      REQUIRE( "n,Pu239_e0->capture" == reactions[4] );
+      CHECK( 4 == reactions.size() );
+      CHECK( "n,Cl35_e0->n,Cl35_e0" == reactions[0] );
+      CHECK( "n,Cl35_e0->n,Cl35_e1" == reactions[1] );
+      CHECK( "n,Cl35_e0->p,S36_e0" == reactions[2] );
+      CHECK( "n,Cl35_e0->capture" == reactions[3] );
 
       // resonance data
       auto table = group.resonanceTable();
-      REQUIRE( 4 == table.numberChannels() );
-      REQUIRE( 4 == table.channels().size() );
-      REQUIRE( "n,Pu239_e0{0,1/2,1+}" == table.channels()[0] );
-      REQUIRE( "fission1{0,0,1+}" == table.channels()[1] );
-      REQUIRE( "fission2{0,0,1+}" == table.channels()[2] );
-      REQUIRE( "p,Np240_e0{0,1/2,1+}" == table.channels()[3] );
+      REQUIRE( 3 == table.numberChannels() );
+      REQUIRE( 3 == table.channels().size() );
+      REQUIRE( "n,Cl35_e0{0,1,1+}" == table.channels()[0] );
+      REQUIRE( "n,Cl35_e1{0,1,1+}" == table.channels()[1] );
+      REQUIRE( "p,S36_e0{0,1,1+}" == table.channels()[2] );
       REQUIRE( 1 == table.numberResonances() );
       REQUIRE( 1 == table.resonances().size() );
       REQUIRE( 1 == table.energies().size() );
@@ -238,184 +270,10 @@ SCENARIO( "SpinGroup" ) {
       auto resonance = table.resonances()[0];
       REQUIRE( 0.25 == Approx( resonance.energy().value ) );
       REQUIRE( 0.5 == Approx( resonance.eliminatedWidth().value ) );
-      REQUIRE( 4 == resonance.widths().size() );
+      REQUIRE( 3 == resonance.widths().size() );
       REQUIRE( 1.0 == Approx( resonance.widths()[0].value ) );
       REQUIRE( 2.0 == Approx( resonance.widths()[1].value ) );
       REQUIRE( 3.0 == Approx( resonance.widths()[2].value ) );
-      REQUIRE( 4.0 == Approx( resonance.widths()[3].value ) );
-    }
-
-    THEN( "a SpinGroup can be constructed using the incident particle pair" ) {
-      SpinGroup< ReichMoore, ShiftFactor >
-          group( in, { elastic, fission1, fission2, emission },
-                 std::move( single ) );
-
-      REQUIRE( 1 == group.incidentChannels().size() );
-      REQUIRE( "n,Pu239_e0{0,1/2,1+}" ==
-                   std::visit( [] ( const auto& channel )
-                                  { return channel.channelID(); },
-                               group.incidentChannels().front() ) );
-
-      REQUIRE( in.pairID() == group.incidentPair().pairID() );
-
-      REQUIRE( 4 == group.channels().size() );
-
-      // channel 1 - elastic
-      auto channel1 = std::get< Channel< Neutron > >( group.channels()[0] );
-      REQUIRE( "n,Pu239_e0{0,1/2,1+}" == channel1.channelID() );
-
-      auto particlePair = channel1.particlePair();
-      REQUIRE( 1.008664 == Approx( particlePair.particle().mass().value ) );
-      REQUIRE( 0.0 == Approx( particlePair.particle().charge().value ) );
-      REQUIRE( 0.5 == Approx( particlePair.particle().spin() ) );
-      REQUIRE( +1 == particlePair.particle().parity() );
-      REQUIRE( 239.0519559 == Approx( particlePair.residual().mass().value ) );
-      REQUIRE( 94. == Approx( particlePair.residual().charge().value ) );
-      REQUIRE( 0.5 == Approx( particlePair.residual().spin() ) );
-      REQUIRE( +1 == particlePair.residual().parity() );
-      REQUIRE( 0.0 == Approx( particlePair.Q().value ) );
-      REQUIRE( "n,Pu239_e0" == particlePair.pairID() );
-
-      auto numbers = channel1.quantumNumbers();
-      REQUIRE( 0 == numbers.orbitalAngularMomentum() );
-      REQUIRE( 0.5 == numbers.spin() );
-      REQUIRE( 1.0 == numbers.totalAngularMomentum() );
-      REQUIRE( +1 == numbers.parity() );
-
-      auto radii = channel1.radii();
-      REQUIRE( 0.941 ==
-          Approx( radii.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
-      REQUIRE( 0.941 ==
-          Approx( radii.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
-      REQUIRE( 0.941 ==
-          Approx( radii.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
-      REQUIRE( 0.0 == channel1.boundaryCondition() );
-
-      // channel 2 - fission1
-      auto channel2 = std::get< Channel< Fission > >( group.channels()[1] );
-      REQUIRE( "fission1{0,0,1+}" == channel2.channelID() );
-
-      particlePair = channel2.particlePair();
-      REQUIRE( 1.008664 == Approx( particlePair.particle().mass().value ) );
-      REQUIRE( 0.0 == Approx( particlePair.particle().charge().value ) );
-      REQUIRE( 0.5 == Approx( particlePair.particle().spin() ) );
-      REQUIRE( +1 == particlePair.particle().parity() );
-      REQUIRE( 0. == Approx( particlePair.residual().mass().value ) );
-      REQUIRE( 0. == Approx( particlePair.residual().charge().value ) );
-      REQUIRE( 0.0 == Approx( particlePair.residual().spin() ) );
-      REQUIRE( +1 == particlePair.residual().parity() );
-      REQUIRE( 0.0 == Approx( particlePair.Q().value ) );
-      REQUIRE( "fission" == particlePair.pairID() );
-
-      numbers = channel2.quantumNumbers();
-      REQUIRE( 0 == numbers.orbitalAngularMomentum() );
-      REQUIRE( 0.0 == numbers.spin() );
-      REQUIRE( 1.0 == numbers.totalAngularMomentum() );
-      REQUIRE( +1 == numbers.parity() );
-
-      radii = channel2.radii();
-      REQUIRE( 0.941 ==
-          Approx( radii.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
-      REQUIRE( 0.941 ==
-          Approx( radii.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
-      REQUIRE( 0.941 ==
-          Approx( radii.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
-
-      REQUIRE( 0.0 == channel2.boundaryCondition() );
-
-      // channel 3 - fission2
-      auto channel3 = std::get< Channel< Fission > >( group.channels()[2] );
-      REQUIRE( "fission2{0,0,1+}" == channel3.channelID() );
-
-      particlePair = channel3.particlePair();
-      REQUIRE( 1.008664 == Approx( particlePair.particle().mass().value ) );
-      REQUIRE( 0.0 == Approx( particlePair.particle().charge().value ) );
-      REQUIRE( 0.5 == Approx( particlePair.particle().spin() ) );
-      REQUIRE( +1 == particlePair.particle().parity() );
-      REQUIRE( 0. == Approx( particlePair.residual().mass().value ) );
-      REQUIRE( 0. == Approx( particlePair.residual().charge().value ) );
-      REQUIRE( 0.0 == Approx( particlePair.residual().spin() ) );
-      REQUIRE( +1 == particlePair.residual().parity() );
-      REQUIRE( 0.0 == Approx( particlePair.Q().value ) );
-      REQUIRE( "fission" == particlePair.pairID() );
-
-      numbers = channel3.quantumNumbers();
-      REQUIRE( 0 == numbers.orbitalAngularMomentum() );
-      REQUIRE( 0.0 == numbers.spin() );
-      REQUIRE( 1.0 == numbers.totalAngularMomentum() );
-      REQUIRE( +1 == numbers.parity() );
-
-      radii = channel3.radii();
-      REQUIRE( 0.941 ==
-          Approx( radii.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
-      REQUIRE( 0.941 ==
-          Approx( radii.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
-      REQUIRE( 0.941 ==
-          Approx( radii.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
-
-      REQUIRE( 0.0 == channel3.boundaryCondition() );
-
-      // channel 4 - emission
-      auto channel4 = std::get< Channel< ChargedParticle > >( group.channels()[3] );
-      REQUIRE( "p,Np240_e0{0,1/2,1+}" == channel4.channelID() );
-
-      particlePair = channel4.particlePair();
-      REQUIRE( 1.007276 == Approx( particlePair.particle().mass().value ) );
-      REQUIRE( 1.0 == Approx( particlePair.particle().charge().value ) );
-      REQUIRE( 0.5 == Approx( particlePair.particle().spin() ) );
-      REQUIRE( +1 == particlePair.particle().parity() );
-      REQUIRE( 240.055980 == Approx( particlePair.residual().mass().value ) );
-      REQUIRE( 93. == Approx( particlePair.residual().charge().value ) );
-      REQUIRE( 0.5 == Approx( particlePair.residual().spin() ) );
-      REQUIRE( +1 == particlePair.residual().parity() );
-      REQUIRE( 0.0 == Approx( particlePair.Q().value ) );
-      REQUIRE( "p,Np240_e0" == particlePair.pairID() );
-
-      numbers = channel4.quantumNumbers();
-      REQUIRE( 0 == numbers.orbitalAngularMomentum() );
-      REQUIRE( 0.5 == numbers.spin() );
-      REQUIRE( 1.0 == numbers.totalAngularMomentum() );
-      REQUIRE( +1 == numbers.parity() );
-
-      radii = channel4.radii();
-      REQUIRE( 0.941 ==
-          Approx( radii.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
-      REQUIRE( 0.941 ==
-          Approx( radii.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
-      REQUIRE( 0.941 ==
-          Approx( radii.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
-
-      REQUIRE( 0.0 == channel4.boundaryCondition() );
-
-      // reactions in the spin group
-      auto reactions = group.reactionIDs();
-      REQUIRE( 5 == reactions.size() );
-      REQUIRE( "n,Pu239_e0->n,Pu239_e0" == reactions[0] );
-      REQUIRE( "n,Pu239_e0->fission" == reactions[1] );
-      REQUIRE( "n,Pu239_e0->fission" == reactions[2] );
-      REQUIRE( "n,Pu239_e0->p,Np240_e0" == reactions[3] );
-      REQUIRE( "n,Pu239_e0->capture" == reactions[4] );
-
-      // resonance data
-      auto table = group.resonanceTable();
-      REQUIRE( 4 == table.numberChannels() );
-      REQUIRE( 4 == table.channels().size() );
-      REQUIRE( "n,Pu239_e0{0,1/2,1+}" == table.channels()[0] );
-      REQUIRE( "fission1{0,0,1+}" == table.channels()[1] );
-      REQUIRE( "fission2{0,0,1+}" == table.channels()[2] );
-      REQUIRE( "p,Np240_e0{0,1/2,1+}" == table.channels()[3] );
-      REQUIRE( 1 == table.numberResonances() );
-      REQUIRE( 1 == table.resonances().size() );
-      REQUIRE( 1 == table.energies().size() );
-      REQUIRE( 0.25 == Approx( table.energies()[0].value ) );
-      auto resonance = table.resonances()[0];
-      REQUIRE( 0.25 == Approx( resonance.energy().value ) );
-      REQUIRE( 0.5 == Approx( resonance.eliminatedWidth().value ) );
-      REQUIRE( 4 == resonance.widths().size() );
-      REQUIRE( 1.0 == Approx( resonance.widths()[0].value ) );
-      REQUIRE( 2.0 == Approx( resonance.widths()[1].value ) );
-      REQUIRE( 3.0 == Approx( resonance.widths()[2].value ) );
-      REQUIRE( 4.0 == Approx( resonance.widths()[3].value ) );
     }
   } // GIVEN
 
@@ -423,69 +281,81 @@ SCENARIO( "SpinGroup" ) {
 
     // particles
     Particle photon( "g", 0.0 * daltons, 0.0 * coulombs, 1., +1);
-    Particle neutron( "n", neutronMass, 0.0 * coulombs, 0.5, +1);
-    Particle proton( "p", 1.007276 * daltons, 1.0 * coulombs, 0.5, +1);
-    Particle pu240( "Pu240_e0", 2.379916e+2 * neutronMass,
-                                94.0 * coulombs, 0.5, +1);
-    Particle pu239( "Pu239_e0", 2.369986e+2 * neutronMass,
-                                94.0 * coulombs, 0.5, +1);
-    Particle np240( "Np240_e0", 2.379940e+2 * neutronMass,
-                                93.0 * coulombs, 0.5, +1);
-    Particle fission( "fission", 0.0 * daltons, 0.0 * coulombs, 0.0, +1);
+    Particle neutron( "n", 1.00866491582 * daltons, 0.0 * coulombs, 0.5, +1);
+    Particle proton( "p", 1.00727647 * daltons, elementary, 0.5, +1);
+    Particle cl36( "Cl36_e0", 35.968306822 * daltons,
+                              17.0 * elementary, 0., +1);
+    Particle cl35( "Cl35_e0", 34.968852694 * daltons,
+                              17.0 * elementary, 1.5, +1);
+    Particle cl35_e1( "Cl35_e1", 34.968852694 * daltons,
+                                 17.0 * elementary, 1.5, +1);
+    Particle s36( "S36_e0", 35.967080699 * daltons,
+                            16.0 * elementary, 1.5, +1);
 
     // particle pairs
-    ParticlePair in( neutron, pu239, 0.0 * electronVolt );
-    ParticlePair out1( photon, pu240, 0.0 * electronVolt );
-    ParticlePair out2( neutron, fission, 0.0 * electronVolt, "fission" );
-    ParticlePair out3( proton, np240, 0.0 * electronVolt );
+    ParticlePair elasticPair( neutron, cl35 );
+    ParticlePair inelasticPair( neutron, cl35_e1 );
+    ParticlePair capturePair( photon, cl36 );
+    ParticlePair protonEmissionPair( proton, s36 );
+
+    // Q values
+    QValue elasticQ = 0.0 * electronVolt;
+    QValue inelasticQ = -1.219440e+6 * electronVolt;
+    QValue captureQ = 0.0 * electronVolt;
+    QValue protonEmissionQ = 6.152200e+5 * electronVolt;
+
+    // quantum numbers
+    ChannelQuantumNumbers elasticNumbers( 0, 1.0, 1.0, +1 );
+    ChannelQuantumNumbers inelasticNumbers( 0, 1.0, 1.0, +1 );
+    ChannelQuantumNumbers captureNumbers( 0, 0.0, 1.0, +1 );
+    ChannelQuantumNumbers protonEmissionNumbers( 0, 1.0, 1.0, +1 );
+
+    // channel radii
+    ChannelRadii elasticRadii( 4.822220e-1 * rootBarn,
+                               3.667980e-1 * rootBarn );
+    ChannelRadii inelasticRadii( 4.822220e-1 * rootBarn,
+                               3.667980e-1 * rootBarn );
+    ChannelRadii captureRadii( 0.0 * rootBarn );
+    ChannelRadii protonEmissionRadii( 4.822220e-1 * rootBarn,
+                                      3.667980e-1 * rootBarn );
 
     // channels (the third channel has an incorrect J,pi with respect to the
-    // other channels)
-    Channel< Photon > capture( out1, { 0, 0.0, 1.0, +1 },
-                               { 0.0 * rootBarn },
-                               0.0 );
-    Channel< Neutron > elastic( in, { 0, 0.5, 1.0, +1 },
-                                { 9.410000e-1 * rootBarn },
-                                0.0 );
-    Channel< Neutron > incorrect( in, { 0, 0.5, 0.0, +1 },
-                                  { 9.410000e-1 * rootBarn },
-                                  0.0 );
-    Channel< Fission > fission1( out2, "fission1", { 0, 0.0, 1.0, +1 },
-                                 { 9.410000e-1 * rootBarn },
-                                 0.0 );
-    Channel< Fission > fission2( out2, "fission2", { 0, 0.0, 1.0, +1 },
-                                 { 9.410000e-1 * rootBarn },
-                                 0.0 );
-    Channel< ChargedParticle > emission( out3, { 0, 0.5, 1.0, +1 },
-                                         { 9.410000e-1 * rootBarn },
-                                         0.0 );
+    // other channels and the sixth has the wrong incident pair)
+    Channel< Photon > capture( elasticPair, capturePair, captureQ,
+                               captureNumbers, captureRadii );
+    Channel< Neutron > elastic( elasticPair, elasticPair, elasticQ,
+                                elasticNumbers, elasticRadii );
+    Channel< Neutron > incorrect( elasticPair, elasticPair, elasticQ,
+                                  { 0, 1.0, 0.0, +1 }, elasticRadii );
+    Channel< Neutron > inelastic( elasticPair, inelasticPair, inelasticQ,
+                                 inelasticNumbers, inelasticRadii );
+    Channel< ChargedParticle > protonEmission( elasticPair,
+                                               protonEmissionPair,
+                                               protonEmissionQ,
+                                               protonEmissionNumbers,
+                                               protonEmissionRadii );
+    Channel< ChargedParticle > wrong( inelasticPair, protonEmissionPair,
+                                      protonEmissionQ, protonEmissionNumbers,
+                                      protonEmissionRadii );
 
     // single resonance table
     ResonanceTable single(
-      { elastic.channelID(), fission1.channelID(),
-        fission2.channelID(), emission.channelID() },
-      { Resonance( 0.25 * electronVolt,
-                   { 1.0 * rootElectronVolt, 2.0 * rootElectronVolt,
-                     3.0 * rootElectronVolt, 4.0 * rootElectronVolt },
-                   0.5 * rootElectronVolt ) } );
-    ResonanceTable wrongorder(
-      { elastic.channelID(), fission2.channelID(),
-        fission1.channelID(), emission.channelID() },
-      { Resonance( 0.25 * electronVolt,
-                   { 1.0 * rootElectronVolt, 2.0 * rootElectronVolt,
-                     3.0 * rootElectronVolt, 4.0 * rootElectronVolt },
-                   0.5 * rootElectronVolt ) } );
-    ResonanceTable wrongsize(
-      { elastic.channelID(), fission2.channelID(),
-        fission1.channelID() },
+      { elastic.channelID(), inelastic.channelID(), protonEmission.channelID() },
       { Resonance( 0.25 * electronVolt,
                    { 1.0 * rootElectronVolt, 2.0 * rootElectronVolt,
                      3.0 * rootElectronVolt },
                    0.5 * rootElectronVolt ) } );
-
-    std::vector< unsigned int > toomany = { 0, 1, 2, 3, 4, 5 };
-    std::vector< unsigned int > badindex = { 5 };
-    std::vector< unsigned int > mismatch = { 0, 1 };
+    ResonanceTable wrongorder(
+        { elastic.channelID(), protonEmission.channelID(), inelastic.channelID() },
+        { Resonance( 0.25 * electronVolt,
+                     { 1.0 * rootElectronVolt, 2.0 * rootElectronVolt,
+                       3.0 * rootElectronVolt },
+                     0.5 * rootElectronVolt ) } );
+    ResonanceTable wrongsize(
+      { elastic.channelID(), inelastic.channelID() },
+      { Resonance( 0.25 * electronVolt,
+                   { 1.0 * rootElectronVolt, 2.0 * rootElectronVolt },
+                   0.5 * rootElectronVolt ) } );
 
     // no need to test with other template parameter: construction of SpinGroup
     // is independent of the template parameters
@@ -495,42 +365,7 @@ SCENARIO( "SpinGroup" ) {
 
       ResonanceTable copy = single;
       REQUIRE_THROWS( ReichMooreShiftFactorSpinGroup
-                          ( in, { incorrect, fission1, fission2, emission },
-                            std::move( copy ) ) );
-    }
-
-    THEN( "an exception is thrown at construction when no indices are given" ) {
-
-      ResonanceTable copy = single;
-      REQUIRE_THROWS( ReichMooreShiftFactorSpinGroup
-                          ( {}, { elastic, fission1, fission2, emission },
-                            std::move( copy ) ) );
-    }
-
-    THEN( "an exception is thrown at construction for too many indices" ) {
-
-      ResonanceTable copy = single;
-      REQUIRE_THROWS( ReichMooreShiftFactorSpinGroup
-                          ( std::move( toomany ),
-                            { elastic, fission1, fission2, emission },
-                            std::move( copy ) ) );
-    }
-
-    THEN( "an exception is thrown at construction for a bad index" ) {
-
-      ResonanceTable copy = single;
-      REQUIRE_THROWS( ReichMooreShiftFactorSpinGroup
-                          ( std::move( badindex ),
-                            { elastic, fission1, fission2, emission },
-                            std::move( copy ) ) );
-    }
-
-    THEN( "an exception is thrown at construction for a pair mismatch" ) {
-
-      ResonanceTable copy = single;
-      REQUIRE_THROWS( ReichMooreShiftFactorSpinGroup
-                          ( std::move( mismatch ),
-                            { elastic, fission1, fission2, emission },
+                          ( { incorrect, inelastic, protonEmission },
                             std::move( copy ) ) );
     }
 
@@ -538,25 +373,35 @@ SCENARIO( "SpinGroup" ) {
           "between the SpinGroup's Channels and ResonanceTable" ) {
 
       REQUIRE_THROWS( ReichMooreShiftFactorSpinGroup
-                          ( in, { elastic, fission1, fission2, emission },
+                          ( { incorrect, inelastic, protonEmission },
                             std::move( wrongorder ) ) );
     }
 
     THEN( "an exception is thrown at construction for inconsistent sizes  "
           "between the SpinGroup's Channels and ResonanceTable" ) {
 
+      ResonanceTable copy = wrongsize;
       REQUIRE_THROWS( ReichMooreShiftFactorSpinGroup
-                          ( in, { elastic, fission1, fission2, emission },
-                            std::move( wrongsize ) ) );
+                          ( { incorrect, inelastic, protonEmission },
+                            std::move( copy ) ) );
     }
 
     THEN( "an exception is thrown at construction when the channels are not "
           "unique" ) {
 
+      ResonanceTable copy = wrongsize;
+      REQUIRE_THROWS( ReichMooreShiftFactorSpinGroup
+                          ( { incorrect, inelastic, inelastic, protonEmission },
+                            std::move( wrongsize ) ) );
+    }
+
+    THEN( "an exception is thrown at construction when the incident particle "
+          "pair is not the same for each channel" ) {
+
       ResonanceTable copy = single;
       REQUIRE_THROWS( ReichMooreShiftFactorSpinGroup
-                          ( in, { elastic, fission1, fission1, emission },
-                            std::move( wrongsize ) ) );
+                          ( { incorrect, inelastic, wrong },
+                            std::move( copy ) ) );
     }
   } // GIVEN
 } // SCENARIO

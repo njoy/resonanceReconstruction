@@ -15,35 +15,28 @@ using ParticleChannel = std::variant< Channel< Neutron >,
 
 /**
  *  @class
- *  @brief A spin group corresponding to a J,pi quantum number set
+ *  @brief A spin group corresponding to a Jpi quantum number set
  */
 template < typename Formalism, typename BoundaryOption >
 class SpinGroup {
 
   /* fields */
-  std::vector< ReactionID > reactions_;
-  Matrix< std::complex< double > > matrix_;
-  Matrix< std::complex< double > > rmatrix_;
-  std::vector< std::complex< double > > diagonalLMatrix_;
+  RLMatrixCalculator< Formalism, BoundaryOption > rlmatrix_;
 
+  std::vector< ReactionID > reactions_;
   std::vector< unsigned int > incident_;
   std::vector< ParticleChannel > channels_;
   ResonanceTable parameters_;
 
   /* auxiliary functions */
-  #include "resonanceReconstruction/rmatrix/SpinGroup/src/determineIncidentChannels.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/makeReactionIdentifiers.hpp"
+  #include "resonanceReconstruction/rmatrix/SpinGroup/src/determineIncidentChannels.hpp"
 
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/penetrabilities.hpp"
-  #include "resonanceReconstruction/rmatrix/SpinGroup/src/shiftFactors.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/phaseShifts.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/coulombShifts.hpp"
-  #include "resonanceReconstruction/rmatrix/SpinGroup/src/boundaryConditions.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/sqrtPenetrabilities.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/omegas.hpp"
-  #include "resonanceReconstruction/rmatrix/SpinGroup/src/belowThreshold.hpp"
-  #include "resonanceReconstruction/rmatrix/SpinGroup/src/calculateLDiagonal.hpp"
-  #include "resonanceReconstruction/rmatrix/SpinGroup/src/calculateRLMatrix.hpp"
 
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/verifyChannels.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/verifyIncidentChannels.hpp"
@@ -63,6 +56,7 @@ public:
    *  @brief Return the current incident channels in the spin group
    */
   auto incidentChannels() const {
+
     return ranges::view::all( this->incident_ )
              | ranges::view::transform( [&] ( const unsigned int i )
                                             { return this->channels_[i]; } ); }
@@ -70,15 +64,31 @@ public:
   /**
    *  @brief Return the current incident particle pair
    */
-  auto incidentPair() const {
+  const ParticlePair incidentPair() const {
 
-    //! @todo for some reason debug fails when using const ParticlePair& as
-    //!       the return type for this function and the lambda function inside
-    //!       the visit function
-    return std::visit(
-               [&] ( const auto& channel )
-                   { return channel.particlePair(); },
-               this->incidentChannels().front() );
+    auto incidentParticlePair = [] ( const auto& channel )
+                                   { return channel.incidentParticlePair(); };
+
+    return std::visit( incidentParticlePair, this->channels_.front() );
+  }
+
+  /**
+   *  @brief Return the channel identifiers associated to each channel
+   *
+   *  These channel identifiers are unique: they reference a given particle pair
+   *  (which may or may not be unique) and the quantum numbers of the channel.
+   *  The order in which these are given equals the order of the channels in the
+   *  spin group.
+   */
+  auto channelIDs() const {
+
+    auto channelID = [] ( const auto& channel )
+                        { return channel.channelID(); };
+
+    return this->channels()
+             | ranges::view::transform(
+                   [=] ( const auto& channel )
+                       { return std::visit( channelID, channel ); } );
   }
 
   /**
@@ -92,30 +102,11 @@ public:
   auto reactionIDs() const { return ranges::view::all( this->reactions_ ); }
 
   /**
-   *  @brief Return the channel identifiers associated to each channel
-   *
-   *  These channel identifiers are unique: they reference a given particle pair
-   *  (which may or may not be unique) and the quantum numbers of the channel.
-   *  The order in which these are given equals the order of the channels in the
-   *  spin group.
-   */
-  auto channelIDs() const {
-
-    return this->channels()
-             | ranges::view::transform(
-                   [] ( const auto& channel )
-                      { return std::visit(
-                                   [&] ( const auto& channel )
-                                       { return channel.channelID(); },
-                                   channel ); } );
-  }
-
-  /**
    *  @brief Return the resonance table
    */
   const ResonanceTable& resonanceTable() const { return this->parameters_; }
 
-  #include "resonanceReconstruction/rmatrix/SpinGroup/src/switchIncidentPair.hpp"
+  //#include "resonanceReconstruction/rmatrix/SpinGroup/src/switchIncidentPair.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/evaluate.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/evaluateTMatrix.hpp"
 };

@@ -18,7 +18,7 @@ public:
 
   auto spinGroups() const { return ranges::view::all( this->groups_ ); }
 
-  #include "resonanceReconstruction/rmatrix/CompoundSystem/src/switchIncidentPair.hpp"
+  //#include "resonanceReconstruction/rmatrix/CompoundSystem/src/switchIncidentPair.hpp"
   #include "resonanceReconstruction/rmatrix/CompoundSystem/src/evaluate.hpp"
   #include "resonanceReconstruction/rmatrix/CompoundSystem/src/evaluateTMatrix.hpp"
 };

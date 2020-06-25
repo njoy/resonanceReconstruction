@@ -36,33 +36,33 @@ SCENARIO( "CompoundSystem" ) {
                               26.0 * coulombs, 0.0, +1);
 
     // particle pairs
-    ParticlePair out( photon, fe55, 0.0 * electronVolt );
-    ParticlePair in( neutron, fe54, 0.0 * electronVolt );
+    ParticlePair out( photon, fe55 );
+    ParticlePair in( neutron, fe54 );
 
     // channels
-    Channel< Photon > capture1( out, { 0, 0.0, 0.5, +1 },
+    Channel< Photon > capture1( in, out, 0. * electronVolt, { 0, 0.0, 0.5, +1 },
                                 { 0.0 * rootBarn } );
-    Channel< Neutron > elastic1( in, { 0, 0.5, 0.5, +1 },
+    Channel< Neutron > elastic1( in, in, 0. * electronVolt, { 0, 0.5, 0.5, +1 },
                                  { 5.437300e-1 * rootBarn,
                                    5.437300e-1 * rootBarn } );
-    Channel< Photon > capture2( out, { 0, 0.0, 0.5, -1 },
+    Channel< Photon > capture2( in, out, 0. * electronVolt, { 0, 0.0, 0.5, -1 },
                                 { 0.0 * rootBarn } );
-    Channel< Neutron > elastic2( in, { 1, 0.5, 0.5, -1 },
+    Channel< Neutron > elastic2( in, in, 0. * electronVolt, { 1, 0.5, 0.5, -1 },
                                  { 5.437300e-1 * rootBarn,
                                    5.437300e-1 * rootBarn } );
-    Channel< Photon > capture3( out, { 0, 0.0, 1.5, -1 },
+    Channel< Photon > capture3( in, out, 0. * electronVolt, { 0, 0.0, 1.5, -1 },
                                 { 0.0 * rootBarn } );
-    Channel< Neutron > elastic3( in, { 1, 0.5, 1.5, -1 },
+    Channel< Neutron > elastic3( in, in, 0. * electronVolt, { 1, 0.5, 1.5, -1 },
                                  { 5.437300e-1 * rootBarn,
                                    5.437300e-1 * rootBarn } );
-    Channel< Photon > capture4( out, { 0, 0.0, 1.5, +1 },
+    Channel< Photon > capture4( in, out, 0. * electronVolt, { 0, 0.0, 1.5, +1 },
                                 { 0.0 * rootBarn } );
-    Channel< Neutron > elastic4( in, { 2, 0.5, 1.5, +1 },
+    Channel< Neutron > elastic4( in, in, 0. * electronVolt, { 2, 0.5, 1.5, +1 },
                                  { 5.437300e-1 * rootBarn,
                                    5.437300e-1 * rootBarn } );
-    Channel< Photon > capture5( out, { 0, 0.0, 2.5, +1 },
+    Channel< Photon > capture5( in, out, 0. * electronVolt, { 0, 0.0, 2.5, +1 },
                                 { 0.0 * rootBarn } );
-    Channel< Neutron > elastic5( in, { 2, 0.5, 2.5, +1 },
+    Channel< Neutron > elastic5( in, in, 0. * electronVolt, { 2, 0.5, 2.5, +1 },
                                  { 5.437300e-1 * rootBarn,
                                    5.437300e-1 * rootBarn } );
 
@@ -109,15 +109,15 @@ SCENARIO( "CompoundSystem" ) {
                    cGamma( 1.100000e+0 ) ) } );
 
     SpinGroup< ReichMoore, ShiftFactor >
-        group1( in, { elastic1 }, std::move( table1 ) );
+        group1( { elastic1 }, std::move( table1 ) );
     SpinGroup< ReichMoore, ShiftFactor >
-        group2( in, { elastic2 }, std::move( table2 ) );
+        group2( { elastic2 }, std::move( table2 ) );
     SpinGroup< ReichMoore, ShiftFactor >
-        group3( in, { elastic3 }, std::move( table3 ) );
+        group3( { elastic3 }, std::move( table3 ) );
     SpinGroup< ReichMoore, ShiftFactor >
-        group4( in, { elastic4 }, std::move( table4 ) );
+        group4( { elastic4 }, std::move( table4 ) );
     SpinGroup< ReichMoore, ShiftFactor >
-        group5( in, { elastic5 }, std::move( table5 ) );
+        group5( { elastic5 }, std::move( table5 ) );
 
     THEN( "a SpinGroup can be constructed" ) {
       CompoundSystem< ReichMoore, ShiftFactor >
@@ -173,28 +173,28 @@ SCENARIO( "CompoundSystem" ) {
                               26.0 * coulombs, 0.0, +1);
 
     // particle pairs
-    ParticlePair out( photon, fe55, 0.0 * electronVolt );
-    ParticlePair in( neutron, fe54, 0.0 * electronVolt );
+    ParticlePair out( photon, fe55 );
+    ParticlePair in( neutron, fe54 );
 
     // channels
-    Channel< Photon > capture1( out, { 0, 0.0, 0.5, +1 },
+    Channel< Photon > capture1( in, out, 0. * electronVolt, { 0, 0.0, 0.5, +1 },
                                 { 0.0 * rootBarn } );
-    Channel< Neutron > elastic1( in, { 0, 0.5, 0.5, +1 },
+    Channel< Neutron > elastic1( in, in, 0. * electronVolt, { 0, 0.5, 0.5, +1 },
                                  { 5.437300e-1 * rootBarn,
                                    5.437300e-1 * rootBarn } );
-    Channel< Photon > capture2( out, { 0, 0.0, 0.5, -1 },
+    Channel< Photon > capture2( in, out, 0. * electronVolt, { 0, 0.0, 0.5, -1 },
                                 { 0.0 * rootBarn } );
-    Channel< Neutron > elastic2( in, { 1, 0.5, 0.5, -1 },
+    Channel< Neutron > elastic2( in, in, 0. * electronVolt, { 1, 0.5, 0.5, -1 },
                                  { 5.437300e-1 * rootBarn,
                                    5.437300e-1 * rootBarn } );
-    Channel< Photon > capture3( out, { 0, 0.0, 1.5, -1 },
+    Channel< Photon > capture3( in, out, 0. * electronVolt, { 0, 0.0, 1.5, -1 },
                                 { 0.0 * rootBarn } );
-    Channel< Neutron > elastic3( in, { 1, 0.5, 1.5, -1 },
+    Channel< Neutron > elastic3( in, in, 0. * electronVolt, { 1, 0.5, 1.5, -1 },
                                  { 5.437300e-1 * rootBarn,
                                    5.437300e-1 * rootBarn } );
-    Channel< Photon > capture4( out, { 0, 0.0, 1.5, +1 },
+    Channel< Photon > capture4( in, out, 0. * electronVolt, { 0, 0.0, 1.5, +1 },
                                 { 0.0 * rootBarn } );
-    Channel< Neutron > elastic4( in, { 2, 0.5, 1.5, +1 },
+    Channel< Neutron > elastic4( in, in, 0. * electronVolt, { 2, 0.5, 1.5, +1 },
                                  { 5.437300e-1 * rootBarn,
                                    5.437300e-1 * rootBarn } );
 
@@ -235,13 +235,13 @@ SCENARIO( "CompoundSystem" ) {
                    cGamma( 2.700000e-1 ) ) } );
 
     SpinGroup< ReichMoore, ShiftFactor >
-        group1( in, { elastic1 }, std::move( table1 ) );
+        group1( { elastic1 }, std::move( table1 ) );
     SpinGroup< ReichMoore, ShiftFactor >
-        group2( in, { elastic2 }, std::move( table2 ) );
+        group2( { elastic2 }, std::move( table2 ) );
     SpinGroup< ReichMoore, ShiftFactor >
-        group3( in, { elastic3 }, std::move( table3 ) );
+        group3( { elastic3 }, std::move( table3 ) );
     SpinGroup< ReichMoore, ShiftFactor >
-        group4( in, { elastic4 }, std::move( table4 ) );
+        group4( { elastic4 }, std::move( table4 ) );
 
     // no need to test with other template parameter: construction of
     // CompoundSystem is independent of the template parameters

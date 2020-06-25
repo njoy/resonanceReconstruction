@@ -9,10 +9,33 @@ void verifyChannels( const std::vector< ParticleChannel >& channels ) {
     throw std::exception();
   }
 
+  // verify that each channel has the same incident particle pair
+
+  const auto getIncidentPairID = [] ( const auto& entry ) {
+
+    return std::visit( [] ( const auto& channel )
+                          { return channel.incidentParticlePair().pairID(); },
+                       entry );
+  };
+
+  const auto in = getIncidentPairID( channels.front() );
+
+  if ( static_cast< unsigned int >(
+         ranges::count_if(
+             channels,
+             [&] ( const auto& channel )
+                 { return getIncidentPairID( channel ) == in; } ) )
+       < channels.size() ) {
+
+    Log::error( "Not all channels in the spin group have the same incident "
+                "particle pair." );
+    throw std::exception();
+  };
+
   // verify that each channel is unique
 
   const auto verifyUniqueChannel = [&] ( const auto& entry ) {
-      
+
     const auto getChannelID = [] ( const auto& entry ) {
 
       return std::visit( [] ( const auto& channel )
@@ -46,7 +69,7 @@ void verifyChannels( const std::vector< ParticleChannel >& channels ) {
 
   auto checkQuantumNumbers = [&] ( const auto& entry ) {
     const auto current = getQuantumNumbers( entry );
-    const bool mismatch = 
+    const bool mismatch =
       ( ( current.totalAngularMomentum() != reference.totalAngularMomentum() ) ||
         ( current.parity() != reference.parity() ) );
 

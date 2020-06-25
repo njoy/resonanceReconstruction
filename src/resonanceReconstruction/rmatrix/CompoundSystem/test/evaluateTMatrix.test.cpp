@@ -48,14 +48,14 @@ SCENARIO( "evaluateTMatrix" ) {
                               26.0 * coulombs, 0.0, +1);
 
     // particle pairs
-    ParticlePair in( neutron, fe54, 0.0 * electronVolt );
-    ParticlePair out( photon, fe55, 0.0 * electronVolt );
+    ParticlePair in( neutron, fe54 );
+    ParticlePair out( photon, fe55 );
 
     // channels
-    Channel< Photon > capture( out, { 0, 0.0, 0.5, +1 },
+    Channel< Photon > capture( in, out, 0. * electronVolt, { 0, 0.0, 0.5, +1 },
                                { 0.0 * rootBarn },
                                0.0 );
-    Channel< Neutron > elastic( in, { 0, 0.5, 0.5, +1 },
+    Channel< Neutron > elastic( in, in, 0. * electronVolt, { 0, 0.5, 0.5, +1 },
                                 { 5.437300e-1 * rootBarn,
                                   5.437300e-1 * rootBarn },
                                 0.0 );
@@ -92,13 +92,13 @@ SCENARIO( "evaluateTMatrix" ) {
     ResonanceTable multiple2 = multiple;
 
     SpinGroup< ReichMoore, ShiftFactor >
-        group1( in, { elastic }, std::move( single ) );
+        group1( { elastic }, std::move( single ) );
     SpinGroup< ReichMoore, ShiftFactor >
-        group2( in, { elastic }, std::move( multiple ) );
+        group2( { elastic }, std::move( multiple ) );
     SpinGroup< ReichMoore, Constant >
-        group3( in, { elastic }, std::move( single2 ) );
+        group3( { elastic }, std::move( single2 ) );
     SpinGroup< ReichMoore, Constant >
-        group4( in, { elastic }, std::move( multiple2 ) );
+        group4( { elastic }, std::move( multiple2 ) );
 
     CompoundSystem< ReichMoore, ShiftFactor > system1( { group1 } );
     CompoundSystem< ReichMoore, ShiftFactor > system2( { group2 } );
@@ -175,7 +175,7 @@ SCENARIO( "evaluateTMatrix" ) {
       REQUIRE( 1 == elements.size() );
       REQUIRE( -1.3081573474631189E-12 == Approx( elements[ t11 ].real() ) );
       REQUIRE(  0.99877608598185263 == Approx( elements[ t11 ].imag() ) );
-    }
+    } // THEN
 
     THEN( "T matrix elements can be calculated for multiple resonances using "
           "the ShiftFactor boundary condition" ) {
@@ -255,7 +255,7 @@ SCENARIO( "evaluateTMatrix" ) {
       REQUIRE( 1 == elements.size() );
       REQUIRE( -1.1241471569546157E-07 == Approx( elements[ t11 ].real() ) );
       REQUIRE(  0.99887879243030220 == Approx( elements[ t11 ].imag() ) );
-    }
+    } // THEN
 
     THEN( "T matrix elements can be calculated for a single resonance using "
           "the Constant boundary condition" ) {
@@ -325,7 +325,7 @@ SCENARIO( "evaluateTMatrix" ) {
       REQUIRE( 1 == elements.size() );
       REQUIRE( -1.3081573474631189E-12 == Approx( elements[ t11 ].real() ) );
       REQUIRE(  0.99877608598185263 == Approx( elements[ t11 ].imag() ) );
-    }
+    } // THEN
 
     THEN( "T matrix elements can be calculated for multiple resonances using "
           "the Constant boundary condition" ) {
@@ -405,7 +405,7 @@ SCENARIO( "evaluateTMatrix" ) {
       REQUIRE( 1 == elements.size() );
       REQUIRE( -1.1241471569546157E-07 == Approx( elements[ t11 ].real() ) );
       REQUIRE(  0.99887879243030220 == Approx( elements[ t11 ].imag() ) );
-    }
+    } // THEN
   } // GIVEN
 
   GIVEN( "valid data for a CompoundSystem with five SpinGroup without "
@@ -430,33 +430,33 @@ SCENARIO( "evaluateTMatrix" ) {
                               26.0 * coulombs, 0.0, +1);
 
     // particle pairs
-    ParticlePair out( photon, fe55, 0.0 * electronVolt );
-    ParticlePair in( neutron, fe54, 0.0 * electronVolt );
+    ParticlePair out( photon, fe55 );
+    ParticlePair in( neutron, fe54 );
 
     // channels
-    Channel< Photon > capture1( out, { 0, 0.0, 0.5, +1 },
+    Channel< Photon > capture1( in, out, 0. * electronVolt, { 0, 0.0, 0.5, +1 },
                                 { 0.0 * rootBarn } );
-    Channel< Neutron > elastic1( in, { 0, 0.5, 0.5, +1 },
+    Channel< Neutron > elastic1( in, in, 0. * electronVolt, { 0, 0.5, 0.5, +1 },
                                  { 5.437300e-1 * rootBarn,
                                    5.437300e-1 * rootBarn } );
-    Channel< Photon > capture2( out, { 0, 0.0, 0.5, -1 },
+    Channel< Photon > capture2( in, out, 0. * electronVolt, { 0, 0.0, 0.5, -1 },
                                 { 0.0 * rootBarn } );
-    Channel< Neutron > elastic2( in, { 1, 0.5, 0.5, -1 },
+    Channel< Neutron > elastic2( in, in, 0. * electronVolt, { 1, 0.5, 0.5, -1 },
                                  { 5.437300e-1 * rootBarn,
                                    5.437300e-1 * rootBarn } );
-    Channel< Photon > capture3( out, { 0, 0.0, 1.5, -1 },
+    Channel< Photon > capture3( in, out, 0. * electronVolt, { 0, 0.0, 1.5, -1 },
                                 { 0.0 * rootBarn } );
-    Channel< Neutron > elastic3( in, { 1, 0.5, 1.5, -1 },
+    Channel< Neutron > elastic3( in, in, 0. * electronVolt, { 1, 0.5, 1.5, -1 },
                                  { 5.437300e-1 * rootBarn,
                                    5.437300e-1 * rootBarn } );
-    Channel< Photon > capture4( out, { 0, 0.0, 1.5, +1 },
+    Channel< Photon > capture4( in, out, 0. * electronVolt, { 0, 0.0, 1.5, +1 },
                                 { 0.0 * rootBarn } );
-    Channel< Neutron > elastic4( in, { 2, 0.5, 1.5, +1 },
+    Channel< Neutron > elastic4( in, in, 0. * electronVolt, { 2, 0.5, 1.5, +1 },
                                  { 5.437300e-1 * rootBarn,
                                    5.437300e-1 * rootBarn } );
-    Channel< Photon > capture5( out, { 0, 0.0, 2.5, +1 },
+    Channel< Photon > capture5( in, out, 0. * electronVolt, { 0, 0.0, 2.5, +1 },
                                 { 0.0 * rootBarn } );
-    Channel< Neutron > elastic5( in, { 2, 0.5, 2.5, +1 },
+    Channel< Neutron > elastic5( in, in, 0. * electronVolt, { 2, 0.5, 2.5, +1 },
                                  { 5.437300e-1 * rootBarn,
                                    5.437300e-1 * rootBarn } );
 
@@ -543,15 +543,15 @@ SCENARIO( "evaluateTMatrix" ) {
                    cGamma( 9.600000e-1 ) ) } );
 
     SpinGroup< ReichMoore, ShiftFactor >
-        group1( in, { elastic1 }, std::move( table1 ) );
+        group1( { elastic1 }, std::move( table1 ) );
     SpinGroup< ReichMoore, ShiftFactor >
-        group2( in, { elastic2 }, std::move( table2 ) );
+        group2( { elastic2 }, std::move( table2 ) );
     SpinGroup< ReichMoore, ShiftFactor >
-        group3( in, { elastic3 }, std::move( table3 ) );
+        group3( { elastic3 }, std::move( table3 ) );
     SpinGroup< ReichMoore, ShiftFactor >
-        group4( in, { elastic4 }, std::move( table4 ) );
+        group4( { elastic4 }, std::move( table4 ) );
     SpinGroup< ReichMoore, ShiftFactor >
-        group5( in, { elastic5 }, std::move( table5 ) );
+        group5( { elastic5 }, std::move( table5 ) );
 
     CompoundSystem< ReichMoore, ShiftFactor >
         system( { group1, group2, group3, group4, group5 } );
@@ -761,6 +761,6 @@ SCENARIO( "evaluateTMatrix" ) {
       REQUIRE(  2.5408917902376525E-05 == Approx( elements[ s4t11 ].imag() ) );
       REQUIRE(  1.0099014080820087E-05 == Approx( elements[ s5t11 ].real() ) );
       REQUIRE(  1.8909887190968213E-10 == Approx( elements[ s5t11 ].imag() ) );
-    }
+    } // THEN
   } // GIVEN*/
 } // SCENARIO
