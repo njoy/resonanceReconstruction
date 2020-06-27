@@ -8,9 +8,9 @@
 #include <cmath>
 #include <complex>
 
-static const double MESH_RHO   =     0.1;
-static const double CRIT_CNVRG = 1.0e-06;
-static const double BETA       =    0.25;
+static const double MESH_RHO   =     0.01;
+static const double CRIT_CNVRG = 1.0e-10;
+static const double BETA       =    0.1;
 
 const double PI_2       =  1.57079632679489661923  ;  /* PI/2                 */
 const double PI_4       =  0.785398163397448309616 ;  /* PI/4                 */
@@ -290,7 +290,7 @@ inline double omAsymptoticClosed(double rm, double coulomb)
       double s[7];
       double h = 0.25*rm;  if(h > 0.001953125) h = 0.001953125;
       double h12 = h*h/12.0;
-      
+
       int n = 1 + 10.0/h;
       double v1 = 0.0;
       double v2 = h12*(1.0 + 2.0*coulomb/(rm + h* n   ));
@@ -373,4 +373,3 @@ inline double omAsymptoticClosed(double rm, double coulomb)
 
   return(f1);
 }
-
