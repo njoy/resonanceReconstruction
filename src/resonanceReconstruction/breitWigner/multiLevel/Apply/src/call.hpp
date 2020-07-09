@@ -37,8 +37,7 @@ operator()( const ENDF::ResonanceRange& range,
     throw;
   }
   catch ( ... ) {
-    Log::error( 
+    throw std::runtime_error( 
       "The resonance range does not appear to contain MLBW parameters" );
-    throw;
   }
 }

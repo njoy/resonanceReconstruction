@@ -27,4 +27,3 @@ struct CrossSection {
              this->fission - other.fission };
   }
 };
-
