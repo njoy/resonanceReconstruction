@@ -6,6 +6,7 @@
 #include "ENDFtk.hpp"
 #include "interpolation.hpp"
 #include "dimwits.hpp"
+#include "elementary.hpp"
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"

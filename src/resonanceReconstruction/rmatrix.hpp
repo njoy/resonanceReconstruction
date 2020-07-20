@@ -22,9 +22,9 @@ namespace rmatrix {
   #include "resonanceReconstruction/rmatrix/src/calculateCoulombPhaseShift.hpp"
 
   // identifiers
-  using ParticleID = std::string;
-  using ParticlePairID = std::string;
-  using ReactionID = std::string;
+  using ParticleID = elementary::ParticleID;
+  using ParticlePairID = elementary::ParticlePairID;
+  using ReactionID = elementary::ReactionID;
   using ChannelID = std::string;
 
   // matrix

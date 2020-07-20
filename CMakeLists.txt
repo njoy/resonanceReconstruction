@@ -36,6 +36,7 @@ target_link_libraries( resonanceReconstruction
     INTERFACE eigen-adapter
     INTERFACE interpolation
     INTERFACE dimwits
+    INTERFACE elementary
     )
 
 

@@ -7,6 +7,7 @@ using namespace njoy::resonanceReconstruction;
 
 // convenience typedefs
 using Particle = rmatrix::Particle;
+using ParticleID = rmatrix::ParticleID;
 using Spin = rmatrix::Spin;
 using Parity = rmatrix::Parity;
 
@@ -15,46 +16,49 @@ SCENARIO( "Particle" ) {
   GIVEN( "valid data for a Particle" ) {
 
     // neutron
+    ParticleID neutronID( "n" );
     AtomicMass neutronMass = 1.008664 * daltons;
     ElectricalCharge neutronCharge = 0.0 * coulombs;
     Spin neutronSpin = 0.5;
     Parity neutronParity = +1;
 
     // proton
+    ParticleID protonID( "p" );
     AtomicMass protonMass = 1.007276 * daltons;
     ElectricalCharge protonCharge = dimwits::constant::elementaryCharge;
     Spin protonSpin = 0.5;
     Parity protonParity = +1;
 
     // U235
+    ParticleID u235ID( "U235" );
     AtomicMass u235Mass = 235.0439299 * daltons;
     ElectricalCharge u235Charge = 0.0 * coulombs;
     Spin u235Spin = 0.0;
     Parity u235Parity = +1;
 
     THEN( "a Particle can be constructed" ) {
-      
-      Particle neutron( "n", neutronMass, neutronCharge,
-                             neutronSpin, neutronParity );
 
-      CHECK( "n" == neutron.particleID() );
+      Particle neutron( neutronID, neutronMass, neutronCharge,
+                        neutronSpin, neutronParity );
+
+      CHECK( "n" == neutron.particleID().symbol() );
       CHECK( 1.008664 == Approx( neutron.mass().value ) );
       CHECK( 0.0 == Approx( neutron.charge().value ) );
       CHECK( 0.5 == Approx( neutron.spin() ) );
       CHECK( +1 == neutron.parity() );
 
-      Particle proton( "p", protonMass, protonCharge,
-                            protonSpin, protonParity );
+      Particle proton( protonID, protonMass, protonCharge,
+                       protonSpin, protonParity );
 
-      CHECK( "p" == proton.particleID() );
+      CHECK( "p" == proton.particleID().symbol() );
       CHECK( 1.007276 == Approx( proton.mass().value ) );
       CHECK( 1.60217662e-19 == Approx( proton.charge().value ) );
       CHECK( 0.5 == Approx( proton.spin() ) );
       CHECK( +1 == proton.parity() );
 
-      Particle u235( "U235", u235Mass, u235Charge, u235Spin, u235Parity );
+      Particle u235( u235ID, u235Mass, u235Charge, u235Spin, u235Parity );
 
-      CHECK( "U235" == u235.particleID() );
+      CHECK( "U235" == u235.particleID().symbol() );
       CHECK( 235.0439299 == Approx( u235.mass().value ) );
       CHECK( 0.0 == Approx( u235.charge().value ) );
       CHECK( 0.0 == Approx( u235.spin() ) );
@@ -65,6 +69,7 @@ SCENARIO( "Particle" ) {
   GIVEN( "invalid data for a Particle" ) {
 
     // neutron
+    ParticleID neutronID( "n" );
     AtomicMass neutronMass = 1.008664 * daltons;
     AtomicMass negativeMass = -1.008664 * daltons;
     ElectricalCharge neutronCharge = 0.0 * coulombs;
@@ -75,11 +80,11 @@ SCENARIO( "Particle" ) {
     THEN( "an exception is thrown" ) {
 
       // negative mass
-      CHECK_THROWS( Particle( "n", negativeMass, neutronCharge,
+      CHECK_THROWS( Particle( neutronID, negativeMass, neutronCharge,
                               neutronSpin, neutronParity ) );
 
       // negative charge
-      CHECK_THROWS( Particle( "n", neutronMass, negativeCharge,
+      CHECK_THROWS( Particle( neutronID, neutronMass, negativeCharge,
                               neutronSpin, neutronParity ) );
     } // THEN
   } // GIVEN
