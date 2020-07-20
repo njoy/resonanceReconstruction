@@ -2,7 +2,7 @@
 # Setup
 #######################################################################
 
-message( STATUS "Adding NJOY21 unit testing" )
+message( STATUS "Adding resonanceReconstruction unit testing" )
 enable_testing()
 
 

@@ -30,6 +30,11 @@ FetchContent_Declare( dimwits
     GIT_TAG         origin/build/fetchcontent
     )
 
+FetchContent_Declare( elementary
+    GIT_REPOSITORY  http://github.com/njoy/elementary
+    GIT_TAG         origin/master
+    )
+
 
 ########################################################################
 # Load dependencies
@@ -40,4 +45,5 @@ FetchContent_MakeAvailable(
     eigen-adapter
     interpolation
     dimwits
+    elementary
     )
