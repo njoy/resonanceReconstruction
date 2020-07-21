@@ -1,20 +1,10 @@
-#include "catch.hpp"
-#include "resonanceReconstruction.hpp"
-
-using namespace njoy::resonanceReconstruction::singleLevelBreitWigner;
-using namespace dimwits;
-
-Base::Lvalue makeLvalue();
-
-SCENARIO("penetrationShift"){
-  auto lValue = makeLvalue();
+SCENARIO("phaseShift"){
   auto awr = 2.360045E+2;
-  auto l = 0;
-  
+
   auto a = channelRadius( awr );
   auto k = neutronWaveNumber( awr );
   auto phi = [&]( auto energy ){ return a(energy) * k(energy); };
-  
+
   auto channelRatios =
     ranges::view::linear_distribute( -10., 30., 40 )
     | ranges::view::transform( []( double d ){ return std::pow( 2., d ); } )
@@ -22,16 +12,22 @@ SCENARIO("penetrationShift"){
     | ranges::view::transform( [&]( auto energy ){ return phi(energy); } )
     | ranges::to_vector;
 
-  {
+  WHEN("l = 0"){
+    auto l = 0;
+    auto base = makeLvalue( l );
+
+    const auto& lValue =
+      static_cast< const breitWigner::singleLevel::Lvalue& >( base );
+
     auto trial =
       channelRatios
       | ranges::view::transform( [&]( auto ratio )
-                                 { return lValue.penetrationShift( ratio ); } );
+                                 { return lValue.phaseShift( ratio ); } );
 
     auto reference =
       channelRatios
       | ranges::view::transform( [&]( auto ratio )
-                                 { return penetrationShift( l, ratio ); } );
+                                 { return phaseShift( l, ratio ); } );
 
     RANGES_FOR( auto pair, ranges::view::zip( trial, reference ) ){
       auto trial = std::get<0>(pair);
@@ -40,19 +36,23 @@ SCENARIO("penetrationShift"){
     }
   }
 
-  lValue.orbitalAngularMomentum = 1;
-  l = 1;
 
-  {
+  WHEN("l = 1"){
+    auto l = 1;
+    auto base = makeLvalue( l );
+
+    const auto& lValue =
+      static_cast< const breitWigner::singleLevel::Lvalue& >( base );
+
     auto trial =
       channelRatios
       | ranges::view::transform( [&]( auto ratio )
-                                 { return lValue.penetrationShift( ratio ); } );
+                                 { return lValue.phaseShift( ratio ); } );
 
     auto reference =
       channelRatios
       | ranges::view::transform( [&]( auto ratio )
-                                 { return penetrationShift( l, ratio ); } );
+                                 { return phaseShift( l, ratio ); } );
 
     RANGES_FOR( auto pair, ranges::view::zip( trial, reference ) ){
       auto trial = std::get<0>(pair);

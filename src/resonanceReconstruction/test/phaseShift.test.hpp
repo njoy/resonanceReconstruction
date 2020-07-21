@@ -1,9 +1,3 @@
-#include "catch.hpp"
-#include "resonanceReconstruction.hpp"
-
-using namespace njoy::resonanceReconstruction;
-using namespace dimwits;
-
 SCENARIO("phase shift"){
 
   auto trial =
@@ -56,4 +50,4 @@ SCENARIO("phase shift"){
     const auto reference = std::get<1>(pair);
     REQUIRE( trial == Approx( reference ) );
   }
-}  
+}

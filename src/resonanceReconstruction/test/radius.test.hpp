@@ -1,11 +1,3 @@
-#include <vector>
-
-#include "catch.hpp"
-#include "resonanceReconstruction.hpp"
-
-using namespace dimwits;
-using namespace njoy::resonanceReconstruction;
-
 SCENARIO("radius"){
   SECTION("double overload"){
     const double AP = 10.0;

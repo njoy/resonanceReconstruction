@@ -1,13 +1,6 @@
-#include <vector>
-
-#include "catch.hpp"
-#include "resonanceReconstruction.hpp"
-
-using namespace njoy::resonanceReconstruction;
-
 SCENARIO("channel radius"){
   using namespace dimwits;
-  
+
   std::array< double, 4 > awri = {{ 9.991673E-1,    // hydrogen-1
                                     1.585751E+1,    // oxygen-16
                                     5.545400E+1,    // iron-56

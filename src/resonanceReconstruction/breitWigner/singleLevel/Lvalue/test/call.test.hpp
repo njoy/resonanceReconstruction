@@ -1,11 +1,3 @@
-#include "catch.hpp"
-#include "resonanceReconstruction.hpp"
-
-using namespace njoy::resonanceReconstruction;
-using namespace dimwits;
-
-breitWigner::lvalue::Type makeLvalue( int l );
-
 SCENARIO("call"){
   auto base = makeLvalue( 0 );
 

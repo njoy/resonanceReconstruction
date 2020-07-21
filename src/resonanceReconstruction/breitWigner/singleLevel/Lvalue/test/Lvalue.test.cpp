@@ -66,3 +66,7 @@ breitWigner::lvalue::Type makeLvalue( int l ){
 
   return { std::move(resonances), l, 0.0 };
 }
+
+#include "resonanceReconstruction/breitWigner/singleLevel/Lvalue/test/phaseShift.test.hpp"
+#include "resonanceReconstruction/breitWigner/singleLevel/Lvalue/test/penetrationShift.test.hpp"
+#include "resonanceReconstruction/breitWigner/singleLevel/Lvalue/test/call.test.hpp"

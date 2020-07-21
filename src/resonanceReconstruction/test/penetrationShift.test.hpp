@@ -1,10 +1,3 @@
-#include <vector>
-
-#include "catch.hpp"
-#include "resonanceReconstruction.hpp"
-
-using namespace njoy::resonanceReconstruction;
-
 SCENARIO( "penetration shift" ){  
   auto trial =
     ranges::view::cartesian_product
@@ -14,7 +7,7 @@ SCENARIO( "penetration shift" ){
         return penetrationShift( std::get<0>(tuple), std::get<1>(tuple) ); } );
 
   /* reference values generated with OpenMC */
-  std::vector< std::array< double, 2 > > reference = 
+  std::vector< std::array< double, 2 > > reference =
   {{{0.0, 0.0}},
    {{0.25, 0.0}},
    {{0.5, 0.0}},
@@ -126,8 +119,8 @@ SCENARIO( "penetration shift" ){
     const auto reference = std::get<1>(pair);
     REQUIRE( trial[0] == Approx( reference[0] ) );
     REQUIRE( trial[1] == Approx( reference[1] ) );
-  }  
- 
+  }
+
 }
 
 SCENARIO( "penetration shift factory" ){
