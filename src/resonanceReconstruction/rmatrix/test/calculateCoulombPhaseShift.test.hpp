@@ -1,12 +1,3 @@
-#include "catch.hpp"
-#include "resonanceReconstruction.hpp"
-
-using namespace njoy::resonanceReconstruction;
-using namespace njoy::resonanceReconstruction::rmatrix;
-
-// convenience typedefs
-using OrbitalAngularMomentum = rmatrix::OrbitalAngularMomentum;
-
 SCENARIO( "calculateCoulombPhaseShift" ) {
 
   GIVEN( "valid values for the orbital angular momentum and rho" ) {

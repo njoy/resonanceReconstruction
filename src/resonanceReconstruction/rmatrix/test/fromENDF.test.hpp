@@ -1,13 +1,3 @@
-#include "catch.hpp"
-#include "resonanceReconstruction.hpp"
-
-using namespace njoy::resonanceReconstruction;
-using namespace njoy::resonanceReconstruction::rmatrix;
-using ResonanceRange = ENDF::ResonanceRange;
-
-constexpr AtomicMass neutronMass = 1.008664 * daltons;
-constexpr ElectricalCharge elementaryCharge = 1.602e-19 * coulomb;
-
 std::string Fe54();
 std::string Ca40();
 std::string Cl35();
@@ -65,7 +55,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 26.0 * 1.602e-19 == Approx( incident00.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident00.residual().spin() ) );
       CHECK( +1 == incident00.residual().parity() );
-      CHECK( "n,Fe54_e0" == incident00.pairID() );
+      CHECK( "n,Fe54" == incident00.pairID().symbol() );
 
       // particle pair
       const auto pair00 = channel00.particlePair();
@@ -77,7 +67,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 26.0 * 1.602e-19 == Approx( pair00.residual().charge().value ) );
       CHECK( 0.0 == Approx( pair00.residual().spin() ) );
       CHECK( +1 == pair00.residual().parity() );
-      CHECK( "n,Fe54_e0" == pair00.pairID() );
+      CHECK( "n,Fe54" == pair00.pairID().symbol() );
 
       // quantum numbers
       const auto numbers00 = channel00.quantumNumbers();
@@ -147,7 +137,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 26.0 * 1.602e-19 == Approx( incident10.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident10.residual().spin() ) );
       CHECK( +1 == incident10.residual().parity() );
-      CHECK( "n,Fe54_e0" == incident10.pairID() );
+      CHECK( "n,Fe54" == incident10.pairID().symbol() );
 
       // particle pairs
       const auto pair10 = channel10.particlePair();
@@ -159,7 +149,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 26.0 * 1.602e-19 == Approx( pair10.residual().charge().value ) );
       CHECK( 0.0 == Approx( pair10.residual().spin() ) );
       CHECK( +1 == pair10.residual().parity() );
-      CHECK( "n,Fe54_e0" == pair10.pairID() );
+      CHECK( "n,Fe54" == pair10.pairID().symbol() );
 
       // quantum numbers
       const auto numbers10 = channel10.quantumNumbers();
@@ -207,7 +197,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 26.0 * 1.602e-19 == Approx( incident20.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident20.residual().spin() ) );
       CHECK( +1 == incident20.residual().parity() );
-      CHECK( "n,Fe54_e0" == incident20.pairID() );
+      CHECK( "n,Fe54" == incident20.pairID().symbol() );
 
       // particle pairs
       const auto pair20 = channel20.particlePair();
@@ -219,7 +209,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 26.0 * 1.602e-19 == Approx( pair20.residual().charge().value ) );
       CHECK( 0.0 == Approx( pair20.residual().spin() ) );
       CHECK( +1 == pair20.residual().parity() );
-      CHECK( "n,Fe54_e0" == pair20.pairID() );
+      CHECK( "n,Fe54" == pair20.pairID().symbol() );
 
       // quantum numbers
       const auto numbers20 = channel20.quantumNumbers();
@@ -267,7 +257,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 26.0 * 1.602e-19 == Approx( incident30.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident30.residual().spin() ) );
       CHECK( +1 == incident30.residual().parity() );
-      CHECK( "n,Fe54_e0" == incident30.pairID() );
+      CHECK( "n,Fe54" == incident30.pairID().symbol() );
 
       // particle pairs
       const auto pair30 = channel30.particlePair();
@@ -279,7 +269,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 26.0 * 1.602e-19 == Approx( pair30.residual().charge().value ) );
       CHECK( 0.0 == Approx( pair30.residual().spin() ) );
       CHECK( +1 == pair30.residual().parity() );
-      CHECK( "n,Fe54_e0" == pair30.pairID() );
+      CHECK( "n,Fe54" == pair30.pairID().symbol() );
 
       // quantum numbers
       const auto numbers30 = channel30.quantumNumbers();
@@ -327,7 +317,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 26.0 * 1.602e-19 == Approx( incident40.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident40.residual().spin() ) );
       CHECK( +1 == incident40.residual().parity() );
-      CHECK( "n,Fe54_e0" == incident40.pairID() );
+      CHECK( "n,Fe54" == incident40.pairID().symbol() );
 
       // particle pairs
       const auto pair40 = channel40.particlePair();
@@ -339,7 +329,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 26.0 * 1.602e-19 == Approx( pair40.residual().charge().value ) );
       CHECK( 0.0 == Approx( pair40.residual().spin() ) );
       CHECK( +1 == pair40.residual().parity() );
-      CHECK( "n,Fe54_e0" == pair40.pairID() );
+      CHECK( "n,Fe54" == pair40.pairID().symbol() );
 
       // quantum numbers
       const auto numbers40 = channel40.quantumNumbers();
@@ -426,7 +416,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 20.0 * 1.602e-19 == Approx( incident00.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident00.residual().spin() ) );
       CHECK( +1 == incident00.residual().parity() );
-      CHECK( "n,Ca40_e0" == incident00.pairID() );
+      CHECK( "n,Ca40" == incident00.pairID().symbol() );
 
       // particle pair
       const auto pair00 = channel00.particlePair();
@@ -438,7 +428,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 20.0 * 1.602e-19 == Approx( pair00.residual().charge().value ) );
       CHECK( 0.0 == Approx( pair00.residual().spin() ) );
       CHECK( +1 == pair00.residual().parity() );
-      CHECK( "n,Ca40_e0" == pair00.pairID() );
+      CHECK( "n,Ca40" == pair00.pairID().symbol() );
 
       // quantum numbers
       const auto numbers00 = channel00.quantumNumbers();
@@ -476,7 +466,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 20.0 * 1.602e-19 == Approx( incident01.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident01.residual().spin() ) );
       CHECK( +1 == incident01.residual().parity() );
-      CHECK( "n,Ca40_e0" == incident01.pairID() );
+      CHECK( "n,Ca40" == incident01.pairID().symbol() );
 
       // particle pair
       const auto pair01 = channel01.particlePair();
@@ -488,7 +478,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 18.0 * 1.602e-19 == Approx( pair01.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair01.residual().spin() ) );
       CHECK( +1 == pair01.residual().parity() );
-      CHECK( "a,Ar37_e0" == pair01.pairID() );
+      CHECK( "he4,Ar37" == pair01.pairID().symbol() );
 
       // quantum numbers
       const auto numbers01 = channel01.quantumNumbers();
@@ -562,7 +552,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 20.0 * 1.602e-19 == Approx( incident10.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident10.residual().spin() ) );
       CHECK( +1 == incident10.residual().parity() );
-      CHECK( "n,Ca40_e0" == incident10.pairID() );
+      CHECK( "n,Ca40" == incident10.pairID().symbol() );
 
       // particle pair
       const auto pair10 = channel10.particlePair();
@@ -574,7 +564,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 20.0 * 1.602e-19 == Approx( pair10.residual().charge().value ) );
       CHECK( 0.0 == Approx( pair10.residual().spin() ) );
       CHECK( +1 == pair10.residual().parity() );
-      CHECK( "n,Ca40_e0" == pair10.pairID() );
+      CHECK( "n,Ca40" == pair10.pairID().symbol() );
 
       // quantum numbers
       const auto numbers10 = channel10.quantumNumbers();
@@ -612,7 +602,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 20.0 * 1.602e-19 == Approx( incident11.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident11.residual().spin() ) );
       CHECK( +1 == incident11.residual().parity() );
-      CHECK( "n,Ca40_e0" == incident11.pairID() );
+      CHECK( "n,Ca40" == incident11.pairID().symbol() );
 
       // particle pair
       const auto pair11 = channel11.particlePair();
@@ -624,7 +614,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 18.0 * 1.602e-19 == Approx( pair11.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair11.residual().spin() ) );
       CHECK( +1 == pair11.residual().parity() );
-      CHECK( "a,Ar37_e0" == pair11.pairID() );
+      CHECK( "he4,Ar37" == pair11.pairID().symbol() );
 
       // quantum numbers
       const auto numbers11 = channel11.quantumNumbers();
@@ -698,7 +688,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 20.0 * 1.602e-19 == Approx( incident20.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident20.residual().spin() ) );
       CHECK( +1 == incident20.residual().parity() );
-      CHECK( "n,Ca40_e0" == incident20.pairID() );
+      CHECK( "n,Ca40" == incident20.pairID().symbol() );
 
       // particle pair
       const auto pair20 = channel20.particlePair();
@@ -710,7 +700,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 20.0 * 1.602e-19 == Approx( pair20.residual().charge().value ) );
       CHECK( 0.0 == Approx( pair20.residual().spin() ) );
       CHECK( +1 == pair20.residual().parity() );
-      CHECK( "n,Ca40_e0" == pair20.pairID() );
+      CHECK( "n,Ca40" == pair20.pairID().symbol() );
 
       // quantum numbers
       const auto numbers20 = channel20.quantumNumbers();
@@ -748,7 +738,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 20.0 * 1.602e-19 == Approx( incident21.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident21.residual().spin() ) );
       CHECK( +1 == incident21.residual().parity() );
-      CHECK( "n,Ca40_e0" == incident21.pairID() );
+      CHECK( "n,Ca40" == incident21.pairID().symbol() );
 
       // particle pair
       const auto pair21 = channel21.particlePair();
@@ -760,7 +750,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 19.0 * 1.602e-19 == Approx( pair21.residual().charge().value ) );
       CHECK( 4.0 == Approx( pair21.residual().spin() ) );
       CHECK( -1 == pair21.residual().parity() );
-      CHECK( "p,K40_e1" == pair21.pairID() );
+      CHECK( "p,K40_e1" == pair21.pairID().symbol() );
 
       // quantum numbers
       const auto numbers21 = channel21.quantumNumbers();
@@ -798,7 +788,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 20.0 * 1.602e-19 == Approx( incident22.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident22.residual().spin() ) );
       CHECK( +1 == incident22.residual().parity() );
-      CHECK( "n,Ca40_e0" == incident22.pairID() );
+      CHECK( "n,Ca40" == incident22.pairID().symbol() );
 
       // particle pair
       const auto pair22 = channel22.particlePair();
@@ -810,7 +800,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 18.0 * 1.602e-19 == Approx( pair22.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair22.residual().spin() ) );
       CHECK( +1 == pair22.residual().parity() );
-      CHECK( "a,Ar37_e0" == pair22.pairID() );
+      CHECK( "he4,Ar37" == pair22.pairID().symbol() );
 
       // quantum numbers
       const auto numbers22 = channel22.quantumNumbers();
@@ -888,7 +878,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 20.0 * 1.602e-19 == Approx( incident30.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident30.residual().spin() ) );
       CHECK( +1 == incident30.residual().parity() );
-      CHECK( "n,Ca40_e0" == incident30.pairID() );
+      CHECK( "n,Ca40" == incident30.pairID().symbol() );
 
       // particle pair
       const auto pair30 = channel30.particlePair();
@@ -900,7 +890,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 20.0 * 1.602e-19 == Approx( pair30.residual().charge().value ) );
       CHECK( 0.0 == Approx( pair30.residual().spin() ) );
       CHECK( +1 == pair30.residual().parity() );
-      CHECK( "n,Ca40_e0" == pair30.pairID() );
+      CHECK( "n,Ca40" == pair30.pairID().symbol() );
 
       // quantum numbers
       const auto numbers30 = channel30.quantumNumbers();
@@ -938,7 +928,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 20.0 * 1.602e-19 == Approx( incident31.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident31.residual().spin() ) );
       CHECK( +1 == incident31.residual().parity() );
-      CHECK( "n,Ca40_e0" == incident31.pairID() );
+      CHECK( "n,Ca40" == incident31.pairID().symbol() );
 
       // particle pair
       const auto pair31 = channel31.particlePair();
@@ -950,7 +940,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 18.0 * 1.602e-19 == Approx( pair31.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair31.residual().spin() ) );
       CHECK( +1 == pair31.residual().parity() );
-      CHECK( "a,Ar37_e0" == pair31.pairID() );
+      CHECK( "he4,Ar37" == pair31.pairID().symbol() );
 
       // quantum numbers
       const auto numbers31 = channel31.quantumNumbers();
@@ -988,7 +978,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 20.0 * 1.602e-19 == Approx( incident32.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident32.residual().spin() ) );
       CHECK( +1 == incident32.residual().parity() );
-      CHECK( "n,Ca40_e0" == incident32.pairID() );
+      CHECK( "n,Ca40" == incident32.pairID().symbol() );
 
       // particle pair
       const auto pair32 = channel32.particlePair();
@@ -1000,7 +990,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 18.0 * 1.602e-19 == Approx( pair32.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair32.residual().spin() ) );
       CHECK( +1 == pair32.residual().parity() );
-      CHECK( "a,Ar37_e0" == pair32.pairID() );
+      CHECK( "he4,Ar37" == pair32.pairID().symbol() );
 
       // quantum numbers
       const auto numbers32 = channel32.quantumNumbers();
@@ -1078,7 +1068,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 20.0 * 1.602e-19 == Approx( incident40.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident40.residual().spin() ) );
       CHECK( +1 == incident40.residual().parity() );
-      CHECK( "n,Ca40_e0" == incident40.pairID() );
+      CHECK( "n,Ca40" == incident40.pairID().symbol() );
 
       // particle pair
       const auto pair40 = channel40.particlePair();
@@ -1090,7 +1080,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 20.0 * 1.602e-19 == Approx( pair40.residual().charge().value ) );
       CHECK( 0.0 == Approx( pair40.residual().spin() ) );
       CHECK( +1 == pair40.residual().parity() );
-      CHECK( "n,Ca40_e0" == pair40.pairID() );
+      CHECK( "n,Ca40" == pair40.pairID().symbol() );
 
       // quantum numbers
       const auto numbers40 = channel40.quantumNumbers();
@@ -1128,7 +1118,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 20.0 * 1.602e-19 == Approx( incident41.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident41.residual().spin() ) );
       CHECK( +1 == incident41.residual().parity() );
-      CHECK( "n,Ca40_e0" == incident41.pairID() );
+      CHECK( "n,Ca40" == incident41.pairID().symbol() );
 
       // particle pair
       const auto pair41 = channel41.particlePair();
@@ -1140,7 +1130,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 19.0 * 1.602e-19 == Approx( pair41.residual().charge().value ) );
       CHECK( 4.0 == Approx( pair41.residual().spin() ) );
       CHECK( -1 == pair41.residual().parity() );
-      CHECK( "p,K40_e1" == pair41.pairID() );
+      CHECK( "p,K40_e1" == pair41.pairID().symbol() );
 
       // quantum numbers
       const auto numbers41 = channel41.quantumNumbers();
@@ -1178,7 +1168,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 20.0 * 1.602e-19 == Approx( incident42.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident42.residual().spin() ) );
       CHECK( +1 == incident42.residual().parity() );
-      CHECK( "n,Ca40_e0" == incident42.pairID() );
+      CHECK( "n,Ca40" == incident42.pairID().symbol() );
 
       // particle pair
       const auto pair42 = channel42.particlePair();
@@ -1190,7 +1180,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 18.0 * 1.602e-19 == Approx( pair42.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair42.residual().spin() ) );
       CHECK( +1 == pair42.residual().parity() );
-      CHECK( "a,Ar37_e0" == pair42.pairID() );
+      CHECK( "he4,Ar37" == pair42.pairID().symbol() );
 
       // quantum numbers
       const auto numbers42 = channel42.quantumNumbers();

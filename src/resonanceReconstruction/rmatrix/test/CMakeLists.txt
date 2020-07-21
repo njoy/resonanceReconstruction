@@ -1,10 +1,6 @@
 
 add_executable( resonanceReconstruction.rmatrix.test
-                possibleChannelTotalAngularMomentumValues.test.cpp
-                possibleChannelSpinValues.test.cpp
-                rmatrix.test.cpp
-                calculateCoulombPhaseShift.test.cpp
-                fromENDF.test.cpp )
+                rmatrix.test.cpp )
 target_compile_options( resonanceReconstruction.rmatrix.test PRIVATE ${${PREFIX}_common_flags}
 $<$<BOOL:${strict}>:${${PREFIX}_strict_flags}>$<$<CONFIG:DEBUG>:
 ${${PREFIX}_DEBUG_flags}

@@ -1,12 +1,3 @@
-#include "catch.hpp"
-#include "resonanceReconstruction.hpp"
-
-using namespace njoy::resonanceReconstruction;
-using namespace njoy::resonanceReconstruction::rmatrix;
-
-// convenience typedefs
-using Spin = rmatrix::Spin;
-
 SCENARIO( "possibleChannelSpinValues" ) {
 
   GIVEN( "valid values for the particle and target spin" ) {
