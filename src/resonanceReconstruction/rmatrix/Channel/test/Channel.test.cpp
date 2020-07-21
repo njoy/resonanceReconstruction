@@ -7,6 +7,7 @@ using namespace njoy::resonanceReconstruction;
 
 // convenience typedefs
 using Particle = rmatrix::Particle;
+using ParticleID = rmatrix::ParticleID;
 using ParticlePair = rmatrix::ParticlePair;
 using ParticlePairID = rmatrix::ParticlePairID;
 using Neutron = rmatrix::Neutron;
@@ -26,17 +27,18 @@ SCENARIO( "Channel" ) {
   GIVEN( "valid data for a Channel" ) {
 
     // particles
-    Particle photon( "g", 0.0 * daltons, 0.0 * coulombs, 1., +1);
-    Particle neutron( "n", 1.00866491582 * daltons, 0.0 * coulombs, 0.5, +1);
-    Particle proton( "p", 1.00727647 * daltons, elementary, 0.5, +1);
-    Particle cl36( "Cl36_e0", 35.968306822 * daltons,
-                              17.0 * elementary, 0., +1);
-    Particle cl35( "Cl35_e0", 34.968852694 * daltons,
-                              17.0 * elementary, 1.5, +1);
-    Particle cl35_e1( "Cl35_e1", 34.968852694 * daltons,
-                                 17.0 * elementary, 1.5, +1);
-    Particle s36( "S36_e0", 35.967080699 * daltons,
-                            16.0 * elementary, 1.5, +1);
+    Particle photon( ParticleID( "g" ), 0.0 * daltons, 0.0 * coulombs, 1., +1);
+    Particle neutron( ParticleID( "n" ), 1.00866491582 * daltons,
+                      0.0 * coulombs, 0.5, +1);
+    Particle proton( ParticleID( "p" ), 1.00727647 * daltons, elementary, 0.5, +1);
+    Particle cl36( ParticleID( "Cl36_e0" ), 35.968306822 * daltons,
+                   17.0 * elementary, 0., +1);
+    Particle cl35( ParticleID( "Cl35_e0" ), 34.968852694 * daltons,
+                   17.0 * elementary, 1.5, +1);
+    Particle cl35_e1( ParticleID( "Cl35_e1" ), 34.968852694 * daltons,
+                      17.0 * elementary, 1.5, +1);
+    Particle s36( ParticleID( "S36_e0" ), 35.967080699 * daltons,
+                  16.0 * elementary, 1.5, +1);
 
     // particle pairs
     ParticlePair elasticPair( neutron, cl35 );
@@ -79,8 +81,8 @@ SCENARIO( "Channel" ) {
       Channel< Photon > capture( elasticPair, capturePair, captureQ,
                                  captureNumbers, captureRadii );
 
-      CHECK( "g,Cl36_e0{0,0,1+}" == capture.channelID() );
-      CHECK( "n,Cl35_e0->g,Cl36_e0" == capture.reactionID() );
+      CHECK( "photon,Cl36{0,0,1+}" == capture.channelID() );
+      CHECK( "n,Cl35->photon,Cl36" == capture.reactionID().symbol() );
 
       CHECK( false == capture.isIncidentChannel() );
 
@@ -93,7 +95,7 @@ SCENARIO( "Channel" ) {
       CHECK( 17. * e == Approx( incident.residual().charge().value ) );
       CHECK( 1.5 == Approx( incident.residual().spin() ) );
       CHECK( +1 == incident.residual().parity() );
-      CHECK( "n,Cl35_e0" == incident.pairID() );
+      CHECK( "n,Cl35" == incident.pairID().symbol() );
 
       auto pair = capture.particlePair();
       CHECK( 0.0 == Approx( pair.particle().mass().value ) );
@@ -104,7 +106,7 @@ SCENARIO( "Channel" ) {
       CHECK( 17. * e == Approx( pair.residual().charge().value ) );
       CHECK( 0.0 == Approx( pair.residual().spin() ) );
       CHECK( +1 == pair.residual().parity() );
-      CHECK( "g,Cl36_e0" == pair.pairID() );
+      CHECK( "photon,Cl36" == pair.pairID().symbol() );
 
       auto numbers = capture.quantumNumbers();
       CHECK( 0 == numbers.orbitalAngularMomentum() );
@@ -139,8 +141,8 @@ SCENARIO( "Channel" ) {
       Channel< Neutron > elastic( elasticPair, elasticPair, elasticQ,
                                   elasticNumbers, elasticRadii );
 
-      CHECK( "n,Cl35_e0{0,1,1+}" == elastic.channelID() );
-      CHECK( "n,Cl35_e0->n,Cl35_e0" == elastic.reactionID() );
+      CHECK( "n,Cl35{0,1,1+}" == elastic.channelID() );
+      CHECK( "n,Cl35->n,Cl35" == elastic.reactionID().symbol() );
 
       CHECK( true == elastic.isIncidentChannel() );
 
@@ -153,7 +155,7 @@ SCENARIO( "Channel" ) {
       CHECK( 17. * e == Approx( incident.residual().charge().value ) );
       CHECK( 1.5 == Approx( incident.residual().spin() ) );
       CHECK( +1 == incident.residual().parity() );
-      CHECK( "n,Cl35_e0" == incident.pairID() );
+      CHECK( "n,Cl35" == incident.pairID().symbol() );
 
       pair = elastic.particlePair();
       CHECK( 1.00866491582 == Approx( pair.particle().mass().value ) );
@@ -164,7 +166,7 @@ SCENARIO( "Channel" ) {
       CHECK( 17. * e == Approx( pair.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair.residual().spin() ) );
       CHECK( +1 == pair.residual().parity() );
-      CHECK( "n,Cl35_e0" == pair.pairID() );
+      CHECK( "n,Cl35" == pair.pairID().symbol() );
 
       numbers = elastic.quantumNumbers();
       CHECK( 0 == numbers.orbitalAngularMomentum() );
@@ -200,7 +202,7 @@ SCENARIO( "Channel" ) {
                                     inelasticNumbers, inelasticRadii );
 
       CHECK( "n,Cl35_e1{0,1,1+}" == inelastic.channelID() );
-      CHECK( "n,Cl35_e0->n,Cl35_e1" == inelastic.reactionID() );
+      CHECK( "n,Cl35->n,Cl35_e1" == inelastic.reactionID().symbol() );
 
       CHECK( false == inelastic.isIncidentChannel() );
 
@@ -213,7 +215,7 @@ SCENARIO( "Channel" ) {
       CHECK( 17. * e == Approx( incident.residual().charge().value ) );
       CHECK( 1.5 == Approx( incident.residual().spin() ) );
       CHECK( +1 == incident.residual().parity() );
-      CHECK( "n,Cl35_e0" == incident.pairID() );
+      CHECK( "n,Cl35" == incident.pairID().symbol() );
 
       pair = inelastic.particlePair();
       CHECK( 1.00866491582 == Approx( pair.particle().mass().value ) );
@@ -224,7 +226,7 @@ SCENARIO( "Channel" ) {
       CHECK( 17. * e == Approx( pair.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair.residual().spin() ) );
       CHECK( +1 == pair.residual().parity() );
-      CHECK( "n,Cl35_e1" == pair.pairID() );
+      CHECK( "n,Cl35_e1" == pair.pairID().symbol() );
 
       numbers = inelastic.quantumNumbers();
       CHECK( 0 == numbers.orbitalAngularMomentum() );
@@ -264,8 +266,8 @@ SCENARIO( "Channel" ) {
                                                  protonEmissionNumbers,
                                                  protonEmissionRadii );
 
-      CHECK( "p,S36_e0{0,1,1+}" == protonEmission.channelID() );
-      CHECK( "n,Cl35_e0->p,S36_e0" == protonEmission.reactionID() );
+      CHECK( "p,S36{0,1,1+}" == protonEmission.channelID() );
+      CHECK( "n,Cl35->p,S36" == protonEmission.reactionID().symbol() );
 
       CHECK( false == protonEmission.isIncidentChannel() );
 
@@ -278,7 +280,7 @@ SCENARIO( "Channel" ) {
       CHECK( 17. * e == Approx( incident.residual().charge().value ) );
       CHECK( 1.5 == Approx( incident.residual().spin() ) );
       CHECK( +1 == incident.residual().parity() );
-      CHECK( "n,Cl35_e0" == incident.pairID() );
+      CHECK( "n,Cl35" == incident.pairID().symbol() );
 
       pair = protonEmission.particlePair();
       CHECK( 1.00727647 == Approx( pair.particle().mass().value ) );
@@ -289,7 +291,7 @@ SCENARIO( "Channel" ) {
       CHECK( 16. * e == Approx( pair.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair.residual().spin() ) );
       CHECK( +1 == pair.residual().parity() );
-      CHECK( "p,S36_e0" == pair.pairID() );
+      CHECK( "p,S36" == pair.pairID().symbol() );
 
       numbers = protonEmission.quantumNumbers();
       CHECK( 0 == numbers.orbitalAngularMomentum() );
@@ -313,7 +315,7 @@ SCENARIO( "Channel" ) {
       CHECK( 3.17996084E+00 == Approx( protonEmission.sommerfeldParameter( energy ) ) );
       CHECK( 1.69828445E+00 == Approx( protonEmission.waveNumber( energy ).value ) );
       CHECK( 0.000027793 == Approx( protonEmission.penetrability( energy ) ) );
-      CHECK( -1.8785876895 == Approx( protonEmission.shiftFactor( energy ) ) );
+      CHECK( -1.8734549658 == Approx( protonEmission.shiftFactor( energy ) ) );
       CHECK( 0.0000020468 == Approx( protonEmission.phaseShift( energy ) ) );
       CHECK( 0.0 == Approx( protonEmission.coulombPhaseShift( energy ) ) );
 
@@ -333,7 +335,7 @@ SCENARIO( "Channel" ) {
                                  captureNumbers, captureRadii );
 
       CHECK( "1{0,0,1+}" == capture.channelID() );
-      CHECK( "n,Cl35_e0->g,Cl36_e0" == capture.reactionID() );
+      CHECK( "n,Cl35->photon,Cl36" == capture.reactionID().symbol() );
 
       CHECK( false == capture.isIncidentChannel() );
 
@@ -346,7 +348,7 @@ SCENARIO( "Channel" ) {
       CHECK( 17. * e == Approx( incident.residual().charge().value ) );
       CHECK( 1.5 == Approx( incident.residual().spin() ) );
       CHECK( +1 == incident.residual().parity() );
-      CHECK( "n,Cl35_e0" == incident.pairID() );
+      CHECK( "n,Cl35" == incident.pairID().symbol() );
 
       auto pair = capture.particlePair();
       CHECK( 0.0 == Approx( pair.particle().mass().value ) );
@@ -357,7 +359,7 @@ SCENARIO( "Channel" ) {
       CHECK( 17. * e == Approx( pair.residual().charge().value ) );
       CHECK( 0.0 == Approx( pair.residual().spin() ) );
       CHECK( +1 == pair.residual().parity() );
-      CHECK( "g,Cl36_e0" == pair.pairID() );
+      CHECK( "photon,Cl36" == pair.pairID().symbol() );
 
       auto numbers = capture.quantumNumbers();
       CHECK( 0 == numbers.orbitalAngularMomentum() );

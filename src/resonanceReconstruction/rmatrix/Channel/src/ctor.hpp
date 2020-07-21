@@ -61,7 +61,7 @@ Channel( const ParticlePair& incident,
          const ChannelQuantumNumbers& numbers,
          const ChannelRadii& radii,
          const BoundaryCondition& boundary = 0.0 ) :
-  Channel( makeChannelID( pair.pairID(), numbers ),
+  Channel( makeChannelID( pair.pairID().symbol(), numbers ),
            ReactionID( incident.pairID(), pair.pairID() ),
            incident, pair, qValue, numbers, radii, boundary ) {}
 
@@ -91,11 +91,11 @@ Channel( const ParticlePair& incident,
  */
 Channel( const ParticlePair& incident,
          const ParticlePair& pair,
-         const ParticlePairID& id,
+         const std::string& id,
          const QValue& qValue,
          const ChannelQuantumNumbers& numbers,
          const ChannelRadii& radii,
          const BoundaryCondition& boundary = 0.0 ) :
   Channel( makeChannelID( id, numbers ),
-           ReactionID( incident.pairID(), id ),
+           ReactionID( incident.pairID(), pair.pairID() ),
            incident, pair, qValue, numbers, radii, boundary ) {}

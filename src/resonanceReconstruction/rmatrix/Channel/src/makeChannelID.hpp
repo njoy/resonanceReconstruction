@@ -1,6 +1,6 @@
 static
-ChannelID makeChannelID( const ParticlePairID& id,
+ChannelID makeChannelID( const std::string& id,
                          const ChannelQuantumNumbers& numbers ) {
 
-  return id.symbol() + numbers.toString();
+  return id + numbers.toString();
 }
