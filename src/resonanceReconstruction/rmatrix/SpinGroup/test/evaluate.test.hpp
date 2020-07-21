@@ -1,29 +1,3 @@
-#include "catch.hpp"
-#include "resonanceReconstruction.hpp"
-
-using namespace njoy::resonanceReconstruction;
-
-// convenience typedefs
-using Particle = rmatrix::Particle;
-using ParticlePair = rmatrix::ParticlePair;
-using ParticleID = rmatrix::ParticleID;
-using ParticlePairID = rmatrix::ParticlePairID;
-using Neutron = rmatrix::Neutron;
-using Photon = rmatrix::Photon;
-using Fission = rmatrix::Fission;
-using ChargedParticle = rmatrix::ChargedParticle;
-template < typename Type > using Channel = rmatrix::Channel< Type >;
-using Resonance = rmatrix::Resonance;
-using ResonanceTable = rmatrix::ResonanceTable;
-template < typename Formalism, typename Option > using SpinGroup = rmatrix::SpinGroup< Formalism, Option >;
-using ReactionID = rmatrix::ReactionID;
-using ShiftFactor = rmatrix::ShiftFactor;
-using Constant = rmatrix::Constant;
-using ReichMoore = rmatrix::ReichMoore;
-
-constexpr AtomicMass neutronMass = 1.008664 * daltons;
-constexpr ElectricalCharge elementary = dimwits::constant::elementaryCharge;
-
 SCENARIO( "evaluate" ) {
 
   //! @todo add test with more than one entrance channel
@@ -48,9 +22,9 @@ SCENARIO( "evaluate" ) {
                      0.0 * elementary, 1., +1);
     Particle neutron( ParticleID( "n" ), neutronMass,
                       0.0 * elementary, 0.5, +1);
-    Particle fe55( ParticleID( "Fe55_e0" ), 5.446635e+1 * neutronMass,
+    Particle fe55( ParticleID( "Fe55" ), 5.446635e+1 * neutronMass,
                    26.0 * elementary, 0.0, +1);
-    Particle fe54( ParticleID( "Fe54_e0" ), 5.347624e+1 * neutronMass,
+    Particle fe54( ParticleID( "Fe54" ), 5.347624e+1 * neutronMass,
                    26.0 * elementary, 0.0, +1);
 
     // particle pairs
@@ -106,8 +80,8 @@ SCENARIO( "evaluate" ) {
     SpinGroup< ReichMoore, Constant > group4( { elastic },
                                               std::move( multiple2 ) );
 
-    ReactionID elas( "n,Fe54_e0->n,Fe54_e0" );
-    ReactionID capt( "n,Fe54_e0->capture" );
+    ReactionID elas( "n,Fe54->n,Fe54" );
+    ReactionID capt( "n,Fe54->capture" );
 
     THEN( "cross sections can be calculated for a single resonance using the "
           "ShiftFactor boundary condition" ) {
@@ -487,9 +461,9 @@ SCENARIO( "evaluate" ) {
                      0.0 * elementary, 1., +1);
     Particle neutron( ParticleID( "n" ), neutronMass,
                       0.0 * elementary, 0.5, +1);
-    Particle pu240( ParticleID( "Pu240_e0" ), 2.379916e+2 * neutronMass,
+    Particle pu240( ParticleID( "Pu240" ), 2.379916e+2 * neutronMass,
                     94.0 * elementary, 0.5, +1);
-    Particle pu239( ParticleID( "Pu239_e0" ), 2.369986e+2 * neutronMass,
+    Particle pu239( ParticleID( "Pu239" ), 2.369986e+2 * neutronMass,
                     94.0 * elementary, 0.5, +1);
 
     // particle pairs
@@ -936,9 +910,9 @@ SCENARIO( "evaluate" ) {
     // particles
     Particle photon( ParticleID( "g" ), 0.0 * daltons, 0.0 * elementary, 1., +1);
     Particle neutron( ParticleID( "n" ), neutronMass, 0.0 * elementary, 0.5, +1);
-    Particle pu240( ParticleID( "Pu240_e0" ), 2.379916e+2 * neutronMass,
+    Particle pu240( ParticleID( "Pu240" ), 2.379916e+2 * neutronMass,
                     94.0 * elementary, 0.5, +1);
-    Particle pu239( ParticleID( "Pu239_e0" ), 2.369986e+2 * neutronMass,
+    Particle pu239( ParticleID( "Pu239" ), 2.369986e+2 * neutronMass,
                     94.0 * elementary, 0.5, +1);
 
     // particle pairs
@@ -1102,9 +1076,9 @@ SCENARIO( "evaluate" ) {
                      0.0 * elementary, 1., +1);
     Particle neutron( ParticleID( "n" ), neutronMass,
                       0.0 * elementary, 0.5, +1);
-    Particle pu240( ParticleID( "Pu240_e0" ), 2.379916e+2 * neutronMass,
+    Particle pu240( ParticleID( "Pu240" ), 2.379916e+2 * neutronMass,
                     94.0 * elementary, 0.5, +1);
-    Particle pu239( ParticleID( "Pu239_e0" ), 2.369986e+2 * neutronMass,
+    Particle pu239( ParticleID( "Pu239" ), 2.369986e+2 * neutronMass,
                     94.0 * elementary, 0.5, +1);
 
     // particle pairs
@@ -1288,11 +1262,11 @@ SCENARIO( "evaluate" ) {
                       0.0 * elementary, 0.5, +1);
     Particle proton( ParticleID( "p" ), 9.986235e-1 * neutronMass,
                      elementary, 0.5, +1);
-    Particle cl36( ParticleID( "Cl36_e0" ), 3.565932e+1 * neutronMass,
+    Particle cl36( ParticleID( "Cl36" ), 3.565932e+1 * neutronMass,
                    17.0 * elementary, 0., +1);
-    Particle cl35( ParticleID( "Cl35_e0" ), 3.466845e+1 * neutronMass,
+    Particle cl35( ParticleID( "Cl35" ), 3.466845e+1 * neutronMass,
                    17.0 * elementary, 1.5, +1);
-    Particle s36( ParticleID( "S36_e0" ), 3.466863e+1 * neutronMass,
+    Particle s36( ParticleID( "S36" ), 3.466863e+1 * neutronMass,
                   16.0 * elementary, 1.5, +1);
 
     // particle pairs
@@ -1363,9 +1337,9 @@ SCENARIO( "evaluate" ) {
     SpinGroup< ReichMoore, Constant >
         group4( { elastic, protonemission }, std::move( multiple2 ) );
 
-    ReactionID elas( "n,Cl35_e0->n,Cl35_e0" );
-    ReactionID pemi( "n,Cl35_e0->p,S36_e0" );
-    ReactionID capt( "n,Cl35_e0->capture" );
+    ReactionID elas( "n,Cl35->n,Cl35" );
+    ReactionID pemi( "n,Cl35->p,S36" );
+    ReactionID capt( "n,Cl35->capture" );
 
     THEN( "cross sections can be calculated for a single resonance using the "
           "ShiftFactor boundary condition" ) {
