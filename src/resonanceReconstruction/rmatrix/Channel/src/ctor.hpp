@@ -62,7 +62,7 @@ Channel( const ParticlePair& incident,
          const ChannelRadii& radii,
          const BoundaryCondition& boundary = 0.0 ) :
   Channel( makeChannelID( pair.pairID(), numbers ),
-           makeReactionID( incident.pairID(), pair.pairID() ),
+           ReactionID( incident.pairID(), pair.pairID() ),
            incident, pair, qValue, numbers, radii, boundary ) {}
 
 /**
@@ -80,9 +80,9 @@ Channel( const ParticlePair& incident,
  *
  *  @param[in] incident   the current incident particle pair
  *  @param[in] pair       the particle pair associated to the channel
+ *  @param[in] id         the replacement particle pair identifier
  *  @param[in] qValue     the Q value associated with the transition from
  *                        incident to the outgoing particle pair
- *  @param[in] id         the replacement particle pair identifier
  *  @param[in] numbers    the channel's quantum numbers
  *  @param[in] radii      the channel radii to be used for calculation of the
  *                        wave functions
@@ -97,5 +97,5 @@ Channel( const ParticlePair& incident,
          const ChannelRadii& radii,
          const BoundaryCondition& boundary = 0.0 ) :
   Channel( makeChannelID( id, numbers ),
-           makeReactionID( incident.pairID(), pair.pairID() ),
+           ReactionID( incident.pairID(), id ),
            incident, pair, qValue, numbers, radii, boundary ) {}

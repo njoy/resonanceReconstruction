@@ -15,5 +15,5 @@ makeReactionIdentifiers( const std::vector< ParticleChannel >& channels,
                | ranges::view::transform(
                      [&] ( const auto& channel )
                          { return std::visit( reactionID, channel ); } ),
-             ranges::view::single( in + "->capture" ) );
+             ranges::view::single( ReactionID( in, ParticlePairID( "capture" ) ) ) );
 }

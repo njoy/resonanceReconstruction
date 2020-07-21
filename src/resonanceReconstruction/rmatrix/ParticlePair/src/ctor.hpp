@@ -33,4 +33,4 @@ ParticlePair( const Particle& particle,
 ParticlePair( const Particle& particle,
               const Particle& residual ) :
   ParticlePair( particle, residual,
-                makeID( particle.particleID(), residual.particleID() ) ) {}
+                ParticlePairID( particle.particleID(), residual.particleID() ) ) {}

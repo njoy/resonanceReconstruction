@@ -21,7 +21,6 @@ class ParticlePair {
   double massratio_;
 
   /* auxiliary functions */
-  #include "resonanceReconstruction/rmatrix/ParticlePair/src/makeID.hpp"
 
 public:
 

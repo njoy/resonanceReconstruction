@@ -21,15 +21,17 @@ SCENARIO( "ParticlePair" ) {
   GIVEN( "valid data for a ParticlePair" ) {
 
     // particles
-    Particle photon( "g", 0.0 * daltons, 0.0 * coulombs, 1., +1);
-    Particle neutron( "n", 1.00866491582 * daltons, 0.0 * coulombs, 0.5, +1);
-    Particle proton( "p", 1.00727647 * daltons, elementary, 0.5, +1);
-    Particle cl36( "Cl36_e0", 35.968306822 * daltons,
-                              17.0 * elementary, 0., +1);
-    Particle cl35( "Cl35_e0", 34.968852694 * daltons,
-                              17.0 * elementary, 1.5, +1);
-    Particle s36( "S36_e0", 35.967080699 * daltons,
-                            16.0 * elementary, 1.5, +1);
+    Particle photon( ParticleID( "g" ), 0.0 * daltons, 0.0 * coulombs, 1., +1);
+    Particle neutron( ParticleID( "n" ), 1.00866491582 * daltons,
+                      0.0 * coulombs, 0.5, +1);
+    Particle proton( ParticleID( "p" ), 1.00727647 * daltons,
+                     elementary, 0.5, +1);
+    Particle cl36( ParticleID( "Cl36_e0" ), 35.968306822 * daltons,
+                   17.0 * elementary, 0., +1);
+    Particle cl35( ParticleID( "Cl35_e0" ), 34.968852694 * daltons,
+                   17.0 * elementary, 1.5, +1);
+    Particle s36( ParticleID( "S36_e0" ), 35.967080699 * daltons,
+                  16.0 * elementary, 1.5, +1);
 
     // custom particle pair identifier
     ParticlePairID id( "neutron" );
@@ -48,7 +50,7 @@ SCENARIO( "ParticlePair" ) {
       CHECK( 1.5 == Approx( pair.residual().spin() ) );
       CHECK( +1 == pair.residual().parity() );
 
-      CHECK( "n,Cl35_e0" == pair.pairID() );
+      CHECK( "n,Cl35_e0" == pair.pairID().symbol() );
 
       CHECK( 34.968852694 / ( 34.968852694 + 1.00866491582 )
              == Approx( pair.massRatio() ) );
@@ -70,7 +72,7 @@ SCENARIO( "ParticlePair" ) {
       CHECK( 1.5 == Approx( pair.residual().spin() ) );
       CHECK( +1 == pair.residual().parity() );
 
-      CHECK( "neutron" == pair.pairID() );
+      CHECK( "neutron" == pair.pairID().symbol() );
 
       CHECK( 34.968852694 / ( 34.968852694 + 1.00866491582 )
              == Approx( pair.massRatio() ) );
