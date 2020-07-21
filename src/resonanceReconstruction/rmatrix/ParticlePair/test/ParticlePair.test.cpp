@@ -11,6 +11,7 @@ using Particle = rmatrix::Particle;
 using ParticlePair = rmatrix::ParticlePair;
 using Spin = rmatrix::Spin;
 using Parity = rmatrix::Parity;
+using ParticleID = rmatrix::ParticleID;
 using ParticlePairID = rmatrix::ParticlePairID;
 
 constexpr ElectricalCharge elementary = dimwits::constant::elementaryCharge;
@@ -34,7 +35,7 @@ SCENARIO( "ParticlePair" ) {
                   16.0 * elementary, 1.5, +1);
 
     // custom particle pair identifier
-    ParticlePairID id( "neutron" );
+    ParticlePairID id( "fission" );
 
     THEN( "a ParticlePair can be constructed without a pair ID" ) {
 
@@ -50,7 +51,7 @@ SCENARIO( "ParticlePair" ) {
       CHECK( 1.5 == Approx( pair.residual().spin() ) );
       CHECK( +1 == pair.residual().parity() );
 
-      CHECK( "n,Cl35_e0" == pair.pairID().symbol() );
+      CHECK( "n,Cl35" == pair.pairID().symbol() );
 
       CHECK( 34.968852694 / ( 34.968852694 + 1.00866491582 )
              == Approx( pair.massRatio() ) );
@@ -72,7 +73,7 @@ SCENARIO( "ParticlePair" ) {
       CHECK( 1.5 == Approx( pair.residual().spin() ) );
       CHECK( +1 == pair.residual().parity() );
 
-      CHECK( "neutron" == pair.pairID().symbol() );
+      CHECK( "fission" == pair.pairID().symbol() );
 
       CHECK( 34.968852694 / ( 34.968852694 + 1.00866491582 )
              == Approx( pair.massRatio() ) );
