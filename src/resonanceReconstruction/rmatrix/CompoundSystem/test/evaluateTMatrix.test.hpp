@@ -1,28 +1,3 @@
-#include "catch.hpp"
-#include "resonanceReconstruction.hpp"
-
-#include <iomanip>
-
-using namespace njoy::resonanceReconstruction;
-
-// convenience typedefs
-using Particle = rmatrix::Particle;
-using ParticlePair = rmatrix::ParticlePair;
-using Neutron = rmatrix::Neutron;
-using Photon = rmatrix::Photon;
-using Fission = rmatrix::Fission;
-using ReactionID = rmatrix::ReactionID;
-template < typename Type > using Channel = rmatrix::Channel< Type >;
-using Resonance = rmatrix::Resonance;
-using ResonanceTable = rmatrix::ResonanceTable;
-using ShiftFactor = rmatrix::ShiftFactor;
-using Constant = rmatrix::Constant;
-using ReichMoore = rmatrix::ReichMoore;
-template < typename Formalism, typename Option > using SpinGroup = rmatrix::SpinGroup< Formalism, Option >;
-template < typename Formalism, typename Option > using CompoundSystem = rmatrix::CompoundSystem< Formalism, Option >;
-
-constexpr AtomicMass neutronMass = 1.008664 * daltons;
-
 SCENARIO( "evaluateTMatrix" ) {
 
   GIVEN( "valid data for a CompoundSystem with only one SpinGroup without "
@@ -40,12 +15,12 @@ SCENARIO( "evaluateTMatrix" ) {
     // LRF7 reconstruction
 
     // particles
-    Particle photon( "g", 0.0 * daltons, 0.0 * coulombs, 1., +1);
-    Particle neutron( "n", neutronMass, 0.0 * coulombs, 0.5, +1);
-    Particle fe55( "Fe55_e0", 5.446635e+1 * neutronMass,
-                              26.0 * coulombs, 0.0, +1);
-    Particle fe54( "Fe54_e0", 5.347624e+1 * neutronMass,
-                              26.0 * coulombs, 0.0, +1);
+    Particle photon( ParticleID( "g" ), 0.0 * daltons, 0.0 * coulombs, 1., +1);
+    Particle neutron( ParticleID( "n" ), neutronMass, 0.0 * coulombs, 0.5, +1);
+    Particle fe55( ParticleID( "Fe55" ), 5.446635e+1 * neutronMass,
+                   26.0 * coulombs, 0.0, +1);
+    Particle fe54( ParticleID( "Fe54" ), 5.347624e+1 * neutronMass,
+                   26.0 * coulombs, 0.0, +1);
 
     // particle pairs
     ParticlePair in( neutron, fe54 );
@@ -105,12 +80,12 @@ SCENARIO( "evaluateTMatrix" ) {
     CompoundSystem< ReichMoore, Constant > system3( { group3 } );
     CompoundSystem< ReichMoore, Constant > system4( { group4 } );
 
-    ReactionID t11 = "n,Fe54_e0{0,1/2,1/2+}->n,Fe54_e0{0,1/2,1/2+}";
+    ReactionChannelID t11( "n,Fe54{0,1/2,1/2+}->n,Fe54{0,1/2,1/2+}" );
 
     THEN( "T matrix elements can be calculated for a single resonance using "
           "the ShiftFactor boundary condition" ) {
 
-      std::map< ReactionID, std::complex< double > > elements;
+      std::map< ReactionChannelID, std::complex< double > > elements;
       group1.evaluateTMatrix( 1e-5 * electronVolt, elements );
       CHECK( 1 == elements.size() );
       CHECK( 2.7315635336518469E-06 == Approx( elements[ t11 ].real() ) );
@@ -180,7 +155,7 @@ SCENARIO( "evaluateTMatrix" ) {
     THEN( "T matrix elements can be calculated for multiple resonances using "
           "the ShiftFactor boundary condition" ) {
 
-      std::map< ReactionID, std::complex< double > > elements;
+      std::map< ReactionChannelID, std::complex< double > > elements;
       group2.evaluateTMatrix( 1e-5 * electronVolt, elements );
       CHECK( 1 == elements.size() );
       CHECK( 3.1378337586014968E-06 == Approx( elements[ t11 ].real() ) );
@@ -260,7 +235,7 @@ SCENARIO( "evaluateTMatrix" ) {
     THEN( "T matrix elements can be calculated for a single resonance using "
           "the Constant boundary condition" ) {
 
-      std::map< ReactionID, std::complex< double > > elements;
+      std::map< ReactionChannelID, std::complex< double > > elements;
       group3.evaluateTMatrix( 1e-5 * electronVolt, elements );
       CHECK( 1 == elements.size() );
       CHECK( 2.7315635336518469E-06 == Approx( elements[ t11 ].real() ) );
@@ -330,7 +305,7 @@ SCENARIO( "evaluateTMatrix" ) {
     THEN( "T matrix elements can be calculated for multiple resonances using "
           "the Constant boundary condition" ) {
 
-      std::map< ReactionID, std::complex< double > > elements;
+      std::map< ReactionChannelID, std::complex< double > > elements;
       group4.evaluateTMatrix( 1e-5 * electronVolt, elements );
       CHECK( 1 == elements.size() );
       CHECK( 3.1378337586014968E-06 == Approx( elements[ t11 ].real() ) );
@@ -422,12 +397,12 @@ SCENARIO( "evaluateTMatrix" ) {
     // using SpinGroup< ShiftFactor > is equivalent to NJOY2016's LRF7 reconstruction
 
     // particles
-    Particle photon( "g", 0.0 * daltons, 0.0 * coulombs, 1., +1);
-    Particle neutron( "n", neutronMass, 0.0 * coulombs, 0.5, +1);
-    Particle fe55( "Fe55_e0", 5.446635e+1 * neutronMass,
-                              26.0 * coulombs, 0.0, +1);
-    Particle fe54( "Fe54_e0", 5.347624e+1 * neutronMass,
-                              26.0 * coulombs, 0.0, +1);
+    Particle photon( ParticleID( "g" ), 0.0 * daltons, 0.0 * coulombs, 1., +1);
+    Particle neutron( ParticleID( "n" ), neutronMass, 0.0 * coulombs, 0.5, +1);
+    Particle fe55( ParticleID( "Fe55" ), 5.446635e+1 * neutronMass,
+                   26.0 * coulombs, 0.0, +1);
+    Particle fe54( ParticleID( "Fe54" ), 5.347624e+1 * neutronMass,
+                   26.0 * coulombs, 0.0, +1);
 
     // particle pairs
     ParticlePair out( photon, fe55 );
@@ -556,16 +531,16 @@ SCENARIO( "evaluateTMatrix" ) {
     CompoundSystem< ReichMoore, ShiftFactor >
         system( { group1, group2, group3, group4, group5 } );
 
-    ReactionID s1t11 = "n,Fe54_e0{0,1/2,1/2+}->n,Fe54_e0{0,1/2,1/2+}";
-    ReactionID s2t11 = "n,Fe54_e0{1,1/2,1/2-}->n,Fe54_e0{1,1/2,1/2-}";
-    ReactionID s3t11 = "n,Fe54_e0{1,1/2,3/2-}->n,Fe54_e0{1,1/2,3/2-}";
-    ReactionID s4t11 = "n,Fe54_e0{2,1/2,3/2+}->n,Fe54_e0{2,1/2,3/2+}";
-    ReactionID s5t11 = "n,Fe54_e0{2,1/2,5/2+}->n,Fe54_e0{2,1/2,5/2+}";
+    ReactionChannelID s1t11( "n,Fe54{0,1/2,1/2+}->n,Fe54{0,1/2,1/2+}" );
+    ReactionChannelID s2t11( "n,Fe54{1,1/2,1/2-}->n,Fe54{1,1/2,1/2-}" );
+    ReactionChannelID s3t11( "n,Fe54{1,1/2,3/2-}->n,Fe54{1,1/2,3/2-}" );
+    ReactionChannelID s4t11( "n,Fe54{2,1/2,3/2+}->n,Fe54{2,1/2,3/2+}" );
+    ReactionChannelID s5t11( "n,Fe54{2,1/2,5/2+}->n,Fe54{2,1/2,5/2+}" );
 
     THEN( "T matrix elements can be calculated for multiple resonances using "
           "the ShiftFactor boundary condition" ) {
 
-      std::map< ReactionID, std::complex< double > > elements;
+      std::map< ReactionChannelID, std::complex< double > > elements;
       system.evaluateTMatrix( 1e-5 * electronVolt, elements );
       CHECK( 5 == elements.size() );
       CHECK( 3.1378337586014968E-06 == Approx( elements[ s1t11 ].real() ) );

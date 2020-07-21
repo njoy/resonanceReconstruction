@@ -1,28 +1,3 @@
-#include "catch.hpp"
-#include "resonanceReconstruction.hpp"
-
-#include <iomanip>
-
-using namespace njoy::resonanceReconstruction;
-
-// convenience typedefs
-using Particle = rmatrix::Particle;
-using ParticlePair = rmatrix::ParticlePair;
-using Neutron = rmatrix::Neutron;
-using Photon = rmatrix::Photon;
-using Fission = rmatrix::Fission;
-using ReactionID = rmatrix::ReactionID;
-template < typename Type > using Channel = rmatrix::Channel< Type >;
-using Resonance = rmatrix::Resonance;
-using ResonanceTable = rmatrix::ResonanceTable;
-using ShiftFactor = rmatrix::ShiftFactor;
-using Constant = rmatrix::Constant;
-using ReichMoore = rmatrix::ReichMoore;
-template < typename Formalism, typename Option > using SpinGroup = rmatrix::SpinGroup< Formalism, Option >;
-template < typename Formalism, typename Option > using CompoundSystem = rmatrix::CompoundSystem< Formalism, Option >;
-
-constexpr AtomicMass neutronMass = 1.008664 * daltons;
-
 SCENARIO( "evaluate" ) {
 
   GIVEN( "valid data for a CompoundSystem with only one SpinGroup without "
@@ -42,9 +17,9 @@ SCENARIO( "evaluate" ) {
     // particles
     Particle photon( ParticleID( "g" ), 0.0 * daltons, 0.0 * coulombs, 1., +1);
     Particle neutron( ParticleID( "n" ), neutronMass, 0.0 * coulombs, 0.5, +1);
-    Particle fe55( ParticleID( "Fe55_e0" ), 5.446635e+1 * neutronMass,
+    Particle fe55( ParticleID( "Fe55" ), 5.446635e+1 * neutronMass,
                    26.0 * coulombs, 0.0, +1);
-    Particle fe54( ParticleID( "Fe54_e0" ), 5.347624e+1 * neutronMass,
+    Particle fe54( ParticleID( "Fe54" ), 5.347624e+1 * neutronMass,
                    26.0 * coulombs, 0.0, +1);
 
     // particle pairs
@@ -481,9 +456,9 @@ SCENARIO( "evaluate" ) {
     // particles
     Particle photon( ParticleID( "g" ), 0.0 * daltons, 0.0 * coulombs, 1., +1);
     Particle neutron( ParticleID( "n" ), neutronMass, 0.0 * coulombs, 0.5, +1);
-    Particle fe55( ParticleID( "Fe55_e0" ), 5.446635e+1 * neutronMass,
+    Particle fe55( ParticleID( "Fe55" ), 5.446635e+1 * neutronMass,
                    26.0 * coulombs, 0.0, +1);
-    Particle fe54( ParticleID( "Fe54_e0" ), 5.347624e+1 * neutronMass,
+    Particle fe54( ParticleID( "Fe54" ), 5.347624e+1 * neutronMass,
                    26.0 * coulombs, 0.0, +1);
 
     // particle pairs
