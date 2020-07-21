@@ -26,6 +26,7 @@ namespace rmatrix {
   using ParticlePairID = elementary::ParticlePairID;
   using ReactionID = elementary::ReactionID;
   using ChannelID = std::string;
+  using ReactionChannelID = std::string;
 
   // matrix
   template < typename T > using Matrix = Eigen::Matrix< T, Eigen::Dynamic, Eigen::Dynamic >;

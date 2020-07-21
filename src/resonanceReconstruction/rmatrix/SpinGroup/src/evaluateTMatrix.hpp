@@ -11,7 +11,7 @@
  */
 void evaluateTMatrix(
          const Energy& energy,
-         std::map< ReactionID, std::complex< double > >& result ) {
+         std::map< ReactionChannelID, std::complex< double > >& result ) {
 
   // penetrability, sqrt(P) and channel identifiers for each channel
   const auto penetrabilities = this->penetrabilities( energy );
@@ -51,7 +51,7 @@ void evaluateTMatrix(
         channels
           | ranges::view::transform(
                 [&] ( const auto& id )
-                    { return ReactionID( current + "->" + id ); } );
+                    { return ReactionChannelID( current + "->" + id ); } );
 
     // assign into the map
     ranges::for_each(

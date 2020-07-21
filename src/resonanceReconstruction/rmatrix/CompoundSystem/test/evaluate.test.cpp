@@ -40,12 +40,12 @@ SCENARIO( "evaluate" ) {
     // LRF7 reconstruction
 
     // particles
-    Particle photon( "g", 0.0 * daltons, 0.0 * coulombs, 1., +1);
-    Particle neutron( "n", neutronMass, 0.0 * coulombs, 0.5, +1);
-    Particle fe55( "Fe55_e0", 5.446635e+1 * neutronMass,
-                              26.0 * coulombs, 0.0, +1);
-    Particle fe54( "Fe54_e0", 5.347624e+1 * neutronMass,
-                              26.0 * coulombs, 0.0, +1);
+    Particle photon( ParticleID( "g" ), 0.0 * daltons, 0.0 * coulombs, 1., +1);
+    Particle neutron( ParticleID( "n" ), neutronMass, 0.0 * coulombs, 0.5, +1);
+    Particle fe55( ParticleID( "Fe55_e0" ), 5.446635e+1 * neutronMass,
+                   26.0 * coulombs, 0.0, +1);
+    Particle fe54( ParticleID( "Fe54_e0" ), 5.347624e+1 * neutronMass,
+                   26.0 * coulombs, 0.0, +1);
 
     // particle pairs
     ParticlePair in( neutron, fe54 );
@@ -105,8 +105,8 @@ SCENARIO( "evaluate" ) {
     CompoundSystem< ReichMoore, Constant > system3( { group3 } );
     CompoundSystem< ReichMoore, Constant > system4( { group4 } );
 
-    ReactionID elas = "n,Fe54_e0->n,Fe54_e0";
-    ReactionID capt = "n,Fe54_e0->capture";
+    ReactionID elas( "n,Fe54->n,Fe54" );
+    ReactionID capt( "n,Fe54->capture" );
 
     THEN( "cross sections can be calculated for a single resonance using the "
           "ShiftFactor boundary condition" ) {
@@ -479,12 +479,12 @@ SCENARIO( "evaluate" ) {
     // using SpinGroup< ShiftFactor > is equivalent to NJOY2016's LRF7 reconstruction
 
     // particles
-    Particle photon( "g", 0.0 * daltons, 0.0 * coulombs, 1., +1);
-    Particle neutron( "n", neutronMass, 0.0 * coulombs, 0.5, +1);
-    Particle fe55( "Fe55_e0", 5.446635e+1 * neutronMass,
-                              26.0 * coulombs, 0.0, +1);
-    Particle fe54( "Fe54_e0", 5.347624e+1 * neutronMass,
-                              26.0 * coulombs, 0.0, +1);
+    Particle photon( ParticleID( "g" ), 0.0 * daltons, 0.0 * coulombs, 1., +1);
+    Particle neutron( ParticleID( "n" ), neutronMass, 0.0 * coulombs, 0.5, +1);
+    Particle fe55( ParticleID( "Fe55_e0" ), 5.446635e+1 * neutronMass,
+                   26.0 * coulombs, 0.0, +1);
+    Particle fe54( ParticleID( "Fe54_e0" ), 5.347624e+1 * neutronMass,
+                   26.0 * coulombs, 0.0, +1);
 
     // particle pairs
     ParticlePair out( photon, fe55 );
@@ -613,8 +613,8 @@ SCENARIO( "evaluate" ) {
     CompoundSystem< ReichMoore, ShiftFactor >
         system( { group1, group2, group3, group4, group5 } );
 
-    ReactionID elas = "n,Fe54_e0->n,Fe54_e0";
-    ReactionID capt = "n,Fe54_e0->capture";
+    ReactionID elas( "n,Fe54->n,Fe54" );
+    ReactionID capt( "n,Fe54->capture" );
 
     THEN( "cross sections can be calculated" ) {
 

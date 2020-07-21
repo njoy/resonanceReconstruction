@@ -6,6 +6,8 @@ using namespace njoy::resonanceReconstruction;
 // convenience typedefs
 using Particle = rmatrix::Particle;
 using ParticlePair = rmatrix::ParticlePair;
+using ParticleID = rmatrix::ParticleID;
+using ParticlePairID = rmatrix::ParticlePairID;
 using Neutron = rmatrix::Neutron;
 using Photon = rmatrix::Photon;
 using Fission = rmatrix::Fission;
@@ -14,7 +16,7 @@ template < typename Type > using Channel = rmatrix::Channel< Type >;
 using Resonance = rmatrix::Resonance;
 using ResonanceTable = rmatrix::ResonanceTable;
 template < typename Formalism, typename Option > using SpinGroup = rmatrix::SpinGroup< Formalism, Option >;
-using ReactionID = rmatrix::ReactionID;
+using ReactionChannelID = rmatrix::ReactionChannelID;
 using ShiftFactor = rmatrix::ShiftFactor;
 using Constant = rmatrix::Constant;
 using ReichMoore = rmatrix::ReichMoore;
@@ -42,12 +44,14 @@ SCENARIO( "evaluateTMatrix" ) {
     // LRF7 reconstruction
 
     // particles
-    Particle photon( "g", 0.0 * daltons, 0.0 * elementary, 1., +1);
-    Particle neutron( "n", neutronMass, 0.0 * elementary, 0.5, +1);
-    Particle fe55( "Fe55_e0", 5.446635e+1 * neutronMass,
-                              26.0 * elementary, 0.0, +1);
-    Particle fe54( "Fe54_e0", 5.347624e+1 * neutronMass,
-                              26.0 * elementary, 0.0, +1);
+    Particle photon( ParticleID( "g" ), 0.0 * daltons,
+                     0.0 * elementary, 1., +1);
+    Particle neutron( ParticleID( "n" ), neutronMass,
+                      0.0 * elementary, 0.5, +1);
+    Particle fe55( ParticleID( "Fe55_e0" ), 5.446635e+1 * neutronMass,
+                   26.0 * elementary, 0.0, +1);
+    Particle fe54( ParticleID( "Fe54_e0" ), 5.347624e+1 * neutronMass,
+                   26.0 * elementary, 0.0, +1);
 
     // particle pairs
     ParticlePair in( neutron, fe54 );
@@ -102,12 +106,12 @@ SCENARIO( "evaluateTMatrix" ) {
     SpinGroup< ReichMoore, Constant > group4( { elastic },
                                               std::move( multiple2 ) );
 
-    ReactionID t11 = "n,Fe54_e0{0,1/2,1/2+}->n,Fe54_e0{0,1/2,1/2+}";
+    ReactionChannelID t11( "n,Fe54{0,1/2,1/2+}->n,Fe54{0,1/2,1/2+}" );
 
     THEN( "T matrix elements can be calculated for a single resonance using "
           "the ShiftFactor boundary condition" ) {
 
-      std::map< ReactionID, std::complex< double > > elements;
+      std::map< ReactionChannelID, std::complex< double > > elements;
       group1.evaluateTMatrix( 1e-5 * electronVolt, elements );
       CHECK( 1 == elements.size() );
       CHECK( 2.7315635336518469E-06 == Approx( elements[ t11 ].real() ) );
@@ -177,7 +181,7 @@ SCENARIO( "evaluateTMatrix" ) {
     THEN( "T matrix elements can be calculated for multiple resonances using "
           "the ShiftFactor boundary condition" ) {
 
-      std::map< ReactionID, std::complex< double > > elements;
+      std::map< ReactionChannelID, std::complex< double > > elements;
       group2.evaluateTMatrix( 1e-5 * electronVolt, elements );
       CHECK( 1 == elements.size() );
       CHECK( 3.1378337586014968E-06 == Approx( elements[ t11 ].real() ) );
@@ -257,7 +261,7 @@ SCENARIO( "evaluateTMatrix" ) {
     THEN( "T matrix elements can be calculated for a single resonance using "
           "the Constant boundary condition" ) {
 
-      std::map< ReactionID, std::complex< double > > elements;
+      std::map< ReactionChannelID, std::complex< double > > elements;
       group3.evaluateTMatrix( 1e-5 * electronVolt, elements );
       CHECK( 1 == elements.size() );
       CHECK( 2.7315635336518469E-06 == Approx( elements[ t11 ].real() ) );
@@ -327,7 +331,7 @@ SCENARIO( "evaluateTMatrix" ) {
     THEN( "T matrix elements can be calculated for multiple resonances using "
           "the Constant boundary condition" ) {
 
-      std::map< ReactionID, std::complex< double > > elements;
+      std::map< ReactionChannelID, std::complex< double > > elements;
       group4.evaluateTMatrix( 1e-5 * electronVolt, elements );
       CHECK( 1 == elements.size() );
       CHECK( 3.1378337586014968E-06 == Approx( elements[ t11 ].real() ) );
@@ -423,18 +427,19 @@ SCENARIO( "evaluateTMatrix" ) {
     // LRF7 reconstruction
 
     // particles
-    Particle photon( "g", 0.0 * daltons, 0.0 * elementary, 1., +1);
-    Particle neutron( "n", neutronMass, 0.0 * elementary, 0.5, +1);
-    Particle pu240( "Pu240_e0", 2.379916e+2 * neutronMass,
-                                94.0 * elementary, 0.5, +1);
-    Particle pu239( "Pu239_e0", 2.369986e+2 * neutronMass,
-                                94.0 * elementary, 0.5, +1);
-    Particle fission( "fission", 0.0 * daltons, 0.0 * elementary, 0.0, +1);
+    Particle photon( ParticleID( "g" ), 0.0 * daltons,
+                     0.0 * elementary, 1., +1);
+    Particle neutron( ParticleID( "n" ), neutronMass,
+                      0.0 * elementary, 0.5, +1);
+    Particle pu240( ParticleID( "Pu240_e0" ), 2.379916e+2 * neutronMass,
+                    94.0 * elementary, 0.5, +1);
+    Particle pu239( ParticleID( "Pu239_e0" ), 2.369986e+2 * neutronMass,
+                    94.0 * elementary, 0.5, +1);
 
     // particle pairs
     ParticlePair in( neutron, pu239 );
     ParticlePair out1( photon, pu240 );
-    ParticlePair out2( fission, fission, "fission" );
+    ParticlePair out2( neutron, pu239, ParticlePairID( "fission" ) );
 
     // channels
     Channel< Photon > capture( in, out1, 0.0 * electronVolt,
@@ -505,20 +510,20 @@ SCENARIO( "evaluateTMatrix" ) {
     SpinGroup< ReichMoore, Constant >
         group4( { elastic, fission1, fission2 }, std::move( multiple2 ) );
 
-    ReactionID t11 = "n,Pu239_e0{0,1/2,0+}->n,Pu239_e0{0,1/2,0+}";
-    ReactionID t12 = "n,Pu239_e0{0,1/2,0+}->fission1{0,0,0+}";
-    ReactionID t13 = "n,Pu239_e0{0,1/2,0+}->fission2{0,0,0+}";
-    ReactionID t21 = "fission1{0,0,0+}->n,Pu239_e0{0,1/2,0+}";
-    ReactionID t22 = "fission1{0,0,0+}->fission1{0,0,0+}";
-    ReactionID t23 = "fission1{0,0,0+}->fission2{0,0,0+}";
-    ReactionID t31 = "fission2{0,0,0+}->n,Pu239_e0{0,1/2,0+}";
-    ReactionID t32 = "fission2{0,0,0+}->fission1{0,0,0+}";
-    ReactionID t33 = "fission2{0,0,0+}->fission2{0,0,0+}";
+    ReactionChannelID t11( "n,Pu239{0,1/2,0+}->n,Pu239{0,1/2,0+}" );
+    ReactionChannelID t12( "n,Pu239{0,1/2,0+}->fission1{0,0,0+}" );
+    ReactionChannelID t13( "n,Pu239{0,1/2,0+}->fission2{0,0,0+}" );
+    ReactionChannelID t21( "fission1{0,0,0+}->n,Pu239{0,1/2,0+}" );
+    ReactionChannelID t22( "fission1{0,0,0+}->fission1{0,0,0+}" );
+    ReactionChannelID t23( "fission1{0,0,0+}->fission2{0,0,0+}" );
+    ReactionChannelID t31( "fission2{0,0,0+}->n,Pu239{0,1/2,0+}" );
+    ReactionChannelID t32( "fission2{0,0,0+}->fission1{0,0,0+}" );
+    ReactionChannelID t33( "fission2{0,0,0+}->fission2{0,0,0+}" );
 
     THEN( "T matrix elements can be calculated for a single resonance using "
           "the ShiftFactor boundary condition" ) {
 
-      std::map< ReactionID, std::complex< double > > elements;
+      std::map< ReactionChannelID, std::complex< double > > elements;
       group1.evaluateTMatrix( 1e-5 * electronVolt, elements );
       CHECK( 9 == elements.size() );
       CHECK( 5.3671960278418717E-08 == Approx( elements[ t11 ].real() ) );
@@ -754,7 +759,7 @@ SCENARIO( "evaluateTMatrix" ) {
     THEN( "T matrix elements can be calculated for multiple resonances using "
           "the ShiftFactor boundary condition" ) {
 
-      std::map< ReactionID, std::complex< double > > elements;
+      std::map< ReactionChannelID, std::complex< double > > elements;
       group2.evaluateTMatrix( 1e-5 * electronVolt, elements );
       CHECK( 9 == elements.size() );
       CHECK( 8.6077679923294300E-08 == Approx( elements[ t11 ].real() ) );
@@ -1032,7 +1037,7 @@ SCENARIO( "evaluateTMatrix" ) {
     THEN( "T matrix elements can be calculated for a single resonance using "
           "the Constant boundary condition" ) {
 
-      std::map< ReactionID, std::complex< double > > elements;
+      std::map< ReactionChannelID, std::complex< double > > elements;
       group3.evaluateTMatrix( 1e-5 * electronVolt, elements );
       CHECK( 9 == elements.size() );
       CHECK( 5.3671960278418717E-08 == Approx( elements[ t11 ].real() ) );
@@ -1268,7 +1273,7 @@ SCENARIO( "evaluateTMatrix" ) {
     THEN( "T matrix elements can be calculated for multiple resonances using "
           "the Constant boundary condition" ) {
 
-      std::map< ReactionID, std::complex< double > > elements;
+      std::map< ReactionChannelID, std::complex< double > > elements;
       group4.evaluateTMatrix( 1e-5 * electronVolt, elements );
       CHECK( 9 == elements.size() );
       CHECK( 8.6077679923294300E-08 == Approx( elements[ t11 ].real() ) );
@@ -1554,18 +1559,19 @@ SCENARIO( "evaluateTMatrix" ) {
     // values)
 
     // particles
-    Particle photon( "g", 0.0 * daltons, 0.0 * elementary, 1., +1);
-    Particle neutron( "n", neutronMass, 0.0 * elementary, 0.5, +1);
-    Particle pu240( "Pu240_e0", 2.379916e+2 * neutronMass,
-                                94.0 * elementary, 0.5, +1);
-    Particle pu239( "Pu239_e0", 2.369986e+2 * neutronMass,
-                                94.0 * elementary, 0.5, +1);
-    Particle fission( "fission", 0.0 * daltons, 0.0 * elementary, 0.0, +1);
+    Particle photon( ParticleID( "g" ), 0.0 * daltons,
+                     0.0 * elementary, 1., +1);
+    Particle neutron( ParticleID( "n" ), neutronMass,
+                      0.0 * elementary, 0.5, +1);
+    Particle pu240( ParticleID( "Pu240_e0" ), 2.379916e+2 * neutronMass,
+                    94.0 * elementary, 0.5, +1);
+    Particle pu239( ParticleID( "Pu239_e0" ), 2.369986e+2 * neutronMass,
+                    94.0 * elementary, 0.5, +1);
 
     // particle pairs
     ParticlePair in( neutron, pu239 );
     ParticlePair out1( photon, pu240 );
-    ParticlePair out2( fission, fission, "fission" );
+    ParticlePair out2( neutron, pu239, ParticlePairID( "fission" ) );
 
     // channels
     Channel< Photon > capture( in, out1, 0. * electronVolt, { 0, 0.0, 0.0, +1 },
@@ -1617,19 +1623,19 @@ SCENARIO( "evaluateTMatrix" ) {
     SpinGroup< ReichMoore, ShiftFactor >
         group( { elastic, fission1, fission2 }, std::move( table ) );
 
-    ReactionID t11 = "n,Pu239_e0{0,1/2,0+}->n,Pu239_e0{0,1/2,0+}";
-    ReactionID t12 = "n,Pu239_e0{0,1/2,0+}->fission1{0,0,0+}";
-    ReactionID t13 = "n,Pu239_e0{0,1/2,0+}->fission2{0,0,0+}";
-    ReactionID t21 = "fission1{0,0,0+}->n,Pu239_e0{0,1/2,0+}";
-    ReactionID t22 = "fission1{0,0,0+}->fission1{0,0,0+}";
-    ReactionID t23 = "fission1{0,0,0+}->fission2{0,0,0+}";
-    ReactionID t31 = "fission2{0,0,0+}->n,Pu239_e0{0,1/2,0+}";
-    ReactionID t32 = "fission2{0,0,0+}->fission1{0,0,0+}";
-    ReactionID t33 = "fission2{0,0,0+}->fission2{0,0,0+}";
+    ReactionChannelID t11( "n,Pu239{0,1/2,0+}->n,Pu239{0,1/2,0+}" );
+    ReactionChannelID t12( "n,Pu239{0,1/2,0+}->fission1{0,0,0+}" );
+    ReactionChannelID t13( "n,Pu239{0,1/2,0+}->fission2{0,0,0+}" );
+    ReactionChannelID t21( "fission1{0,0,0+}->n,Pu239{0,1/2,0+}" );
+    ReactionChannelID t22( "fission1{0,0,0+}->fission1{0,0,0+}" );
+    ReactionChannelID t23( "fission1{0,0,0+}->fission2{0,0,0+}" );
+    ReactionChannelID t31( "fission2{0,0,0+}->n,Pu239{0,1/2,0+}" );
+    ReactionChannelID t32( "fission2{0,0,0+}->fission1{0,0,0+}" );
+    ReactionChannelID t33( "fission2{0,0,0+}->fission2{0,0,0+}" );
 
     THEN( "T matrix elements can be calculated" ) {
 
-      std::map< ReactionID, std::complex< double > > elements;
+      std::map< ReactionChannelID, std::complex< double > > elements;
       group.evaluateTMatrix( 1e-5 * electronVolt, elements );
       CHECK( 9 == elements.size() );
       CHECK( -2.1263213571644141E-08 == Approx( elements[ t11 ].real() ) );
@@ -1894,18 +1900,19 @@ SCENARIO( "evaluateTMatrix" ) {
     // values)
 
     // particles
-    Particle photon( "g", 0.0 * daltons, 0.0 * elementary, 1., +1);
-    Particle neutron( "n", neutronMass, 0.0 * elementary, 0.5, +1);
-    Particle pu240( "Pu240_e0", 2.379916e+2 * neutronMass,
-                                94.0 * elementary, 0.5, +1);
-    Particle pu239( "Pu239_e0", 2.369986e+2 * neutronMass,
-                                94.0 * elementary, 0.5, +1);
-    Particle fission( "fission", 0.0 * daltons, 0.0 * elementary, 0.0, +1);
+    Particle photon( ParticleID( "g" ), 0.0 * daltons,
+                     0.0 * elementary, 1., +1);
+    Particle neutron( ParticleID( "n" ), neutronMass,
+                      0.0 * elementary, 0.5, +1);
+    Particle pu240( ParticleID( "Pu240_e0" ), 2.379916e+2 * neutronMass,
+                    94.0 * elementary, 0.5, +1);
+    Particle pu239( ParticleID( "Pu239_e0" ), 2.369986e+2 * neutronMass,
+                    94.0 * elementary, 0.5, +1);
 
     // particle pairs
     ParticlePair in( neutron, pu239 );
     ParticlePair out1( photon, pu240 );
-    ParticlePair out2( fission, fission, "fission" );
+    ParticlePair out2( neutron, pu239, ParticlePairID( "fission" ) );
 
     // channels
     Channel< Photon > capture( in, out1, 0. * electronVolt, { 0, 0.0, 0.0, +1 },
@@ -1962,19 +1969,19 @@ SCENARIO( "evaluateTMatrix" ) {
     SpinGroup< ReichMoore, ShiftFactor >
         group( { elastic, fission1, fission2 }, std::move( table ) );
 
-    ReactionID t11 = "n,Pu239_e0{0,1/2,0+}->n,Pu239_e0{0,1/2,0+}";
-    ReactionID t12 = "n,Pu239_e0{0,1/2,0+}->fission1{0,0,0+}";
-    ReactionID t13 = "n,Pu239_e0{0,1/2,0+}->fission2{0,0,0+}";
-    ReactionID t21 = "fission1{0,0,0+}->n,Pu239_e0{0,1/2,0+}";
-    ReactionID t22 = "fission1{0,0,0+}->fission1{0,0,0+}";
-    ReactionID t23 = "fission1{0,0,0+}->fission2{0,0,0+}";
-    ReactionID t31 = "fission2{0,0,0+}->n,Pu239_e0{0,1/2,0+}";
-    ReactionID t32 = "fission2{0,0,0+}->fission1{0,0,0+}";
-    ReactionID t33 = "fission2{0,0,0+}->fission2{0,0,0+}";
+    ReactionChannelID t11( "n,Pu239{0,1/2,0+}->n,Pu239{0,1/2,0+}" );
+    ReactionChannelID t12( "n,Pu239{0,1/2,0+}->fission1{0,0,0+}" );
+    ReactionChannelID t13( "n,Pu239{0,1/2,0+}->fission2{0,0,0+}" );
+    ReactionChannelID t21( "fission1{0,0,0+}->n,Pu239{0,1/2,0+}" );
+    ReactionChannelID t22( "fission1{0,0,0+}->fission1{0,0,0+}" );
+    ReactionChannelID t23( "fission1{0,0,0+}->fission2{0,0,0+}" );
+    ReactionChannelID t31( "fission2{0,0,0+}->n,Pu239{0,1/2,0+}" );
+    ReactionChannelID t32( "fission2{0,0,0+}->fission1{0,0,0+}" );
+    ReactionChannelID t33( "fission2{0,0,0+}->fission2{0,0,0+}" );
 
     THEN( "T matrix elements can be calculated" ) {
 
-      std::map< ReactionID, std::complex< double > > elements;
+      std::map< ReactionChannelID, std::complex< double > > elements;
       group.evaluateTMatrix( 1e-5 * electronVolt, elements );
       CHECK( 9 == elements.size() );
       CHECK(  8.6094360117330500E-08 == Approx( elements[ t11 ].real() ) );
@@ -2265,15 +2272,18 @@ SCENARIO( "evaluateTMatrix" ) {
     // LRF7 reconstruction
 
     // particles
-    Particle photon( "g", 0.0 * daltons, 0.0 * elementary, 1., +1);
-    Particle neutron( "n", neutronMass, 0.0 * elementary, 0.5, +1);
-    Particle proton( "p", 9.986235e-1 * neutronMass, elementary, 0.5, +1);
-    Particle cl36( "Cl36_e0", 3.565932e+1 * neutronMass,
-                              17.0 * elementary, 0., +1);
-    Particle cl35( "Cl35_e0", 3.466845e+1 * neutronMass,
-                              17.0 * elementary, 1.5, +1);
-    Particle s36( "S36_e0", 3.466863e+1 * neutronMass,
-                            16.0 * elementary, 1.5, +1);
+    Particle photon( ParticleID( "g" ), 0.0 * daltons,
+                     0.0 * elementary, 1., +1);
+    Particle neutron( ParticleID( "n" ), neutronMass,
+                      0.0 * elementary, 0.5, +1);
+    Particle proton( ParticleID( "p" ), 9.986235e-1 * neutronMass,
+                     elementary, 0.5, +1);
+    Particle cl36( ParticleID( "Cl36_e0" ), 3.565932e+1 * neutronMass,
+                   17.0 * elementary, 0., +1);
+    Particle cl35( ParticleID( "Cl35_e0" ), 3.466845e+1 * neutronMass,
+                   17.0 * elementary, 1.5, +1);
+    Particle s36( ParticleID( "S36_e0" ), 3.466863e+1 * neutronMass,
+                  16.0 * elementary, 1.5, +1);
 
     // particle pairs
     ParticlePair in( neutron, cl35 );
@@ -2343,15 +2353,15 @@ SCENARIO( "evaluateTMatrix" ) {
     SpinGroup< ReichMoore, Constant >
         group4( { elastic, protonemission }, std::move( multiple2 ) );
 
-    ReactionID t11 = "n,Cl35_e0{0,1,1+}->n,Cl35_e0{0,1,1+}";
-    ReactionID t12 = "n,Cl35_e0{0,1,1+}->p,S36_e0{0,1,1+}";
-    ReactionID t21 = "p,S36_e0{0,1,1+}->n,Cl35_e0{0,1,1+}";
-    ReactionID t22 = "p,S36_e0{0,1,1+}->p,S36_e0{0,1,1+}";
+    ReactionChannelID t11( "n,Cl35{0,1,1+}->n,Cl35{0,1,1+}" );
+    ReactionChannelID t12( "n,Cl35{0,1,1+}->p,S36{0,1,1+}" );
+    ReactionChannelID t21( "p,S36{0,1,1+}->n,Cl35{0,1,1+}" );
+    ReactionChannelID t22( "p,S36{0,1,1+}->p,S36{0,1,1+}" );
 
     THEN( "cross sections can be calculated for a single resonance using the "
           "ShiftFactor boundary condition" ) {
 
-      std::map< ReactionID, std::complex< double > > elements;
+      std::map< ReactionChannelID, std::complex< double > > elements;
       group1.evaluateTMatrix( 1e-5 * electronVolt, elements );
       CHECK( 4 == elements.size() );
       CHECK(  1.9329175916735239E-08 == Approx( elements[ t11 ].real() ) );
@@ -2367,7 +2377,7 @@ SCENARIO( "evaluateTMatrix" ) {
     THEN( "cross sections can be calculated for multiple resonances using the "
           "ShiftFactor boundary condition" ) {
 
-      std::map< ReactionID, std::complex< double > > elements;
+      std::map< ReactionChannelID, std::complex< double > > elements;
       group2.evaluateTMatrix( 1e-5 * electronVolt, elements );
       CHECK( 4 == elements.size() );
       CHECK(  5.8627792036991544E-08 == Approx( elements[ t11 ].real() ) );
@@ -2383,7 +2393,7 @@ SCENARIO( "evaluateTMatrix" ) {
     THEN( "cross sections can be calculated for a single resonance using the "
           "Constant boundary condition" ) {
 
-      std::map< ReactionID, std::complex< double > > elements;
+      std::map< ReactionChannelID, std::complex< double > > elements;
       group3.evaluateTMatrix( 1e-5 * electronVolt, elements );
       CHECK( 4 == elements.size() );
       CHECK(  1.9329175916735239E-08 == Approx( elements[ t11 ].real() ) );
@@ -2399,7 +2409,7 @@ SCENARIO( "evaluateTMatrix" ) {
     THEN( "cross sections can be calculated for multiple resonances using the "
           "Constant boundary condition" ) {
 
-      std::map< ReactionID, std::complex< double > > elements;
+      std::map< ReactionChannelID, std::complex< double > > elements;
       group4.evaluateTMatrix( 1e-5 * electronVolt, elements );
       CHECK( 4 == elements.size() );
       CHECK(  5.8627792036991544E-08 == Approx( elements[ t11 ].real() ) );

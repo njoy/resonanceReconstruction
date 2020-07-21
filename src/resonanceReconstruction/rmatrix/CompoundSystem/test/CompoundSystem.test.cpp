@@ -28,12 +28,12 @@ SCENARIO( "CompoundSystem" ) {
   GIVEN( "valid data for a CompoundSystem" ) {
 
     // particles
-    Particle photon( "g", 0.0 * daltons, 0.0 * coulombs, 1., +1);
-    Particle neutron( "n", neutronMass, 0.0 * coulombs, 0.5, +1);
-    Particle fe55( "Fe55_e0", 5.446635e+1 * neutronMass,
-                              26.0 * coulombs, 0.0, +1);
-    Particle fe54( "Fe54_e0", 5.347624e+1 * neutronMass,
-                              26.0 * coulombs, 0.0, +1);
+    Particle photon( ParticleID( "g" ), 0.0 * daltons, 0.0 * coulombs, 1., +1);
+    Particle neutron( ParticleID( "n" ), neutronMass, 0.0 * coulombs, 0.5, +1);
+    Particle fe55( ParticleID( "Fe55_e0" ), 5.446635e+1 * neutronMass,
+                   26.0 * coulombs, 0.0, +1);
+    Particle fe54( ParticleID( "Fe54_e0" ), 5.347624e+1 * neutronMass,
+                   26.0 * coulombs, 0.0, +1);
 
     // particle pairs
     ParticlePair out( photon, fe55 );
@@ -130,47 +130,47 @@ SCENARIO( "CompoundSystem" ) {
       CHECK( 1 == group.incidentChannels().size() );
       CHECK( 1 == group.channels().size() );
       auto channel = std::get< Channel< Neutron > >( group.channels()[0] );
-      CHECK( "n,Fe54_e0{0,1/2,1/2+}" == channel.channelID() );
+      CHECK( "n,Fe54{0,1/2,1/2+}" == channel.channelID() );
 
       // group 2 - Jpi = 0.5-
       group = system.spinGroups()[1];
       CHECK( 1 == group.incidentChannels().size() );
       CHECK( 1 == group.channels().size() );
       channel = std::get< Channel< Neutron > >( group.channels()[0] );
-      CHECK( "n,Fe54_e0{1,1/2,1/2-}" == channel.channelID() );
+      CHECK( "n,Fe54{1,1/2,1/2-}" == channel.channelID() );
 
       // group 3 - Jpi = 1.5-
       group = system.spinGroups()[2];
       CHECK( 1 == group.incidentChannels().size() );
       CHECK( 1 == group.channels().size() );
       channel = std::get< Channel< Neutron > >( group.channels()[0] );
-      CHECK( "n,Fe54_e0{1,1/2,3/2-}" == channel.channelID() );
+      CHECK( "n,Fe54{1,1/2,3/2-}" == channel.channelID() );
 
       // group 4 - Jpi = 1.5+
       group = system.spinGroups()[3];
       CHECK( 1 == group.incidentChannels().size() );
       CHECK( 1 == group.channels().size() );
       channel = std::get< Channel< Neutron > >( group.channels()[0] );
-      CHECK( "n,Fe54_e0{2,1/2,3/2+}" == channel.channelID() );
+      CHECK( "n,Fe54{2,1/2,3/2+}" == channel.channelID() );
 
       // group 5 - Jpi = 2.5+
       group = system.spinGroups()[4];
       CHECK( 1 == group.incidentChannels().size() );
       CHECK( 1 == group.channels().size() );
       channel = std::get< Channel< Neutron > >( group.channels()[0] );
-      CHECK( "n,Fe54_e0{2,1/2,5/2+}" == channel.channelID() );
+      CHECK( "n,Fe54{2,1/2,5/2+}" == channel.channelID() );
     } // THEN
   } // GIVEN
 
   GIVEN( "data for a CompoundSystem with errors" ) {
 
     // particles
-    Particle photon( "g", 0.0 * daltons, 0.0 * coulombs, 1., +1);
-    Particle neutron( "n", neutronMass, 0.0 * coulombs, 0.5, +1);
-    Particle fe55( "Fe55_e0", 5.446635e+1 * neutronMass,
-                              26.0 * coulombs, 0.0, +1);
-    Particle fe54( "Fe54_e0", 5.347624e+1 * neutronMass,
-                              26.0 * coulombs, 0.0, +1);
+    Particle photon( ParticleID( "g" ), 0.0 * daltons, 0.0 * coulombs, 1., +1);
+    Particle neutron( ParticleID( "n" ), neutronMass, 0.0 * coulombs, 0.5, +1);
+    Particle fe55( ParticleID( "Fe55_e0" ), 5.446635e+1 * neutronMass,
+                   26.0 * coulombs, 0.0, +1);
+    Particle fe54( ParticleID( "Fe54_e0" ), 5.347624e+1 * neutronMass,
+                   26.0 * coulombs, 0.0, +1);
 
     // particle pairs
     ParticlePair out( photon, fe55 );

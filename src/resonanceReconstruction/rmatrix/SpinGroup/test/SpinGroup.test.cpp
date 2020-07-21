@@ -8,6 +8,7 @@ using namespace njoy::resonanceReconstruction;
 // convenience typedefs
 using Particle = rmatrix::Particle;
 using ParticlePair = rmatrix::ParticlePair;
+using ParticleID = rmatrix::ParticleID;
 using ParticlePairID = rmatrix::ParticlePairID;
 using Neutron = rmatrix::Neutron;
 using Photon = rmatrix::Photon;
@@ -26,6 +27,7 @@ using Constant = rmatrix::Constant;
 using ReichMoore = rmatrix::ReichMoore;
 using ParticleChannel = rmatrix::ParticleChannel;
 
+constexpr AtomicMass neutronMass = 1.008664 * daltons;
 constexpr ElectricalCharge elementary = dimwits::constant::elementaryCharge;
 constexpr double e = 1.6021766208e-19;
 
@@ -34,17 +36,19 @@ SCENARIO( "SpinGroup" ) {
   GIVEN( "valid data for a SpinGroup" ) {
 
     // particles
-    Particle photon( "g", 0.0 * daltons, 0.0 * coulombs, 1., +1);
-    Particle neutron( "n", 1.00866491582 * daltons, 0.0 * coulombs, 0.5, +1);
-    Particle proton( "p", 1.00727647 * daltons, elementary, 0.5, +1);
-    Particle cl36( "Cl36_e0", 35.968306822 * daltons,
-                              17.0 * elementary, 0., +1);
-    Particle cl35( "Cl35_e0", 34.968852694 * daltons,
-                              17.0 * elementary, 1.5, +1);
-    Particle cl35_e1( "Cl35_e1", 34.968852694 * daltons,
-                                 17.0 * elementary, 1.5, +1);
-    Particle s36( "S36_e0", 35.967080699 * daltons,
-                            16.0 * elementary, 1.5, +1);
+    Particle photon( ParticleID( "g" ), 0.0 * daltons, 0.0 * coulombs, 1., +1);
+    Particle neutron( ParticleID( "n" ), 1.00866491582 * daltons,
+                      0.0 * coulombs, 0.5, +1);
+    Particle proton( ParticleID( "p" ), 1.00727647 * daltons,
+                     elementary, 0.5, +1);
+    Particle cl36( ParticleID( "Cl36_e0" ), 35.968306822 * daltons,
+                   17.0 * elementary, 0., +1);
+    Particle cl35( ParticleID( "Cl35_e0" ), 34.968852694 * daltons,
+                   17.0 * elementary, 1.5, +1);
+    Particle cl35_e1( ParticleID( "Cl35_e1" ), 34.968852694 * daltons,
+                      17.0 * elementary, 1.5, +1);
+    Particle s36( ParticleID( "S36_e0" ), 35.967080699 * daltons,
+                  16.0 * elementary, 1.5, +1);
 
     // particle pairs
     ParticlePair elasticPair( neutron, cl35 );
@@ -116,8 +120,8 @@ SCENARIO( "SpinGroup" ) {
       // channel 1 - elastic
       auto channel1 = std::get< Channel< Neutron > >( group.channels()[0] );
 
-      CHECK( "n,Cl35_e0{0,1,1+}" == channel1.channelID() );
-      CHECK( "n,Cl35_e0->n,Cl35_e0" == channel1.reactionID() );
+      CHECK( "n,Cl35{0,1,1+}" == channel1.channelID() );
+      CHECK( "n,Cl35->n,Cl35" == channel1.reactionID().symbol() );
 
       CHECK( true == channel1.isIncidentChannel() );
 
@@ -130,7 +134,7 @@ SCENARIO( "SpinGroup" ) {
       CHECK( 17. * e == Approx( incident.residual().charge().value ) );
       CHECK( 1.5 == Approx( incident.residual().spin() ) );
       CHECK( +1 == incident.residual().parity() );
-      CHECK( "n,Cl35_e0" == incident.pairID() );
+      CHECK( "n,Cl35" == incident.pairID().symbol() );
 
       auto pair = channel1.particlePair();
       CHECK( 1.00866491582 == Approx( pair.particle().mass().value ) );
@@ -141,7 +145,7 @@ SCENARIO( "SpinGroup" ) {
       CHECK( 17. * e == Approx( pair.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair.residual().spin() ) );
       CHECK( +1 == pair.residual().parity() );
-      CHECK( "n,Cl35_e0" == pair.pairID() );
+      CHECK( "n,Cl35" == pair.pairID().symbol() );
 
       auto numbers = channel1.quantumNumbers();
       CHECK( 0 == numbers.orbitalAngularMomentum() );
@@ -162,7 +166,7 @@ SCENARIO( "SpinGroup" ) {
       auto channel2 = std::get< Channel< Neutron > >( group.channels()[1] );
 
       CHECK( "n,Cl35_e1{0,1,1+}" == channel2.channelID() );
-      CHECK( "n,Cl35_e0->n,Cl35_e1" == channel2.reactionID() );
+      CHECK( "n,Cl35->n,Cl35_e1" == channel2.reactionID().symbol() );
 
       CHECK( false == channel2.isIncidentChannel() );
 
@@ -175,7 +179,7 @@ SCENARIO( "SpinGroup" ) {
       CHECK( 17. * e == Approx( incident.residual().charge().value ) );
       CHECK( 1.5 == Approx( incident.residual().spin() ) );
       CHECK( +1 == incident.residual().parity() );
-      CHECK( "n,Cl35_e0" == incident.pairID() );
+      CHECK( "n,Cl35" == incident.pairID().symbol() );
 
       pair = channel2.particlePair();
       CHECK( 1.00866491582 == Approx( pair.particle().mass().value ) );
@@ -186,7 +190,7 @@ SCENARIO( "SpinGroup" ) {
       CHECK( 17. * e == Approx( pair.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair.residual().spin() ) );
       CHECK( +1 == pair.residual().parity() );
-      CHECK( "n,Cl35_e1" == pair.pairID() );
+      CHECK( "n,Cl35_e1" == pair.pairID().symbol() );
 
       numbers = channel2.quantumNumbers();
       CHECK( 0 == numbers.orbitalAngularMomentum() );
@@ -206,8 +210,8 @@ SCENARIO( "SpinGroup" ) {
       // channel 3 - proton emission
       auto channel3 = std::get< Channel< ChargedParticle > >( group.channels()[2] );
 
-      CHECK( "p,S36_e0{0,1,1+}" == channel3.channelID() );
-      CHECK( "n,Cl35_e0->p,S36_e0" == channel3.reactionID() );
+      CHECK( "p,S36{0,1,1+}" == channel3.channelID() );
+      CHECK( "n,Cl35->p,S36" == channel3.reactionID().symbol() );
 
       CHECK( false == channel3.isIncidentChannel() );
 
@@ -220,7 +224,7 @@ SCENARIO( "SpinGroup" ) {
       CHECK( 17. * e == Approx( incident.residual().charge().value ) );
       CHECK( 1.5 == Approx( incident.residual().spin() ) );
       CHECK( +1 == incident.residual().parity() );
-      CHECK( "n,Cl35_e0" == incident.pairID() );
+      CHECK( "n,Cl35" == incident.pairID().symbol() );
 
       pair = channel3.particlePair();
       CHECK( 1.00727647 == Approx( pair.particle().mass().value ) );
@@ -231,7 +235,7 @@ SCENARIO( "SpinGroup" ) {
       CHECK( 16. * e == Approx( pair.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair.residual().spin() ) );
       CHECK( +1 == pair.residual().parity() );
-      CHECK( "p,S36_e0" == pair.pairID() );
+      CHECK( "p,S36" == pair.pairID().symbol() );
 
       numbers = channel3.quantumNumbers();
       CHECK( 0 == numbers.orbitalAngularMomentum() );
@@ -251,18 +255,18 @@ SCENARIO( "SpinGroup" ) {
       // reactions in the spin group
       auto reactions = group.reactionIDs();
       CHECK( 4 == reactions.size() );
-      CHECK( "n,Cl35_e0->n,Cl35_e0" == reactions[0] );
-      CHECK( "n,Cl35_e0->n,Cl35_e1" == reactions[1] );
-      CHECK( "n,Cl35_e0->p,S36_e0" == reactions[2] );
-      CHECK( "n,Cl35_e0->capture" == reactions[3] );
+      CHECK( "n,Cl35->n,Cl35" == reactions[0].symbol() );
+      CHECK( "n,Cl35->n,Cl35_e1" == reactions[1].symbol() );
+      CHECK( "n,Cl35->p,S36" == reactions[2].symbol() );
+      CHECK( "n,Cl35->capture" == reactions[3].symbol() );
 
       // resonance data
       auto table = group.resonanceTable();
       CHECK( 3 == table.numberChannels() );
       CHECK( 3 == table.channels().size() );
-      CHECK( "n,Cl35_e0{0,1,1+}" == table.channels()[0] );
+      CHECK( "n,Cl35{0,1,1+}" == table.channels()[0] );
       CHECK( "n,Cl35_e1{0,1,1+}" == table.channels()[1] );
-      CHECK( "p,S36_e0{0,1,1+}" == table.channels()[2] );
+      CHECK( "p,S36{0,1,1+}" == table.channels()[2] );
       CHECK( 1 == table.numberResonances() );
       CHECK( 1 == table.resonances().size() );
       CHECK( 1 == table.energies().size() );
@@ -280,17 +284,19 @@ SCENARIO( "SpinGroup" ) {
   GIVEN( "data for a SpinGroup with errors" ) {
 
     // particles
-    Particle photon( "g", 0.0 * daltons, 0.0 * coulombs, 1., +1);
-    Particle neutron( "n", 1.00866491582 * daltons, 0.0 * coulombs, 0.5, +1);
-    Particle proton( "p", 1.00727647 * daltons, elementary, 0.5, +1);
-    Particle cl36( "Cl36_e0", 35.968306822 * daltons,
-                              17.0 * elementary, 0., +1);
-    Particle cl35( "Cl35_e0", 34.968852694 * daltons,
-                              17.0 * elementary, 1.5, +1);
-    Particle cl35_e1( "Cl35_e1", 34.968852694 * daltons,
-                                 17.0 * elementary, 1.5, +1);
-    Particle s36( "S36_e0", 35.967080699 * daltons,
-                            16.0 * elementary, 1.5, +1);
+    Particle photon( ParticleID( "g" ), 0.0 * daltons, 0.0 * coulombs, 1., +1);
+    Particle neutron( ParticleID( "n" ), 1.00866491582 * daltons,
+                      0.0 * coulombs, 0.5, +1);
+    Particle proton( ParticleID( "p" ), 1.00727647 * daltons,
+                     elementary, 0.5, +1);
+    Particle cl36( ParticleID( "Cl36_e0" ), 35.968306822 * daltons,
+                   17.0 * elementary, 0., +1);
+    Particle cl35( ParticleID( "Cl35_e0" ), 34.968852694 * daltons,
+                   17.0 * elementary, 1.5, +1);
+    Particle cl35_e1( ParticleID( "Cl35_e1" ), 34.968852694 * daltons,
+                      17.0 * elementary, 1.5, +1);
+    Particle s36( ParticleID( "S36_e0" ), 35.967080699 * daltons,
+                  16.0 * elementary, 1.5, +1);
 
     // particle pairs
     ParticlePair elasticPair( neutron, cl35 );
