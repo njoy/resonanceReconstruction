@@ -12,6 +12,7 @@ using Constant = rmatrix::Constant;
 
 using Particle = rmatrix::Particle;
 using ParticlePair = rmatrix::ParticlePair;
+using ParticleID = rmatrix::ParticleID;
 using ParticlePairID = rmatrix::ParticlePairID;
 template < typename Type > using Channel = rmatrix::Channel< Type >;
 using ChannelID = rmatrix::ChannelID;
@@ -104,17 +105,19 @@ SCENARIO( "LMatrixCalculator< Constant >" ) {
 std::vector< TestChannel > createChannels() {
 
   // particles
-  Particle photon( "g", 0.0 * daltons, 0.0 * coulombs, 1., +1);
-  Particle neutron( "n", 1.00866491582 * daltons, 0.0 * coulombs, 0.5, +1);
-  Particle proton( "p", 1.00727647 * daltons, elementary, 0.5, +1);
-  Particle cl36( "Cl36_e0", 35.968306822 * daltons,
-                            17.0 * elementary, 0., +1);
-  Particle cl35( "Cl35_e0", 34.968852694 * daltons,
-                            17.0 * elementary, 1.5, +1);
-  Particle cl35_e1( "Cl35_e1", 34.968852694 * daltons,
-                               17.0 * elementary, 1.5, +1);
-  Particle s36( "S36_e0", 35.967080699 * daltons,
-                          16.0 * elementary, 1.5, +1);
+  Particle photon( ParticleID( "g" ), 0.0 * daltons, 0.0 * coulombs, 1., +1);
+  Particle neutron( ParticleID( "n" ), 1.00866491582 * daltons,
+                    0.0 * coulombs, 0.5, +1);
+  Particle proton( ParticleID( "p" ), 1.00727647 * daltons,
+                   elementary, 0.5, +1);
+  Particle cl36( ParticleID( "Cl36_e0" ), 35.968306822 * daltons,
+                 17.0 * elementary, 0., +1);
+  Particle cl35( ParticleID( "Cl35_e0" ), 34.968852694 * daltons,
+                 17.0 * elementary, 1.5, +1);
+  Particle cl35_e1( ParticleID( "Cl35_e1" ), 34.968852694 * daltons,
+                    17.0 * elementary, 1.5, +1);
+  Particle s36( ParticleID( "S36_e0" ), 35.967080699 * daltons,
+                16.0 * elementary, 1.5, +1);
 
   // particle pairs
   ParticlePair elasticPair( neutron, cl35 );

@@ -1,11 +1,3 @@
-#include "catch.hpp"
-#include "resonanceReconstruction.hpp"
-
-using namespace njoy::resonanceReconstruction;
-
-// convenience typedefs
-using Resonance = rmatrix::Resonance;
-
 SCENARIO( "Resonance.rmatrix( energy )" ) {
 
   GIVEN( "Valid Resonances" ) {
