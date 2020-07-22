@@ -47,6 +47,9 @@ namespace rmatrix {
   #include "resonanceReconstruction/rmatrix/Resonance.hpp"
   #include "resonanceReconstruction/rmatrix/ResonanceTable.hpp"
 
+  // legacy resonance reconstruction
+  #include "resonanceReconstruction/rmatrix/legacy.hpp"
+
   // R-Matrix formalism options
   struct ReichMoore {};
   struct GeneralRMatrix {};
