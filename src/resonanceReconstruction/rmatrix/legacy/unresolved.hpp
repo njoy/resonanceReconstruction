@@ -6,4 +6,7 @@ namespace unresolved {
   using FluctuationIntegrals = Data< FluctuationIntegral >;
   using CrossSections = Data< CrossSection >;
   using Degrees = Data< unsigned int >;
+
+  // function to calculate the fluctuation integrals
+  #include "resonanceReconstruction/rmatrix/legacy/unresolved/src/calculateFluctuationIntegrals.hpp"
 }

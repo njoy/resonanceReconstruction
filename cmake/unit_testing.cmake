@@ -23,6 +23,7 @@ add_subdirectory( src/resonanceReconstruction/rmatrix/LMatrixCalculator/Constant
 add_subdirectory( src/resonanceReconstruction/rmatrix/SpinGroup/test )
 add_subdirectory( src/resonanceReconstruction/rmatrix/CompoundSystem/test )
 
+add_subdirectory( src/resonanceReconstruction/rmatrix/legacy/unresolved/test )
 add_subdirectory( src/resonanceReconstruction/rmatrix/legacy/unresolved/Data/test )
 
 add_subdirectory( src/resonanceReconstruction/test )
