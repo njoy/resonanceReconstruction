@@ -48,6 +48,7 @@ namespace rmatrix {
   // resolved and unresolved resonance information
   #include "resonanceReconstruction/rmatrix/BaseResonance.hpp"
   #include "resonanceReconstruction/rmatrix/Resonance.hpp"
+  #include "resonanceReconstruction/rmatrix/UnresolvedResonance.hpp"
   #include "resonanceReconstruction/rmatrix/ResonanceTable.hpp"
 
   // legacy resonance reconstruction
