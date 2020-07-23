@@ -50,9 +50,9 @@ SCENARIO( "calculateFluctuationIntegrals" ) {
       FluctuationIntegrals integrals =
       calculateFluctuationIntegrals( widths, degrees );
 
-      CHECK( 2.2806311 == Approx( integrals.elastic.value ) );
-      CHECK( 0.8945772 == Approx( integrals.capture.value ) );
-      CHECK( 0.30087207 == Approx( integrals.fission.value ) );
+      CHECK( 2.2806310870217965 == Approx( integrals.elastic.value ) );
+      CHECK( 0.89457720997275580 == Approx( integrals.capture.value ) );
+      CHECK( 0.30087206891891111 == Approx( integrals.fission.value ) );
       CHECK( 0. == Approx( integrals.competition.value ) );
     } // THEN
 
