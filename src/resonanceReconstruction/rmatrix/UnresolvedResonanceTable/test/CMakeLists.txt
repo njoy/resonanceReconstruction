@@ -1,0 +1,3 @@
+add_executable( resonanceReconstruction.rmatrix.UnresolvedResonanceTable.test UnresolvedResonanceTable.test.cpp )
+target_link_libraries( resonanceReconstruction.rmatrix.UnresolvedResonanceTable.test PUBLIC resonanceReconstruction )
+add_test( NAME resonanceReconstruction.rmatrix.UnresolvedResonanceTable COMMAND resonanceReconstruction.rmatrix.UnresolvedResonanceTable.test )

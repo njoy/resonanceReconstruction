@@ -1,6 +1,6 @@
 static
 void verifyTable( const std::vector< ChannelID >& channels,
-                  const std::vector< Resonance >& table ) {
+                  const std::vector< ResonanceType >& table ) {
 
   // verify that each resonance contains the same amount of resonances
 

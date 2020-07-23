@@ -1,20 +1,21 @@
 /**
  *  @class
- *  @brief Resonance parameters for a specific J,pi value
+ *  @brief Resonance parameters for a specific J,pi or l,J value
  */
-class ResonanceTable {
+template < typename ResonanceType >
+class BaseResonanceTable {
 
   /* fields */
   std::vector< ChannelID > channels_;
-  std::vector< Resonance > widths_;
+  std::vector< ResonanceType > widths_;
 
   /* auxiliary functions */
-  #include "resonanceReconstruction/rmatrix/ResonanceTable/src/verifyTable.hpp"
+  #include "resonanceReconstruction/rmatrix/BaseResonanceTable/src/verifyTable.hpp"
 
 public:
 
   /* constructor */
-  #include "resonanceReconstruction/rmatrix/ResonanceTable/src/ctor.hpp"
+  #include "resonanceReconstruction/rmatrix/BaseResonanceTable/src/ctor.hpp"
 
   /**
    *  @brief Return the number of channels
@@ -40,7 +41,7 @@ public:
    *  @brief Return the resonance energies
    */
   auto energies() const {
-    
+
     return this->resonances()
              | ranges::view::transform( [] ( const auto& resonance )
                                            { return resonance.energy(); } );

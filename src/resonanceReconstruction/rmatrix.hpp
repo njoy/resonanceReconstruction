@@ -49,7 +49,9 @@ namespace rmatrix {
   #include "resonanceReconstruction/rmatrix/BaseResonance.hpp"
   #include "resonanceReconstruction/rmatrix/Resonance.hpp"
   #include "resonanceReconstruction/rmatrix/UnresolvedResonance.hpp"
-  #include "resonanceReconstruction/rmatrix/ResonanceTable.hpp"
+  #include "resonanceReconstruction/rmatrix/BaseResonanceTable.hpp"
+  using ResonanceTable = BaseResonanceTable< Resonance >;
+  #include "resonanceReconstruction/rmatrix/UnresolvedResonanceTable.hpp"
 
   // legacy resonance reconstruction
   #include "resonanceReconstruction/rmatrix/legacy.hpp"

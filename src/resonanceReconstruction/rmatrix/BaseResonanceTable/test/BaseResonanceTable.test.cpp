@@ -6,13 +6,13 @@
 using namespace njoy::resonanceReconstruction;
 
 // convenience typedefs
-using ResonanceTable = rmatrix::ResonanceTable;
 using Resonance = rmatrix::Resonance;
 using ChannelID = rmatrix::ChannelID;
+using BaseResonanceTable = rmatrix::BaseResonanceTable< Resonance >;
 
-SCENARIO( "ResonanceTable" ) {
+SCENARIO( "BaseResonanceTable" ) {
 
-  GIVEN( "valid data for a ResonanceTable" ) {
+  GIVEN( "valid data for a BaseResonanceTable" ) {
 
     // single resonance data
     std::vector< ChannelID > channels = { "1", "2" };
@@ -30,9 +30,10 @@ SCENARIO( "ResonanceTable" ) {
                      4.000000e-1 * rootElectronVolt },
                    7.451500e-1 * rootElectronVolt ) };
 
-    THEN( "a ResonanceTable can be constructed" ) {
+    THEN( "a BaseResonanceTable can be constructed" ) {
 
-      ResonanceTable table( std::move( channels ), std::move( resonances ) );
+      BaseResonanceTable table( std::move( channels ),
+                                std::move( resonances ) );
 
       CHECK( 2 == table.numberChannels() );
       CHECK( 2 == table.channels().size() );
@@ -89,8 +90,8 @@ SCENARIO( "ResonanceTable" ) {
     THEN( "an exception is thrown at construction when a resonance does not "
           "contain the right number of widths" ) {
 
-      CHECK_THROWS( ResonanceTable( std::move( channels ),
-                                      std::move( resonances ) ) );
+      CHECK_THROWS( BaseResonanceTable( std::move( channels ),
+                                        std::move( resonances ) ) );
     } // THEN
   } // GIVEN
 } // SCENARIO
