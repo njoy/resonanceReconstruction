@@ -44,6 +44,9 @@ namespace rmatrix {
   #include "resonanceReconstruction/rmatrix/ChannelQuantumNumbers.hpp"
   #include "resonanceReconstruction/rmatrix/ChannelRadii.hpp"
   #include "resonanceReconstruction/rmatrix/Channel.hpp"
+
+  // resolved and unresolved resonance information
+  #include "resonanceReconstruction/rmatrix/BaseResonance.hpp"
   #include "resonanceReconstruction/rmatrix/Resonance.hpp"
   #include "resonanceReconstruction/rmatrix/ResonanceTable.hpp"
 
