@@ -7,6 +7,9 @@ namespace unresolved {
   using CrossSections = Data< CrossSection >;
   using Degrees = Data< unsigned int >;
 
+  #include "resonanceReconstruction/rmatrix/legacy/unresolved/Resonance.hpp"
+  #include "resonanceReconstruction/rmatrix/legacy/unresolved/ResonanceTable.hpp"
+
   // function to calculate the fluctuation integrals
   #include "resonanceReconstruction/rmatrix/legacy/unresolved/src/calculateFluctuationIntegrals.hpp"
 }

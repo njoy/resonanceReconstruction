@@ -1,3 +1,0 @@
-add_executable( resonanceReconstruction.rmatrix.BaseResonanceTable.test BaseResonanceTable.test.cpp )
-target_link_libraries( resonanceReconstruction.rmatrix.BaseResonanceTable.test PUBLIC resonanceReconstruction )
-add_test( NAME resonanceReconstruction.rmatrix.BaseResonanceTable COMMAND resonanceReconstruction.rmatrix.BaseResonanceTable.test )

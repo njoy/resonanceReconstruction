@@ -8,9 +8,11 @@
  *  capture channel. When using the general R matrix theory, the eliminated
  *  width is zero.
  */
-class Resonance : protected BaseResonance {
+class Resonance {
 
   /* fields */
+  Energy energy_;
+  std::vector< ReducedWidth > widths_;
   ReducedWidth eliminated_;
 
 public:
@@ -18,13 +20,20 @@ public:
   /* constructor */
   #include "resonanceReconstruction/rmatrix/Resonance/src/ctor.hpp"
 
-  using BaseResonance::energy;
-  using BaseResonance::widths;
+  /**
+   *  @brief Return the resonance energy (in eV)
+   */
+  const Energy& energy() const { return this->energy_; }
 
   /**
    *  @brief Return the eliminated capture width (in sqrt(eV))
    */
   const ReducedWidth& eliminatedWidth() const { return this->eliminated_; }
+
+  /**
+   *  @brief Return the reduced widths for this resonance (in sqrt(eV))
+   */
+  auto widths() const { return ranges::view::all( this->widths_ ); }
 
   #include "resonanceReconstruction/rmatrix/Resonance/src/rmatrix.hpp"
 };

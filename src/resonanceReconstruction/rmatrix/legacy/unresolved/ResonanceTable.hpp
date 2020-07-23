@@ -13,8 +13,7 @@
  *
  *  @todo we currently only assume linear interpolation on the parameters
  */
-class UnresolvedResonanceTable :
-  protected BaseResonanceTable< UnresolvedResonance > {
+class ResonanceTable {
 
   /* aliases */
   template < typename XType, typename YType >
@@ -26,34 +25,54 @@ class UnresolvedResonanceTable :
                 		std::vector< XType >, std::vector< YType > >,
                   interpolation::table::right::interval::Throws,
                   interpolation::table::left::interval::Throws >;
-  using LevelSpacingTable = Table< Energy, Energy >;
-  using WidthTable = Table< Energy, ReducedWidth >;
+  using LevelSpacingTable = Table< Energy, LevelSpacing >;
+  using ReducedWidthTable = Table< Energy, ReducedWidth >;
+  using WidthTable = Table< Energy, Width >;
 
   /* fields */
-  std::vector< unsigned int > degrees_;
+  std::vector< Resonance > widths_;
+  Degrees degrees_;
   LevelSpacingTable level_spacing_table_;
-  std::vector< WidthTable > width_tables_;
+  ReducedWidthTable elastic_table_;
+  WidthTable capture_table_;
+  WidthTable fission_table_;
+  WidthTable competition_table_;
 
   /* auxiliary functions */
-  #include "resonanceReconstruction/rmatrix/UnresolvedResonanceTable/src/verifyTable.hpp"
-  #include "resonanceReconstruction/rmatrix/UnresolvedResonanceTable/src/make.hpp"
+  #include "resonanceReconstruction/rmatrix/legacy/unresolved/ResonanceTable/src/verifyDegrees.hpp"
+  #include "resonanceReconstruction/rmatrix/legacy/unresolved/ResonanceTable/src/make.hpp"
 
 public:
 
   /* methods */
-  using BaseResonanceTable::numberChannels;
-  using BaseResonanceTable::numberResonances;
-  using BaseResonanceTable::channels;
-  using BaseResonanceTable::resonances;
-  using BaseResonanceTable::energies;
+
+  /**
+   *  @brief Return the number of resonances
+   */
+  unsigned int numberResonances() const { return this->widths_.size(); }
+
+  /**
+   *  @brief Return the resonances
+   */
+  auto resonances() const { return ranges::view::all( this->widths_ ); }
+
+  /**
+   *  @brief Return the resonance energies
+   */
+  auto energies() const {
+
+    return this->resonances()
+             | ranges::view::transform( [] ( const auto& resonance )
+                                           { return resonance.energy(); } );
+  }
 
   /**
    *  @brief Return the degrees of freedom for each channel
    */
-  auto degreesOfFreedom() const { return ranges::view::all( this->degrees_ ); }
+  const Degrees& degreesOfFreedom() const { return this->degrees_; }
 
-  #include "resonanceReconstruction/rmatrix/UnresolvedResonanceTable/src/call.hpp"
+  #include "resonanceReconstruction/rmatrix/legacy/unresolved/ResonanceTable/src/call.hpp"
 
   /* constructor */
-  #include "resonanceReconstruction/rmatrix/UnresolvedResonanceTable/src/ctor.hpp"
+  #include "resonanceReconstruction/rmatrix/legacy/unresolved/ResonanceTable/src/ctor.hpp"
 };
