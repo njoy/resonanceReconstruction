@@ -4,7 +4,6 @@
  *  For all channel types except for neutron channels, the shift factor is 0.0.
  */
 template < typename Type >
-inline
 double calculateShiftFactor( const unsigned int, const double, const double ) {
 
   return 0.0;
@@ -17,7 +16,6 @@ double calculateShiftFactor( const unsigned int, const double, const double ) {
  *  hardsphere functions.
  */
 template <>
-inline
 double calculateShiftFactor< Neutron >( const unsigned int l,
                                         const double ratio,
                                         const double ) {
@@ -36,7 +34,6 @@ double calculateShiftFactor< Neutron >( const unsigned int l,
  *  @param[in] eta     the Sommerfeld parameter
  */
 template <>
-inline
 double calculateShiftFactor< ChargedParticle >( const unsigned int l,
                                                 const double ratio,
                                                 const double eta ) {

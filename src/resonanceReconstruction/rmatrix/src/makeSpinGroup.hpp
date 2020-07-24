@@ -1,5 +1,5 @@
 template < typename Formalism, typename BoundaryOption >
-inline SpinGroup< Formalism, BoundaryOption >
+SpinGroup< Formalism, BoundaryOption >
 makeSpinGroup(
     const ParticlePair& incident,
     const std::vector< ParticlePair > pairs,
@@ -21,7 +21,7 @@ makeSpinGroup(
 }
 
 template < typename BoundaryOption >
-inline SpinGroup< ReichMoore, BoundaryOption >
+SpinGroup< ReichMoore, BoundaryOption >
 makeSpinGroup(
     const ParticlePair& incident,
     const std::vector< ParticlePair > pairs,

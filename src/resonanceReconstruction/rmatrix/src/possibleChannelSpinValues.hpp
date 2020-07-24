@@ -10,14 +10,14 @@
  *
  *  @return the possible values for the total angular momentum of the channel
  */
-inline auto
+auto
 possibleChannelSpinValues( const Spin& i, const Spin& I ) {
 
   Spin min = std::abs(i - I);
   Spin max = i + I;
   std::vector< Spin > values = { min };
   while ( max > values.back() ) {
-    
+
     values.push_back( values.back() + 1.0 );
   }
   return values;

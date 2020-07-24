@@ -1,7 +1,10 @@
-inline Reconstructor
+Reconstructor
 fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
           const AtomicMass& neutronMass,
           const ElectricalCharge& elementaryCharge ) {
+
+  auto lower = endfResonanceRange.lowerEnergy();
+  auto upper = endfResonanceRange.upperEnergy();
 
   switch ( endfResonanceRange.type() ) {
 
@@ -32,8 +35,8 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
               if ( shiftFactorBoundary ) {
 
                 return Reconstructor(
-                           endfResonanceRange.lowerEnergy() * electronVolt,
-                           endfResonanceRange.upperEnergy() * electronVolt,
+                           lower * electronVolt,
+                           upper * electronVolt,
                            makeCompoundSystem( endfRMatrix,
                                                neutronMass, elementaryCharge,
                                                ReichMoore(), ShiftFactor() ) );
@@ -41,8 +44,8 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
               else {
 
                 return Reconstructor(
-                           endfResonanceRange.lowerEnergy() * electronVolt,
-                           endfResonanceRange.upperEnergy() * electronVolt,
+                           lower * electronVolt,
+                           upper * electronVolt,
                            makeCompoundSystem( endfRMatrix,
                                                neutronMass, elementaryCharge,
                                                ReichMoore(), Constant() ) );
@@ -84,11 +87,30 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
         }
       }
     }
+    // unresolved resonances
+    case 2 : {
+
+      switch ( endfResonanceRange.representation() ) {
+
+        case 1: {
+
+          throw std::runtime_error( "To be implemented" );
+        }
+        case 2: {
+
+          throw std::runtime_error( "To be implemented" );
+        }
+        default : {
+
+          throw std::runtime_error( "You somehow reached unreachable code" );
+        }
+      }
+    }
     // special case and unresolved resonances
     default : {
 
       throw std::runtime_error( "fromENDF is not implemented for the special "
-                                "case or unresolved resonances" );
+                                "case" );
     }
   }
 }
