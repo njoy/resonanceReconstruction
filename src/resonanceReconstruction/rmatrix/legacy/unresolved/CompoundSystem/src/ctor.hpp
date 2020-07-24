@@ -4,8 +4,10 @@ private:
  *  @brief Private constructor
  */
 CompoundSystem( std::vector< unresolved::SpinGroup >&& groups,
+                std::vector< Energy >&& energies,
                 unsigned int lmax ) :
-  groups_( std::move( groups ) ), lmax_( lmax ) {}
+  groups_( std::move( groups ) ), energies_( std::move( energies ) ),
+  lmax_( lmax ) {}
 
 
 public:
@@ -16,4 +18,5 @@ public:
  *  @param[in] groups   all l,J groups that apply to the compound system
  */
 CompoundSystem( std::vector< unresolved::SpinGroup >&& groups ) :
-  CompoundSystem( std::move( groups ), getLMax( groups ) ) {}
+  CompoundSystem( std::move( groups ), generateGrid( groups ),
+                  getLMax( groups ) ) {}
