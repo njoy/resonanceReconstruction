@@ -8,13 +8,14 @@ void evaluate( const Energy& energy,
                std::map< ReactionID, CrossSection >& result ) {
 
   // data we need: k, P, phi, rho, g_J
-  const auto channel = this->incidentChannel()
+  const auto channel = this->incidentChannel();
   const auto incident = channel.particlePair().pairID();
   const auto waveNumber = channel.waveNumber( energy );
   const auto penetrability = channel.penetrability( energy );
   const auto phaseShift = channel.phaseShift( energy );
-  const auto ratio = waveNumber * channel.radii().penetrabilityRadius( energy );
+  const auto radius = channel.radii().penetrabilityRadius( energy );
   const auto spinFactor = channel.statisticalSpinFactor();
+  const auto ratio = waveNumber * radius;
   const auto sinphi = std::sin( phaseShift );
   const auto sin2phi = sinphi * sinphi;
 
@@ -36,6 +37,7 @@ void evaluate( const Energy& energy,
   const FluctuationIntegrals integrals =
     calculateFluctuationIntegrals( widths, degrees );
 
+
   // calculate the resulting cross sections
   result[ ReactionID( incident, incident ) ] +=
            factor * ( spinFactor / spacing *
@@ -50,4 +52,21 @@ void evaluate( const Energy& energy,
              factor * spinFactor / spacing *
                ( widths.elastic * widths.fission * integrals.fission );
   }
+
+// ----- DEBUG -----
+std::cout << "-------------------" << std::endl;
+std::cout << "l,J " << channel.quantumNumbers().orbitalAngularMomentum() << " " << channel.quantumNumbers().totalAngularMomentum() << std::endl;
+std::cout << "k,a,rho " << waveNumber << " " << radius << " " << ratio << std::endl;
+std::cout << "penetrability " << penetrability << std::endl;
+std::cout << "vl " << vl << std::endl;
+std::cout << "energy " << energy << std::endl;
+std::cout << "sqrt energy " << sqrt( energy ) << std::endl;
+std::cout << "widths " << widths.elastic << " " << widths.capture << " " << widths.fission << " " << widths.competition << " " << std::endl;
+std::cout << "integrals " << integrals.elastic << " " << integrals.capture << " " << integrals.fission << " " << integrals.competition << " " << std::endl;
+std::cout << "adding " << (factor * ( spinFactor / spacing *
+  ( widths.elastic * widths.elastic * integrals.elastic
+    - 2. * widths.elastic * sin2phi ) )) << " " << (factor * spinFactor / spacing *
+      ( widths.elastic * widths.capture * integrals.capture )) << " " << (factor * spinFactor / spacing *
+      ( widths.elastic * widths.fission * integrals.fission )) << " " << 0.*barns << " " << std::endl;
+// ----- DEBUG -----
 }

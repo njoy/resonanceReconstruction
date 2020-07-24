@@ -27,6 +27,8 @@ add_subdirectory( src/resonanceReconstruction/rmatrix/legacy/unresolved/test )
 add_subdirectory( src/resonanceReconstruction/rmatrix/legacy/unresolved/Resonance/test )
 add_subdirectory( src/resonanceReconstruction/rmatrix/legacy/unresolved/ResonanceTable/test )
 add_subdirectory( src/resonanceReconstruction/rmatrix/legacy/unresolved/Data/test )
+#add_subdirectory( src/resonanceReconstruction/rmatrix/legacy/unresolved/SpinGroup/test )
+add_subdirectory( src/resonanceReconstruction/rmatrix/legacy/unresolved/CompoundSystem/test )
 
 add_subdirectory( src/resonanceReconstruction/test )
 add_subdirectory( src/resonanceReconstruction/reichMoore/Apply/test )

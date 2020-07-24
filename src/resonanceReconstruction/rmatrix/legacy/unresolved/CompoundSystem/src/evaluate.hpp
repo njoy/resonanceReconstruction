@@ -7,6 +7,10 @@
 void evaluate( const Energy& energy,
                std::map< ReactionID, CrossSection >& result ) {
 
+// ----- DEBUG -----
+std::cout << "-- CompoundSystem is working on this energy: " << energy << " --" << std::endl;
+// ----- DEBUG -----
+
   // accumulate over each spin group
   ranges::for_each( this->groups_,
                     [&] ( auto& group )
@@ -30,5 +34,14 @@ void evaluate( const Energy& energy,
     const double sin2phi = sinphi * sinphi;
     value += ( 2. * l + 1. ) * sin2phi;
   }
+
+// ----- DEBUG -----
+bool fission = ( result.find( ReactionID( incident.symbol() + "->fission" ) ) != result.end() );
+std::cout << "potential " << factor * value << std::endl;
   result[ ReactionID( incident, incident ) ] += factor * value;
+std::cout << "final " << result[ ReactionID( incident, incident ) ] << " "
+                      << result[ ReactionID( incident.symbol() + "->capture" ) ] << " "
+                      << ( fission == true ? result[ ReactionID( incident.symbol() + "->fission" ) ] : 0.*barns ) << std::endl;
+std::cout << "-- CompoundSystem is done for this energy --" << std::endl;
+// ----- DEBUG -----
 }
