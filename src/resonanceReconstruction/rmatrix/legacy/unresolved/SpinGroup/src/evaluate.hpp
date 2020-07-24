@@ -26,8 +26,8 @@ void evaluate( const Energy& energy,
   const auto parameters = this->resonanceTable()( energy );
   const auto spacing = parameters.levelSpacing();
   const Degrees degrees = this->resonanceTable().degreesOfFreedom();
-  const Widths widths{ parameters.elastic() * sqrt( energy )
-                         * degrees.elastic * penetrability / ratio ,
+  const double vl = degrees.elastic * penetrability / ratio; // ENDF D.98
+  const Widths widths{ parameters.elastic() * sqrt( energy ) * vl ,
                        parameters.capture(),
                        parameters.fission(),
                        parameters.competition() };
