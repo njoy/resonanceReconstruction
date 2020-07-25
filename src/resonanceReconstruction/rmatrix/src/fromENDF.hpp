@@ -1,10 +1,14 @@
 Reconstructor
 fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
           const AtomicMass& neutronMass,
-          const ElectricalCharge& elementaryCharge ) {
+          const ElectricalCharge& elementaryCharge,
+          const ParticleID& incident,
+          const ParticleID& target ) {
 
   auto lower = endfResonanceRange.lowerEnergy();
   auto upper = endfResonanceRange.upperEnergy();
+  auto nro = endfResonanceRange.energyDependentScatteringRadius();
+  auto naps = endfResonanceRange.scatteringRadiusCalculationOption();
 
   switch ( endfResonanceRange.type() ) {
 
@@ -90,6 +94,12 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
     // unresolved resonances
     case 2 : {
 
+      if ( nro ) {
+
+        throw std::runtime_error( "Energy dependent scattering radii have not "
+                                  "been implemented" );
+      }
+
       switch ( endfResonanceRange.representation() ) {
 
         case 1: {
@@ -98,7 +108,15 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
         }
         case 2: {
 
-          throw std::runtime_error( "To be implemented" );
+          auto endfEnergyDependent =
+            std::get< ENDF::unresolved::EnergyDependent >( endfResonanceRange.parameters() );
+          return Reconstructor(
+                     lower * electronVolt,
+                     upper * electronVolt,
+                     makeLegacyUnresolvedCompoundSystem(
+                         endfEnergyDependent,
+                         neutronMass, elementaryCharge,
+                         incident, target, naps ) );
         }
         default : {
 
