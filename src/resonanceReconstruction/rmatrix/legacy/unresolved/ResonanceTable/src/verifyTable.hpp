@@ -1,8 +1,14 @@
 static
-void verifyDegrees( const Degrees& degrees ) {
+void verifyTable( const std::vector< Resonance >& resonances,
+                  const Degrees& degrees ) {
 
-  // verify that the number of degrees is equal to the number of channels
-  // verify that each channel is between 0 and 4
+  if ( resonances.size() < 2 ) {
+
+    Log::error( "There must be at least two resonances in an unresolved "
+                "resonance table to interpolate on the parameters" );
+    Log::info( "Found {}", resonances.size() );
+    throw std::exception();
+  }
 
   const auto verifyDegreesOfFreedom = [] ( const auto& entry ) {
 

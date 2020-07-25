@@ -97,5 +97,18 @@ SCENARIO( "ResonanceTable" ) {
       CHECK_THROWS( ResonanceTable( std::move( resonances ),
                                     std::move( wrongValueDegrees ) ) );
     } // THEN
+
+    THEN( "an exception is thrown at construction when there are less than two "
+          "resonances" ) {
+
+      CHECK_THROWS( ResonanceTable( {}, { 1, 0, 1, 1 } ) );
+      CHECK_THROWS( ResonanceTable(
+                      { Resonance( 1e+3 * electronVolt,
+                                   1e+1 * electronVolt,
+                                   1e+2 * rootElectronVolt,
+                                   1e-5 * electronVolt,
+                                   20. * electronVolt,
+                                   5. * electronVolt ) }, { 1, 0, 1, 1 } ) );
+    } // THEN
   } // GIVEN
 } // SCENARIO

@@ -15,7 +15,7 @@ ResonanceTable( std::vector< Resonance >&& resonances,
     fission_table_( std::move( std::get< 3 >( tables ) ) ),
     competition_table_( std::move( std::get< 4 >( tables ) ) ) {
 
-    verifyDegrees( this->degrees_ );
+    verifyTable( this->widths_, this->degrees_ );
 }
 
 public:
@@ -23,7 +23,6 @@ public:
 /**
  *  @brief Constructor
  *
- *  @param[in] channels     the channel IDs (nc values)
  *  @param[in] resonances   the resonances (ne values)
  *  @param[in] widths       the degrees of freedom for each channel
  *                          (nc values between 0 an 4)

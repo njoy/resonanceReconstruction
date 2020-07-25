@@ -39,7 +39,7 @@ class ResonanceTable {
   WidthTable competition_table_;
 
   /* auxiliary functions */
-  #include "resonanceReconstruction/rmatrix/legacy/unresolved/ResonanceTable/src/verifyDegrees.hpp"
+  #include "resonanceReconstruction/rmatrix/legacy/unresolved/ResonanceTable/src/verifyTable.hpp"
   #include "resonanceReconstruction/rmatrix/legacy/unresolved/ResonanceTable/src/make.hpp"
 
 public:
