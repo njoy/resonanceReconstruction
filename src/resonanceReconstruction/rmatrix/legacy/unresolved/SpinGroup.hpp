@@ -18,6 +18,10 @@ public:
 
   /**
    *  @brief Return the incident channel data
+   *
+   *  REMARK: not all information in the channel will be correct (channel spin,
+   *          target parity, target charge, etc. since this data is not
+   *          required for the unresolved resonances)
    */
   const Channel< Neutron >& incidentChannel() const { return this->incident_; }
 

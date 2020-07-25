@@ -63,10 +63,8 @@ std::cout << "energy " << energy << std::endl;
 std::cout << "sqrt energy " << sqrt( energy ) << std::endl;
 std::cout << "widths " << widths.elastic << " " << widths.capture << " " << widths.fission << " " << widths.competition << " " << std::endl;
 std::cout << "integrals " << integrals.elastic << " " << integrals.capture << " " << integrals.fission << " " << integrals.competition << " " << std::endl;
-std::cout << "adding " << (factor * ( spinFactor / spacing *
-  ( widths.elastic * widths.elastic * integrals.elastic
-    - 2. * widths.elastic * sin2phi ) )) << " " << (factor * spinFactor / spacing *
-      ( widths.elastic * widths.capture * integrals.capture )) << " " << (factor * spinFactor / spacing *
-      ( widths.elastic * widths.fission * integrals.fission )) << " " << 0.*barns << " " << std::endl;
+std::cout << "adding " << (factor * ( spinFactor / spacing * ( widths.elastic * widths.elastic * integrals.elastic - 2. * widths.elastic * sin2phi ) )) << " "
+          << (factor * spinFactor / spacing * ( widths.elastic * widths.capture * integrals.capture )) << " "
+          << (factor * spinFactor / spacing * ( widths.elastic * widths.fission * integrals.fission )) << " " << 0.*barns << " " << std::endl;
 // ----- DEBUG -----
 }
