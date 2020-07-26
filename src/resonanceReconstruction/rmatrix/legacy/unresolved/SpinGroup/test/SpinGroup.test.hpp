@@ -105,11 +105,4 @@ SCENARIO( "SpinGroup" ) {
       CHECK( 0. == Approx( resonance.competition().value ) );
     } // THEN
   } // GIVEN
-
-  GIVEN( "data for a SpinGroup with errors" ) {
-
-    THEN( "an exception is thrown at construction for ..." ) {
-
-    } // THEN
-  } // GIVEN
 } // SCENARIO

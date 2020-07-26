@@ -26,3 +26,4 @@ constexpr ElectricalCharge elementary = dimwits::constant::elementaryCharge;
 constexpr double e = 1.6021766208e-19;
 
 #include "resonanceReconstruction/rmatrix/legacy/unresolved/SpinGroup/test/SpinGroup.test.hpp"
+#include "resonanceReconstruction/rmatrix/legacy/unresolved/SpinGroup/test/evaluate.test.hpp"
