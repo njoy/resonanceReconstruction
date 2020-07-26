@@ -26,4 +26,5 @@ constexpr AtomicMass neutronMass = 1.008664 * daltons;
 constexpr ElectricalCharge elementary = dimwits::constant::elementaryCharge;
 constexpr double e = 1.6021766208e-19;
 
+#include "resonanceReconstruction/rmatrix/legacy/unresolved/CompoundSystem/test/CompoundSystem.test.hpp"
 #include "resonanceReconstruction/rmatrix/legacy/unresolved/CompoundSystem/test/evaluate.test.hpp"

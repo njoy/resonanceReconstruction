@@ -17,6 +17,7 @@ class CompoundSystem {
   /* auxiliary functions */
   #include "resonanceReconstruction/rmatrix/legacy/unresolved/CompoundSystem/src/generateGrid.hpp"
   #include "resonanceReconstruction/rmatrix/legacy/unresolved/CompoundSystem/src/getLMax.hpp"
+  #include "resonanceReconstruction/rmatrix/legacy/unresolved/CompoundSystem/src/verifySpinGroups.hpp"
 
 public:
 
