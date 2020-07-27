@@ -5,7 +5,7 @@
  *  This class contains the unresolved resonance parameters for legacy ENDF
  *  data. It can be used to generate cross section values at any energy but it
  *  also provides the energy grid that should be used (this grid is generated
- *  at construction time and can be retrieved by the user).
+ *  on request by the user).
  */
 class CompoundSystem {
 
