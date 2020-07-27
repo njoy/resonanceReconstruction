@@ -199,25 +199,25 @@ SCENARIO( "CompoundSystem" ) {
       CHECK( 20. == Approx( resonance.fission().value ) );
       CHECK( 10. == Approx( resonance.competition().value ) );
 
-      // check the energy grid
-      auto energies = system.energies();
+      // check the minimal energy grid
+      auto grid = system.grid();
 
-      CHECK( 15 == energies.size() );
-      CHECK( 2500. == Approx( energies[0].value ) );
-      CHECK( 3000. == Approx( energies[1].value ) );
-      CHECK( 3500. == Approx( energies[2].value ) );
-      CHECK( 4000. == Approx( energies[3].value ) );
-      CHECK( 5000. == Approx( energies[4].value ) );
-      CHECK( 6000. == Approx( energies[5].value ) );
-      CHECK( 7200. == Approx( energies[6].value ) );
-      CHECK( 8500. == Approx( energies[7].value ) );
-      CHECK( 10000. == Approx( energies[8].value ) );
-      CHECK( 12500. == Approx( energies[9].value ) );
-      CHECK( 15000. == Approx( energies[10].value ) );
-      CHECK( 17000. == Approx( energies[11].value ) );
-      CHECK( 20000. == Approx( energies[12].value ) );
-      CHECK( 25000. == Approx( energies[13].value ) );
-      CHECK( 30000. == Approx( energies[14].value ) );
+      CHECK( 15 == grid.size() );
+      CHECK( 2500. == Approx( grid[0].value ) );
+      CHECK( 3000. == Approx( grid[1].value ) );
+      CHECK( 3500. == Approx( grid[2].value ) );
+      CHECK( 4000. == Approx( grid[3].value ) );
+      CHECK( 5000. == Approx( grid[4].value ) );
+      CHECK( 6000. == Approx( grid[5].value ) );
+      CHECK( 7200. == Approx( grid[6].value ) );
+      CHECK( 8500. == Approx( grid[7].value ) );
+      CHECK( 10000. == Approx( grid[8].value ) );
+      CHECK( 12500. == Approx( grid[9].value ) );
+      CHECK( 15000. == Approx( grid[10].value ) );
+      CHECK( 17000. == Approx( grid[11].value ) );
+      CHECK( 20000. == Approx( grid[12].value ) );
+      CHECK( 25000. == Approx( grid[13].value ) );
+      CHECK( 30000. == Approx( grid[14].value ) );
     } // THEN
   } // GIVEN
 

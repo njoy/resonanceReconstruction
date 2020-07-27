@@ -15,7 +15,6 @@ class CompoundSystem {
   unsigned int lmax_;
 
   /* auxiliary functions */
-  #include "resonanceReconstruction/rmatrix/legacy/unresolved/CompoundSystem/src/generateGrid.hpp"
   #include "resonanceReconstruction/rmatrix/legacy/unresolved/CompoundSystem/src/getLMax.hpp"
   #include "resonanceReconstruction/rmatrix/legacy/unresolved/CompoundSystem/src/verifySpinGroups.hpp"
 
@@ -29,11 +28,6 @@ public:
    */
   auto spinGroups() const { return ranges::view::all( this->groups_ ); }
 
-  /**
-   *  @brief Return the energy grid to be used in the unresolved
-   *         resonance region
-   */
-  auto energies() const { return ranges::view::all( this->energies_ ); }
-
   #include "resonanceReconstruction/rmatrix/legacy/unresolved/CompoundSystem/src/evaluate.hpp"
+  #include "resonanceReconstruction/rmatrix/legacy/unresolved/CompoundSystem/src/grid.hpp"
 };

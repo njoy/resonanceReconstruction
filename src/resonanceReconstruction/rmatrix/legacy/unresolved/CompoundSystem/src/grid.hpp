@@ -13,12 +13,12 @@
  *  the points vary by more than 25%. If they do, points will be inserted using
  *  a fixed 13 point per decade scheme.
  */
-static std::vector< Energy >
-generateGrid( const std::vector< SpinGroup >& groups ) {
+std::vector< Energy > grid() const {
 
   // generate the initial grid using the energies of all resonance tables
   std::vector< Energy > grid  =
-      groups | ranges::view::transform(
+      this->spinGroups()
+             | ranges::view::transform(
                    [] ( const auto& group )
                       { return group.resonanceTable().energies(); } )
              | ranges::view::join
@@ -60,8 +60,6 @@ generateGrid( const std::vector< SpinGroup >& groups ) {
       previous = iter;
     }
   }
-
-  for ( const auto& energy : grid ) { std::cout << energy << std::endl; }
 
   return grid;
 }
