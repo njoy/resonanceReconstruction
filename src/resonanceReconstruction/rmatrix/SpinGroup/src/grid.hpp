@@ -28,11 +28,14 @@ std::vector< Energy > grid() const {
 
   for ( const auto& resonance : this->resonanceTable().resonances() ) {
 
-    auto total = totalWidth( resonance );
     auto energy = resonance.energy();
-    grid.push_back( energy - 0.5 * total );
-    grid.push_back( energy );
-    grid.push_back( energy + 0.5 * total );
+    if ( energy > 0. * electronVolt ) {
+
+      auto total = totalWidth( resonance );
+      grid.push_back( energy - 0.5 * total );
+      grid.push_back( energy );
+      grid.push_back( energy + 0.5 * total );
+    }
   }
   grid |= ranges::action::sort | ranges::action::unique;
 
