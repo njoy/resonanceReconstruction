@@ -11,7 +11,6 @@ class CompoundSystem {
 
   /* fields */
   std::vector< SpinGroup > groups_;
-  std::vector< Energy > energies_;
   unsigned int lmax_;
 
   /* auxiliary functions */
