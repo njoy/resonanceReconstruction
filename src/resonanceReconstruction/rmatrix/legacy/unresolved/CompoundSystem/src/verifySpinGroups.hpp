@@ -9,7 +9,7 @@ void verifySpinGroups( const std::vector< SpinGroup >& groups ) {
     throw std::exception();
   }
 
-  // verify that each group is unique (i.e. each Jpi occurs only once)
+  // verify that each group is unique (i.e. each l,J occurs only once)
 
   auto toHalfIntegerString =
       [] ( const double a )
