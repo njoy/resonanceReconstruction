@@ -33,7 +33,7 @@ public:
    *  @brief Return the energy grid to be used in the unresolved
    *         resonance region
    */
-  auto energies() const { return ranges::view::all( this->groups_ ); }
+  auto energies() const { return ranges::view::all( this->energies_ ); }
 
   #include "resonanceReconstruction/rmatrix/legacy/unresolved/CompoundSystem/src/evaluate.hpp"
 };

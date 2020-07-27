@@ -28,6 +28,22 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
       auto spingroups = compoundsystem.spinGroups();
       CHECK( 12 == spingroups.size() );
 
+      auto energies = compoundsystem.energies();
+      CHECK( 13 == energies.size() );
+      CHECK( 15000. == Approx( energies[0].value ) );
+      CHECK( 17000. == Approx( energies[1].value ) );
+      CHECK( 20000. == Approx( energies[2].value ) );
+      CHECK( 25000. == Approx( energies[3].value ) );
+      CHECK( 30000. == Approx( energies[4].value ) );
+      CHECK( 35000. == Approx( energies[5].value ) );
+      CHECK( 40000. == Approx( energies[6].value ) );
+      CHECK( 50000. == Approx( energies[7].value ) );
+      CHECK( 60000. == Approx( energies[8].value ) );
+      CHECK( 70000. == Approx( energies[9].value ) );
+      CHECK( 80000. == Approx( energies[10].value ) );
+      CHECK( 90000. == Approx( energies[11].value ) );
+      CHECK( 100000. == Approx( energies[12].value ) );
+
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // spin group 0
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -495,6 +511,80 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
       // spin groups
       auto spingroups = compoundsystem.spinGroups();
       CHECK( 5 == spingroups.size() );
+
+      auto energies = compoundsystem.energies();
+      CHECK( 71 == energies.size() );
+      CHECK(  2500. == Approx( energies[0].value ) );
+      CHECK(  2550. == Approx( energies[1].value ) );
+      CHECK(  2650. == Approx( energies[2].value ) );
+      CHECK(  2750. == Approx( energies[3].value ) );
+      CHECK(  2850. == Approx( energies[4].value ) );
+      CHECK(  2950. == Approx( energies[5].value ) );
+      CHECK(  3050. == Approx( energies[6].value ) );
+      CHECK(  3150. == Approx( energies[7].value ) );
+      CHECK(  3250. == Approx( energies[8].value ) );
+      CHECK(  3350. == Approx( energies[9].value ) );
+      CHECK(  3450. == Approx( energies[10].value ) );
+      CHECK(  3550. == Approx( energies[11].value ) );
+      CHECK(  3650. == Approx( energies[12].value ) );
+      CHECK(  3750. == Approx( energies[13].value ) );
+      CHECK(  3850. == Approx( energies[14].value ) );
+      CHECK(  3950. == Approx( energies[15].value ) );
+      CHECK(  4125. == Approx( energies[16].value ) );
+      CHECK(  4375. == Approx( energies[17].value ) );
+      CHECK(  4625. == Approx( energies[18].value ) );
+      CHECK(  4875. == Approx( energies[19].value ) );
+      CHECK(  5125. == Approx( energies[20].value ) );
+      CHECK(  5375. == Approx( energies[21].value ) );
+      CHECK(  5625. == Approx( energies[22].value ) );
+      CHECK(  5875. == Approx( energies[23].value ) );
+      CHECK(  6125. == Approx( energies[24].value ) );
+      CHECK(  6375. == Approx( energies[25].value ) );
+      CHECK(  6625. == Approx( energies[26].value ) );
+      CHECK(  6875. == Approx( energies[27].value ) );
+      CHECK(  7125. == Approx( energies[28].value ) );
+      CHECK(  7375. == Approx( energies[29].value ) );
+      CHECK(  7625. == Approx( energies[30].value ) );
+      CHECK(  7875. == Approx( energies[31].value ) );
+      CHECK(  8125. == Approx( energies[32].value ) );
+      CHECK(  8375. == Approx( energies[33].value ) );
+      CHECK(  8625. == Approx( energies[34].value ) );
+      CHECK(  8875. == Approx( energies[35].value ) );
+      CHECK(  9125. == Approx( energies[36].value ) );
+      CHECK(  9375. == Approx( energies[37].value ) );
+      CHECK(  9625. == Approx( energies[38].value ) );
+      CHECK(  9875. == Approx( energies[39].value ) );
+      CHECK( 10250. == Approx( energies[40].value ) );
+      CHECK( 10750. == Approx( energies[41].value ) );
+      CHECK( 11250. == Approx( energies[42].value ) );
+      CHECK( 11750. == Approx( energies[43].value ) );
+      CHECK( 12250. == Approx( energies[44].value ) );
+      CHECK( 12750. == Approx( energies[45].value ) );
+      CHECK( 13250. == Approx( energies[46].value ) );
+      CHECK( 13750. == Approx( energies[47].value ) );
+      CHECK( 14250. == Approx( energies[48].value ) );
+      CHECK( 14750. == Approx( energies[49].value ) );
+      CHECK( 15250. == Approx( energies[50].value ) );
+      CHECK( 15750. == Approx( energies[51].value ) );
+      CHECK( 16250. == Approx( energies[52].value ) );
+      CHECK( 16750. == Approx( energies[53].value ) );
+      CHECK( 17250. == Approx( energies[54].value ) );
+      CHECK( 17750. == Approx( energies[55].value ) );
+      CHECK( 18250. == Approx( energies[56].value ) );
+      CHECK( 18750. == Approx( energies[57].value ) );
+      CHECK( 19250. == Approx( energies[58].value ) );
+      CHECK( 19750. == Approx( energies[59].value ) );
+      CHECK( 20500. == Approx( energies[60].value ) );
+      CHECK( 21500. == Approx( energies[61].value ) );
+      CHECK( 22500. == Approx( energies[62].value ) );
+      CHECK( 23500. == Approx( energies[63].value ) );
+      CHECK( 24500. == Approx( energies[64].value ) );
+      CHECK( 25500. == Approx( energies[65].value ) );
+      CHECK( 26500. == Approx( energies[66].value ) );
+      CHECK( 27500. == Approx( energies[67].value ) );
+      CHECK( 28500. == Approx( energies[68].value ) );
+      CHECK( 29500. == Approx( energies[69].value ) );
+      CHECK( 30000. == Approx( energies[70].value ) );
 
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // spin group 0

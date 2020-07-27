@@ -2,6 +2,7 @@
 #define NJOY_RESONANCE_RECONSTRUCTION
 
 #include <complex>
+#include <iterator>
 
 #include "ENDFtk.hpp"
 #include "interpolation.hpp"
