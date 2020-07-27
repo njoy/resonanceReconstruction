@@ -110,7 +110,11 @@ SCENARIO("a SLBW resonance reconstruction"){
           * ps[0]
           * resonance.inversePenetrationFactor;      
       
-        auto reference =
+        // for some reason, gcc cannot deduce that reference and fwhmCapture
+        // have the same unit
+        // auto reference =
+        auto reference = fwhmCapture;
+        reference =
           resonance.statisticalFactor
           * neutronWidth
           * resonance.captureWidth
@@ -153,7 +157,11 @@ SCENARIO("a SLBW resonance reconstruction"){
           * ps[0]
           * resonance.inversePenetrationFactor;      
       
-        auto reference =
+        // for some reason, gcc cannot deduce that reference and fwhmCapture
+        // have the same unit
+        // auto reference =
+        auto reference = fwhmCapture;
+        reference =
           resonance.statisticalFactor
           * neutronWidth
           * resonance.captureWidth

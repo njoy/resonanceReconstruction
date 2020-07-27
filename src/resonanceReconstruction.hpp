@@ -6,9 +6,11 @@
 #include "ENDFtk.hpp"
 #include "interpolation.hpp"
 #include "dimwits.hpp"
+#include "elementary.hpp"
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
+#pragma GCC diagnostic ignored "-Wextra"
 #include <Eigen/Dense>
 #pragma GCC diagnostic pop
 
@@ -51,6 +53,36 @@ namespace ENDF = ENDFtk::resonanceParameters;
 #include "resonanceReconstruction/breitWigner.hpp"
 #include "resonanceReconstruction/reichMoore.hpp"
 
+// physical constants and quantities
+
+// physical units
+using ElectronVoltSecond = decltype( ElectronVolts() * Seconds() );
+using ElectronVoltSeconds = ElectronVoltSecond;
+using CoulombSquaredSecondPerMeter = decltype( Coulomb() * Coulomb() *
+                                               Seconds() / Meters() );
+using FaradPerMeter = decltype( farad / meter );
+
+// hbar constant in eV s - taken from 2014 CODATA
+constexpr Quantity< ElectronVoltSecond > hbar = 6.582119514e-16 * electronVolt * second;
+
+// epsilon0 constant in F m^-1 - taken from 2014 CODATA
+constexpr Quantity< FaradPerMeter > epsilon0 = 8.854187817e-12 * farad / meter;
+
+constexpr Quantity< RootElectronVolt > rootElectronVolt = 1.0 * unit::sqrt( electronVolt );
+constexpr Quantity< RootElectronVolt > rootElectronVolts = rootElectronVolt;
+
+// physical quantities
+using AtomicMass = Quantity< Dalton >;
+using CrossSection = Quantity< Barn >;
+using ElectricalCharge = Quantity< Coulomb >;
+using Energy = Quantity< ElectronVolt >;
+using QValue = Quantity< ElectronVolt >;
+using WaveNumber = Quantity< InvRootBarn >;
+using ChannelRadius = Quantity< RootBarn >;
+using EtaParameter = Quantity< CoulombSquaredSecondPerMeter >;
+using ReducedWidth = Quantity< RootElectronVolt >;
+
+#include "resonanceReconstruction/rmatrix.hpp"
 }
 }
 
