@@ -5,7 +5,7 @@ static auto lvalue( const ENDF::resolved::SLBW::LValue& lstate,
                     ChannelRatio&& rho,
                     StatisticalFactor&& g,
                     PenetrationShift&& penetrationShift,
-                    double targetSpin ){
+                    const double targetSpin ){
   if ( lstate.LRX() ){
     const auto weightRatio = lstate.AWRI() / ( lstate.AWRI() + 1. );
     const auto offset = lstate.QX() * weightRatio * electronVolts;

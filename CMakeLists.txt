@@ -103,54 +103,6 @@ set( resonanceReconstruction_AppleClang_Darwin_link_time_optimization_flags "-fl
 set( resonanceReconstruction_AppleClang_Darwin_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
 set( resonanceReconstruction_AppleClang_Darwin_nonportable_optimization_flags "-march=native" )
 set( resonanceReconstruction_AppleClang_Darwin_static_flags "-static" )
-set( resonanceReconstruction_GNU_CYGWIN_common_flags "-Wno-subobject-linkage" "-Wall" "-Wextra" "-Wpedantic" "-std=gnu++17" )
-set( resonanceReconstruction_GNU_CYGWIN_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
-set( resonanceReconstruction_GNU_CYGWIN_RELEASE_flags "-O3" "-DNDEBUG" )
-set( resonanceReconstruction_GNU_CYGWIN_strict_flags "-Werror" )
-set( resonanceReconstruction_GNU_CYGWIN_coverage_flags "--coverage" )
-set( resonanceReconstruction_GNU_CYGWIN_subproject_flags  )
-set( resonanceReconstruction_GNU_CYGWIN_base_project_flags  )
-set( resonanceReconstruction_GNU_CYGWIN_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
-set( resonanceReconstruction_GNU_CYGWIN_link_time_optimization_flags "-flto" )
-set( resonanceReconstruction_GNU_CYGWIN_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
-set( resonanceReconstruction_GNU_CYGWIN_nonportable_optimization_flags "-march=native" )
-set( resonanceReconstruction_GNU_CYGWIN_static_flags "-static" )
-set( resonanceReconstruction_GNU_MinGW_common_flags "-Wno-subobject-linkage" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
-set( resonanceReconstruction_GNU_MinGW_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
-set( resonanceReconstruction_GNU_MinGW_RELEASE_flags "-O3" "-DNDEBUG" )
-set( resonanceReconstruction_GNU_MinGW_strict_flags "-Werror" )
-set( resonanceReconstruction_GNU_MinGW_coverage_flags "--coverage" )
-set( resonanceReconstruction_GNU_MinGW_subproject_flags  )
-set( resonanceReconstruction_GNU_MinGW_base_project_flags  )
-set( resonanceReconstruction_GNU_MinGW_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
-set( resonanceReconstruction_GNU_MinGW_link_time_optimization_flags "-flto" )
-set( resonanceReconstruction_GNU_MinGW_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
-set( resonanceReconstruction_GNU_MinGW_nonportable_optimization_flags "-march=native" )
-set( resonanceReconstruction_GNU_MinGW_static_flags "-static" )
-set( resonanceReconstruction_GNU_Darwin_common_flags "-Wno-subobject-linkage" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
-set( resonanceReconstruction_GNU_Darwin_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
-set( resonanceReconstruction_GNU_Darwin_RELEASE_flags "-O3" "-DNDEBUG" )
-set( resonanceReconstruction_GNU_Darwin_strict_flags "-Werror" )
-set( resonanceReconstruction_GNU_Darwin_coverage_flags "--coverage" )
-set( resonanceReconstruction_GNU_Darwin_subproject_flags  )
-set( resonanceReconstruction_GNU_Darwin_base_project_flags  )
-set( resonanceReconstruction_GNU_Darwin_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
-set( resonanceReconstruction_GNU_Darwin_link_time_optimization_flags "-flto" )
-set( resonanceReconstruction_GNU_Darwin_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
-set( resonanceReconstruction_GNU_Darwin_nonportable_optimization_flags "-march=native" )
-set( resonanceReconstruction_GNU_Darwin_static_flags "-static" )
-set( resonanceReconstruction_GNU_Linux_common_flags "-Wno-subobject-linkage" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
-set( resonanceReconstruction_GNU_Linux_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
-set( resonanceReconstruction_GNU_Linux_RELEASE_flags "-O3" "-DNDEBUG" )
-set( resonanceReconstruction_GNU_Linux_strict_flags "-Werror" )
-set( resonanceReconstruction_GNU_Linux_coverage_flags "--coverage" )
-set( resonanceReconstruction_GNU_Linux_subproject_flags  )
-set( resonanceReconstruction_GNU_Linux_base_project_flags  )
-set( resonanceReconstruction_GNU_Linux_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
-set( resonanceReconstruction_GNU_Linux_link_time_optimization_flags "-flto" )
-set( resonanceReconstruction_GNU_Linux_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
-set( resonanceReconstruction_GNU_Linux_nonportable_optimization_flags "-march=native" )
-set( resonanceReconstruction_GNU_Linux_static_flags "-static" )
 set( resonanceReconstruction_GNU_Windows_common_flags "-Wno-subobject-linkage" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
 set( resonanceReconstruction_GNU_Windows_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
 set( resonanceReconstruction_GNU_Windows_RELEASE_flags "-O3" "-DNDEBUG" )
@@ -163,54 +115,54 @@ set( resonanceReconstruction_GNU_Windows_link_time_optimization_flags "-flto" )
 set( resonanceReconstruction_GNU_Windows_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
 set( resonanceReconstruction_GNU_Windows_nonportable_optimization_flags "-march=native" )
 set( resonanceReconstruction_GNU_Windows_static_flags "-static" )
-set( resonanceReconstruction_Clang_CYGWIN_common_flags "-Wno-subobject-linkage" "-Wall" "-Wextra" "-Wpedantic" "-std=gnu++17" )
-set( resonanceReconstruction_Clang_CYGWIN_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
-set( resonanceReconstruction_Clang_CYGWIN_RELEASE_flags "-O3" "-DNDEBUG" )
-set( resonanceReconstruction_Clang_CYGWIN_strict_flags "-Werror" )
-set( resonanceReconstruction_Clang_CYGWIN_coverage_flags "--coverage" )
-set( resonanceReconstruction_Clang_CYGWIN_subproject_flags  )
-set( resonanceReconstruction_Clang_CYGWIN_base_project_flags  )
-set( resonanceReconstruction_Clang_CYGWIN_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
-set( resonanceReconstruction_Clang_CYGWIN_link_time_optimization_flags "-flto" )
-set( resonanceReconstruction_Clang_CYGWIN_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
-set( resonanceReconstruction_Clang_CYGWIN_nonportable_optimization_flags "-march=native" )
-set( resonanceReconstruction_Clang_CYGWIN_static_flags "-static" )
-set( resonanceReconstruction_Clang_MinGW_common_flags "-Wno-subobject-linkage" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
-set( resonanceReconstruction_Clang_MinGW_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
-set( resonanceReconstruction_Clang_MinGW_RELEASE_flags "-O3" "-DNDEBUG" )
-set( resonanceReconstruction_Clang_MinGW_strict_flags "-Werror" )
-set( resonanceReconstruction_Clang_MinGW_coverage_flags "--coverage" )
-set( resonanceReconstruction_Clang_MinGW_subproject_flags  )
-set( resonanceReconstruction_Clang_MinGW_base_project_flags  )
-set( resonanceReconstruction_Clang_MinGW_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
-set( resonanceReconstruction_Clang_MinGW_link_time_optimization_flags "-flto" )
-set( resonanceReconstruction_Clang_MinGW_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
-set( resonanceReconstruction_Clang_MinGW_nonportable_optimization_flags "-march=native" )
-set( resonanceReconstruction_Clang_MinGW_static_flags "-static" )
-set( resonanceReconstruction_Clang_Darwin_common_flags "-stdlib=libc++" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
-set( resonanceReconstruction_Clang_Darwin_DEBUG_flags "-O0" "-g" "-gdwarf-3" )
-set( resonanceReconstruction_Clang_Darwin_RELEASE_flags "-O3" "-DNDEBUG" )
-set( resonanceReconstruction_Clang_Darwin_strict_flags "-Werror" )
-set( resonanceReconstruction_Clang_Darwin_coverage_flags "--coverage" )
-set( resonanceReconstruction_Clang_Darwin_subproject_flags  )
-set( resonanceReconstruction_Clang_Darwin_base_project_flags  )
-set( resonanceReconstruction_Clang_Darwin_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
-set( resonanceReconstruction_Clang_Darwin_link_time_optimization_flags "-flto" )
-set( resonanceReconstruction_Clang_Darwin_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
-set( resonanceReconstruction_Clang_Darwin_nonportable_optimization_flags "-march=native" )
-set( resonanceReconstruction_Clang_Darwin_static_flags "-static" )
-set( resonanceReconstruction_Clang_Linux_common_flags "-stdlib=libstdc++" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
-set( resonanceReconstruction_Clang_Linux_DEBUG_flags "-O0" "-g" "-gdwarf-3" )
-set( resonanceReconstruction_Clang_Linux_RELEASE_flags "-O3" "-DNDEBUG" )
-set( resonanceReconstruction_Clang_Linux_strict_flags "-Werror" )
-set( resonanceReconstruction_Clang_Linux_coverage_flags "--coverage" )
-set( resonanceReconstruction_Clang_Linux_subproject_flags  )
-set( resonanceReconstruction_Clang_Linux_base_project_flags  )
-set( resonanceReconstruction_Clang_Linux_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
-set( resonanceReconstruction_Clang_Linux_link_time_optimization_flags "-flto" )
-set( resonanceReconstruction_Clang_Linux_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
-set( resonanceReconstruction_Clang_Linux_nonportable_optimization_flags "-march=native" )
-set( resonanceReconstruction_Clang_Linux_static_flags "-static" )
+set( resonanceReconstruction_GNU_Darwin_common_flags "-Wno-subobject-linkage" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
+set( resonanceReconstruction_GNU_Darwin_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
+set( resonanceReconstruction_GNU_Darwin_RELEASE_flags "-O3" "-DNDEBUG" )
+set( resonanceReconstruction_GNU_Darwin_strict_flags "-Werror" )
+set( resonanceReconstruction_GNU_Darwin_coverage_flags "--coverage" )
+set( resonanceReconstruction_GNU_Darwin_subproject_flags  )
+set( resonanceReconstruction_GNU_Darwin_base_project_flags  )
+set( resonanceReconstruction_GNU_Darwin_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
+set( resonanceReconstruction_GNU_Darwin_link_time_optimization_flags "-flto" )
+set( resonanceReconstruction_GNU_Darwin_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
+set( resonanceReconstruction_GNU_Darwin_nonportable_optimization_flags "-march=native" )
+set( resonanceReconstruction_GNU_Darwin_static_flags "-static" )
+set( resonanceReconstruction_GNU_MinGW_common_flags "-Wno-subobject-linkage" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
+set( resonanceReconstruction_GNU_MinGW_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
+set( resonanceReconstruction_GNU_MinGW_RELEASE_flags "-O3" "-DNDEBUG" )
+set( resonanceReconstruction_GNU_MinGW_strict_flags "-Werror" )
+set( resonanceReconstruction_GNU_MinGW_coverage_flags "--coverage" )
+set( resonanceReconstruction_GNU_MinGW_subproject_flags  )
+set( resonanceReconstruction_GNU_MinGW_base_project_flags  )
+set( resonanceReconstruction_GNU_MinGW_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
+set( resonanceReconstruction_GNU_MinGW_link_time_optimization_flags "-flto" )
+set( resonanceReconstruction_GNU_MinGW_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
+set( resonanceReconstruction_GNU_MinGW_nonportable_optimization_flags "-march=native" )
+set( resonanceReconstruction_GNU_MinGW_static_flags "-static" )
+set( resonanceReconstruction_GNU_CYGWIN_common_flags "-Wno-subobject-linkage" "-Wall" "-Wextra" "-Wpedantic" "-std=gnu++17" )
+set( resonanceReconstruction_GNU_CYGWIN_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
+set( resonanceReconstruction_GNU_CYGWIN_RELEASE_flags "-O3" "-DNDEBUG" )
+set( resonanceReconstruction_GNU_CYGWIN_strict_flags "-Werror" )
+set( resonanceReconstruction_GNU_CYGWIN_coverage_flags "--coverage" )
+set( resonanceReconstruction_GNU_CYGWIN_subproject_flags  )
+set( resonanceReconstruction_GNU_CYGWIN_base_project_flags  )
+set( resonanceReconstruction_GNU_CYGWIN_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
+set( resonanceReconstruction_GNU_CYGWIN_link_time_optimization_flags "-flto" )
+set( resonanceReconstruction_GNU_CYGWIN_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
+set( resonanceReconstruction_GNU_CYGWIN_nonportable_optimization_flags "-march=native" )
+set( resonanceReconstruction_GNU_CYGWIN_static_flags "-static" )
+set( resonanceReconstruction_GNU_Linux_common_flags "-Wno-subobject-linkage" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
+set( resonanceReconstruction_GNU_Linux_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
+set( resonanceReconstruction_GNU_Linux_RELEASE_flags "-O3" "-DNDEBUG" )
+set( resonanceReconstruction_GNU_Linux_strict_flags "-Werror" )
+set( resonanceReconstruction_GNU_Linux_coverage_flags "--coverage" )
+set( resonanceReconstruction_GNU_Linux_subproject_flags  )
+set( resonanceReconstruction_GNU_Linux_base_project_flags  )
+set( resonanceReconstruction_GNU_Linux_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
+set( resonanceReconstruction_GNU_Linux_link_time_optimization_flags "-flto" )
+set( resonanceReconstruction_GNU_Linux_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
+set( resonanceReconstruction_GNU_Linux_nonportable_optimization_flags "-march=native" )
+set( resonanceReconstruction_GNU_Linux_static_flags "-static" )
 set( resonanceReconstruction_Clang_Windows_common_flags "-stdlib=libc++" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
 set( resonanceReconstruction_Clang_Windows_DEBUG_flags "-O0" "-g" "-gdwarf-3" )
 set( resonanceReconstruction_Clang_Windows_RELEASE_flags "-O3" "-DNDEBUG" )
@@ -223,34 +175,74 @@ set( resonanceReconstruction_Clang_Windows_link_time_optimization_flags "-flto" 
 set( resonanceReconstruction_Clang_Windows_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
 set( resonanceReconstruction_Clang_Windows_nonportable_optimization_flags "-march=native" )
 set( resonanceReconstruction_Clang_Windows_static_flags "-static" )
+set( resonanceReconstruction_Clang_Darwin_common_flags "-stdlib=libc++" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
+set( resonanceReconstruction_Clang_Darwin_DEBUG_flags "-O0" "-g" "-gdwarf-3" )
+set( resonanceReconstruction_Clang_Darwin_RELEASE_flags "-O3" "-DNDEBUG" )
+set( resonanceReconstruction_Clang_Darwin_strict_flags "-Werror" )
+set( resonanceReconstruction_Clang_Darwin_coverage_flags "--coverage" )
+set( resonanceReconstruction_Clang_Darwin_subproject_flags  )
+set( resonanceReconstruction_Clang_Darwin_base_project_flags  )
+set( resonanceReconstruction_Clang_Darwin_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
+set( resonanceReconstruction_Clang_Darwin_link_time_optimization_flags "-flto" )
+set( resonanceReconstruction_Clang_Darwin_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
+set( resonanceReconstruction_Clang_Darwin_nonportable_optimization_flags "-march=native" )
+set( resonanceReconstruction_Clang_Darwin_static_flags "-static" )
+set( resonanceReconstruction_Clang_MinGW_common_flags "-Wno-subobject-linkage" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
+set( resonanceReconstruction_Clang_MinGW_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
+set( resonanceReconstruction_Clang_MinGW_RELEASE_flags "-O3" "-DNDEBUG" )
+set( resonanceReconstruction_Clang_MinGW_strict_flags "-Werror" )
+set( resonanceReconstruction_Clang_MinGW_coverage_flags "--coverage" )
+set( resonanceReconstruction_Clang_MinGW_subproject_flags  )
+set( resonanceReconstruction_Clang_MinGW_base_project_flags  )
+set( resonanceReconstruction_Clang_MinGW_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
+set( resonanceReconstruction_Clang_MinGW_link_time_optimization_flags "-flto" )
+set( resonanceReconstruction_Clang_MinGW_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
+set( resonanceReconstruction_Clang_MinGW_nonportable_optimization_flags "-march=native" )
+set( resonanceReconstruction_Clang_MinGW_static_flags "-static" )
+set( resonanceReconstruction_Clang_CYGWIN_common_flags "-Wno-subobject-linkage" "-Wall" "-Wextra" "-Wpedantic" "-std=gnu++17" )
+set( resonanceReconstruction_Clang_CYGWIN_DEBUG_flags "-O0" "-g" "-gdwarf-3" "-fsignaling-nans" )
+set( resonanceReconstruction_Clang_CYGWIN_RELEASE_flags "-O3" "-DNDEBUG" )
+set( resonanceReconstruction_Clang_CYGWIN_strict_flags "-Werror" )
+set( resonanceReconstruction_Clang_CYGWIN_coverage_flags "--coverage" )
+set( resonanceReconstruction_Clang_CYGWIN_subproject_flags  )
+set( resonanceReconstruction_Clang_CYGWIN_base_project_flags  )
+set( resonanceReconstruction_Clang_CYGWIN_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
+set( resonanceReconstruction_Clang_CYGWIN_link_time_optimization_flags "-flto" )
+set( resonanceReconstruction_Clang_CYGWIN_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
+set( resonanceReconstruction_Clang_CYGWIN_nonportable_optimization_flags "-march=native" )
+set( resonanceReconstruction_Clang_CYGWIN_static_flags "-static" )
+set( resonanceReconstruction_Clang_Linux_common_flags "-stdlib=libstdc++" "-Wall" "-Wextra" "-Wpedantic" "-std=c++17" )
+set( resonanceReconstruction_Clang_Linux_DEBUG_flags "-O0" "-g" "-gdwarf-3" )
+set( resonanceReconstruction_Clang_Linux_RELEASE_flags "-O3" "-DNDEBUG" )
+set( resonanceReconstruction_Clang_Linux_strict_flags "-Werror" )
+set( resonanceReconstruction_Clang_Linux_coverage_flags "--coverage" )
+set( resonanceReconstruction_Clang_Linux_subproject_flags  )
+set( resonanceReconstruction_Clang_Linux_base_project_flags  )
+set( resonanceReconstruction_Clang_Linux_profile_generate_flags "-fprofile-generate='${CMAKE_BINARY_DIR}/profiling'" )
+set( resonanceReconstruction_Clang_Linux_link_time_optimization_flags "-flto" )
+set( resonanceReconstruction_Clang_Linux_profile_use_flags "-fprofile-use='${CMAKE_BINARY_DIR}/profiling'" )
+set( resonanceReconstruction_Clang_Linux_nonportable_optimization_flags "-march=native" )
+set( resonanceReconstruction_Clang_Linux_static_flags "-static" )
 get_directory_property( is_subproject PARENT_DIRECTORY )
 
-if( NOT TARGET eigen-adapter )
-    add_subdirectory( ${ROOT_DIRECTORY}/subprojects/eigen-adapter )
+if( NOT TARGET fmt-adapter )
+    add_subdirectory( ${ROOT_DIRECTORY}/subprojects/fmt-adapter )
 endif()
 
 if( NOT TARGET range-v3-adapter )
     add_subdirectory( ${ROOT_DIRECTORY}/subprojects/range-v3-adapter )
 endif()
 
-if( NOT TARGET catch-adapter )
-    add_subdirectory( ${ROOT_DIRECTORY}/subprojects/catch-adapter )
-endif()
-
-if( NOT TARGET disco )
-    add_subdirectory( ${ROOT_DIRECTORY}/subprojects/disco )
+if( NOT TARGET spdlog-adapter )
+    add_subdirectory( ${ROOT_DIRECTORY}/subprojects/spdlog-adapter )
 endif()
 
 if( NOT TARGET hana-adapter )
     add_subdirectory( ${ROOT_DIRECTORY}/subprojects/hana-adapter )
 endif()
 
-if( NOT TARGET fmt-adapter )
-    add_subdirectory( ${ROOT_DIRECTORY}/subprojects/fmt-adapter )
-endif()
-
-if( NOT TARGET spdlog-adapter )
-    add_subdirectory( ${ROOT_DIRECTORY}/subprojects/spdlog-adapter )
+if( NOT TARGET catch-adapter )
+    add_subdirectory( ${ROOT_DIRECTORY}/subprojects/catch-adapter )
 endif()
 
 if( NOT TARGET Log )
@@ -261,8 +253,8 @@ if( NOT TARGET header-utilities )
     add_subdirectory( ${ROOT_DIRECTORY}/subprojects/header-utilities )
 endif()
 
-if( NOT TARGET ENDFtk )
-    add_subdirectory( ${ROOT_DIRECTORY}/subprojects/ENDFtk )
+if( NOT TARGET eigen-adapter )
+    add_subdirectory( ${ROOT_DIRECTORY}/subprojects/eigen-adapter )
 endif()
 
 if( NOT TARGET dimwits )
@@ -271,6 +263,14 @@ endif()
 
 if( NOT TARGET interpolation )
     add_subdirectory( ${ROOT_DIRECTORY}/subprojects/interpolation )
+endif()
+
+if( NOT TARGET disco )
+    add_subdirectory( ${ROOT_DIRECTORY}/subprojects/disco )
+endif()
+
+if( NOT TARGET ENDFtk )
+    add_subdirectory( ${ROOT_DIRECTORY}/subprojects/ENDFtk )
 endif()
 
 
@@ -305,122 +305,122 @@ message( STATUS "-----------------------------------------------------------" )
 
 add_library( resonanceReconstruction INTERFACE )
 target_sources( resonanceReconstruction INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/EnergyRange.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/pack.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/ZeroWidth.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Type.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Apply.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Resonance.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Inspector.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Base.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Lvalue.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Apply/src/resonance.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Apply/src/build.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Apply/src/lvalue.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Apply/src/call.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Lvalue/src/ap.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Lvalue/src/phaseShift.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Lvalue/src/hasFission.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Lvalue/src/solveRmatrix.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Lvalue/src/solveRfunction.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Lvalue/src/ctor.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Lvalue/src/penetrationShift.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Lvalue/src/call.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Resonance/src/ctor.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Resonance/src/call.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Type/src/ctor1.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Type/src/ctor2.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Type/src/evaluate1.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Type/src/evaluate2.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Base/src/order.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Base/src/evaluate.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Base/src/neutronWaveNumber.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Base/src/ctor.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/resonance.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/CrossSection.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/Type.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/CRTP.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/EnergyRange.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/lvalue.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/Type.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/lvalue/Type.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/lvalue/Type/src/withoutCompetitiveWidth.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/lvalue/Type/src/phaseShift.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/lvalue/Type/src/withCompetitiveWidth.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/lvalue/Type/src/ctor.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/lvalue/Type/src/competitiveWidth.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/lvalue/Type/src/penetrationShift.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/lvalue/Type/src/call.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/lvalue/Type/src/statisticalFactorSummation.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/lvalue/Type/src/waveNumber.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Type.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Apply.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Resonance.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/CrossSection.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/CRTP.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/resonance.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Base.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Type.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Lvalue.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Apply/src/resonance.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Apply/src/build.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Apply/src/competitiveWidth.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Apply/src/lvalue.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Apply/src/call.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Lvalue/src/evaluate.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Lvalue/src/resonances.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Lvalue/src/competitiveWidth.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Resonance.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Apply.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Lvalue/src/call.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Lvalue/src/competitiveWidth.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Lvalue/src/resonances.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Lvalue/src/evaluated.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Resonance/src/call.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Lvalue/src/evaluate.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Type/src/ctor1.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Type/src/evaluate2.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Type/src/ctor2.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Type/src/evaluate1.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Type/src/evaluate2.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Apply/src/call.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Apply/src/competitiveWidth.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Apply/src/lvalue.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Apply/src/resonance.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Apply/src/build.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Base/src/lvalues.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Base/src/evaluate.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Base/src/psiChi.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Base/src/lvalues.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/singleLevel/Resonance/src/call.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/Type/src/ctor.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/Type/src/isTemperature.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/Type/src/neutronWaveNumber.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/lvalue/Type.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/lvalue/Type/src/withCompetitiveWidth.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/lvalue/Type/src/call.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/lvalue/Type/src/competitiveWidth.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/lvalue/Type/src/statisticalFactorSummation.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/lvalue/Type/src/phaseShift.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/lvalue/Type/src/ctor.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/lvalue/Type/src/penetrationShift.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/lvalue/Type/src/waveNumber.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/lvalue/Type/src/withoutCompetitiveWidth.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Base.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Type.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Lvalue.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Resonance.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Apply.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Lvalue/src/call.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Lvalue/src/competitiveWidth.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Lvalue/src/resonances.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Lvalue/src/D.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Lvalue/src/evaluate.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Type/src/ctor1.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Type/src/evaluate2.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Type/src/ctor2.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Type/src/evaluate1.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Apply/src/call.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Apply/src/competitiveWidth.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Apply/src/resonance.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Apply/src/build.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/src/D.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/src/psiChi.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Base/src/order.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Base/src/ctor.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Base/src/lvalues.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Base/src/evaluate.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Base/src/psiChi.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Resonance/src/call.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/resonance/Type.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/resonance/Type/src/ctor.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/resonance/src/call.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/Type/src/isTemperature.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/Type/src/neutronWaveNumber.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/Type/src/ctor.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/CRTP/src/isTemperature.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/CRTP/src/evaluate.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/CRTP/src/derived.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/CRTP/src/call.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Type.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Apply.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Resonance.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Base.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Lvalue.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Apply/src/resonance.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Apply/src/build.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Apply/src/competitiveWidth.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Apply/src/call.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Lvalue/src/evaluate.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Lvalue/src/resonances.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Lvalue/src/competitiveWidth.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Lvalue/src/D.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Lvalue/src/call.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Resonance/src/call.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Type/src/ctor1.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Type/src/ctor2.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Type/src/evaluate1.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Type/src/evaluate2.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Base/src/order.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Base/src/evaluate.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Base/src/psiChi.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Base/src/ctor.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/Base/src/lvalues.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/src/psiChi.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/multiLevel/src/D.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/src/psiChi.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/CRTP/src/call.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/CRTP/src/evaluate.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/CRTP/src/isTemperature.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/breitWigner/CRTP/src/derived.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Base.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Inspector.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Type.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Lvalue.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Resonance.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Apply.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Lvalue/src/solveRmatrix.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Lvalue/src/hasFission.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Lvalue/src/ap.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Lvalue/src/call.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Lvalue/src/solveRfunction.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Lvalue/src/phaseShift.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Lvalue/src/ctor.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Lvalue/src/penetrationShift.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Type/src/ctor1.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Type/src/evaluate2.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Type/src/ctor2.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Type/src/evaluate1.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Apply/src/call.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Apply/src/lvalue.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Apply/src/resonance.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Apply/src/build.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Base/src/order.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Base/src/ctor.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Base/src/evaluate.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Base/src/neutronWaveNumber.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Resonance/src/call.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/reichMoore/Resonance/src/ctor.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/src/phaseShift.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/src/radius.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/src/neutronWaveNumber.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/src/root.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/src/channelRadius.hpp"
              "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/src/penetrationShift.hpp"
-             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/src/root.hpp" )
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/src/radius.hpp"
+             "${CMAKE_CURRENT_SOURCE_DIR}/src/resonanceReconstruction/src/neutronWaveNumber.hpp" )
 
 target_include_directories( resonanceReconstruction INTERFACE ${CMAKE_CURRENT_BINARY_DIR}/src src )
 
@@ -428,21 +428,21 @@ set( PREFIX resonanceReconstruction_${CMAKE_CXX_COMPILER_ID}_${CMAKE_SYSTEM_NAME
 
 target_link_libraries( resonanceReconstruction INTERFACE "$<$<AND:$<CONFIG:RELEASE>,$<BOOL:${link_time_optimization}>>:${${PREFIX}_RELEASE_flags};${${PREFIX}_link_time_optimization_flags}$<$<BOOL:${profile_generate}>:${${PREFIX}_profile_generate_flags};>$<$<BOOL:${profile_use}>:${${PREFIX}_profile_use_flags};>$<$<BOOL:${nonportable_optimization}>:${${PREFIX}_nonportable_optimization_flags};>>$<$<CONFIG:DEBUG>:$<$<BOOL:${coverage}>:${${PREFIX}_coverage_flags};>>$<$<BOOL:CXX_appended_flags>:${CXX_appended_flags};>$<$<BOOL:resonanceReconstruction_appended_flags>:${resonanceReconstruction_appended_flags};>" )
 
-target_link_libraries( resonanceReconstruction INTERFACE eigen-adapter INTERFACE ENDFtk INTERFACE interpolation INTERFACE dimwits )
+target_link_libraries( resonanceReconstruction INTERFACE ENDFtk INTERFACE interpolation INTERFACE dimwits INTERFACE eigen-adapter )
 
 if( NOT is_subproject )
     enable_testing() 
     if ( unit_tests )
-        add_subdirectory( src/resonanceReconstruction/test )
-        add_subdirectory( src/resonanceReconstruction/breitWigner/multiLevel/Apply/test )
-        add_subdirectory( src/resonanceReconstruction/breitWigner/multiLevel/Resonance/test )
-        add_subdirectory( src/resonanceReconstruction/breitWigner/multiLevel/Type/test )
-        add_subdirectory( src/resonanceReconstruction/breitWigner/singleLevel/Apply/test )
-        add_subdirectory( src/resonanceReconstruction/breitWigner/singleLevel/Lvalue/test )
         add_subdirectory( src/resonanceReconstruction/breitWigner/singleLevel/Resonance/test )
-        add_subdirectory( src/resonanceReconstruction/breitWigner/singleLevel/Type/test )
-        add_subdirectory( src/resonanceReconstruction/reichMoore/Apply/test )
         add_subdirectory( src/resonanceReconstruction/reichMoore/Type/test )
+        add_subdirectory( src/resonanceReconstruction/breitWigner/singleLevel/Apply/test )
+        add_subdirectory( src/resonanceReconstruction/reichMoore/Apply/test )
+        add_subdirectory( src/resonanceReconstruction/breitWigner/multiLevel/Type/test )
+        add_subdirectory( src/resonanceReconstruction/breitWigner/multiLevel/Resonance/test )
+        add_subdirectory( src/resonanceReconstruction/breitWigner/singleLevel/Lvalue/test )
+        add_subdirectory( src/resonanceReconstruction/breitWigner/singleLevel/Type/test )
+        add_subdirectory( src/resonanceReconstruction/breitWigner/multiLevel/Apply/test )
+        add_subdirectory( src/resonanceReconstruction/test )
     endif() 
 endif()
 

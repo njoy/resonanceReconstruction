@@ -1,6 +1,6 @@
 Type( std::vector< resonance::Type >&& resonances,
-      int orbitalAngularMomentum,
-      double targetSpin ) :
+      const int orbitalAngularMomentum,
+      const double targetSpin ) :
   resonances( std::move( resonances ) ),
   weightedQValue( std::nullopt ),
   orbitalAngularMomentum( orbitalAngularMomentum ),
@@ -8,9 +8,9 @@ Type( std::vector< resonance::Type >&& resonances,
                         ( targetSpin, orbitalAngularMomentum ) ){}
 
 Type( std::vector< resonance::Type >&& resonances,
-      int orbitalAngularMomentum,
-      Quantity< ElectronVolts > weightedQValue,
-      double targetSpin ) :
+      const int orbitalAngularMomentum,
+      const Quantity< ElectronVolts > weightedQValue,
+      const double targetSpin ) :
   resonances( std::move( resonances ) ),
   weightedQValue( weightedQValue ),
   orbitalAngularMomentum( orbitalAngularMomentum ),

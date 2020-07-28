@@ -16,14 +16,14 @@ struct CrossSection {
                                              fission( fission ){}
 
   CrossSection operator+( const CrossSection& other ) const {
-    return { this->elastic + other.elastic,
-             this->capture + other.capture,
-             this->fission + other.fission };
+    return { elastic + other.elastic,
+             capture + other.capture,
+             fission + other.fission };
   }
 
   CrossSection operator-( const CrossSection& other ) const {
-    return { this->elastic - other.elastic,
-             this->capture - other.capture,
-             this->fission - other.fission };
+    return { elastic - other.elastic,
+             capture - other.capture,
+             fission - other.fission };
   }
 };

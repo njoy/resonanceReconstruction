@@ -8,11 +8,11 @@ breitWigner::lvalue::Type makeLvalue( int l );
 
 SCENARIO("penetrationShift"){
   auto awr = 2.360045E+2;
-  
+
   auto a = channelRadius( awr );
   auto k = neutronWaveNumber( awr );
   auto phi = [&]( auto energy ){ return a(energy) * k(energy); };
-  
+
   auto channelRatios =
     ranges::view::linear_distribute( -10., 30., 40 )
     | ranges::view::transform( []( double d ){ return std::pow( 2., d ); } )
@@ -26,7 +26,7 @@ SCENARIO("penetrationShift"){
 
     const auto& lValue =
       static_cast< const breitWigner::singleLevel::Lvalue& >( base );
-    
+
     auto trial =
       channelRatios
       | ranges::view::transform( [&]( auto ratio )
@@ -50,7 +50,7 @@ SCENARIO("penetrationShift"){
 
     const auto& lValue =
       static_cast< const breitWigner::singleLevel::Lvalue& >( base );
-    
+
     auto trial =
       channelRatios
       | ranges::view::transform( [&]( auto ratio )

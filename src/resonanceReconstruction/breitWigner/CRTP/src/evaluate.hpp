@@ -12,7 +12,7 @@ auto evaluate( const Quantity< ElectronVolts > energy,
   const auto rho = [&]( Quantity< ElectronVolts > energy ){
     return k( energy ) * a( energy );
   };
-  
+
   const auto crossSections =
     this->derived().lvalues()
     | ranges::view::transform
@@ -22,10 +22,10 @@ auto evaluate( const Quantity< ElectronVolts > energy,
                                              scatteringRatio,
                                              channelRadius,
                                              rho ); } );
-  
+
   const auto scaling = 4.0 * pi / ( waveNumber * waveNumber );
   const auto reduction = ranges::accumulate( crossSections,
-                                             pack( 0.0, 0.0, 0.0 ) ).data; 
+                                             pack( 0.0, 0.0, 0.0 ) ).data;
 
   return CrossSection( std::get<0>( reduction ) * scaling,
                        std::get<1>( reduction ) * scaling,

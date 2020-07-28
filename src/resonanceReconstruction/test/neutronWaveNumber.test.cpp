@@ -7,25 +7,25 @@ using namespace njoy::resonanceReconstruction;
 
 SCENARIO("wave number"){
   using namespace dimwits;
-  
+
   std::array< double, 4 > awri = {{ 9.991673E-1,    // hydrogen-1
                                     1.585751E+1,    // oxygen-16
                                     5.545400E+1,    // iron-56
                                     2.360058E+2 }}; // uranium-238
 
-  auto energies = 
+  auto energies =
     ranges::view::linear_distribute( -10., 30., 40 )
     | ranges::view::transform( [] ( double d ){ return std::pow( 2., d ); } )
     | ranges::view::transform( [] ( double d ){ return d * electronVolts; } );
-  
+
   auto trial =
     ranges::view::cartesian_product( awri, energies )
     | ranges::view::transform
       ( []( auto&& tuple ){
           return neutronWaveNumber( std::get<0>(tuple) )
                                   ( std::get<1>(tuple) ).value; } );
-    
-  std::vector< double > reference = 
+
+  std::vector< double > reference =
     { 3.43108231e-05,   4.89559512e-05,   6.98521616e-05,
       9.96676473e-05,   1.42209485e-04,   2.02909752e-04,
       2.89519138e-04,   4.13096613e-04,   5.89421523e-04,
@@ -85,6 +85,6 @@ SCENARIO("wave number"){
     const auto trial = std::get<0>(pair);
     const auto reference = std::get<1>(pair);
     REQUIRE( trial == Approx( reference ) );
-  }  
- 
+  }
+
 }

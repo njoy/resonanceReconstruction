@@ -13,7 +13,7 @@ penetrationShift( Integer<1> ){
     const bool positive = channelRatio > 0;
     const double rho2 = channelRatio * channelRatio;
     const double factor = 1. / ( 1 + rho2 );
-    
+
     const double p = positive * factor * channelRatio * rho2;
     const double s = -factor;
     return {{ p, s }};
@@ -26,7 +26,7 @@ penetrationShift( Integer<2> ){
     const bool positive = channelRatio > 0;
     const double rho2 = channelRatio * channelRatio;
     const double factor = 1. / ( 9. + rho2 * ( 3. + rho2 ) );
-    
+
     const double p = positive * factor * channelRatio * rho2 * rho2;
     const double s = -factor * ( 18. + 3. * rho2 );
     return {{ p, s }};
@@ -39,7 +39,7 @@ penetrationShift( Integer<3> ){
     const bool positive = channelRatio > 0;
     const double rho2 = channelRatio * channelRatio;
     const double factor = 1. / ( 225. + rho2 * ( 45. + rho2 * ( 6. + rho2 ) ) );
-    
+
     const double p = positive * factor * channelRatio * rho2 * rho2 * rho2;
     const double s = -factor * ( 675. + rho2 * ( 90. + 6. * rho2 ) );
     return {{ p, s }};
@@ -70,7 +70,7 @@ penetrationShift( const int l, const double channelRatio ){
   const double rho2 = channelRatio * channelRatio;
   const double rho4 = rho2 * rho2;
   const bool positive = channelRatio > 0;
-  
+
   // using horner's method
   switch(l){
   case 0: return {{ positive * channelRatio, 0.0 }};
@@ -93,7 +93,7 @@ penetrationShift( const int l, const double channelRatio ){
                                * ( 1575. + rho2
                                    * ( 135. + rho2
                                        * ( 10. + rho2 ) ) ) );
-    
+
     return {{ positive * factor * channelRatio * rho4 * rho4,
               -factor * ( 44100. + rho2
                           * ( 4725. + rho2

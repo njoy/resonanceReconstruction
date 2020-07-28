@@ -1,8 +1,8 @@
 Type( std::vector< lvalue::Type >&& lvalues,
-      double atomicWeightRatio,
-      EnergyRange energyRange,
-      int nucleonNumber,
-      double targetSpin,
+      const double atomicWeightRatio,
+      const EnergyRange energyRange,
+      const int nucleonNumber,
+      const double targetSpin,
       ChannelRadius&& channelRadius,
       ScatteringRadius&& scatteringRadius ) :
   Parent( std::move(lvalues),

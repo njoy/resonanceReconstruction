@@ -4,41 +4,11 @@ operator()( const ENDF::ResonanceRange& range,
             Functor&& callback ) const {
 
   try {
-
-    EnergyRange energyRange{ range.EL() * electronVolts,
-                             range.EH() * electronVolts };
-    auto rm = std::get< ENDF::resolved::RM >( range.parameters() );
-
-#if 0
-
-    /*
-    // This works:
-    decltype(auto) foo = condition
-      ? channelRadius( rm.lValues().front().AWRI() )
-      : radius( rm.AP() );
-    // This FAILS:
-    decltype(auto) bar = condition
-      ? radius( range.scatteringRadius().value() )
-      : radius( rm.AP() );
-    */
-
-    decltype(auto) foo = channelRadius( rm.lValues().front().AWRI() );
-    decltype(auto) bar = radius( range.scatteringRadius().value() );
-    decltype(auto) baz = radius( rm.AP() );
-
-    if( range.NRO() )
-      switch( range.NAPS() ){
-      case 0: return callback(build(energyRange,rm,Neither{},foo,bar,false));
-      case 1: return callback(build(energyRange,rm,Neither{},bar,    false));
-      case 2: return callback(build(energyRange,rm,Channel{},baz,bar,true ));
-      }
-    else
-      switch( range.NAPS() ){
-      case 0: return callback(build(energyRange,rm,Scattering{},foo,baz,false));
-      case 1: return callback(build(energyRange,rm,Both{},baz,true));
-      }
-
-#endif
+    const EnergyRange energyRange {
+      range.EL() * electronVolts,
+      range.EH() * electronVolts
+    };
+    const auto rm = std::get< ENDF::resolved::RM >( range.parameters() );
 
     if( range.NRO() ){
       switch( range.NAPS() ){
@@ -74,14 +44,17 @@ operator()( const ENDF::ResonanceRange& range,
                                   false ) );
         case 1:
           return callback( build( energyRange,
-                                  rm, Both{}, radius( rm.AP() ), true ) );
+                                  rm,
+                                  Both{},
+                                  radius( rm.AP() ),
+                                  true ) );
       }
     }
-  }
+
+  } // try
 
   catch ( ... ) {
-
-    throw std::runtime_error( 
+    throw std::runtime_error(
       "The resonance range does not appear to contain Reich-Moore parameters" );
   }
 }

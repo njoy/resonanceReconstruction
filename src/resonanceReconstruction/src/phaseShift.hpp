@@ -12,6 +12,6 @@ inline double phaseShift( const int l, const double channelRatio ){
     default: throw std::exception();
     }
   }();
-  
+
   return channelRatio - std::atan( offset );
 }

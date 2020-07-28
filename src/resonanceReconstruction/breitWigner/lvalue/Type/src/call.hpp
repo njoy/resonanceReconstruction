@@ -18,9 +18,9 @@ auto operator()( const PsiChi& kernel,
     return {{ sinSquared, sin2, cos2 }};
   }();
 
-  const auto crossSections = 
+  const auto crossSections =
     this->resonances
-    | ranges::view::transform( [&]( const auto& resonance ){              
+    | ranges::view::transform( [&]( const auto& resonance ){
         return resonance( penetrationFactor,
                           shiftFactor,
                           trig[1],
@@ -32,7 +32,7 @@ auto operator()( const PsiChi& kernel,
     pack( trig[0] * ( 2 * orbitalAngularMomentum + 1 ), 0.0, 0.0 );
 
   return ranges::accumulate( crossSections, potentialScattering );
-} 
+}
 
 template< typename PsiChi, typename ChannelRadius >
 auto operator()( const Quantity<ElectronVolts> energy,

@@ -1,6 +1,6 @@
 class Lvalue : public lvalue::Type {
   using Parent = lvalue::Type;
-  
+
   Lvalue() = delete;
   Lvalue( const Lvalue& ) = delete;
   Lvalue( Lvalue&& ) = delete;

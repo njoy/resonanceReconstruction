@@ -56,4 +56,4 @@ SCENARIO("phase shift"){
     const auto reference = std::get<1>(pair);
     REQUIRE( trial == Approx( reference ) );
   }
-}  
+}

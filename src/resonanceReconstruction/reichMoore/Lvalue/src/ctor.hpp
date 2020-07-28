@@ -17,5 +17,5 @@ Lvalue( Lvalue&& other ) :
 Lvalue& operator=( Lvalue&& other ){
   (*this).~Lvalue();
   new(this) Lvalue( std::move(other) );
-  return *this;  
+  return *this;
 }

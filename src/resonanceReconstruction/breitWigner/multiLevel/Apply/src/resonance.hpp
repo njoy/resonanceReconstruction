@@ -11,7 +11,7 @@ static auto resonance( const ENDF::resolved::SLBW::LState::Resonance& resonance,
   const auto fissionWidth = resonance.GF() * electronVolts;
 
   const auto competitiveWidth = 0.0 * electronVolts;
-  
+
   const auto ps = penetrationShift( rho( energy ) );
   const auto& penetrationFactor = ps[0];
   const auto& shiftFactor = ps[1];
@@ -43,7 +43,7 @@ static auto resonance( const ENDF::resolved::SLBW::LState::Resonance& resonance,
   const auto fissionWidth = resonance.GF() * electronVolts;
 
   const auto competitiveWidth = GX( resonance, rho, penetrationShift );
-  
+
   const auto ps = penetrationShift( rho( energy ) );
   const auto& penetrationFactor = ps[0];
   const auto& shiftFactor = ps[1];

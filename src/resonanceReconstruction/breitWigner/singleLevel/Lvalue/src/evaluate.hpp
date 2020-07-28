@@ -15,10 +15,10 @@ auto evaluate( const PsiChi& kernel,
   }();
 
   const auto sin2Phi = std::sin( 2. * phaseShift );
-  
-  const auto crossSections = 
+
+  const auto crossSections =
     this->resonances()
-    | ranges::view::transform( [&]( const auto& resonance ){              
+    | ranges::view::transform( [&]( const auto& resonance ){
         return resonance( penetrationFactor,
                           shiftFactor,
                           sinSquaredPhi,
@@ -30,4 +30,4 @@ auto evaluate( const PsiChi& kernel,
     pack( sinSquaredPhi * ( 2. * orbitalAngularMomentum + 1. ), 0.0, 0.0 );
 
   return ranges::accumulate( crossSections, potentialScattering );
-} 
+}

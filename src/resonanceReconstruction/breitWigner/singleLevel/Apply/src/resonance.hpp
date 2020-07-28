@@ -42,7 +42,7 @@ static auto resonance(
               StatisticalFactor&& g,
               PenetrationShift&& penetrationShift,
               CompetitiveWidth&& GX ) {
-                
+
   const auto energy = resonance.ER() * electronVolts;
   const auto neutronWidth = resonance.GN() * electronVolts;
   const auto captureWidth = resonance.GG() * electronVolts;

@@ -10,11 +10,11 @@ SCENARIO("penetrationShift"){
   auto lValue = makeLvalue();
   auto awr = 2.360045E+2;
   auto l = 0;
-  
+
   auto a = channelRadius( awr );
   auto k = neutronWaveNumber( awr );
   auto phi = [&]( auto energy ){ return a(energy) * k(energy); };
-  
+
   auto channelRatios =
     ranges::view::linear_distribute( -10., 30., 40 )
     | ranges::view::transform( []( double d ){ return std::pow( 2., d ); } )

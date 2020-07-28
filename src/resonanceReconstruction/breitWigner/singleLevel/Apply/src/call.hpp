@@ -4,82 +4,73 @@ operator()( const ENDF::ResonanceRange& range,
             Functor&& callback ) const {
 
   try {
-
-    EnergyRange energyRange{ range.EL() * electronVolts,
-                            range.EH() * electronVolts };
-    auto slbw = std::get< ENDF::resolved::SLBW >( range.parameters() );
-
-    /*
-    // These work:
-    decltype(auto) foo = condition
-      ? channelRadius( slbw.lValues().front().AWRI() )
-      : radius( slbw.AP() );
-    decltype(auto) bar = condition
-      ? radius( range.scatteringRadius().value() )
-      : radius( slbw.AP() );
-    */
-
-#define foo channelRadius( slbw.lValues().front().AWRI() )
-#define bar radius( range.scatteringRadius().value() )
-#define baz radius( slbw.AP() )
-
-    if (( range.NRO() && range.NAPS() == 0) ||
-        ( range.NRO() && range.NAPS() == 2) ||
-        (!range.NRO() && range.NAPS() == 0))
-       return callback( build( energyRange, slbw, range.NAPS() == 0 ? foo : baz, range.NRO() ? bar : baz ) );
-    else
-       return callback( build( energyRange, slbw, range.NRO() ? bar : baz ) );
-
-#undef foo
-#undef bar
-#undef baz
+    const EnergyRange energyRange {
+      range.EL() * electronVolts,
+      range.EH() * electronVolts
+    };
+    const auto slbw = std::get< ENDF::resolved::SLBW >( range.parameters() );
 
     /*
-    if ( range.NRO() && range.NAPS() == 0)
-       return callback( build( energyRange, slbw, foo, bar ) );
-    if ( range.NRO() && range.NAPS() == 2)
-       return callback( build( energyRange, slbw, baz, bar ) );
-    if (!range.NRO() && range.NAPS() == 0)
-       return callback( build( energyRange, slbw, foo, baz ) );
-    if ( range.NRO() && range.NAPS() == 1)
-       return callback( build( energyRange, slbw, bar ) );
-    if (!range.NRO() && range.NAPS() == 1)
-       return callback( build( energyRange, slbw, baz ) );
-    */
+    Previously, the below code was structured like this:
 
-    /*
-    if( range.NRO() )
-      switch( range.NAPS() ){
-        case 0: return callback( build( energyRange, slbw, foo, bar ) );
-        case 1: return callback( build( energyRange, slbw, bar ) );
-        case 2: return callback( build( energyRange, slbw, baz, bar ) );
+      if( range.NRO() ){
+        switch( range.NAPS() ){
+          case 0: return callback( ... );
+          case 1: return callback( ... );
+          case 2: return callback( ... );
+        }
+      } else {
+        switch( range.NAPS() ){
+          case 0: return callback( ... );
+          case 1: return callback( ... );
       }
-    else
-      switch( range.NAPS() ){
-        case 0: return callback( build( energyRange, slbw, foo, baz ) );
-        case 1: return callback( build( energyRange, slbw, baz ) );
-      }
+    }
+
+    We were able to modestly improve compile times by consolidating calls when
+    we could. Within the present function, based at least on instantiations in
+    the present test suite, these two expressions:
+
+      channelRadius( slbw.lValues().front().AWRI() )
+      radius( slbw.AP() )
+
+    as well as these two:
+
+      radius( range.scatteringRadius().value() )
+      radius( slbw.AP() )
+
+    appear to always be of the same *type*. This allowed us to consolidate the
+    original five calls into two calls, below, using the ternary conditional,
+    with no change in meaning.
     */
+
+    return
+      ( range.NRO() && range.NAPS() == 0) ||
+      ( range.NRO() && range.NAPS() == 2) ||
+      (!range.NRO() && range.NAPS() == 0)
+    ? callback( build(
+          energyRange, slbw,
+          range.NAPS() == 0
+            ? channelRadius( slbw.lValues().front().AWRI() )
+            : radius( slbw.AP() ),
+          range.NRO()
+            ? radius( range.scatteringRadius().value() )
+            : radius( slbw.AP() )
+         )
+       )
+    : callback( build(
+          energyRange, slbw,
+          range.NRO()
+            ? radius( range.scatteringRadius().value() )
+            : radius( slbw.AP() )
+          )
+      );
 
 #if 0
-    decltype(auto) foo = channelRadius( slbw.lValues().front().AWRI() );
-    decltype(auto) bar = radius( range.scatteringRadius().value() );
-    decltype(auto) baz = radius( slbw.AP() );
 
-    if( range.NRO() )
-      switch( range.NAPS() ){
-        case 0: return callback( build( energyRange, slbw, foo, bar ) );
-        case 1: return callback( build( energyRange, slbw, bar ) );
-        case 2: return callback( build( energyRange, slbw, baz, bar ) );
-      }
-    else
-      switch( range.NAPS() ){
-        case 0: return callback( build( energyRange, slbw, foo, baz ) );
-        case 1: return callback( build( energyRange, slbw, baz ) );
-      }
-#endif
+    // ------------------------
+    // Original code:
+    // ------------------------
 
-    /*
     if( range.NRO() ){
       switch( range.NAPS() ){
       case 0:
@@ -103,8 +94,10 @@ operator()( const ENDF::ResonanceRange& range,
         return callback( build( energyRange, slbw, radius( slbw.AP() ) ) );
       }
     }
-    */
-  }
+
+#endif
+
+  } // try
 
   catch( std::bad_optional_access& ){
     Log::error( "Resonance range doesn't have scattering radius." );
@@ -112,7 +105,7 @@ operator()( const ENDF::ResonanceRange& range,
   }
 
   catch ( ... ) {
-    throw std::runtime_error( 
+    throw std::runtime_error(
       "The resonance range does not appear to contain SLBW parameters" );
   }
 }
