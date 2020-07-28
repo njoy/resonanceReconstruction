@@ -5,8 +5,10 @@ operator()( const ENDF::ResonanceRange& range,
 
   try {
 
-    EnergyRange energyRange{ range.EL() * electronVolts,
-                             range.EH() * electronVolts };
+    const EnergyRange energyRange {
+      range.EL() * electronVolts,
+      range.EH() * electronVolts
+    };
     auto rm = std::get< ENDF::resolved::RM >( range.parameters() );
 
     if( range.NRO() ){
@@ -43,13 +45,17 @@ operator()( const ENDF::ResonanceRange& range,
                                   false ) );
         case 1:
           return callback( build( energyRange,
-                                  rm, Both{}, radius( rm.AP() ), true ) );
+                                  rm,
+                                  Both{},
+                                  radius( rm.AP() ),
+                                  true ) );
       }
     }
-  }
-  catch ( ... ) {
 
-    throw std::runtime_error( 
+  } // try
+
+  catch ( ... ) {
+    throw std::runtime_error(
       "The resonance range does not appear to contain Reich-Moore parameters" );
   }
 }
