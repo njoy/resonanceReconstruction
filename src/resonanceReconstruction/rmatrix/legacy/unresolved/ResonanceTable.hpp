@@ -21,8 +21,8 @@ class ResonanceTable {
                   interpolation::table::Type<
                     interpolation::LinearLinear,
                     interpolation::table::search::Binary,
-			              interpolation::table::discontinuity::TakeLeft,
-                		std::vector< XType >, std::vector< YType > >,
+                    interpolation::table::discontinuity::TakeLeft,
+                    std::vector< XType >, std::vector< YType > >,
                   interpolation::table::right::interval::Throws,
                   interpolation::table::left::interval::Throws >;
   using LevelSpacingTable = Table< Energy, LevelSpacing >;

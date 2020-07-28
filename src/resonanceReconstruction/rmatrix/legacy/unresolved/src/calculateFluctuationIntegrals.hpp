@@ -2,6 +2,9 @@
  *  @brief Calculate the fluctuation integrals for the legacy unresolved
  *         resonance
  *
+ *  The fluctuation integrals are calculated using the MC-II method. The 10
+ *  point quadrature weights q and w are the same in NJOY2916.
+ *
  *  @param widths    the full widths for which to calculate the integrals
  *  @param degrees   the degrees of freedom for each width
  *
