@@ -14,6 +14,9 @@ class SpinGroup {
   ResonanceTable parameters_;
 
   /* auxiliary functions */
+  #include "resonanceReconstruction/rmatrix/SpinGroup/src/makeChannels.hpp"
+  #include "resonanceReconstruction/rmatrix/SpinGroup/src/makeResonanceTable.hpp"
+
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/makeReactionIdentifiers.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/determineIncidentChannels.hpp"
 

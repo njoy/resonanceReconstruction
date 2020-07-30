@@ -17,3 +17,11 @@ SpinGroup( std::vector< ParticleChannel >&& channels,
   verifyIncidentChannels( this->incident_ );
   verifyResonanceChannels( this->channels_, this->parameters_ );
 }
+
+/**
+ *  @brief Constructor
+ *
+ *  @param[in] channels   the channel data involved in the spin group
+ */
+SpinGroup( std::vector< ParticleChannelData >&& channels ) :
+  SpinGroup( makeChannels( channels ), makeResonanceTable( channels ) ) {}
