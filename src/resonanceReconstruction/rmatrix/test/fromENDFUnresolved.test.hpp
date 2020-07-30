@@ -18,6 +18,11 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
 
     THEN( "the appropriate CompoundSystem is returned" ) {
 
+      CHECK( false == resonances.isResolved() );
+      CHECK( true == resonances.isUnresolved() );
+      CHECK( 15000. == Approx( resonances.lowerEnergy().value ) );
+      CHECK( 100000. == Approx( resonances.upperEnergy().value ) );
+
       auto compoundsystem = std::get< legacy::unresolved::CompoundSystem >( resonances.compoundSystem() );
 
       // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -501,6 +506,11 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
     auto resonances = fromENDF( endfResonanceRange, neutronMass, elementaryCharge, ParticleID( "n" ), ParticleID( "Pu239" ) );
 
     THEN( "the appropriate CompoundSystem is returned" ) {
+
+      CHECK( false == resonances.isResolved() );
+      CHECK( true == resonances.isUnresolved() );
+      CHECK( 2500. == Approx( resonances.lowerEnergy().value ) );
+      CHECK( 30000. == Approx( resonances.upperEnergy().value ) );
 
       auto compoundsystem = std::get< legacy::unresolved::CompoundSystem >( resonances.compoundSystem() );
 
