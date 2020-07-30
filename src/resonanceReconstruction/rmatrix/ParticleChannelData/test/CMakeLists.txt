@@ -1,0 +1,3 @@
+add_executable( resonanceReconstruction.rmatrix.ParticleChannelData.test ParticleChannelData.test.cpp )
+target_link_libraries( resonanceReconstruction.rmatrix.ParticleChannelData.test PUBLIC resonanceReconstruction )
+add_test( NAME resonanceReconstruction.rmatrix.ParticleChannelData COMMAND resonanceReconstruction.rmatrix.ParticleChannelData.test )
