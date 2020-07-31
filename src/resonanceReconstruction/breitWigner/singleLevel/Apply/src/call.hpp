@@ -5,41 +5,43 @@ operator()( const ENDF::ResonanceRange& range,
 
   try {
 
-    EnergyRange energyRange{ range.EL() * electronVolts,
-                            range.EH() * electronVolts };
-    auto slbw = std::get< ENDF::resolved::SLBW >( range.parameters() );
+    const EnergyRange energyRange {
+      range.EL() * electronVolts,
+      range.EH() * electronVolts
+    };
+    const auto slbw = std::get< ENDF::resolved::SLBW >( range.parameters() );
 
-    if( range.NRO() ){
-      switch( range.NAPS() ){
-      case 0:
-        return callback( build( energyRange, slbw,
-                                channelRadius( slbw.lValues().front().AWRI() ),
-                                radius( range.scatteringRadius().value() ) ) );
-      case 1:
-        return callback( build( energyRange, slbw,
-                                radius( range.scatteringRadius().value() ) ) );
-      case 2:
-        return callback( build( energyRange, slbw, radius( slbw.AP() ),
-                                radius( range.scatteringRadius().value() ) ) );
-      }
-    } else {
-      switch( range.NAPS() ){
-      case 0:
-        return callback( build( energyRange, slbw,
-                                channelRadius( slbw.lValues().front().AWRI() ),
-                                radius( slbw.AP() ) ) );
-      case 1:
-        return callback( build( energyRange, slbw, radius( slbw.AP() ) ) );
-      }
-    }
-  }
+    return
+      ( range.NRO() && range.NAPS() == 0) ||
+      ( range.NRO() && range.NAPS() == 2) ||
+      (!range.NRO() && range.NAPS() == 0)
+    ? callback( build(
+          energyRange, slbw,
+          range.NAPS() == 0
+            ? channelRadius( slbw.lValues().front().AWRI() )
+            : radius( slbw.AP() ),
+          range.NRO()
+            ? radius( range.scatteringRadius().value() )
+            : radius( slbw.AP() )
+         )
+       )
+    : callback( build(
+          energyRange, slbw,
+          range.NRO()
+            ? radius( range.scatteringRadius().value() )
+            : radius( slbw.AP() )
+          )
+      );
+
+  } // try
+
   catch( std::bad_optional_access& ){
     Log::error( "Resonance range doesn't have scattering radius." );
     throw;
   }
-  catch ( ... ) {
 
-    throw std::runtime_error( 
+  catch( ... ) {
+    throw std::runtime_error(
       "The resonance range does not appear to contain SLBW parameters" );
   }
 }
