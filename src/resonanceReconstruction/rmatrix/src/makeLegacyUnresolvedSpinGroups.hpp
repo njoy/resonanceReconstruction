@@ -1,7 +1,9 @@
+template < typename LValue >
 std::vector< legacy::unresolved::SpinGroup >
 makeLegacyUnresolvedSpinGroups(
-    const ENDF::unresolved::EnergyDependent::LValue& endfLValue,
-    const ParticlePair& pair, const ChannelRadii& radii ) {
+    const LValue& endfLValue,
+    const ParticlePair& pair, const ChannelRadii& radii,
+    const std::vector< double >& energies ) {
 
   // useful numbers
   unsigned int l = endfLValue.orbitalMomentum();
@@ -13,8 +15,9 @@ makeLegacyUnresolvedSpinGroups(
 
     return legacy::unresolved::SpinGroup(
                Channel< Neutron >( in, in, 0. * electronVolt,
-                                   { l, 0.5, endfJValue.spin(), +1 }, radii ),
-               makeLegacyUnresolvedResonanceTable( endfJValue ) );
+                                   { l, 0.5, endfJValue.spin(),
+                                     std::pow( -1, l ) > 0. ? +1 : -1 }, radii ),
+               makeLegacyUnresolvedResonanceTable( endfJValue, energies ) );
   };
 
   // some ranges magic

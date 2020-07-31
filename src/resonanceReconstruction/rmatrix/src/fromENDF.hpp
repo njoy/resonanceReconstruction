@@ -100,13 +100,33 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
                                   "been implemented" );
       }
 
-      switch ( endfResonanceRange.representation() ) {
+      switch ( endfResonanceRange.parameters().index() ) {
 
-        case 1: {
+        case 5: {
 
-          throw std::runtime_error( "To be implemented" );
+          auto endfEnergyIndependent =
+            std::get< ENDF::unresolved::EnergyIndependent >( endfResonanceRange.parameters() );
+          return Reconstructor(
+                     lower * electronVolt,
+                     upper * electronVolt,
+                     makeLegacyUnresolvedCompoundSystem(
+                         endfEnergyIndependent,
+                         neutronMass, elementaryCharge,
+                         incident, target, naps, lower, upper ) );
         }
-        case 2: {
+        case 6: {
+
+          auto endfEnergyDependentFission =
+            std::get< ENDF::unresolved::EnergyDependentFissionWidths >( endfResonanceRange.parameters() );
+          return Reconstructor(
+                     lower * electronVolt,
+                     upper * electronVolt,
+                     makeLegacyUnresolvedCompoundSystem(
+                         endfEnergyDependentFission,
+                         neutronMass, elementaryCharge,
+                         incident, target, naps, lower, upper ) );
+        }
+        case 7: {
 
           auto endfEnergyDependent =
             std::get< ENDF::unresolved::EnergyDependent >( endfResonanceRange.parameters() );
@@ -116,7 +136,7 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
                      makeLegacyUnresolvedCompoundSystem(
                          endfEnergyDependent,
                          neutronMass, elementaryCharge,
-                         incident, target, naps ) );
+                         incident, target, naps, lower, upper ) );
         }
         default : {
 

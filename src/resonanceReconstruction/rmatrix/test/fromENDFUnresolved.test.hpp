@@ -1,5 +1,6 @@
 std::string Na22();
 std::string Pu239();
+std::string Er167();
 
 SCENARIO( "fromENDF - legacy unresolved resonances" ) {
 
@@ -114,7 +115,7 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
       auto spingroup2 = spingroups[2];
 
       auto channel2 = spingroup2.incidentChannel();
-      CHECK( "n,Na22{1,1/2,3/2+}" == channel2.channelID() );
+      CHECK( "n,Na22{1,1/2,3/2-}" == channel2.channelID() );
       CHECK( "n,Na22->n,Na22" == channel2.reactionID().symbol() );
 
       // resonance table
@@ -146,7 +147,7 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
       auto spingroup3 = spingroups[3];
 
       auto channel3 = spingroup3.incidentChannel();
-      CHECK( "n,Na22{1,1/2,5/2+}" == channel3.channelID() );
+      CHECK( "n,Na22{1,1/2,5/2-}" == channel3.channelID() );
       CHECK( "n,Na22->n,Na22" == channel3.reactionID().symbol() );
 
       // resonance table
@@ -178,7 +179,7 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
       auto spingroup4 = spingroups[4];
 
       auto channel4 = spingroup4.incidentChannel();
-      CHECK( "n,Na22{1,1/2,7/2+}" == channel4.channelID() );
+      CHECK( "n,Na22{1,1/2,7/2-}" == channel4.channelID() );
       CHECK( "n,Na22->n,Na22" == channel4.reactionID().symbol() );
 
       // resonance table
@@ -210,7 +211,7 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
       auto spingroup5 = spingroups[5];
 
       auto channel5 = spingroup5.incidentChannel();
-      CHECK( "n,Na22{1,1/2,9/2+}" == channel5.channelID() );
+      CHECK( "n,Na22{1,1/2,9/2-}" == channel5.channelID() );
       CHECK( "n,Na22->n,Na22" == channel5.reactionID().symbol() );
 
       // resonance table
@@ -656,7 +657,7 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
       auto spingroup2 = spingroups[2];
 
       auto channel2 = spingroup2.incidentChannel();
-      CHECK( "n,Pu239{1,1/2,0+}" == channel2.channelID() );
+      CHECK( "n,Pu239{1,1/2,0-}" == channel2.channelID() );
       CHECK( "n,Pu239->n,Pu239" == channel2.reactionID().symbol() );
 
       // resonance table
@@ -688,7 +689,7 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
       auto spingroup3 = spingroups[3];
 
       auto channel3 = spingroup3.incidentChannel();
-      CHECK( "n,Pu239{1,1/2,1+}" == channel3.channelID() );
+      CHECK( "n,Pu239{1,1/2,1-}" == channel3.channelID() );
       CHECK( "n,Pu239->n,Pu239" == channel3.reactionID().symbol() );
 
       // resonance table
@@ -720,7 +721,7 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
       auto spingroup4 = spingroups[4];
 
       auto channel4 = spingroup4.incidentChannel();
-      CHECK( "n,Pu239{1,1/2,2+}" == channel4.channelID() );
+      CHECK( "n,Pu239{1,1/2,2-}" == channel4.channelID() );
       CHECK( "n,Pu239->n,Pu239" == channel4.reactionID().symbol() );
 
       // resonance table
@@ -1179,7 +1180,80 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
       CHECK( 11.560334256440548 == Approx( xs[ elas ].value ) );
       CHECK( 0.52805263879204856 == Approx( xs[ capt ].value ) );
       CHECK(  1.572007382214403 == Approx( xs[ fiss ].value ) );
-          } // THEN
+    } // THEN
+  } // GIVEN
+
+  GIVEN( "valid ENDF data for Er167" ) {
+
+    std::string string = Er167();
+    auto begin = string.begin();
+    auto end = string.end();
+    long lineNumber = 1;
+
+    njoy::ENDFtk::HeadRecord head( begin, end, lineNumber );
+    njoy::ENDFtk::section::Type< 2, 151 > endf( head, begin, end, lineNumber, 6840 );
+    ResonanceRange endfResonanceRange = endf.isotopes().front().resonanceRanges().front();
+
+    auto resonances = fromENDF( endfResonanceRange, neutronMass, elementaryCharge, ParticleID( "n" ), ParticleID( "Er167" ) );
+
+    THEN( "the appropriate CompoundSystem is returned" ) {
+
+      auto compoundsystem = std::get< legacy::unresolved::CompoundSystem >( resonances.compoundSystem() );
+
+      // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+      // content verification
+      // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+      // spin groups
+      auto spingroups = compoundsystem.spinGroups();
+      CHECK( 6 == spingroups.size() );
+
+      auto grid = compoundsystem.grid();
+      CHECK( 11 == grid.size() );
+      CHECK( 1750. == Approx( grid[0].value ) );
+      CHECK( 2000. == Approx( grid[1].value ) );
+      CHECK( 2500. == Approx( grid[2].value ) );
+      CHECK( 3000. == Approx( grid[3].value ) );
+      CHECK( 3500. == Approx( grid[4].value ) );
+      CHECK( 4000. == Approx( grid[5].value ) );
+      CHECK( 5000. == Approx( grid[6].value ) );
+      CHECK( 6000. == Approx( grid[7].value ) );
+      CHECK( 7200. == Approx( grid[8].value ) );
+      CHECK( 8500. == Approx( grid[9].value ) );
+      CHECK( 10000. == Approx( grid[10].value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 0
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      auto spingroup0 = spingroups[0];
+
+      auto channel0 = spingroup0.incidentChannel();
+      CHECK( "n,Er167{0,1/2,3+}" == channel0.channelID() );
+      CHECK( "n,Er167->n,Er167" == channel0.reactionID().symbol() );
+
+      // resonance table
+      auto table0 = spingroup0.resonanceTable();
+
+      CHECK( 2 == table0.numberResonances() );
+
+      auto energies0 = table0.energies();
+      CHECK( 1750. == Approx( energies0.front().value ) );
+      CHECK( 10000. == Approx( energies0.back().value ) );
+
+      auto resonances0 = table0.resonances();
+      CHECK( 1750. == Approx( resonances0.front().energy().value ) );
+      CHECK( 10000. == Approx( resonances0.back().energy().value ) );
+      CHECK( 9.142900 == Approx( resonances0.front().levelSpacing().value ) );
+      CHECK( 9.142900 == Approx( resonances0.back().levelSpacing().value ) );
+      CHECK( 1.748200e-3 == Approx( resonances0.front().elastic().value ) );
+      CHECK( 1.748200e-3 == Approx( resonances0.back().elastic().value ) );
+      CHECK( 1.126380e-1 == Approx( resonances0.front().capture().value ) );
+      CHECK( 1.126380e-1 == Approx( resonances0.back().capture().value ) );
+      CHECK( 0. == Approx( resonances0.front().fission().value ) );
+      CHECK( 0. == Approx( resonances0.back().fission().value ) );
+      CHECK( 0. == Approx( resonances0.front().competition().value ) );
+      CHECK( 0. == Approx( resonances0.back().competition().value ) );
+    } // THEN
   } // GIVEN
 } // SCENARIO
 
@@ -1719,4 +1793,24 @@ std::string Pu239() {
     " 2.950000+4 1.820500+0 0.000000+0 3.035000-4 3.335000-2 5.790000-19437 2151     \n"
     " 3.000000+4 1.818700+0 0.000000+0 3.032000-4 3.335000-2 5.770000-19437 2151     \n"
     "                                                                  9437 2  0     \n";
+}
+
+std::string Er167() {
+
+  // Er167 ENDF/B-VIII.0 LRU=2 resonance evaluation
+
+  return
+    " 6.816700+4 1.654980+2          0          0          1          06840 2151     \n"
+    " 6.816700+4 1.000000+0          0          0          1          06840 2151     \n"
+    " 1.750000+3 1.000000+4          2          1          0          06840 2151     \n"
+    " 3.500000+0 8.200000-1          0          0          2          06840 2151     \n"
+    " 1.654980+2 0.000000+0          0          0         12          26840 2151     \n"
+    " 9.142900+0 3.000000+0 1.000000+0 1.748200-3 1.126380-1 0.000000+06840 2151     \n"
+    " 7.111100+0 4.000000+0 1.000000+0 1.321300-3 1.126380-1 0.000000+06840 2151     \n"
+    " 1.654980+2 0.000000+0          1          0         24          46840 2151     \n"
+    " 1.280000+1 2.000000+0 1.000000+0 1.236000-3 1.126380-1 0.000000+06840 2151     \n"
+    " 9.142900+0 3.000000+0 2.000000+0 1.894300-3 1.126380-1 0.000000+06840 2151     \n"
+    " 7.111100+0 4.000000+0 2.000000+0 1.406600-3 1.126380-1 0.000000+06840 2151     \n"
+    " 5.818200+0 5.000000+0 1.000000+0 6.681800-4 1.126380-1 0.000000+06840 2151     \n"
+    " 0.000000+0 0.000000+0          0          0          0          06840 2  0     \n";
 }
