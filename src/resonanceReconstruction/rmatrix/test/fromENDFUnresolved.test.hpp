@@ -1356,7 +1356,7 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
       auto spingroup4 = spingroups[4];
 
       auto channel4 = spingroup4.incidentChannel();
-      CHECK( "n,Er167{1,1/2,3-}" == channel4.channelID() );
+      CHECK( "n,Er167{1,1/2,4-}" == channel4.channelID() );
       CHECK( "n,Er167->n,Er167" == channel4.reactionID().symbol() );
 
       // resonance table
@@ -1388,7 +1388,7 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
       auto spingroup5 = spingroups[5];
 
       auto channel5 = spingroup5.incidentChannel();
-      CHECK( "n,Er167{1,1/2,3-}" == channel5.channelID() );
+      CHECK( "n,Er167{1,1/2,5-}" == channel5.channelID() );
       CHECK( "n,Er167->n,Er167" == channel5.reactionID().symbol() );
 
       // resonance table
@@ -1413,6 +1413,68 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
       CHECK( 0. == Approx( resonances5.back().fission().value ) );
       CHECK( 0. == Approx( resonances5.front().competition().value ) );
       CHECK( 0. == Approx( resonances5.back().competition().value ) );
+    } // THEN
+
+    THEN( "cross sections can be reconstructed" ) {
+
+      ReactionID elas( "n,Er167->n,Er167" );
+      ReactionID capt( "n,Er167->capture" );
+      std::map< ReactionID, CrossSection > xs;
+
+      xs = resonances( 1750. * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 18.241628628010506 == Approx( xs[ elas ].value ) );
+      CHECK( 8.8470221152128197 == Approx( xs[ capt ].value ) );
+
+      xs = resonances(  2000. * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 17.820760274730802 == Approx( xs[ elas ].value ) );
+      CHECK( 8.0651842000962901 == Approx( xs[ capt ].value ) );
+
+      xs = resonances(  2500. * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 17.135195181202420 == Approx( xs[ elas ].value ) );
+      CHECK( 6.9113059738704008 == Approx( xs[ capt ].value ) );
+
+      xs = resonances(  3000. * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 16.592348035233275 == Approx( xs[ elas ].value ) );
+      CHECK( 6.0957654963405616 == Approx( xs[ capt ].value ) );
+
+      xs = resonances(  3500. * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 16.146013683922963 == Approx( xs[ elas ].value ) );
+      CHECK( 5.4858210475023412 == Approx( xs[ capt ].value ) );
+
+      xs = resonances(  4000. * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 15.768997902900036 == Approx( xs[ elas ].value ) );
+      CHECK( 5.0108853038756882 == Approx( xs[ capt ].value ) );
+
+      xs = resonances(  5000. * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 15.159379589050337 == Approx( xs[ elas ].value ) );
+      CHECK( 4.3164971574593238 == Approx( xs[ capt ].value ) );
+
+      xs = resonances(  6000. * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 14.680652351726371 == Approx( xs[ elas ].value ) );
+      CHECK( 3.8310594535618745 == Approx( xs[ capt ].value ) );
+
+      xs = resonances(  7200. * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 14.219700422962447 == Approx( xs[ elas ].value ) );
+      CHECK( 3.4100036907692624 == Approx( xs[ capt ].value ) );
+
+      xs = resonances(  8500. * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 13.815771022819700 == Approx( xs[ elas ].value ) );
+      CHECK( 3.0759470502728590 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 10000. * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 13.435021117381460 == Approx( xs[ elas ].value ) );
+      CHECK( 2.7888116700218495 == Approx( xs[ capt ].value ) );
     } // THEN
   } // GIVEN
 } // SCENARIO
