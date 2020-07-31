@@ -1253,6 +1253,166 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
       CHECK( 0. == Approx( resonances0.back().fission().value ) );
       CHECK( 0. == Approx( resonances0.front().competition().value ) );
       CHECK( 0. == Approx( resonances0.back().competition().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 1
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      auto spingroup1 = spingroups[1];
+
+      auto channel1 = spingroup1.incidentChannel();
+      CHECK( "n,Er167{0,1/2,4+}" == channel1.channelID() );
+      CHECK( "n,Er167->n,Er167" == channel1.reactionID().symbol() );
+
+      // resonance table
+      auto table1 = spingroup1.resonanceTable();
+
+      CHECK( 2 == table1.numberResonances() );
+
+      auto energies1 = table1.energies();
+      CHECK( 1750. == Approx( energies1.front().value ) );
+      CHECK( 10000. == Approx( energies1.back().value ) );
+
+      auto resonances1 = table1.resonances();
+      CHECK( 1750. == Approx( resonances1.front().energy().value ) );
+      CHECK( 10000. == Approx( resonances1.back().energy().value ) );
+      CHECK( 7.111100 == Approx( resonances1.front().levelSpacing().value ) );
+      CHECK( 7.111100 == Approx( resonances1.back().levelSpacing().value ) );
+      CHECK( 1.321300e-3 == Approx( resonances1.front().elastic().value ) );
+      CHECK( 1.321300e-3 == Approx( resonances1.back().elastic().value ) );
+      CHECK( 1.126380e-1 == Approx( resonances1.front().capture().value ) );
+      CHECK( 1.126380e-1 == Approx( resonances1.back().capture().value ) );
+      CHECK( 0. == Approx( resonances1.front().fission().value ) );
+      CHECK( 0. == Approx( resonances1.back().fission().value ) );
+      CHECK( 0. == Approx( resonances1.front().competition().value ) );
+      CHECK( 0. == Approx( resonances1.back().competition().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 2
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      auto spingroup2 = spingroups[2];
+
+      auto channel2 = spingroup2.incidentChannel();
+      CHECK( "n,Er167{1,1/2,2-}" == channel2.channelID() );
+      CHECK( "n,Er167->n,Er167" == channel2.reactionID().symbol() );
+
+      // resonance table
+      auto table2 = spingroup2.resonanceTable();
+
+      CHECK( 2 == table2.numberResonances() );
+
+      auto energies2 = table2.energies();
+      CHECK( 1750. == Approx( energies2.front().value ) );
+      CHECK( 10000. == Approx( energies2.back().value ) );
+
+      auto resonances2 = table2.resonances();
+      CHECK( 1750. == Approx( resonances2.front().energy().value ) );
+      CHECK( 10000. == Approx( resonances2.back().energy().value ) );
+      CHECK( 12.8 == Approx( resonances2.front().levelSpacing().value ) );
+      CHECK( 12.8 == Approx( resonances2.back().levelSpacing().value ) );
+      CHECK( 1.236000e-3 == Approx( resonances2.front().elastic().value ) );
+      CHECK( 1.236000e-3 == Approx( resonances2.back().elastic().value ) );
+      CHECK( 1.126380e-1 == Approx( resonances2.front().capture().value ) );
+      CHECK( 1.126380e-1 == Approx( resonances2.back().capture().value ) );
+      CHECK( 0. == Approx( resonances2.front().fission().value ) );
+      CHECK( 0. == Approx( resonances2.back().fission().value ) );
+      CHECK( 0. == Approx( resonances2.front().competition().value ) );
+      CHECK( 0. == Approx( resonances2.back().competition().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 3
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      auto spingroup3 = spingroups[3];
+
+      auto channel3 = spingroup3.incidentChannel();
+      CHECK( "n,Er167{1,1/2,3-}" == channel3.channelID() );
+      CHECK( "n,Er167->n,Er167" == channel3.reactionID().symbol() );
+
+      // resonance table
+      auto table3 = spingroup3.resonanceTable();
+
+      CHECK( 2 == table3.numberResonances() );
+
+      auto energies3 = table3.energies();
+      CHECK( 1750. == Approx( energies3.front().value ) );
+      CHECK( 10000. == Approx( energies3.back().value ) );
+
+      auto resonances3 = table3.resonances();
+      CHECK( 1750. == Approx( resonances3.front().energy().value ) );
+      CHECK( 10000. == Approx( resonances3.back().energy().value ) );
+      CHECK( 9.142900 == Approx( resonances3.front().levelSpacing().value ) );
+      CHECK( 9.142900 == Approx( resonances3.back().levelSpacing().value ) );
+      CHECK( 1.894300e-3 == Approx( resonances3.front().elastic().value ) );
+      CHECK( 1.894300e-3 == Approx( resonances3.back().elastic().value ) );
+      CHECK( 1.126380e-1 == Approx( resonances3.front().capture().value ) );
+      CHECK( 1.126380e-1 == Approx( resonances3.back().capture().value ) );
+      CHECK( 0. == Approx( resonances3.front().fission().value ) );
+      CHECK( 0. == Approx( resonances3.back().fission().value ) );
+      CHECK( 0. == Approx( resonances3.front().competition().value ) );
+      CHECK( 0. == Approx( resonances3.back().competition().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 4
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      auto spingroup4 = spingroups[4];
+
+      auto channel4 = spingroup4.incidentChannel();
+      CHECK( "n,Er167{1,1/2,3-}" == channel4.channelID() );
+      CHECK( "n,Er167->n,Er167" == channel4.reactionID().symbol() );
+
+      // resonance table
+      auto table4 = spingroup4.resonanceTable();
+
+      CHECK( 2 == table4.numberResonances() );
+
+      auto energies4 = table4.energies();
+      CHECK( 1750. == Approx( energies4.front().value ) );
+      CHECK( 10000. == Approx( energies4.back().value ) );
+
+      auto resonances4 = table4.resonances();
+      CHECK( 1750. == Approx( resonances4.front().energy().value ) );
+      CHECK( 10000. == Approx( resonances4.back().energy().value ) );
+      CHECK( 7.1111 == Approx( resonances4.front().levelSpacing().value ) );
+      CHECK( 7.1111 == Approx( resonances4.back().levelSpacing().value ) );
+      CHECK( 1.406600e-3 == Approx( resonances4.front().elastic().value ) );
+      CHECK( 1.406600e-3 == Approx( resonances4.back().elastic().value ) );
+      CHECK( 1.126380e-1 == Approx( resonances4.front().capture().value ) );
+      CHECK( 1.126380e-1 == Approx( resonances4.back().capture().value ) );
+      CHECK( 0. == Approx( resonances4.front().fission().value ) );
+      CHECK( 0. == Approx( resonances4.back().fission().value ) );
+      CHECK( 0. == Approx( resonances4.front().competition().value ) );
+      CHECK( 0. == Approx( resonances4.back().competition().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 5
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      auto spingroup5 = spingroups[5];
+
+      auto channel5 = spingroup5.incidentChannel();
+      CHECK( "n,Er167{1,1/2,3-}" == channel5.channelID() );
+      CHECK( "n,Er167->n,Er167" == channel5.reactionID().symbol() );
+
+      // resonance table
+      auto table5 = spingroup5.resonanceTable();
+
+      CHECK( 2 == table5.numberResonances() );
+
+      auto energies5 = table5.energies();
+      CHECK( 1750. == Approx( energies5.front().value ) );
+      CHECK( 10000. == Approx( energies5.back().value ) );
+
+      auto resonances5 = table5.resonances();
+      CHECK( 1750. == Approx( resonances5.front().energy().value ) );
+      CHECK( 10000. == Approx( resonances5.back().energy().value ) );
+      CHECK( 5.8182 == Approx( resonances5.front().levelSpacing().value ) );
+      CHECK( 5.8182 == Approx( resonances5.back().levelSpacing().value ) );
+      CHECK( 6.681800e-4 == Approx( resonances5.front().elastic().value ) );
+      CHECK( 6.681800e-4 == Approx( resonances5.back().elastic().value ) );
+      CHECK( 1.126380e-1 == Approx( resonances5.front().capture().value ) );
+      CHECK( 1.126380e-1 == Approx( resonances5.back().capture().value ) );
+      CHECK( 0. == Approx( resonances5.front().fission().value ) );
+      CHECK( 0. == Approx( resonances5.back().fission().value ) );
+      CHECK( 0. == Approx( resonances5.front().competition().value ) );
+      CHECK( 0. == Approx( resonances5.back().competition().value ) );
     } // THEN
   } // GIVEN
 } // SCENARIO
