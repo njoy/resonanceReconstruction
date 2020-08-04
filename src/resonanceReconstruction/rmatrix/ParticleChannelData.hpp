@@ -14,6 +14,7 @@
   ParticleChannel channel_;
   std::vector< Energy > energies_;
   std::vector<  ReducedWidth > widths_;
+  bool eliminated_;
 
   /* auxiliary functions */
   #include "resonanceReconstruction/rmatrix/ParticleChannelData/src/verifySize.hpp"
@@ -120,4 +121,9 @@ public:
    *  @brief Return the resonance widths
    */
   auto widths() const { return ranges::view::all( this->widths_ ); }
+
+  /**
+   *  @brief Return whether or not this is an eliminated channel
+   */
+  auto isEliminatedChannel() const { return this->eliminated_; }
 };

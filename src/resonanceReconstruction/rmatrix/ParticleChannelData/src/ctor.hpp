@@ -7,9 +7,10 @@
  */
 ParticleChannelData( const ParticleChannel& channel,
                      std::vector< Energy >&& energies,
-                     std::vector< ReducedWidth >&& widths ) :
+                     std::vector< ReducedWidth >&& widths,
+                     bool eliminated = false ) :
   channel_( channel ), energies_( std::move( energies ) ),
-  widths_( std::move( widths ) ) {
+  widths_( std::move( widths ) ), eliminated_( eliminated ) {
 
     verifySize( this->energies_, this->widths_ );
   }

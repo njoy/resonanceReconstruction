@@ -66,6 +66,7 @@ SCENARIO( "ParticleChannelData" ) {
       CHECK( "n,Cl35->n,Cl35" == data.reactionID().symbol() );
 
       CHECK( true == data.isIncidentChannel() );
+      CHECK( false == data.isEliminatedChannel() );
 
       auto incident = data.incidentParticlePair();
       CHECK( 1.00866491582 == Approx( incident.particle().mass().value ) );
