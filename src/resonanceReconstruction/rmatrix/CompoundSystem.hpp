@@ -9,6 +9,7 @@ class CompoundSystem {
   std::vector< SpinGroup< Formalism, BoundaryOption > > groups_;
 
   /* auxiliary functions */
+  #include "resonanceReconstruction/rmatrix/CompoundSystem/src/makeSpinGroups.hpp"
   #include "resonanceReconstruction/rmatrix/CompoundSystem/src/verifySpinGroups.hpp"
 
 public:
