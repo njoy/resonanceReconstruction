@@ -43,47 +43,35 @@ SCENARIO( "CompoundSystem" ) {
                                  { 5.437300e-1 * rootBarn,
                                    5.437300e-1 * rootBarn } );
 
-    // conversion from Gamma to gamma
-    auto eGamma = [&] ( double width, const Energy& energy,
-                        const Channel< Neutron >& elastic ) -> ReducedWidth {
-      return std::sqrt( width / 2. / elastic.penetrability( energy ) ) *
-             rootElectronVolt;
-    };
-    auto cGamma = [&] ( double width ) -> ReducedWidth {
-      return std::sqrt( width / 2. ) * rootElectronVolt;
-    };
-
     // single resonance tables
     ResonanceTable table1(
       { elastic1.channelID() },
-      { Resonance( 5.152000e+4 * electronVolt,
-                   { eGamma( 1.600200e+1, 5.152000e+4 * electronVolt,
-                             elastic1 ) },
-                   cGamma( 3.600000e-1 ) ) } );
+      { Resonance( 10. * electronVolt,
+                   { 1.0 * rootElectronVolt },
+                   2.0 * rootElectronVolt ) } );
     ResonanceTable table2(
       { elastic2.channelID() },
-      { Resonance( 7.788000e+3 * electronVolt,
-                   { eGamma( 1.187354e+3, 7.788000e+3 * electronVolt,
-                             elastic2 ) },
-                   cGamma( 1.455000e+0 ) ) } );
+      { Resonance( 100. * electronVolt,
+                   { 3.0 * rootElectronVolt },
+                   4.0 * rootElectronVolt ) } );
     ResonanceTable table3(
       { elastic3.channelID() },
-      { Resonance( 3.099000e+3 * electronVolt,
-                   { eGamma( 1.400000e-3, 3.099000e+3 * electronVolt,
-                             elastic3 ) },
-                   cGamma( 5.900000e-1 ) ) } );
+      { Resonance( 1000. * electronVolt,
+                   { 5.0 * rootElectronVolt },
+                   6.0 * rootElectronVolt ) } );
     ResonanceTable table4(
       { elastic4.channelID() },
-      { Resonance( 9.480000e+3 * electronVolt,
-                   { eGamma( 1.200000e+0, 9.480000e+3 * electronVolt,
-                             elastic4 ) },
-                   cGamma( 2.700000e-1 ) ) } );
+      { Resonance( 10000. * electronVolt,
+                   { 7.0 * rootElectronVolt },
+                   8.0 * rootElectronVolt ) } );
     ResonanceTable table5(
       { elastic5.channelID() },
-      { Resonance( 1.264000e+5 * electronVolt,
-                   { eGamma( 2.900000e+0, 1.264000e+5 * electronVolt,
-                             elastic5 ) },
-                   cGamma( 1.100000e+0 ) ) } );
+      { Resonance( 1e+5 * electronVolt,
+                   { 0.0 * rootElectronVolt },
+                   10.0 * rootElectronVolt ),
+        Resonance( 1.5e+5 * electronVolt,
+                   { 9.0 * rootElectronVolt },
+                   0. * rootElectronVolt ) } );
 
     SpinGroup< ReichMoore, ShiftFactor >
         group1( { elastic1 }, std::move( table1 ) );
@@ -98,40 +86,35 @@ SCENARIO( "CompoundSystem" ) {
 
     // particle channel data instances
     ParticleChannelData data11( capture1,
-                                { 7.788000e+3 * electronVolt },
-                                { cGamma( 1.455000e+0 ) }, true );
+                                { 10. * electronVolt },
+                                { 2. * rootElectronVolt }, true );
     ParticleChannelData data12( elastic1,
-                                { 7.788000e+3 * electronVolt },
-                                { eGamma( 1.187354e+3, 7.788000e+3 * electronVolt,
-                                          elastic1 ) } );
+                                { 10. * electronVolt },
+                                { 1. * rootElectronVolt } );
     ParticleChannelData data21( capture2,
-                                { 5.152000e+4 * electronVolt },
-                                { cGamma( 3.600000e-1 ) }, true );
+                                { 100. * electronVolt },
+                                { 4. * rootElectronVolt }, true );
     ParticleChannelData data22( elastic2,
-                                { 5.152000e+4 * electronVolt },
-                                { eGamma( 1.600200e+1, 5.152000e+4 * electronVolt,
-                                          elastic2 ) } );
+                                { 100. * electronVolt },
+                                { 3. * rootElectronVolt } );
     ParticleChannelData data31( capture3,
-                                { 3.099000e+3 * electronVolt },
-                                { cGamma( 5.900000e-1 ) }, true );
+                                { 1000. * electronVolt },
+                                { 6. * rootElectronVolt }, true );
     ParticleChannelData data32( elastic3,
-                                { 3.099000e+3 * electronVolt },
-                                { eGamma( 1.400000e-3, 3.099000e+3 * electronVolt,
-                                          elastic3 ) } );
+                                { 1000. * electronVolt },
+                                { 5. * rootElectronVolt } );
     ParticleChannelData data41( capture4,
-                                { 9.480000e+3 * electronVolt },
-                                { cGamma( 2.700000e-1 ) }, true );
+                                { 10000. * electronVolt },
+                                { 8. * rootElectronVolt }, true );
     ParticleChannelData data42( elastic4,
-                                { 9.480000e+3 * electronVolt },
-                                { eGamma( 1.200000e+0, 9.480000e+3 * electronVolt,
-                                          elastic4 ) } );
+                                { 10000. * electronVolt },
+                                { 7. * rootElectronVolt } );
     ParticleChannelData data51( capture5,
-                                { 1.264000e+5 * electronVolt },
-                                { cGamma( 1.100000e+0 ) }, true );
+                                { 1e+5 * electronVolt },
+                                { 10. * rootElectronVolt }, true );
     ParticleChannelData data52( elastic5,
-                                { 1.264000e+5 * electronVolt },
-                                { eGamma( 2.900000e+0, 1.264000e+5 * electronVolt,
-                                          elastic5 ) } );
+                                { 1.5e+5 * electronVolt },
+                                { 9. * rootElectronVolt } );
 
     THEN( "a SpinGroup can be constructed using spin groups" ) {
 
@@ -187,41 +170,27 @@ SCENARIO( "CompoundSystem" ) {
                                  { 5.437300e-1 * rootBarn,
                                    5.437300e-1 * rootBarn } );
 
-    // conversion from Gamma to gamma
-    auto eGamma = [&] ( double width, const Energy& energy,
-                        const Channel< Neutron >& elastic ) -> ReducedWidth {
-      return std::sqrt( width / 2. / elastic.penetrability( energy ) ) *
-             rootElectronVolt;
-    };
-    auto cGamma = [&] ( double width ) -> ReducedWidth {
-      return std::sqrt( width / 2. ) * rootElectronVolt;
-    };
-
-    // multiple resonance table
+    // single resonance tables
     ResonanceTable table1(
       { elastic1.channelID() },
-      { Resonance( 7.788000e+3 * electronVolt,
-                   { eGamma( 1.187354e+3, 7.788000e+3 * electronVolt,
-                             elastic1 ) },
-                   cGamma( 1.455000e+0 ) ) } );
+      { Resonance( 10. * electronVolt,
+                   { 1.0 * rootElectronVolt },
+                   2.0 * rootElectronVolt ) } );
     ResonanceTable table2(
       { elastic2.channelID() },
-      { Resonance( 5.152000e+4 * electronVolt,
-                   { eGamma( 1.600200e+1, 5.152000e+4 * electronVolt,
-                             elastic2 ) },
-                   cGamma( 3.600000e-1 ) ) } );
+      { Resonance( 100. * electronVolt,
+                   { 3.0 * rootElectronVolt },
+                   4.0 * rootElectronVolt ) } );
     ResonanceTable table3(
       { elastic3.channelID() },
-      { Resonance( 3.099000e+3 * electronVolt,
-                   { eGamma( 1.400000e-3, 3.099000e+3 * electronVolt,
-                             elastic3 ) },
-                   cGamma( 5.900000e-1 ) ) } );
+      { Resonance( 1000. * electronVolt,
+                   { 5.0 * rootElectronVolt },
+                   6.0 * rootElectronVolt ) } );
     ResonanceTable table4(
       { elastic4.channelID() },
-      { Resonance( 9.480000e+3 * electronVolt,
-                   { eGamma( 1.200000e+0, 9.480000e+3 * electronVolt,
-                             elastic4 ) },
-                   cGamma( 2.700000e-1 ) ) } );
+      { Resonance( 10000. * electronVolt,
+                   { 7.0 * rootElectronVolt },
+                   8.0 * rootElectronVolt ) } );
 
     SpinGroup< ReichMoore, ShiftFactor >
         group1( { elastic1 }, std::move( table1 ) );
@@ -264,6 +233,7 @@ SCENARIO( "CompoundSystem" ) {
 
 void checkCompoundSystem( const CompoundSystem< ReichMoore, ShiftFactor >& system ) {
 
+  // number of spin groups
   CHECK( 5 == system.spinGroups().size() );
 
   // group 1 - Jpi = 0.5-
@@ -273,12 +243,40 @@ void checkCompoundSystem( const CompoundSystem< ReichMoore, ShiftFactor >& syste
   auto channel = std::get< Channel< Neutron > >( group.channels()[0] );
   CHECK( "n,Fe54{1,1/2,1/2-}" == channel.channelID() );
 
+  auto table = group.resonanceTable();
+  CHECK( 1 == table.numberChannels() );
+  CHECK( 1 == table.channels().size() );
+  CHECK( "n,Fe54{1,1/2,1/2-}" == table.channels()[0] );
+  CHECK( 1 == table.numberResonances() );
+  CHECK( 1 == table.resonances().size() );
+  CHECK( 1 == table.energies().size() );
+  CHECK( 10. == Approx( table.energies()[0].value ) );
+  auto resonance = table.resonances()[0];
+  CHECK( 10. == Approx( resonance.energy().value ) );
+  CHECK( 2. == Approx( resonance.eliminatedWidth().value ) );
+  CHECK( 1 == resonance.widths().size() );
+  CHECK( 1. == Approx( resonance.widths()[0].value ) );
+
   // group 2 - Jpi = 0.5+
   group = system.spinGroups()[1];
   CHECK( 1 == group.incidentChannels().size() );
   CHECK( 1 == group.channels().size() );
   channel = std::get< Channel< Neutron > >( group.channels()[0] );
   CHECK( "n,Fe54{0,1/2,1/2+}" == channel.channelID() );
+
+  table = group.resonanceTable();
+  CHECK( 1 == table.numberChannels() );
+  CHECK( 1 == table.channels().size() );
+  CHECK( "n,Fe54{0,1/2,1/2+}" == table.channels()[0] );
+  CHECK( 1 == table.numberResonances() );
+  CHECK( 1 == table.resonances().size() );
+  CHECK( 1 == table.energies().size() );
+  CHECK( 100. == Approx( table.energies()[0].value ) );
+  resonance = table.resonances()[0];
+  CHECK( 100. == Approx( resonance.energy().value ) );
+  CHECK( 4. == Approx( resonance.eliminatedWidth().value ) );
+  CHECK( 1 == resonance.widths().size() );
+  CHECK( 3. == Approx( resonance.widths()[0].value ) );
 
   // group 3 - Jpi = 1.5-
   group = system.spinGroups()[2];
@@ -287,6 +285,20 @@ void checkCompoundSystem( const CompoundSystem< ReichMoore, ShiftFactor >& syste
   channel = std::get< Channel< Neutron > >( group.channels()[0] );
   CHECK( "n,Fe54{1,1/2,3/2-}" == channel.channelID() );
 
+  table = group.resonanceTable();
+  CHECK( 1 == table.numberChannels() );
+  CHECK( 1 == table.channels().size() );
+  CHECK( "n,Fe54{1,1/2,3/2-}" == table.channels()[0] );
+  CHECK( 1 == table.numberResonances() );
+  CHECK( 1 == table.resonances().size() );
+  CHECK( 1 == table.energies().size() );
+  CHECK( 1000. == Approx( table.energies()[0].value ) );
+  resonance = table.resonances()[0];
+  CHECK( 1000. == Approx( resonance.energy().value ) );
+  CHECK( 6. == Approx( resonance.eliminatedWidth().value ) );
+  CHECK( 1 == resonance.widths().size() );
+  CHECK( 5. == Approx( resonance.widths()[0].value ) );
+
   // group 4 - Jpi = 1.5+
   group = system.spinGroups()[3];
   CHECK( 1 == group.incidentChannels().size() );
@@ -294,10 +306,43 @@ void checkCompoundSystem( const CompoundSystem< ReichMoore, ShiftFactor >& syste
   channel = std::get< Channel< Neutron > >( group.channels()[0] );
   CHECK( "n,Fe54{2,1/2,3/2+}" == channel.channelID() );
 
+  table = group.resonanceTable();
+  CHECK( 1 == table.numberChannels() );
+  CHECK( 1 == table.channels().size() );
+  CHECK( "n,Fe54{2,1/2,3/2+}" == table.channels()[0] );
+  CHECK( 1 == table.numberResonances() );
+  CHECK( 1 == table.resonances().size() );
+  CHECK( 1 == table.energies().size() );
+  CHECK( 10000. == Approx( table.energies()[0].value ) );
+  resonance = table.resonances()[0];
+  CHECK( 10000. == Approx( resonance.energy().value ) );
+  CHECK( 8. == Approx( resonance.eliminatedWidth().value ) );
+  CHECK( 1 == resonance.widths().size() );
+  CHECK( 7. == Approx( resonance.widths()[0].value ) );
+
   // group 5 - Jpi = 2.5+
   group = system.spinGroups()[4];
   CHECK( 1 == group.incidentChannels().size() );
   CHECK( 1 == group.channels().size() );
   channel = std::get< Channel< Neutron > >( group.channels()[0] );
   CHECK( "n,Fe54{2,1/2,5/2+}" == channel.channelID() );
+
+  table = group.resonanceTable();
+  CHECK( 1 == table.numberChannels() );
+  CHECK( 1 == table.channels().size() );
+  CHECK( "n,Fe54{2,1/2,5/2+}" == table.channels()[0] );
+  CHECK( 2 == table.numberResonances() );
+  CHECK( 2 == table.resonances().size() );
+  CHECK( 2 == table.energies().size() );
+  CHECK( 1e+5 == Approx( table.energies()[0].value ) );
+  resonance = table.resonances()[0];
+  CHECK( 1e+5 == Approx( resonance.energy().value ) );
+  CHECK( 10. == Approx( resonance.eliminatedWidth().value ) );
+  CHECK( 1 == resonance.widths().size() );
+  CHECK( 0. == Approx( resonance.widths()[0].value ) );
+  resonance = table.resonances()[1];
+  CHECK( 1.5e+5 == Approx( resonance.energy().value ) );
+  CHECK( 0. == Approx( resonance.eliminatedWidth().value ) );
+  CHECK( 1 == resonance.widths().size() );
+  CHECK( 9. == Approx( resonance.widths()[0].value ) );
 }
