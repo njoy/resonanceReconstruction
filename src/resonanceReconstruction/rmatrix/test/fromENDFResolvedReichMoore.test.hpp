@@ -191,7 +191,72 @@ SCENARIO( "fromENDF - LRF3" ) {
 
     THEN( "cross sections can be reconstructed" ) {
 
-      std::map< ReactionID, CrossSection > result = resonances( 1e-5 * electronVolt );
+      // values taken from NJOY2016 PeNDF tape for ENDF/B-VIII.0 Pu239
+
+      ReactionID elas( "n,Pu239->n,Pu239" );
+      ReactionID fiss( "n,Pu239->fission" );
+      ReactionID capt( "n,Pu239->capture" );
+      std::map< ReactionID, CrossSection > xs;
+
+      xs = resonances( 1e-5 * electronVolt );
+      CHECK( 3 == xs.size() );
+      CHECK( 8.152130 == Approx( xs[ elas ].value ) );
+      CHECK( 3.456462e+4 == Approx( xs[ fiss ].value ) );
+      CHECK( 1.284211e+4 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1e-4 * electronVolt );
+      CHECK( 3 == xs.size() );
+      CHECK( 8.151873 == Approx( xs[ elas ].value ) );
+      CHECK( 1.093649e+4 == Approx( xs[ fiss ].value ) );
+      CHECK( 4.060599e+3 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1e-3 * electronVolt );
+      CHECK( 3 == xs.size() );
+      CHECK( 8.149338 == Approx( xs[ elas ].value ) );
+      CHECK( 3.477441e+3 == Approx( xs[ fiss ].value ) );
+      CHECK( 1.282863e+3 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1e-2 * electronVolt );
+      CHECK( 3 == xs.size() );
+      CHECK( 8.120662 == Approx( xs[ elas ].value ) );
+      CHECK( 1.144071e+3 == Approx( xs[ fiss ].value ) );
+      CHECK( 4.072596e+2 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 0.0253 * electronVolt );
+      CHECK( 3 == xs.size() );
+      CHECK( 8.055773 == Approx( xs[ elas ].value ) );
+      CHECK( 7.469471e+2 == Approx( xs[ fiss ].value ) );
+      CHECK( 2.697482e+2 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1e-1 * electronVolt );
+      CHECK( 3 == xs.size() );
+      CHECK( 7.542244 == Approx( xs[ elas ].value ) );
+      CHECK( 4.771902e+2 == Approx( xs[ fiss ].value ) );
+      CHECK( 2.320353e+2 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1. * electronVolt );
+      CHECK( 3 == xs.size() );
+      CHECK( 1.015843e+1 == Approx( xs[ elas ].value ) );
+      CHECK( 3.948663e+1 == Approx( xs[ fiss ].value ) );
+      CHECK( 7.661602 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 10. * electronVolt );
+      CHECK( 3 == xs.size() );
+      CHECK( 6.422677 == Approx( xs[ elas ].value ) );
+      CHECK( 1.080674e+1 == Approx( xs[ fiss ].value ) );
+      CHECK( 4.830660 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 100. * electronVolt );
+      CHECK( 3 == xs.size() );
+      CHECK( 1.085331e+1 == Approx( xs[ elas ].value ) );
+      CHECK( 1.786214e+1 == Approx( xs[ fiss ].value ) );
+      CHECK( 3.802623e-1 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1000. * electronVolt );
+      CHECK( 3 == xs.size() );
+      CHECK( 1.813166e+1 == Approx( xs[ elas ].value ) );
+      CHECK( 2.852688 == Approx( xs[ fiss ].value ) );
+      CHECK( 6.884886e-1 == Approx( xs[ capt ].value ) );
     } // THEN
   } // GIVEN
 } // SCENARIO
