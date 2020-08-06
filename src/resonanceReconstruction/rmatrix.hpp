@@ -64,12 +64,15 @@ namespace rmatrix {
   #include "resonanceReconstruction/rmatrix/CompoundSystem.hpp"
 
   // make components from ENDF
+  #include "resonanceReconstruction/rmatrix/src/makeQuantumNumbers.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeParticlePairs.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeParticleChannels.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeChannelRadii.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeResonanceTable.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeSpinGroup.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeCompoundSystem.hpp"
+  #include "resonanceReconstruction/rmatrix/src/makeReichMooreChannelData.hpp"
+  #include "resonanceReconstruction/rmatrix/src/makeReichMooreCompoundSystem.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeLegacyUnresolvedResonanceTable.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeLegacyUnresolvedSpinGroups.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeLegacyUnresolvedCompoundSystem.hpp"

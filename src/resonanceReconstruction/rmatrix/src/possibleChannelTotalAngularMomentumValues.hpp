@@ -14,9 +14,9 @@
  */
 //template < typename Spin >
 auto
-getPossibleChannelTotalAngularMomentumValues( const OrbitalAngularMomentum& l,
-                                              const Spin& i,
-                                              const Spin& I ) {
+possibleChannelTotalAngularMomentumValues( const OrbitalAngularMomentum& l,
+                                           const Spin& i,
+                                           const Spin& I ) {
 
   TotalAngularMomentum min = std::abs( std::abs( l - I ) - i );
   TotalAngularMomentum max = l + I + i;
@@ -42,8 +42,8 @@ getPossibleChannelTotalAngularMomentumValues( const OrbitalAngularMomentum& l,
  *  @return the possible values for the total angular momentum of the channel
  */
 auto
-getPossibleChannelTotalAngularMomentumValues( const OrbitalAngularMomentum& l,
-                                              const Spin& s ) {
+possibleChannelTotalAngularMomentumValues( const OrbitalAngularMomentum& l,
+                                           const Spin& s ) {
 
   TotalAngularMomentum min = std::abs(l - s);
   TotalAngularMomentum max = l + s;
