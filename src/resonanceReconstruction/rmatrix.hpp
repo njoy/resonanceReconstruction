@@ -44,8 +44,13 @@ namespace rmatrix {
   #include "resonanceReconstruction/rmatrix/ChannelQuantumNumbers.hpp"
   #include "resonanceReconstruction/rmatrix/ChannelRadii.hpp"
   #include "resonanceReconstruction/rmatrix/Channel.hpp"
+
+  // resolved resonance information
   #include "resonanceReconstruction/rmatrix/Resonance.hpp"
   #include "resonanceReconstruction/rmatrix/ResonanceTable.hpp"
+
+  // legacy resonance reconstruction
+  #include "resonanceReconstruction/rmatrix/legacy.hpp"
 
   // R-Matrix formalism options
   struct ReichMoore {};
@@ -59,16 +64,21 @@ namespace rmatrix {
   // make components from ENDF
   #include "resonanceReconstruction/rmatrix/src/makeParticlePairs.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeParticleChannels.hpp"
+  #include "resonanceReconstruction/rmatrix/src/makeChannelRadii.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeResonanceTable.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeSpinGroup.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeCompoundSystem.hpp"
+  #include "resonanceReconstruction/rmatrix/src/makeLegacyUnresolvedResonanceTable.hpp"
+  #include "resonanceReconstruction/rmatrix/src/makeLegacyUnresolvedSpinGroups.hpp"
+  #include "resonanceReconstruction/rmatrix/src/makeLegacyUnresolvedCompoundSystem.hpp"
 
   // make the compound system variant from ENDF
   using CompoundSystemVariant =
       std::variant< CompoundSystem< ReichMoore, ShiftFactor >,
-                    CompoundSystem< ReichMoore, Constant >/*,
-                    CompoundSystem< GeneralRMatrix, ShiftFactor >,
-                    CompoundSystem< GeneralRMatrix, Constant >*/ >;
+                    CompoundSystem< ReichMoore, Constant >,
+                    //CompoundSystem< GeneralRMatrix, ShiftFactor >,
+                    //CompoundSystem< GeneralRMatrix, Constant >,
+                    legacy::unresolved::CompoundSystem >;
   #include "resonanceReconstruction/rmatrix/Reconstructor.hpp"
   #include "resonanceReconstruction/rmatrix/src/fromENDF.hpp"
 }

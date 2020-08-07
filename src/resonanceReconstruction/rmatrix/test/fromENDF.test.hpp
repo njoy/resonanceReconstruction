@@ -15,7 +15,7 @@ SCENARIO( "fromENDF" ) {
     njoy::ENDFtk::section::Type< 2, 151 > endf( head, begin, end, lineNumber, 2625 );
     ResonanceRange endfResonanceRange = endf.isotopes().front().resonanceRanges().front();
 
-    auto resonances = fromENDF( endfResonanceRange, neutronMass, elementaryCharge );
+    auto resonances = fromENDF( endfResonanceRange, neutronMass, elementaryCharge, ParticleID( "n" ), ParticleID( "Fe54" ) );
 
     THEN( "the appropriate CompoundSystem is returned" ) {
 
@@ -376,7 +376,7 @@ SCENARIO( "fromENDF" ) {
     njoy::ENDFtk::section::Type< 2, 151 > endf( head, begin, end, lineNumber, 2025 );
     ResonanceRange endfResonanceRange = endf.isotopes().front().resonanceRanges().front();
 
-    auto resonances = fromENDF( endfResonanceRange, neutronMass, elementaryCharge );
+    auto resonances = fromENDF( endfResonanceRange, neutronMass, elementaryCharge, ParticleID( "n" ), ParticleID( "Fe54" ) );
 
     THEN( "the appropriate CompoundSystem is returned" ) {
 

@@ -5,7 +5,6 @@
  *  penetrability is 1.0.
  */
 template < typename Type >
-inline
 double calculatePenetrability( const unsigned int, const double, const double ) {
 
   return 1.0;
@@ -21,7 +20,6 @@ double calculatePenetrability( const unsigned int, const double, const double ) 
  *  @param[in] ratio   the value of rho = ka
  */
 template <>
-inline
 double calculatePenetrability< Neutron >( const unsigned int l,
                                           const double ratio,
                                           const double  ) {
@@ -40,7 +38,6 @@ double calculatePenetrability< Neutron >( const unsigned int l,
  *  @param[in] eta     the Sommerfeld parameter
  */
 template <>
-inline
 double calculatePenetrability< ChargedParticle >( const unsigned int l,
                                                   const double ratio,
                                                   const double eta ) {

@@ -1,4 +1,4 @@
-inline unsigned int
+unsigned int
 findParticlePairForReaction(
     const ENDF::resolved::RMatrixLimited::ParticlePairs& endfPairs,
     int mt ) {
@@ -11,21 +11,21 @@ findParticlePairForReaction(
   return std::distance( ranges::begin( reactions ), found );
 }
 
-inline unsigned int
+unsigned int
 incident( const ENDF::resolved::RMatrixLimited::ParticlePairs& endfPairs ) {
 
   // the incident particle pair is the one associated with mt2
   return findParticlePairForReaction( endfPairs, 2 );
 }
 
-inline unsigned int
+unsigned int
 eliminated( const ENDF::resolved::RMatrixLimited::ParticlePairs& endfPairs ) {
 
   // the incident particle pair is the one associated with mt102
   return findParticlePairForReaction( endfPairs, 102 );
 }
 
-inline std::vector< ParticlePair >
+std::vector< ParticlePair >
 makeParticlePairs( const ENDF::resolved::RMatrixLimited::ParticlePairs& endfPairs,
                    const AtomicMass& neutronMass,
                    const ElectricalCharge& elementaryCharge ) {

@@ -1,5 +1,5 @@
 template < typename Formalism, typename BoundaryOption >
-inline CompoundSystem< Formalism, BoundaryOption >
+CompoundSystem< Formalism, BoundaryOption >
 makeCompoundSystem(
     const ENDF::resolved::RMatrixLimited& endfRMatrix,
     const AtomicMass& neutronMass,

@@ -1,4 +1,4 @@
-inline std::vector< ParticleChannel >
+std::vector< ParticleChannel >
 makeParticleChannels(
     const ParticlePair& incident,
     const std::vector< ParticlePair >& pairs,

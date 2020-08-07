@@ -13,7 +13,7 @@
  *  @return the possible values for the total angular momentum of the channel
  */
 //template < typename Spin >
-inline auto
+auto
 getPossibleChannelTotalAngularMomentumValues( const OrbitalAngularMomentum& l,
                                               const Spin& i,
                                               const Spin& I ) {
@@ -41,7 +41,7 @@ getPossibleChannelTotalAngularMomentumValues( const OrbitalAngularMomentum& l,
  *
  *  @return the possible values for the total angular momentum of the channel
  */
-inline auto
+auto
 getPossibleChannelTotalAngularMomentumValues( const OrbitalAngularMomentum& l,
                                               const Spin& s ) {
 
@@ -49,7 +49,7 @@ getPossibleChannelTotalAngularMomentumValues( const OrbitalAngularMomentum& l,
   TotalAngularMomentum max = l + s;
   std::vector< TotalAngularMomentum > values = { min };
   while ( max > values.back() ) {
-    
+
     values.push_back( values.back() + 1.0 );
   }
   return values;

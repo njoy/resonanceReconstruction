@@ -33,6 +33,17 @@ public:
   const Energy& upperEnergy() const { return this->upper_; }
 
   /**
+   *  @brief Return the minimal energy grid derived from the resonance
+   *         parameters
+   */
+  std::vector< Energy > grid() const {
+
+    return std::visit( [&] ( auto& system )
+                           { return system.grid(); },
+                       this->system_ );
+  }
+
+  /**
    *  @brief Reconstruct the cross sections at the given energy
    */
   std::map< ReactionID, CrossSection > operator()( const Energy& energy ) {

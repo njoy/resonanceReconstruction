@@ -1,4 +1,4 @@
-inline ResonanceTable
+ResonanceTable
 makeResonanceTable(
     const std::vector< ParticleChannel > channels,
     const ENDF::resolved::RMatrixLimited::ResonanceParameters& endfParameters,
