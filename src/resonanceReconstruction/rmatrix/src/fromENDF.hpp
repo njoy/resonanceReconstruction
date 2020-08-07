@@ -5,10 +5,10 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
           const ParticleID& incident,
           const ParticleID& target ) {
 
-  auto lower = endfResonanceRange.lowerEnergy();
-  auto upper = endfResonanceRange.upperEnergy();
-  auto nro = endfResonanceRange.energyDependentScatteringRadius();
-  auto naps = endfResonanceRange.scatteringRadiusCalculationOption();
+  const auto lower = endfResonanceRange.lowerEnergy();
+  const auto upper = endfResonanceRange.upperEnergy();
+  const auto nro = endfResonanceRange.energyDependentScatteringRadius();
+  const auto naps = endfResonanceRange.scatteringRadiusCalculationOption();
 
   switch ( endfResonanceRange.type() ) {
 
