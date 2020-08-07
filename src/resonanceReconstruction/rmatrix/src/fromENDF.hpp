@@ -1,7 +1,14 @@
-inline Reconstructor
+Reconstructor
 fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
           const AtomicMass& neutronMass,
-          const ElectricalCharge& elementaryCharge ) {
+          const ElectricalCharge& elementaryCharge,
+          const ParticleID& incident,
+          const ParticleID& target ) {
+
+  const auto lower = endfResonanceRange.lowerEnergy();
+  const auto upper = endfResonanceRange.upperEnergy();
+  const auto nro = endfResonanceRange.energyDependentScatteringRadius();
+  const auto naps = endfResonanceRange.scatteringRadiusCalculationOption();
 
   switch ( endfResonanceRange.type() ) {
 
@@ -32,8 +39,8 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
               if ( shiftFactorBoundary ) {
 
                 return Reconstructor(
-                           endfResonanceRange.lowerEnergy() * electronVolt,
-                           endfResonanceRange.upperEnergy() * electronVolt,
+                           lower * electronVolt,
+                           upper * electronVolt,
                            makeCompoundSystem( endfRMatrix,
                                                neutronMass, elementaryCharge,
                                                ReichMoore(), ShiftFactor() ) );
@@ -41,8 +48,8 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
               else {
 
                 return Reconstructor(
-                           endfResonanceRange.lowerEnergy() * electronVolt,
-                           endfResonanceRange.upperEnergy() * electronVolt,
+                           lower * electronVolt,
+                           upper * electronVolt,
                            makeCompoundSystem( endfRMatrix,
                                                neutronMass, elementaryCharge,
                                                ReichMoore(), Constant() ) );
@@ -84,11 +91,64 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
         }
       }
     }
+    // unresolved resonances
+    case 2 : {
+
+      if ( nro ) {
+
+        throw std::runtime_error( "Energy dependent scattering radii have not "
+                                  "been implemented" );
+      }
+
+      switch ( endfResonanceRange.parameters().index() ) {
+
+        case 5: {
+
+          auto endfEnergyIndependent =
+            std::get< ENDF::unresolved::EnergyIndependent >( endfResonanceRange.parameters() );
+          return Reconstructor(
+                     lower * electronVolt,
+                     upper * electronVolt,
+                     makeLegacyUnresolvedCompoundSystem(
+                         endfEnergyIndependent,
+                         neutronMass, elementaryCharge,
+                         incident, target, naps, lower, upper ) );
+        }
+        case 6: {
+
+          auto endfEnergyDependentFission =
+            std::get< ENDF::unresolved::EnergyDependentFissionWidths >( endfResonanceRange.parameters() );
+          return Reconstructor(
+                     lower * electronVolt,
+                     upper * electronVolt,
+                     makeLegacyUnresolvedCompoundSystem(
+                         endfEnergyDependentFission,
+                         neutronMass, elementaryCharge,
+                         incident, target, naps, lower, upper ) );
+        }
+        case 7: {
+
+          auto endfEnergyDependent =
+            std::get< ENDF::unresolved::EnergyDependent >( endfResonanceRange.parameters() );
+          return Reconstructor(
+                     lower * electronVolt,
+                     upper * electronVolt,
+                     makeLegacyUnresolvedCompoundSystem(
+                         endfEnergyDependent,
+                         neutronMass, elementaryCharge,
+                         incident, target, naps, lower, upper ) );
+        }
+        default : {
+
+          throw std::runtime_error( "You somehow reached unreachable code" );
+        }
+      }
+    }
     // special case and unresolved resonances
     default : {
 
       throw std::runtime_error( "fromENDF is not implemented for the special "
-                                "case or unresolved resonances" );
+                                "case" );
     }
   }
 }

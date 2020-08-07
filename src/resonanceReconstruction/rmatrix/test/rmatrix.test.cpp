@@ -18,3 +18,4 @@ constexpr ElectricalCharge elementaryCharge = 1.602e-19 * coulomb;
 #include "resonanceReconstruction/rmatrix/test/possibleChannelSpinValues.test.hpp"
 #include "resonanceReconstruction/rmatrix/test/calculateCoulombPhaseShift.test.hpp"
 #include "resonanceReconstruction/rmatrix/test/fromENDF.test.hpp"
+#include "resonanceReconstruction/rmatrix/test/fromENDFUnresolved.test.hpp"

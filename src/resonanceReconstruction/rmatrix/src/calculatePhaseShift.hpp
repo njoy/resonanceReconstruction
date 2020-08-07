@@ -5,7 +5,6 @@
  *  shift factor is 0.0.
  */
 template < typename Type >
-inline
 double calculatePhaseShift( const unsigned int, const double, const double ) {
 
   return 0.0;
@@ -21,7 +20,6 @@ double calculatePhaseShift( const unsigned int, const double, const double ) {
  *  @param[in] ratio   the value of rho = ka
  */
 template <>
-inline
 double calculatePhaseShift< Neutron >( const unsigned int l,
                                        const double ratio,
                                        const double ) {
@@ -40,7 +38,6 @@ double calculatePhaseShift< Neutron >( const unsigned int l,
  *  @param[in] eta     the Sommerfeld parameter
  */
 template <>
-inline
 double calculatePhaseShift< ChargedParticle >( const unsigned int l,
                                                const double ratio,
                                                const double eta ) {

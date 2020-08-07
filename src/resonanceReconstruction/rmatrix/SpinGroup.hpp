@@ -109,4 +109,5 @@ public:
   //#include "resonanceReconstruction/rmatrix/SpinGroup/src/switchIncidentPair.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/evaluate.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/evaluateTMatrix.hpp"
+  #include "resonanceReconstruction/rmatrix/SpinGroup/src/grid.hpp"
 };

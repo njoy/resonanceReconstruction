@@ -2,6 +2,7 @@
 #define NJOY_RESONANCE_RECONSTRUCTION
 
 #include <complex>
+#include <iterator>
 
 #include "ENDFtk.hpp"
 #include "interpolation.hpp"
@@ -76,11 +77,14 @@ using AtomicMass = Quantity< Dalton >;
 using CrossSection = Quantity< Barn >;
 using ElectricalCharge = Quantity< Coulomb >;
 using Energy = Quantity< ElectronVolt >;
+using LevelSpacing = Quantity< ElectronVolt >;
 using QValue = Quantity< ElectronVolt >;
 using WaveNumber = Quantity< InvRootBarn >;
 using ChannelRadius = Quantity< RootBarn >;
 using EtaParameter = Quantity< CoulombSquaredSecondPerMeter >;
+using Width = Quantity< ElectronVolt >;
 using ReducedWidth = Quantity< RootElectronVolt >;
+using FluctuationIntegral = Quantity< InvElectronVolt >;
 
 #include "resonanceReconstruction/rmatrix.hpp"
 }

@@ -1,6 +1,6 @@
 /**
  *  @class
- *  @brief Resonance parameters
+ *  @brief Resolved resonance parameters
  *
  *  The Resonance class contains the reduced widths (given in sqrt(eV)) for a
  *  number of channels. This class is both compatible with the general R matrix
