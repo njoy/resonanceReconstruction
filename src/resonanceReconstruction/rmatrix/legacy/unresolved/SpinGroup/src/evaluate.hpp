@@ -9,7 +9,8 @@ void evaluate( const Energy& energy,
 
   // data we need: k, P, phi, rho, g_J
   const auto channel = this->incidentChannel();
-  const auto incident = channel.particlePair().pairID();
+  const auto incident = channel.particlePair().particle().particleID();
+  const auto target = channel.particlePair().residual().particleID();
   const auto waveNumber = channel.waveNumber( energy );
   const auto penetrability = channel.penetrability( energy );
   const auto phaseShift = channel.phaseShift( energy );
@@ -39,16 +40,16 @@ void evaluate( const Energy& energy,
 
 
   // calculate the resulting cross sections
-  result[ ReactionID( incident, incident ) ] +=
+  result[ ReactionID( incident, target, elementary::ReactionType( "elastic" ) ) ] +=
            factor * ( spinFactor / spacing *
              ( widths.elastic * widths.elastic * integrals.elastic
                - 2. * widths.elastic * sin2phi ) );
-  result[ ReactionID( incident.symbol() + "->capture" ) ] +=
+  result[ ReactionID( incident, target, elementary::ReactionType( "capture" ) ) ] +=
            factor * spinFactor / spacing *
              ( widths.elastic * widths.capture * integrals.capture );
   if ( widths.hasFission() ) {
 
-    result[ ReactionID( incident.symbol() + "->fission" ) ] +=
+    result[ ReactionID( incident, target, elementary::ReactionType( "fission" ) ) ] +=
              factor * spinFactor / spacing *
                ( widths.elastic * widths.fission * integrals.fission );
   }
