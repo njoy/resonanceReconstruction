@@ -18,10 +18,12 @@ SCENARIO( "Resonance" ) {
     Width capture = 2. * electronVolt;
     Width fission = .5 * electronVolt;
     Width total = 5. * electronVolt;
+    double p = 2.;
+    double s = -1.;
 
     THEN( "an Resonance can be constructed" ) {
 
-      Resonance resonance( energy, total, elastic, capture, fission );
+      Resonance resonance( energy, total, elastic, capture, fission, p, s );
 
       CHECK( 1000. == Approx( resonance.energy().value ) );
 
@@ -29,9 +31,13 @@ SCENARIO( "Resonance" ) {
       CHECK( 2. == Approx( resonance.capture().value ) );
       CHECK( .5 == Approx( resonance.fission().value ) );
       CHECK( 5. == Approx( resonance.total().value ) );
+      CHECK( 2. == Approx( resonance.penetrability() ) );
+      CHECK( -1. == Approx( resonance.shiftfactor() ) );
 
-      CHECK( .5 == Approx( resonance.elastic( 0.5 ).value ) );
-      CHECK( 2. == Approx( resonance.competition( 0.5 ).value ) );
+      CHECK( 1000.25 == Approx( resonance.energyPrime( 0.5, -2. ).value ) );
+
+      CHECK( .25 == Approx( resonance.elastic( 0.5 ).value ) );
+      CHECK( 2.25 == Approx( resonance.competition( 0.5 ).value ) );
     } // THEN
   } // GIVEN
 } // SCENARIO

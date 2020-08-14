@@ -11,10 +11,15 @@ Resonance( const Energy& energy,
            const Width& total,
            const Width& elastic,
            const Width& capture,
-           const Width& fission ) :
+           const Width& fission,
+           double penetrability,
+           double shiftfactor ) :
     energy_( energy ),
     total_( total ),
     elastic_( elastic ),
     capture_( capture ),
     fission_( fission ),
+    elastic_to_penetrability_( elastic / penetrability ),
+    penetrability_( penetrability ),
+    shiftfactor_( shiftfactor ),
     delta_( total - capture - fission ) {}

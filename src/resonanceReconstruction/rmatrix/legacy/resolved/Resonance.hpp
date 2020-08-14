@@ -28,6 +28,9 @@ class Resonance {
   Width capture_;
   Width fission_;
 
+  Width elastic_to_penetrability_;
+  double penetrability_;
+  double shiftfactor_;
   Width delta_;
 
 public:
@@ -41,38 +44,61 @@ public:
   const Energy& energy() const { return this->energy_; }
 
   /**
-   *  @brief Return the elastic width (in sqrt(eV))
+   *  @brief Return the elastic width (in eV)
    */
   const Width& elastic() const { return this->elastic_; }
 
   /**
-   *  @brief Return the elastic width (in sqrt(eV))
-   */
-  Width elastic( double penetrability ) const {
-
-    return this->elastic() * penetrability;
-  }
-
-  /**
-   *  @brief Return the capture width (in sqrt(eV))
+   *  @brief Return the capture width (in eV)
    */
   const Width& capture() const { return this->capture_; }
 
   /**
-   *  @brief Return the fission width (in sqrt(eV))
+   *  @brief Return the fission width (in eV)
    */
   const Width& fission() const { return this->fission_; }
 
   /**
-   *  @brief Return the total width (in sqrt(eV))
+   *  @brief Return the total width (in eV)
    */
   const Width& total() const { return this->total_; }
 
   /**
-   *  @brief Return the competitive width (in sqrt(eV))
+   *  @brief Return the neutron penetrability at the resonance energy
+   */
+  double penetrability() const { return this->penetrability_; }
+
+  /**
+   *  @brief Return the neutron shift factor at the resonance energy
+   */
+  double shiftfactor() const { return this->shiftfactor_; }
+
+  /**
+   *  @brief Return the elastic width (in eV)
+   */
+  Width elastic( double penetrability ) const {
+
+    return penetrability * this->elastic_to_penetrability_;
+  }
+
+  /**
+   *  @brief Return the primed resonance energy
+   *
+   *  The primed resonance energy is defined as:
+   *    Eprime = Er + ( S(Er) - S(E) ) / ( 2 * P(Er) ) * GN
+   */
+  Energy energyPrime( double penetrability, double shiftfactor ) const {
+
+    return this->energy()
+           + ( this->shiftfactor() - shiftfactor ) / 2.
+             * this->elastic_to_penetrability_;
+  }
+
+  /**
+   *  @brief Return the competitive width (in eV)
    */
   Width competition( double penetrability ) const {
 
-    return this->delta_ - this->elastic( penetrability );
+    return this->delta_ - this->elastic_to_penetrability_ * penetrability;
   }
 };
