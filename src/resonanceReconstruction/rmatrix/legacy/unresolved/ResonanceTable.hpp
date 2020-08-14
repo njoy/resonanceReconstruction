@@ -1,6 +1,6 @@
 /**
  *  @class
- *  @brief Unresolved resonance parameters for a specific J,pi or l,J value
+ *  @brief Unresolved resonance parameters for a specific l,J value
  *
  *  Since it is required to interpolate on the resonance parameters, this
  *  class also stores interpolation tables to provide unresolved resonances
@@ -13,7 +13,7 @@
  *
  *  @todo we currently only assume linear interpolation on the parameters
  */
-class ResonanceTable {
+class ResonanceTable : protected ResonanceTableBase< Resonance > {
 
   /* aliases */
   template < typename XType, typename YType >
@@ -30,7 +30,6 @@ class ResonanceTable {
   using WidthTable = Table< Energy, Width >;
 
   /* fields */
-  std::vector< Resonance > widths_;
   Degrees degrees_;
   LevelSpacingTable level_spacing_table_;
   ReducedWidthTable elastic_table_;
@@ -46,25 +45,9 @@ public:
 
   /* methods */
 
-  /**
-   *  @brief Return the number of resonances
-   */
-  unsigned int numberResonances() const { return this->widths_.size(); }
-
-  /**
-   *  @brief Return the resonances
-   */
-  auto resonances() const { return ranges::view::all( this->widths_ ); }
-
-  /**
-   *  @brief Return the resonance energies
-   */
-  auto energies() const {
-
-    return this->resonances()
-             | ranges::view::transform( [] ( const auto& resonance )
-                                           { return resonance.energy(); } );
-  }
+  using ResonanceTableBase::numberResonances;
+  using ResonanceTableBase::resonances;
+  using ResonanceTableBase::energies;
 
   /**
    *  @brief Return the degrees of freedom for each channel

@@ -7,7 +7,7 @@ ResonanceTable( std::vector< Resonance >&& resonances,
                 Degrees&& degrees,
                 std::tuple< LevelSpacingTable, ReducedWidthTable,
                             WidthTable, WidthTable, WidthTable >&& tables ) :
-    widths_( std::move( resonances ) ),
+    ResonanceTableBase( std::move( resonances ) ),
     degrees_( std::move( degrees ) ),
     level_spacing_table_( std::move( std::get< 0 >( tables ) ) ),
     elastic_table_( std::move( std::get< 1 >( tables ) ) ),
@@ -15,7 +15,7 @@ ResonanceTable( std::vector< Resonance >&& resonances,
     fission_table_( std::move( std::get< 3 >( tables ) ) ),
     competition_table_( std::move( std::get< 4 >( tables ) ) ) {
 
-    verifyTable( this->widths_, this->degrees_ );
+    verifyTable( this->resonances(), this->degrees_ );
 }
 
 public:
