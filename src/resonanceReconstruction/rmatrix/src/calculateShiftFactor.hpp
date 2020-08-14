@@ -29,21 +29,21 @@ double calculateShiftFactor< Neutron >( const unsigned int l,
 
       constexpr std::array< double, 2 > numerator = {{ 18., 3. }};
       constexpr std::array< double, 3 > denominator = {{ 9., 3., 1. }};
-      return -horner( std::rbegin( denominator ), std::rend( denominator ), squared )
+      return -horner( std::rbegin( numerator ), std::rend( numerator ), squared )
              / horner( std::rbegin( denominator ), std::rend( denominator ), squared );
     }
     case 3 : {
 
       constexpr std::array< double, 3 > numerator = {{ 675., 90., 6. }};
       constexpr std::array< double, 4 > denominator = {{ 225., 45., 6., 1. }};
-      return -horner( std::rbegin( denominator ), std::rend( denominator ), squared )
+      return -horner( std::rbegin( numerator ), std::rend( numerator ), squared )
              / horner( std::rbegin( denominator ), std::rend( denominator ), squared );
     }
     case 4 : {
 
       constexpr std::array< double, 4 > numerator = {{ 44100., 4725., 270., 10. }};
       constexpr std::array< double, 5 > denominator = {{ 11025., 1575., 135., 10., 1. }};
-      return -horner( std::rbegin( denominator ), std::rend( denominator ), squared )
+      return -horner( std::rbegin( numerator ), std::rend( numerator ), squared )
              / horner( std::rbegin( denominator ), std::rend( denominator ), squared );
     }
     default : throw std::exception();

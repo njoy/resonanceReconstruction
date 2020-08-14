@@ -1,53 +1,114 @@
-SCENARIO("phase shift"){
-
-  auto trial =
-    ranges::view::cartesian_product
-    ( ranges::view::iota(0,5), ranges::view::linear_distribute( 0., 5., 21 ) )
-    | ranges::view::transform
-      ( []( auto&& tuple ){
-          return calculatePhaseShift< Neutron >( std::get<0>(tuple), std::get<1>(tuple), 0. ); } );
+SCENARIO( "Approx( calculatePhaseShift< Neutron >" ) {
 
   /* reference values generated using openMC */
-  std::vector< double > reference =
-    { 0.00000000e+00,   2.50000000e-01,   5.00000000e-01,
-      7.50000000e-01,   1.00000000e+00,   1.25000000e+00,
-      1.50000000e+00,   1.75000000e+00,   2.00000000e+00,
-      2.25000000e+00,   2.50000000e+00,   2.75000000e+00,
-      3.00000000e+00,   3.25000000e+00,   3.50000000e+00,
-      3.75000000e+00,   4.00000000e+00,   4.25000000e+00,
-      4.50000000e+00,   4.75000000e+00,   5.00000000e+00,
-      0.00000000e+00,   5.02133687e-03,   3.63523910e-02,
-      1.06498891e-01,   2.14601837e-01,   3.53944615e-01,
-      5.17206277e-01,   6.98349787e-01,   8.92851282e-01,
-      1.09742800e+00,   1.30971005e+00,   1.52797468e+00,
-      1.75095423e+00,   1.97770260e+00,   2.20750333e+00,
-      2.43980606e+00,   2.67418234e+00,   2.91029434e+00,
-      3.14787262e+00,   3.38669990e+00,   3.62659923e+00,
-      0.00000000e+00,   2.13785392e-05,   6.53278320e-04,
-      4.58052373e-03,   1.72062768e-02,   4.52601891e-02,
-      9.43523506e-02,   3.30889213e+00,   3.40564765e+00,
-      3.52425052e+00,   3.66188850e+00,   3.81562957e+00,
-      3.98279372e+00,   4.16108590e+00,   4.34860500e+00,
-      4.54380133e+00,   4.74541948e+00,   4.95244291e+00,
-      5.16404616e+00,   5.37955573e+00,   5.59841889e+00,
-      0.00000000e+00,   3.83769956e-08,   4.76998017e-06,
-      7.75521600e-05,   5.41153039e-04,   2.34892684e-03,
-      7.47481373e-03,   3.16062454e+00,   3.18247761e+00,
-      3.21842001e+00,   3.27131459e+00,   3.34261796e+00,
-      3.43240778e+00,   3.53973721e+00,   3.66306896e+00,
-      3.80063236e+00,   3.95065737e+00,   4.11150150e+00,
-      4.28170391e+00,   4.45999668e+00,   4.64529435e+00,
-      0.00000000e+00,   3.81649157e-11,   1.91155158e-08,
-      7.08286632e-07,   8.95511133e-06,   6.23543793e-05,
-      2.95783197e-04,   3.14266269e+00,   3.14474854e+00,
-      3.14951084e+00,   3.15898978e+00,   3.17577624e+00,
-      3.20265867e+00,   3.24214980e+00,   3.29607971e+00,
-      3.36539892e+00,   3.45021214e+00,   3.54996339e+00,
-      3.66366906e+00,   3.79012636e+00,   3.92806707e+00 };
 
-  RANGES_FOR( const auto pair, ranges::view::zip( trial, reference ) ){
-    const auto trial = std::get<0>(pair);
-    const auto reference = std::get<1>(pair);
-    REQUIRE( trial == Approx( reference ) );
-  }
+  CHECK( 0.00 == Approx( calculatePhaseShift< Neutron >( 0, 0.00, 0. ) ) );
+  CHECK( 0.25 == Approx( calculatePhaseShift< Neutron >( 0, 0.25, 0. ) ) );
+  CHECK( 0.50 == Approx( calculatePhaseShift< Neutron >( 0, 0.50, 0. ) ) );
+  CHECK( 0.75 == Approx( calculatePhaseShift< Neutron >( 0, 0.75, 0. ) ) );
+  CHECK( 1.00 == Approx( calculatePhaseShift< Neutron >( 0, 1.00, 0. ) ) );
+  CHECK( 1.25 == Approx( calculatePhaseShift< Neutron >( 0, 1.25, 0. ) ) );
+  CHECK( 1.50 == Approx( calculatePhaseShift< Neutron >( 0, 1.50, 0. ) ) );
+  CHECK( 1.75 == Approx( calculatePhaseShift< Neutron >( 0, 1.75, 0. ) ) );
+  CHECK( 2.00 == Approx( calculatePhaseShift< Neutron >( 0, 2.00, 0. ) ) );
+  CHECK( 2.25 == Approx( calculatePhaseShift< Neutron >( 0, 2.25, 0. ) ) );
+  CHECK( 2.50 == Approx( calculatePhaseShift< Neutron >( 0, 2.50, 0. ) ) );
+  CHECK( 2.75 == Approx( calculatePhaseShift< Neutron >( 0, 2.75, 0. ) ) );
+  CHECK( 3.00 == Approx( calculatePhaseShift< Neutron >( 0, 3.00, 0. ) ) );
+  CHECK( 3.25 == Approx( calculatePhaseShift< Neutron >( 0, 3.25, 0. ) ) );
+  CHECK( 3.50 == Approx( calculatePhaseShift< Neutron >( 0, 3.50, 0. ) ) );
+  CHECK( 3.75 == Approx( calculatePhaseShift< Neutron >( 0, 3.75, 0. ) ) );
+  CHECK( 4.00 == Approx( calculatePhaseShift< Neutron >( 0, 4.00, 0. ) ) );
+  CHECK( 4.25 == Approx( calculatePhaseShift< Neutron >( 0, 4.25, 0. ) ) );
+  CHECK( 4.50 == Approx( calculatePhaseShift< Neutron >( 0, 4.50, 0. ) ) );
+  CHECK( 4.75 == Approx( calculatePhaseShift< Neutron >( 0, 4.75, 0. ) ) );
+  CHECK( 5.00 == Approx( calculatePhaseShift< Neutron >( 0, 5.00, 0. ) ) );
+
+  CHECK( 0.00000000e+00 == Approx( calculatePhaseShift< Neutron >( 1, 0.00, 0. ) ) );
+  CHECK( 5.02133687e-03 == Approx( calculatePhaseShift< Neutron >( 1, 0.25, 0. ) ) );
+  CHECK( 3.63523910e-02 == Approx( calculatePhaseShift< Neutron >( 1, 0.50, 0. ) ) );
+  CHECK( 1.06498891e-01 == Approx( calculatePhaseShift< Neutron >( 1, 0.75, 0. ) ) );
+  CHECK( 2.14601837e-01 == Approx( calculatePhaseShift< Neutron >( 1, 1.00, 0. ) ) );
+  CHECK( 3.53944615e-01 == Approx( calculatePhaseShift< Neutron >( 1, 1.25, 0. ) ) );
+  CHECK( 5.17206277e-01 == Approx( calculatePhaseShift< Neutron >( 1, 1.50, 0. ) ) );
+  CHECK( 6.98349787e-01 == Approx( calculatePhaseShift< Neutron >( 1, 1.75, 0. ) ) );
+  CHECK( 8.92851282e-01 == Approx( calculatePhaseShift< Neutron >( 1, 2.00, 0. ) ) );
+  CHECK( 1.09742800e+00 == Approx( calculatePhaseShift< Neutron >( 1, 2.25, 0. ) ) );
+  CHECK( 1.30971005e+00 == Approx( calculatePhaseShift< Neutron >( 1, 2.50, 0. ) ) );
+  CHECK( 1.52797468e+00 == Approx( calculatePhaseShift< Neutron >( 1, 2.75, 0. ) ) );
+  CHECK( 1.75095423e+00 == Approx( calculatePhaseShift< Neutron >( 1, 3.00, 0. ) ) );
+  CHECK( 1.97770260e+00 == Approx( calculatePhaseShift< Neutron >( 1, 3.25, 0. ) ) );
+  CHECK( 2.20750333e+00 == Approx( calculatePhaseShift< Neutron >( 1, 3.50, 0. ) ) );
+  CHECK( 2.43980606e+00 == Approx( calculatePhaseShift< Neutron >( 1, 3.75, 0. ) ) );
+  CHECK( 2.67418234e+00 == Approx( calculatePhaseShift< Neutron >( 1, 4.00, 0. ) ) );
+  CHECK( 2.91029434e+00 == Approx( calculatePhaseShift< Neutron >( 1, 4.25, 0. ) ) );
+  CHECK( 3.14787262e+00 == Approx( calculatePhaseShift< Neutron >( 1, 4.50, 0. ) ) );
+  CHECK( 3.38669990e+00 == Approx( calculatePhaseShift< Neutron >( 1, 4.75, 0. ) ) );
+  CHECK( 3.62659923e+00 == Approx( calculatePhaseShift< Neutron >( 1, 5.00, 0. ) ) );
+
+  CHECK( 0.00000000e+00 == Approx( calculatePhaseShift< Neutron >( 2, 0.00, 0. ) ) );
+  CHECK( 2.13785392e-05 == Approx( calculatePhaseShift< Neutron >( 2, 0.25, 0. ) ) );
+  CHECK( 6.53278320e-04 == Approx( calculatePhaseShift< Neutron >( 2, 0.50, 0. ) ) );
+  CHECK( 4.58052373e-03 == Approx( calculatePhaseShift< Neutron >( 2, 0.75, 0. ) ) );
+  CHECK( 1.72062768e-02 == Approx( calculatePhaseShift< Neutron >( 2, 1.00, 0. ) ) );
+  CHECK( 4.52601891e-02 == Approx( calculatePhaseShift< Neutron >( 2, 1.25, 0. ) ) );
+  CHECK( 9.43523506e-02 == Approx( calculatePhaseShift< Neutron >( 2, 1.50, 0. ) ) );
+  CHECK( 3.30889213e+00 == Approx( calculatePhaseShift< Neutron >( 2, 1.75, 0. ) ) );
+  CHECK( 3.40564765e+00 == Approx( calculatePhaseShift< Neutron >( 2, 2.00, 0. ) ) );
+  CHECK( 3.52425052e+00 == Approx( calculatePhaseShift< Neutron >( 2, 2.25, 0. ) ) );
+  CHECK( 3.66188850e+00 == Approx( calculatePhaseShift< Neutron >( 2, 2.50, 0. ) ) );
+  CHECK( 3.81562957e+00 == Approx( calculatePhaseShift< Neutron >( 2, 2.75, 0. ) ) );
+  CHECK( 3.98279372e+00 == Approx( calculatePhaseShift< Neutron >( 2, 3.00, 0. ) ) );
+  CHECK( 4.16108590e+00 == Approx( calculatePhaseShift< Neutron >( 2, 3.25, 0. ) ) );
+  CHECK( 4.34860500e+00 == Approx( calculatePhaseShift< Neutron >( 2, 3.50, 0. ) ) );
+  CHECK( 4.54380133e+00 == Approx( calculatePhaseShift< Neutron >( 2, 3.75, 0. ) ) );
+  CHECK( 4.74541948e+00 == Approx( calculatePhaseShift< Neutron >( 2, 4.00, 0. ) ) );
+  CHECK( 4.95244291e+00 == Approx( calculatePhaseShift< Neutron >( 2, 4.25, 0. ) ) );
+  CHECK( 5.16404616e+00 == Approx( calculatePhaseShift< Neutron >( 2, 4.50, 0. ) ) );
+  CHECK( 5.37955573e+00 == Approx( calculatePhaseShift< Neutron >( 2, 4.75, 0. ) ) );
+  CHECK( 5.59841889e+00 == Approx( calculatePhaseShift< Neutron >( 2, 5.00, 0. ) ) );
+
+  CHECK( 0.00000000e+00 == Approx( calculatePhaseShift< Neutron >( 3, 0.00, 0. ) ) );
+  CHECK( 3.83769956e-08 == Approx( calculatePhaseShift< Neutron >( 3, 0.25, 0. ) ) );
+  CHECK( 4.76998017e-06 == Approx( calculatePhaseShift< Neutron >( 3, 0.50, 0. ) ) );
+  CHECK( 7.75521600e-05 == Approx( calculatePhaseShift< Neutron >( 3, 0.75, 0. ) ) );
+  CHECK( 5.41153039e-04 == Approx( calculatePhaseShift< Neutron >( 3, 1.00, 0. ) ) );
+  CHECK( 2.34892684e-03 == Approx( calculatePhaseShift< Neutron >( 3, 1.25, 0. ) ) );
+  CHECK( 7.47481373e-03 == Approx( calculatePhaseShift< Neutron >( 3, 1.50, 0. ) ) );
+  CHECK( 3.16062454e+00 == Approx( calculatePhaseShift< Neutron >( 3, 1.75, 0. ) ) );
+  CHECK( 3.18247761e+00 == Approx( calculatePhaseShift< Neutron >( 3, 2.00, 0. ) ) );
+  CHECK( 3.21842001e+00 == Approx( calculatePhaseShift< Neutron >( 3, 2.25, 0. ) ) );
+  CHECK( 3.27131459e+00 == Approx( calculatePhaseShift< Neutron >( 3, 2.50, 0. ) ) );
+  CHECK( 3.34261796e+00 == Approx( calculatePhaseShift< Neutron >( 3, 2.75, 0. ) ) );
+  CHECK( 3.43240778e+00 == Approx( calculatePhaseShift< Neutron >( 3, 3.00, 0. ) ) );
+  CHECK( 3.53973721e+00 == Approx( calculatePhaseShift< Neutron >( 3, 3.25, 0. ) ) );
+  CHECK( 3.66306896e+00 == Approx( calculatePhaseShift< Neutron >( 3, 3.50, 0. ) ) );
+  CHECK( 3.80063236e+00 == Approx( calculatePhaseShift< Neutron >( 3, 3.75, 0. ) ) );
+  CHECK( 3.95065737e+00 == Approx( calculatePhaseShift< Neutron >( 3, 4.00, 0. ) ) );
+  CHECK( 4.11150150e+00 == Approx( calculatePhaseShift< Neutron >( 3, 4.25, 0. ) ) );
+  CHECK( 4.28170391e+00 == Approx( calculatePhaseShift< Neutron >( 3, 4.50, 0. ) ) );
+  CHECK( 4.45999668e+00 == Approx( calculatePhaseShift< Neutron >( 3, 4.75, 0. ) ) );
+  CHECK( 4.64529435e+00 == Approx( calculatePhaseShift< Neutron >( 3, 5.00, 0. ) ) );
+
+  CHECK( 0.00000000e+00 == Approx( calculatePhaseShift< Neutron >( 4, 0.00, 0. ) ) );
+  CHECK( 3.81649157e-11 == Approx( calculatePhaseShift< Neutron >( 4, 0.25, 0. ) ) );
+  CHECK( 1.91155158e-08 == Approx( calculatePhaseShift< Neutron >( 4, 0.50, 0. ) ) );
+  CHECK( 7.08286632e-07 == Approx( calculatePhaseShift< Neutron >( 4, 0.75, 0. ) ) );
+  CHECK( 8.95511133e-06 == Approx( calculatePhaseShift< Neutron >( 4, 1.00, 0. ) ) );
+  CHECK( 6.23543793e-05 == Approx( calculatePhaseShift< Neutron >( 4, 1.25, 0. ) ) );
+  CHECK( 2.95783197e-04 == Approx( calculatePhaseShift< Neutron >( 4, 1.50, 0. ) ) );
+  CHECK( 3.14266269e+00 == Approx( calculatePhaseShift< Neutron >( 4, 1.75, 0. ) ) );
+  CHECK( 3.14474854e+00 == Approx( calculatePhaseShift< Neutron >( 4, 2.00, 0. ) ) );
+  CHECK( 3.14951084e+00 == Approx( calculatePhaseShift< Neutron >( 4, 2.25, 0. ) ) );
+  CHECK( 3.15898978e+00 == Approx( calculatePhaseShift< Neutron >( 4, 2.50, 0. ) ) );
+  CHECK( 3.17577624e+00 == Approx( calculatePhaseShift< Neutron >( 4, 2.75, 0. ) ) );
+  CHECK( 3.20265867e+00 == Approx( calculatePhaseShift< Neutron >( 4, 3.00, 0. ) ) );
+  CHECK( 3.24214980e+00 == Approx( calculatePhaseShift< Neutron >( 4, 3.25, 0. ) ) );
+  CHECK( 3.29607971e+00 == Approx( calculatePhaseShift< Neutron >( 4, 3.50, 0. ) ) );
+  CHECK( 3.36539892e+00 == Approx( calculatePhaseShift< Neutron >( 4, 3.75, 0. ) ) );
+  CHECK( 3.45021214e+00 == Approx( calculatePhaseShift< Neutron >( 4, 4.00, 0. ) ) );
+  CHECK( 3.54996339e+00 == Approx( calculatePhaseShift< Neutron >( 4, 4.25, 0. ) ) );
+  CHECK( 3.66366906e+00 == Approx( calculatePhaseShift< Neutron >( 4, 4.50, 0. ) ) );
+  CHECK( 3.79012636e+00 == Approx( calculatePhaseShift< Neutron >( 4, 4.75, 0. ) ) );
+  CHECK( 3.92806707e+00 == Approx( calculatePhaseShift< Neutron >( 4, 5.00, 0. ) ) );
 }
