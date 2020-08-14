@@ -14,10 +14,10 @@ SCENARIO( "Resonance" ) {
 
     // single resonance data
     Energy energy = 1000. * electronVolt;
-    ReducedWidth elastic = 1. * rootElectronVolt;
-    ReducedWidth capture = 2. * rootElectronVolt;
-    ReducedWidth fission = .5 * rootElectronVolt;
-    ReducedWidth total = 5. * rootElectronVolt;
+    Width elastic = 1. * electronVolt;
+    Width capture = 2. * electronVolt;
+    Width fission = .5 * electronVolt;
+    Width total = 5. * electronVolt;
 
     THEN( "an Resonance can be constructed" ) {
 

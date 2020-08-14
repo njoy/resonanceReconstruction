@@ -8,10 +8,10 @@
  *  @param[in] fission   the reduced fission width
  */
 Resonance( const Energy& energy,
-           const ReducedWidth& total,
-           const ReducedWidth& elastic,
-           const ReducedWidth& capture,
-           const ReducedWidth& fission ) :
+           const Width& total,
+           const Width& elastic,
+           const Width& capture,
+           const Width& fission ) :
     energy_( energy ),
     total_( total ),
     elastic_( elastic ),
