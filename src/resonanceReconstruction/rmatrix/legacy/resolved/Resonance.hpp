@@ -23,15 +23,15 @@ class Resonance {
   /* fields */
   Energy energy_;
 
-  Width total_;
   Width elastic_;
   Width capture_;
   Width fission_;
+  Width competition_;
 
   Width elastic_to_penetrability_;
+  Width competition_to_penetrability_;
   double penetrability_;
   double shiftfactor_;
-  Width delta_;
 
 public:
 
@@ -59,9 +59,9 @@ public:
   const Width& fission() const { return this->fission_; }
 
   /**
-   *  @brief Return the total width (in eV)
+   *  @brief Return the competitive width (in eV)
    */
-  const Width& total() const { return this->total_; }
+  const Width& competition() const { return this->competition_; }
 
   /**
    *  @brief Return the neutron penetrability at the resonance energy
@@ -82,23 +82,32 @@ public:
   }
 
   /**
+   *  @brief Return the competitive width (in eV)
+   */
+  Width competition( double penetrability ) const {
+
+    return penetrability * this->competition_to_penetrability_;
+  }
+
+  /**
+   *  @brief Return the total width (in eV)
+   */
+  Width total( double P, double Q ) const {
+
+    return this->elastic( P ) + this->capture()
+           + this->fission() + this->competition( Q );
+  }
+
+  /**
    *  @brief Return the primed resonance energy
    *
    *  The primed resonance energy is defined as:
    *    Eprime = Er + ( S(Er) - S(E) ) / ( 2 * P(Er) ) * GN
    */
-  Energy energyPrime( double penetrability, double shiftfactor ) const {
+  Energy energyPrime( double shiftfactor ) const {
 
     return this->energy()
-           + ( this->shiftfactor() - shiftfactor ) / 2.
+           + ( this->shiftfactor_ - shiftfactor ) / 2.
              * this->elastic_to_penetrability_;
-  }
-
-  /**
-   *  @brief Return the competitive width (in eV)
-   */
-  Width competition( double penetrability ) const {
-
-    return this->delta_ - this->elastic_to_penetrability_ * penetrability;
   }
 };

@@ -1,25 +1,27 @@
 /**
  *  @brief Constructor
  *
- *  @param[in] energy    the resonance energy (in eV, may be negative)
- *  @param[in] total     the reduced total width
+ *  @param[in] energy    the resonance energy Er (in eV, may be negative)
  *  @param[in] elastic   the reduced elastic width
  *  @param[in] capture   the reduced capture width
  *  @param[in] fission   the reduced fission width
+ *  @param[in] total     the competitive total width
+ *  @param[in] P         the penetrability at the energy Er
+ *  @param[in] Q         the penetrability at the energy Er - Q
  */
 Resonance( const Energy& energy,
-           const Width& total,
            const Width& elastic,
            const Width& capture,
            const Width& fission,
-           double penetrability,
-           double shiftfactor ) :
+           const Width& competition,
+           double P,
+           double Q,
+           double S ) :
     energy_( energy ),
-    total_( total ),
     elastic_( elastic ),
     capture_( capture ),
     fission_( fission ),
-    elastic_to_penetrability_( elastic / penetrability ),
-    penetrability_( penetrability ),
-    shiftfactor_( shiftfactor ),
-    delta_( total - capture - fission ) {}
+    competition_( competition ),
+    elastic_to_penetrability_( elastic / P ),
+    competition_to_penetrability_( competition / Q ),
+    shiftfactor_( S ) {}
