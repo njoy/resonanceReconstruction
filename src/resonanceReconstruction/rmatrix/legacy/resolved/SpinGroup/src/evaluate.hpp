@@ -29,7 +29,7 @@ void evaluate( const Energy& energy,
   const CrossSection factor = pi / ( waveNumber * waveNumber ) * spinFactor;
 
   // lambda to calculate the cross sections for each resonance
-  auto calculate = [&] ( const auto& resonance ) -> Components {
+  auto calculate = [&] ( const auto& resonance ) -> Data< double > {
 
     const auto total = resonance.total( p, q );
     const auto elastic = resonance.elastic( p );
@@ -46,10 +46,10 @@ void evaluate( const Energy& energy,
   };
 
   // accumulate the cross section components
-  const Components = ranges::accumulate(
-                       this->table().resonances()
-                         | ranges::view::transform( calculate ),
-                       { 0., 0., 0., 0. } );
+  const Data< double > = ranges::accumulate(
+                           this->table().resonances()
+                             | ranges::view::transform( calculate ),
+                           { 0., 0., 0., 0. } );
 
   // calculate the resulting cross sections
   ReactionID elas = ReactionID( incident, target, elementary::ReactionType( "elastic" ) );
