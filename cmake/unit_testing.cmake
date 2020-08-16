@@ -24,12 +24,13 @@ add_subdirectory( src/resonanceReconstruction/rmatrix/LMatrixCalculator/Constant
 add_subdirectory( src/resonanceReconstruction/rmatrix/SpinGroup/test )
 add_subdirectory( src/resonanceReconstruction/rmatrix/CompoundSystem/test )
 
+add_subdirectory( src/resonanceReconstruction/rmatrix/legacy/Data/test )
+
 add_subdirectory( src/resonanceReconstruction/rmatrix/legacy/resolved/Resonance/test )
 
 add_subdirectory( src/resonanceReconstruction/rmatrix/legacy/unresolved/test )
 add_subdirectory( src/resonanceReconstruction/rmatrix/legacy/unresolved/Resonance/test )
 add_subdirectory( src/resonanceReconstruction/rmatrix/legacy/unresolved/ResonanceTable/test )
-add_subdirectory( src/resonanceReconstruction/rmatrix/legacy/unresolved/Data/test )
 add_subdirectory( src/resonanceReconstruction/rmatrix/legacy/unresolved/SpinGroup/test )
 add_subdirectory( src/resonanceReconstruction/rmatrix/legacy/unresolved/CompoundSystem/test )
 
