@@ -22,6 +22,7 @@ class Channel {
 
   /* auxiliary functions */
   #include "resonanceReconstruction/rmatrix/Channel/src/makeChannelID.hpp"
+  #include "resonanceReconstruction/rmatrix/Channel/src/makeReactionID.hpp"
 
   //! @todo the boundary condition may be dependent on the channel radius (see
   //!       equation d.41 in the ENDF manual)
