@@ -5,7 +5,7 @@ ReactionID makeReactionID( const ParticlePairID& incident,
   if ( incident == pair ) {
 
     return ReactionID( incident.particle(), incident.residual(),
-                       ReactionType( "elastic" ) );
+                       elementary::ReactionType( "elastic" ) );
   }
   return ReactionID( incident, pair );
 }
