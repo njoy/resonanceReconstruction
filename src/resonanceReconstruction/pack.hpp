@@ -1,56 +1,45 @@
-template< typename... Ts >
-struct Pack;
+template<class... Ts>
+class Pack;
 
-template< typename... Ts >
-auto pack( Ts&&... ts ) -> Pack< std::decay_t<Ts>... >;
-
-template< typename... Ts >
-struct Pack {
-  std::tuple<Ts...> data;
-
-  Pack( Ts... data ) : data( std::make_tuple(data...) ){}
-  
-  static constexpr auto indices =
-    std::make_index_sequence< std::tuple_size< decltype(data) >::value >{};
-  
-  template< typename... Us, std::size_t... indices >
-  auto add( const Pack< Us... >& other, std::index_sequence< indices... > ) const {
-    static_assert( std::tuple_size< decltype( this->data ) >::value
-                   == std::tuple_size< decltype( other.data ) >::value, "" );
-    return pack( ( std::get<indices>(this->data)
-                   + std::get<indices>(other.data) )...  );
-  }
-
-  template< typename... Us, std::size_t... indices >
-  auto subtract( const Pack< Us... >& other, std::index_sequence< indices... > ) const {
-    static_assert( std::tuple_size< decltype( this->data ) >::value
-                   == std::tuple_size< decltype( other.data ) >::value, "" );
-    return pack( ( std::get<indices>(this->data)
-                              - std::get<indices>(other.data) )...  );
-  }
-
-  template< typename Scalar, std::size_t... indices >
-  auto multiply( const Scalar& scalar, std::index_sequence< indices... > ) const {
-    return pack( ( std::get<indices>(this->data) * scalar )...  );
-  }
-
-  template< typename... Us >
-  auto operator+( const Pack< Us... >& other ) const {
-    return this->add( other, indices );
-  }
-
-  template< typename... Us >
-  auto operator-( const Pack< Us... >& other ) const {
-    return this->subtract( other, indices );
-  }
-
-  template< typename Scalar >
-  auto operator*( const Scalar& scalar ) const {
-    return this->multiply( scalar, indices );
-  }
-};
-
-template< typename... Ts >
-auto pack( Ts&&... ts )  -> Pack< std::decay_t<Ts>... > {
-  return Pack< std::decay_t<Ts>... >{ std::forward<Ts>(ts)... };
+template<class... Ts>
+inline auto pack(Ts&&... ts)
+{
+   return Pack<std::decay_t<Ts>...>{ std::forward<Ts>(ts)... };
 }
+
+template<class... Ts>
+class Pack {
+   static constexpr auto indices = std::make_index_sequence<sizeof...(Ts)>{};
+
+   template<std::size_t... Is, class... Us>
+   auto add(const std::index_sequence<Is...>, const Pack<Us...> &other) const
+   {
+      static_assert(sizeof...(Ts) == sizeof...(Us), "");
+      return pack((std::get<Is>(data) + std::get<Is>(other.data))...);
+   }
+
+   template<std::size_t... Is, class... Us>
+   auto sub(const std::index_sequence<Is...>, const Pack<Us...> &other) const
+   {
+      static_assert(sizeof...(Ts) == sizeof...(Us), "");
+      return pack((std::get<Is>(data) - std::get<Is>(other.data))...);
+   }
+
+   template<std::size_t... Is, class ScalarValue>
+   auto mul(const std::index_sequence<Is...>, const ScalarValue &value) const
+   {
+      return pack((std::get<Is>(data) * value)...);
+   }
+
+public:
+
+   std::tuple<Ts...> data;
+   Pack(Ts... data) : data(std::make_tuple(data...)) { }
+
+   template<class... Us>
+   auto operator+(const Pack<Us...> &other) const { return add(indices,other); }
+   template<class... Us>
+   auto operator-(const Pack<Us...> &other) const { return sub(indices,other); }
+   template<class ScalarValue>
+   auto operator*(const ScalarValue &value) const { return mul(indices,value); }
+};
