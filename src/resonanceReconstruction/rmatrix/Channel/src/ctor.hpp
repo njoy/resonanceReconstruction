@@ -62,7 +62,7 @@ Channel( const ParticlePair& incident,
          const ChannelRadii& radii,
          const BoundaryCondition& boundary = 0.0 ) :
   Channel( makeChannelID( pair.pairID().symbol(), numbers ),
-           ReactionID( incident.pairID(), pair.pairID() ),
+           ReactionID( makeReactionID( incident.pairID(), pair.pairID() ) ),
            incident, pair, qValue, numbers, radii, boundary ) {}
 
 /**
@@ -97,5 +97,5 @@ Channel( const ParticlePair& incident,
          const ChannelRadii& radii,
          const BoundaryCondition& boundary = 0.0 ) :
   Channel( makeChannelID( id, numbers ),
-           ReactionID( incident.pairID(), pair.pairID() ),
+           ReactionID( makeReactionID( incident.pairID(), pair.pairID() ) ),
            incident, pair, qValue, numbers, radii, boundary ) {}
