@@ -3,13 +3,6 @@ makeLegacyUnresolvedResonanceTable(
     const ENDF::unresolved::EnergyDependent::JValue& endfParameters,
     const std::vector< double >& ) {
 
-  if ( endfParameters.INT() != 2 ) {
-
-    throw std::runtime_error( "Interpolation type "
-                              + std::to_string( endfParameters.INT() ) +
-                              " has not been implemented" );
-  }
-
   // some usefull lambdas
   auto toEnergy = [&] ( double value ) -> Energy {
 

@@ -14,7 +14,8 @@ void evaluate( const Energy& energy,
 
   // calculate potential scattering
   const auto channel = this->groups_.front().incidentChannel();
-  const auto incident = channel.particlePair().pairID();
+  const auto incident = channel.particlePair().particle().particleID();
+  const auto target = channel.particlePair().residual().particleID();
   const auto waveNumber = channel.waveNumber( energy );
   const auto ratio = waveNumber * channel.radii().phaseShiftRadius( energy );
 
@@ -31,5 +32,5 @@ void evaluate( const Energy& energy,
     value += ( 2. * l + 1. ) * sin2phi;
   }
 
-  result[ ReactionID( incident, incident ) ] += factor * value;
+  result[ ReactionID( incident, target, elementary::ReactionType( "elastic" ) ) ] += factor * value;
 }
