@@ -67,11 +67,18 @@ makeResonanceTable(
 
     id.erase( id.begin() + eliminated );
   }
-  auto resonances =
-      ranges::view::zip_with( toResonance,
-                              endfParameters.resonanceEnergies()
-                                | ranges::view::transform( toEnergy ),
-                              endfParameters.resonanceParameters() );
+  if ( endfParameters.numberResonances() ) {
 
-  return ResonanceTable( std::move( id ), std::move( resonances ) );
+    auto resonances =
+        ranges::view::zip_with( toResonance,
+                                endfParameters.resonanceEnergies()
+                                  | ranges::view::transform( toEnergy ),
+                                endfParameters.resonanceParameters() );
+
+    return ResonanceTable( std::move( id ), std::move( resonances ) );
+  }
+  else {
+
+    return ResonanceTable( std::move( id ), {} );
+  }
 }
