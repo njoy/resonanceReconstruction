@@ -43,6 +43,7 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
                            upper * electronVolt,
                            makeCompoundSystem( endfRMatrix,
                                                neutronMass, elementaryCharge,
+                                               incident, target,
                                                ReichMoore(), ShiftFactor() ) );
               }
               else {
@@ -52,6 +53,7 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
                            upper * electronVolt,
                            makeCompoundSystem( endfRMatrix,
                                                neutronMass, elementaryCharge,
+                                               incident, target,
                                                ReichMoore(), Constant() ) );
               }
             }
