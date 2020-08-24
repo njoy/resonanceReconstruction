@@ -32,7 +32,7 @@ FetchContent_Declare( dimwits
 
 FetchContent_Declare( elementary
     GIT_REPOSITORY  http://github.com/njoy/elementary
-    GIT_TAG         feature/resolve
+    GIT_TAG         v0.2.1
     )
 
 
