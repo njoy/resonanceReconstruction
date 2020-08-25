@@ -97,12 +97,6 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
     // unresolved resonances
     case 2 : {
 
-      if ( nro ) {
-
-        throw std::runtime_error( "Energy dependent scattering radii have not "
-                                  "been implemented" );
-      }
-
       switch ( endfResonanceRange.parameters().index() ) {
 
         case 5: {
