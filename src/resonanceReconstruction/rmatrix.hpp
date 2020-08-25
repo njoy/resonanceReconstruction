@@ -45,6 +45,7 @@ namespace rmatrix {
   #include "resonanceReconstruction/rmatrix/Particle.hpp"
   #include "resonanceReconstruction/rmatrix/ParticlePair.hpp"
   #include "resonanceReconstruction/rmatrix/ChannelQuantumNumbers.hpp"
+  #include "resonanceReconstruction/rmatrix/ChannelRadiusTable.hpp"
   #include "resonanceReconstruction/rmatrix/ChannelRadii.hpp"
   #include "resonanceReconstruction/rmatrix/Channel.hpp"
 

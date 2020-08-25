@@ -1,0 +1,3 @@
+add_executable( resonanceReconstruction.rmatrix.ChannelRadiusTable.test ChannelRadiusTable.test.cpp )
+target_link_libraries( resonanceReconstruction.rmatrix.ChannelRadiusTable.test PUBLIC resonanceReconstruction )
+add_test( NAME resonanceReconstruction.rmatrix.ChannelRadiusTable COMMAND resonanceReconstruction.rmatrix.ChannelRadiusTable.test )

@@ -39,8 +39,10 @@ using Tablevariant =
                                    LogLinTable< XType, YType >,
                                    LogLogTable< XType, YType > > >;
 
+// a vector of tables
+template < typename XType, typename YType >
+using TableVector = interpolation::table::Vector< Tablevariant< XType, YType > >;
+
 // interpolation table with multiple interpolation regions
 template < typename XType, typename YType >
-using MultiInterpolationTable =
-  interpolation::Table<
-    interpolation::table::Vector< Tablevariant< XType, YType > > >;
+using MultiRegionTable = interpolation::Table< TableVector< XType, YType > >;
