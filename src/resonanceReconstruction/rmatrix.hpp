@@ -32,8 +32,9 @@ namespace rmatrix {
   template < typename T > using Matrix = Eigen::Matrix< T, Eigen::Dynamic, Eigen::Dynamic >;
   template < typename T > using DiagonalMatrix = Eigen::DiagonalMatrix< T, Eigen::Dynamic >;
 
-  // interpolation tables
+  // utility code
   #include "resonanceReconstruction/rmatrix/Table.hpp"
+  #include "resonanceReconstruction/rmatrix/overload.hpp"
 
   // R-Matrix boundary condition and options
   using BoundaryCondition = double;

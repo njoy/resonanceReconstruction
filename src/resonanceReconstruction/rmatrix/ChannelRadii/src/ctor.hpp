@@ -3,7 +3,7 @@
  *
  *  @param[in] radius   the channel radius to be used for P, S and phi
  */
-ChannelRadii( const ChannelRadius& radius ) :
+ChannelRadii( const ChannelRadiusVariant& radius ) :
     penetrability_( radius ),
     shiftFactor_( radius ),
     phaseShift_( radius ) {}
@@ -14,8 +14,8 @@ ChannelRadii( const ChannelRadius& radius ) :
  *  @param[in] trueRadius        the channel radius to be used for P and S
  *  @param[in] effectiveRadius   the channel radius to be used for phi
  */
-ChannelRadii( const ChannelRadius& trueRadius,
-             const ChannelRadius& effectiveRadius ) :
+ChannelRadii( const ChannelRadiusVariant& trueRadius,
+              const ChannelRadiusVariant& effectiveRadius ) :
     penetrability_( trueRadius ),
     shiftFactor_( trueRadius ),
     phaseShift_( effectiveRadius ) {}
@@ -27,9 +27,9 @@ ChannelRadii( const ChannelRadius& trueRadius,
  *  @param[in] shiftFactorRadius   the channel radius to be used for S
  *  @param[in] phaseShiftRadius    the channel radius to be used for phi
  */
-ChannelRadii( const ChannelRadius& penetrationRadius,
-             const ChannelRadius& shiftFactorRadius,
-             const ChannelRadius& phaseShiftRadius ) :
+ChannelRadii( const ChannelRadiusVariant& penetrationRadius,
+              const ChannelRadiusVariant& shiftFactorRadius,
+              const ChannelRadiusVariant& phaseShiftRadius ) :
     penetrability_( penetrationRadius ),
     shiftFactor_( shiftFactorRadius ),
     phaseShift_( phaseShiftRadius ) {}

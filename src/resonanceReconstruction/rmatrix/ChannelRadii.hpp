@@ -12,12 +12,14 @@
  */
 class ChannelRadii {
 
-  //! @todo make these energy dependent using a variant
+  /* alias */
+  using ChannelRadiusVariant = std::variant< ChannelRadius,
+                                             ChannelRadiusTable >;
 
   /* fields */
-  ChannelRadius penetrability_;
-  ChannelRadius shiftFactor_;
-  ChannelRadius phaseShift_;
+  ChannelRadiusVariant penetrability_;
+  ChannelRadiusVariant shiftFactor_;
+  ChannelRadiusVariant phaseShift_;
 
 public:
 
@@ -27,30 +29,45 @@ public:
   /**
    *  @brief Return the channel radius for the penetrability P
    *
-   *  @param[in] energy   the energy for which the radius must be given (unused)
+   *  @param[in] energy   the energy for which the radius must be given
    */
-  const ChannelRadius& penetrabilityRadius( const Energy& ) const {
+  ChannelRadius penetrabilityRadius( const Energy& energy ) const {
 
-    return this->penetrability_;
+    return std::visit(
+             overload{ [&] ( const ChannelRadius& radius )
+                           { return radius; },
+                       [&] ( const ChannelRadiusTable& table )
+                           { return table( energy ); } },
+             this->penetrability_ );
   }
 
   /**
    *  @brief Return the channel radius for the shift factor S
    *
-   *  @param[in] energy   the energy for which the radius must be given (unused)
+   *  @param[in] energy   the energy for which the radius must be given
    */
-  const ChannelRadius& shiftFactorRadius( const Energy& ) const {
+  ChannelRadius shiftFactorRadius( const Energy& energy ) const {
 
-    return this->shiftFactor_;
+    return std::visit(
+             overload{ [&] ( const ChannelRadius& radius )
+                           { return radius; },
+                       [&] ( const ChannelRadiusTable& table )
+                           { return table( energy ); } },
+             this->shiftFactor_ );
   }
 
   /**
    *  @brief Return the channel radius for the phase shift phi
    *
-   *  @param[in] energy   the energy for which the radius must be given (unused)
+   *  @param[in] energy   the energy for which the radius must be given
    */
-  const ChannelRadius& phaseShiftRadius( const Energy& ) const {
+  ChannelRadius phaseShiftRadius( const Energy& energy ) const {
 
-    return this->phaseShift_;
+    return std::visit(
+             overload{ [&] ( const ChannelRadius& radius )
+                           { return radius; },
+                       [&] ( const ChannelRadiusTable& table )
+                           { return table( energy ); } },
+             this->phaseShift_ );
   }
 };
