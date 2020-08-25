@@ -1241,7 +1241,7 @@ SCENARIO( "fromENDF" ) {
     THEN( "cross sections can be reconstructed" ) {
 
       ReactionID elas( "n,Ca40->n,Ca40" );
-      ReactionID prot( "n,Ca40->h1,K40_e1" );
+      ReactionID prot( "n,Ca40->h1,K40" );
       ReactionID alph( "n,Ca40->he4,Ar37" );
       ReactionID capt( "n,Ca40->capture" );
       std::map< ReactionID, CrossSection > xs;
