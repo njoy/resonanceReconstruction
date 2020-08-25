@@ -381,7 +381,7 @@ SCENARIO( "fromENDF" ) {
     njoy::ENDFtk::section::Type< 2, 151 > endf( head, begin, end, lineNumber, 2025 );
     ResonanceRange endfResonanceRange = endf.isotopes().front().resonanceRanges().front();
 
-    auto resonances = fromENDF( endfResonanceRange, neutronMass, elementaryCharge, ParticleID( "n" ), ParticleID( "Fe54" ) );
+    auto resonances = fromENDF( endfResonanceRange, neutronMass, elementaryCharge, ParticleID( "n" ), ParticleID( "Ca40" ) );
 
     THEN( "the appropriate CompoundSystem is returned" ) {
 
@@ -755,7 +755,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 19.0 * 1.602e-19 == Approx( pair21.residual().charge().value ) );
       CHECK( 4.0 == Approx( pair21.residual().spin() ) );
       CHECK( -1 == pair21.residual().parity() );
-      CHECK( "p,K40_e1" == pair21.pairID().symbol() );
+      CHECK( "p,K40" == pair21.pairID().symbol() );
 
       // quantum numbers
       const auto numbers21 = channel21.quantumNumbers();
@@ -1135,7 +1135,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 19.0 * 1.602e-19 == Approx( pair41.residual().charge().value ) );
       CHECK( 4.0 == Approx( pair41.residual().spin() ) );
       CHECK( -1 == pair41.residual().parity() );
-      CHECK( "p,K40_e1" == pair41.pairID().symbol() );
+      CHECK( "p,K40" == pair41.pairID().symbol() );
 
       // quantum numbers
       const auto numbers41 = channel41.quantumNumbers();
