@@ -31,7 +31,7 @@ using LogLogTable = Table< XType, YType, interpolation::LogarithmicLogarithmic >
 
 // variant composing the different interpolation types
 template < typename XType, typename YType >
-using Tablevariant =
+using TableVariant =
   interpolation::Table<
     interpolation::table::Variant< HistogramTable< XType, YType >,
                                    LinLinTable< XType, YType >,
@@ -41,7 +41,7 @@ using Tablevariant =
 
 // a vector of tables
 template < typename XType, typename YType >
-using TableVector = interpolation::table::Vector< Tablevariant< XType, YType > >;
+using TableVector = interpolation::table::Vector< TableVariant< XType, YType > >;
 
 // interpolation table with multiple interpolation regions
 template < typename XType, typename YType >

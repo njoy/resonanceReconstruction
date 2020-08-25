@@ -69,6 +69,7 @@ namespace rmatrix {
   // make components from ENDF
   #include "resonanceReconstruction/rmatrix/src/makeParticlePairs.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeParticleChannels.hpp"
+  #include "resonanceReconstruction/rmatrix/src/makeChannelRadiusTable.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeChannelRadii.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeResonanceTable.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeSpinGroup.hpp"

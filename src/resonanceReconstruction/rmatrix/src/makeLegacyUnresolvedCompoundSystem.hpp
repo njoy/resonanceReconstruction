@@ -21,6 +21,7 @@ makeLegacyUnresolvedCompoundSystem(
     const ElectricalCharge& elementaryCharge,
     const ParticleID& incident,
     const ParticleID& target,
+    const std::optional< ChannelRadiusTable >& nro,
     unsigned int naps,
     double lower,
     double upper ) {
@@ -38,7 +39,8 @@ makeLegacyUnresolvedCompoundSystem(
                              0.0 * coulombs, spin, +1) );
 
   // channel radii
-  ChannelRadii radii = makeChannelRadii( ap, naps, awri, neutronMass.value );
+  ChannelRadii radii = makeChannelRadii( ap, nro, naps,
+                                         awri, neutronMass.value );
 
   // some magic magic
   auto lvalues = unresolved.lValues();
