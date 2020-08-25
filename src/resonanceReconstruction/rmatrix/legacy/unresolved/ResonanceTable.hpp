@@ -16,18 +16,9 @@
 class ResonanceTable {
 
   /* aliases */
-  template < typename XType, typename YType >
-  using Table = interpolation::Table<
-                  interpolation::table::Type<
-                    interpolation::LinearLinear,
-                    interpolation::table::search::Binary,
-                    interpolation::table::discontinuity::TakeLeft,
-                    std::vector< XType >, std::vector< YType > >,
-                  interpolation::table::right::interval::Throws,
-                  interpolation::table::left::interval::Throws >;
-  using LevelSpacingTable = Table< Energy, LevelSpacing >;
-  using ReducedWidthTable = Table< Energy, ReducedWidth >;
-  using WidthTable = Table< Energy, Width >;
+  using LevelSpacingTable = LinLinTable< Energy, LevelSpacing >;
+  using ReducedWidthTable = LinLinTable< Energy, ReducedWidth >;
+  using WidthTable = LinLinTable< Energy, Width >;
 
   /* fields */
   std::vector< Resonance > widths_;
