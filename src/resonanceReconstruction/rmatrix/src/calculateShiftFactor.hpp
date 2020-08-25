@@ -45,5 +45,7 @@ double calculateShiftFactor< ChargedParticle >( const unsigned int l,
   double G = gf.real();
   double dF = dgf.imag();
   double dG = dgf.real();
-  return ratio / ( F * F + G * G ) * ( F * dF + G * dG );
+  return ( F == 0. ) and ( G == 0. )
+           ? 0.
+           : ratio / ( F * F + G * G ) * ( F * dF + G * dG );
 }

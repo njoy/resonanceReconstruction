@@ -47,5 +47,7 @@ double calculatePhaseShift< ChargedParticle >( const unsigned int l,
 
   double F = gf.imag();
   double G = gf.real();
-  return std::acos( G / std::sqrt( F * F + G * G ) );
+  return ( F == 0. ) and ( G == 0. )
+           ? 0.
+           : std::acos( G / std::sqrt( F * F + G * G ) );
 }
