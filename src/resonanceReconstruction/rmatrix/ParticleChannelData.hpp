@@ -5,7 +5,7 @@
  *  This class represent all data related to a single channel; the particle
  *  channel instance, the resonance energies and reduced widths. It provides
  *  an alternate method of constructing the SpinGroup and CompoundSystem for a
- *  set of channels and is most usefull when the data is not presented by spin
+ *  set of channels and is most useful when the data is not presented by spin
  *  group to begin with, or if the spingroups are not unique.
  */
  class ParticleChannelData {
