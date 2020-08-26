@@ -53,7 +53,7 @@ namespace ENDF = ENDFtk::resonanceParameters;
 #include "resonanceReconstruction/ZeroWidth.hpp"
 
 #include "resonanceReconstruction/breitWigner.hpp"
-//#include "resonanceReconstruction/reichMoore.hpp"
+#include "resonanceReconstruction/reichMoore.hpp"
 
 // physical constants and quantities
 
