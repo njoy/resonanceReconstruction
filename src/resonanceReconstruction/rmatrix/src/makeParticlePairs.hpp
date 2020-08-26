@@ -28,33 +28,38 @@ eliminated( const ENDF::resolved::RMatrixLimited::ParticlePairs& endfPairs ) {
 std::vector< ParticlePair >
 makeParticlePairs( const ENDF::resolved::RMatrixLimited::ParticlePairs& endfPairs,
                    const AtomicMass& neutronMass,
-                   const ElectricalCharge& elementaryCharge ) {
-
-  const std::map< int, std::string > particleID = {
-    { 0, "g" }, { 1, "n" }, { 1001, "p" }, { 1002, "h2" }, { 1003, "h3" },
-    { 2003, "he3" }, { 2004, "he4" } };
+                   const ElectricalCharge& elementaryCharge,
+                   const ParticleID& incident,
+                   const ParticleID& target ) {
 
   // a few useful lambdas
-  auto makeParticleIDs = [&] ( double za, double ma,
-                               double zb, double mb,
-                               int mt )  -> std::pair< ParticleID, ParticleID > {
+  auto makeParticleIDs = [&] ( int mt )
+    -> std::tuple< ParticleID, ParticleID, ParticlePairID > {
 
-    unsigned int aa = std::round( AtomicMass( ma * neutronMass ).value );
-    unsigned int ab = std::round( AtomicMass( mb * neutronMass ).value );
+    elementary::ReactionType type( mt );
+    if ( mt == 2 ) {
 
-    std::string level = "_e0";
-    if ( mt == 51 )  { level = "_e1"; }
-    else if ( mt == 600 ) { level = "_e1"; };
+      return { incident, target, ParticlePairID( incident, target ) };
+    }
+    else if ( mt == 18 ) {
 
-    return { ParticleID(
-               particleID.at( static_cast< unsigned int >( za ) * 1000 + aa ) ),
-             ParticleID(
-               elementary::ElementID( static_cast< unsigned int >( zb ) ).symbol()
-               + std::to_string( ab )
-               + level ) };
+      return { incident, target, ParticlePairID( "fission" ) };
+    }
+    else {
+
+      const auto particles = type.particles();
+      if ( particles.size() > 1 ) {
+
+
+      }
+      auto outgoing = particles.front();
+      auto residual = resolve( incident, target, type );
+      return { outgoing, residual, ParticlePairID( outgoing, residual ) };
+    }
   };
-  auto first = [] ( const auto& pair ) { return pair.first; };
-  auto second = [] ( const auto& pair ) { return pair.second; };
+  auto first = [] ( const auto& tuple ) { return std::get< 0 >( tuple ); };
+  auto second = [] ( const auto& tuple ) { return std::get< 1 >( tuple ); };
+  auto third = [] ( const auto& tuple ) { return std::get< 2 >( tuple ); };
   auto makeParticle = [&] ( const ParticleID& id, double mass, double charge,
                             double spin, int parity ) {
 
@@ -64,19 +69,14 @@ makeParticlePairs( const ENDF::resolved::RMatrixLimited::ParticlePairs& endfPair
                                  : ( spin > 0. ? Parity( +1 ) : Parity( -1 ) ) };
   };
   auto makeParticlePair = [&] ( const Particle& particle,
-                                const Particle& residual ) {
+                                const Particle& residual,
+                                const ParticlePairID& id ) {
 
-    return ParticlePair{ particle, residual };
+    return ParticlePair{ particle, residual, id };
   };
 
   // do some range magic
-  auto identifiers = ranges::view::zip_with(
-                         makeParticleIDs,
-                         endfPairs.chargeParticleA(),
-                         endfPairs.massParticleA(),
-                         endfPairs.chargeParticleB(),
-                         endfPairs.massParticleB(),
-                         endfPairs.MT() );
+  auto identifiers = endfPairs.MT() | ranges::view::transform( makeParticleIDs );
   auto particles = ranges::view::zip_with(
                        makeParticle,
                        identifiers | ranges::view::transform( first ),
@@ -91,9 +91,11 @@ makeParticlePairs( const ENDF::resolved::RMatrixLimited::ParticlePairs& endfPair
                        endfPairs.chargeParticleB(),
                        endfPairs.spinParticleB(),
                        endfPairs.parityParticleB() );
+  auto pairs = identifiers | ranges::view::transform( third );
 
   return ranges::view::zip_with(
              makeParticlePair,
              particles,
-             residuals );
+             residuals,
+             pairs );
 }

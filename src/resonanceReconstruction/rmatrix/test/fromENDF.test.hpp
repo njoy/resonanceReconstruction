@@ -364,9 +364,14 @@ SCENARIO( "fromENDF" ) {
 
     THEN( "cross sections can be reconstructed" ) {
 
-      std::map< ReactionID, CrossSection > result = resonances( 1e-5 * electronVolt );
+      ReactionID elas( "n,Fe54->n,Fe54" );
+      ReactionID capt( "n,Fe54->capture" );
+      std::map< ReactionID, CrossSection > xs;
 
-
+      xs = resonances( 1e-5 * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 2.1623144509 == Approx( xs[ elas ].value ) );
+      CHECK( 113.3307443304 == Approx( xs[ capt ].value ) );
     } // THEN
   } // GIVEN
 
@@ -760,7 +765,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 19.0 * 1.602e-19 == Approx( pair21.residual().charge().value ) );
       CHECK( 4.0 == Approx( pair21.residual().spin() ) );
       CHECK( -1 == pair21.residual().parity() );
-      CHECK( "p,K40_e1" == pair21.pairID().symbol() );
+      CHECK( "p,K40" == pair21.pairID().symbol() );
 
       // quantum numbers
       const auto numbers21 = channel21.quantumNumbers();
@@ -1140,7 +1145,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 19.0 * 1.602e-19 == Approx( pair41.residual().charge().value ) );
       CHECK( 4.0 == Approx( pair41.residual().spin() ) );
       CHECK( -1 == pair41.residual().parity() );
-      CHECK( "p,K40_e1" == pair41.pairID().symbol() );
+      CHECK( "p,K40" == pair41.pairID().symbol() );
 
       // quantum numbers
       const auto numbers41 = channel41.quantumNumbers();
@@ -1245,9 +1250,19 @@ SCENARIO( "fromENDF" ) {
 
     THEN( "cross sections can be reconstructed" ) {
 
-      std::map< ReactionID, CrossSection > result = resonances( 1e-5 * electronVolt );
+      ReactionID elas( "n,Ca40->n,Ca40" );
+      ReactionID prot( "n,Ca40->h1,K40" );
+      ReactionID alph( "n,Ca40->he4,Ar37" );
+      ReactionID capt( "n,Ca40->capture" );
+      std::map< ReactionID, CrossSection > xs;
 
-
+      // this value previously produced NaN cross section values
+      xs = resonances( 542087 * electronVolt );
+      CHECK( 4 == xs.size() );
+      CHECK( 0.5977843018 == Approx( xs[ elas ].value ) );
+      CHECK( 0. == Approx( xs[ prot ].value ) );
+      CHECK( 9.8241e-6 == Approx( xs[ alph ].value ) );
+      CHECK( 3.54988e-5 == Approx( xs[ capt ].value ) );
     } // THEN
   } // GIVEN
 } // SCENARIO

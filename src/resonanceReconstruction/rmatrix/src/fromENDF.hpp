@@ -7,8 +7,9 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
 
   const auto lower = endfResonanceRange.lowerEnergy();
   const auto upper = endfResonanceRange.upperEnergy();
-  const auto nro = endfResonanceRange.energyDependentScatteringRadius();
   const auto naps = endfResonanceRange.scatteringRadiusCalculationOption();
+  std::optional< ChannelRadiusTable > nro =
+    makeChannelRadiusTable( endfResonanceRange.scatteringRadius() );
 
   switch ( endfResonanceRange.type() ) {
 
@@ -56,6 +57,7 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
                            upper * electronVolt,
                            makeCompoundSystem( endfRMatrix,
                                                neutronMass, elementaryCharge,
+                                               incident, target,
                                                ReichMoore(), ShiftFactor() ) );
               }
               else {
@@ -65,6 +67,7 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
                            upper * electronVolt,
                            makeCompoundSystem( endfRMatrix,
                                                neutronMass, elementaryCharge,
+                                               incident, target,
                                                ReichMoore(), Constant() ) );
               }
             }
@@ -107,12 +110,6 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
     // unresolved resonances
     case 2 : {
 
-      if ( nro ) {
-
-        throw std::runtime_error( "Energy dependent scattering radii have not "
-                                  "been implemented" );
-      }
-
       switch ( endfResonanceRange.parameters().index() ) {
 
         case 5: {
@@ -125,7 +122,7 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
                      makeLegacyUnresolvedCompoundSystem(
                          endfEnergyIndependent,
                          neutronMass, elementaryCharge,
-                         incident, target, naps, lower, upper ) );
+                         incident, target, nro, naps, lower, upper ) );
         }
         case 6: {
 
@@ -137,7 +134,7 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
                      makeLegacyUnresolvedCompoundSystem(
                          endfEnergyDependentFission,
                          neutronMass, elementaryCharge,
-                         incident, target, naps, lower, upper ) );
+                         incident, target, nro, naps, lower, upper ) );
         }
         case 7: {
 
@@ -149,7 +146,7 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
                      makeLegacyUnresolvedCompoundSystem(
                          endfEnergyDependent,
                          neutronMass, elementaryCharge,
-                         incident, target, naps, lower, upper ) );
+                         incident, target, nro, naps, lower, upper ) );
         }
         default : {
 
