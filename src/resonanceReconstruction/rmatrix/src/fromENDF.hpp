@@ -21,12 +21,6 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
         // ReichMoore
         case 3 : {
 
-          if ( nro ) {
-
-            throw std::runtime_error( "Energy dependent scattering radii have not "
-                                      "been implemented" );
-          }
-
           auto endfReichMoore =
             std::get< ENDF::resolved::ReichMoore >( endfResonanceRange.parameters() );
 
@@ -34,8 +28,10 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
                      lower * electronVolt,
                      upper * electronVolt,
                      makeReichMooreCompoundSystem( endfReichMoore,
-                                                   neutronMass, elementaryCharge,
-                                                   incident, target, naps ) );
+                                                   neutronMass,
+                                                   elementaryCharge,
+                                                   incident, target,
+                                                   nro, naps ) );
         }
         // R-matrix limited
         case 7 : {
