@@ -3,6 +3,7 @@
 
 #include <complex>
 #include <iterator>
+#include <memory>
 
 #include "ENDFtk.hpp"
 #include "interpolation.hpp"

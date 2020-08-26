@@ -32,6 +32,10 @@ namespace rmatrix {
   template < typename T > using Matrix = Eigen::Matrix< T, Eigen::Dynamic, Eigen::Dynamic >;
   template < typename T > using DiagonalMatrix = Eigen::DiagonalMatrix< T, Eigen::Dynamic >;
 
+  // utility code
+  #include "resonanceReconstruction/rmatrix/Table.hpp"
+  #include "resonanceReconstruction/rmatrix/overload.hpp"
+
   // R-Matrix boundary condition and options
   using BoundaryCondition = double;
   struct ShiftFactor {};
@@ -42,6 +46,7 @@ namespace rmatrix {
   #include "resonanceReconstruction/rmatrix/Particle.hpp"
   #include "resonanceReconstruction/rmatrix/ParticlePair.hpp"
   #include "resonanceReconstruction/rmatrix/ChannelQuantumNumbers.hpp"
+  #include "resonanceReconstruction/rmatrix/ChannelRadiusTable.hpp"
   #include "resonanceReconstruction/rmatrix/ChannelRadii.hpp"
   #include "resonanceReconstruction/rmatrix/Channel.hpp"
 
@@ -64,6 +69,7 @@ namespace rmatrix {
   // make components from ENDF
   #include "resonanceReconstruction/rmatrix/src/makeParticlePairs.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeParticleChannels.hpp"
+  #include "resonanceReconstruction/rmatrix/src/makeChannelRadiusTable.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeChannelRadii.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeResonanceTable.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeSpinGroup.hpp"
