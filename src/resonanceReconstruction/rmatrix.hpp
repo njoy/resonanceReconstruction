@@ -72,6 +72,7 @@ namespace rmatrix {
   #include "resonanceReconstruction/rmatrix/src/makeQuantumNumbers.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeParticlePairs.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeParticleChannels.hpp"
+  #include "resonanceReconstruction/rmatrix/src/makeParticleChannelData.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeChannelRadiusTable.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeChannelRadii.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeResonanceTable.hpp"
