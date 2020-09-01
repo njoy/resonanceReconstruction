@@ -14,17 +14,17 @@ makeCompoundSystem(
                                   incident, target );
   auto in = pairs[ rmatrix::incident( endfPairs ) ];
   bool reducedWidthsFlag = endfRMatrix.reducedWidths() == 0 ? false : true;
+  auto spingroups = endfRMatrix.spinGroups();
 
-  std::vector< SpinGroup< Formalism, BoundaryOption > > spingroups =
-      endfRMatrix.spinGroups()
-        | ranges::view::transform(
-              [&] ( const auto& spingroup ) {
+  auto data = spingroups
+    | ranges::view::transform(
+          [&] ( const auto& spingroup )
+              { return makeParticleChannelData(
+                           in, pairs, endfPairs, spingroup, reducedWidthsFlag,
+                           formalism, boundaryOption ); } )
+    | ranges::to_vector;
+  std::vector< ParticleChannelData > channels =
+      consolidateChannelData( data | ranges::view::join );
 
-                return makeSpinGroup( in, pairs,
-                                      endfRMatrix.particlePairs(),
-                                      spingroup, reducedWidthsFlag,
-                                      formalism, boundaryOption );
-              } );
-
-  return CompoundSystem< Formalism, BoundaryOption >( std::move( spingroups ) );
+  return CompoundSystem< Formalism, BoundaryOption >( std::move( channels ) );
 }

@@ -46,5 +46,6 @@ makeReichMooreCompoundSystem(
   }
 
   // return the resulting compound system
-  return CompoundSystem< ReichMoore, ShiftFactor >( std::move( data ) );
+  return CompoundSystem< ReichMoore, ShiftFactor >(
+             std::move( consolidateChannelData( data ) ) );
 }

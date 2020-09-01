@@ -55,9 +55,15 @@ public:
    */
   std::vector< Energy > grid() const {
 
-    return std::visit( [&] ( auto& system )
-                           { return system.grid(); },
-                       this->system_ );
+    auto filter = [&] ( const auto& energy ) {
+
+      return ( this->lowerEnergy() <= energy ) and
+             ( energy <= this->upperEnergy() );
+    };
+
+    auto energies = std::visit( [&] ( auto& system ) { return system.grid(); },
+                                this->system_ );
+    return energies | ranges::view::filter( filter );
   }
 
   /**
