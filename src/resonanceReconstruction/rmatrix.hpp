@@ -75,8 +75,6 @@ namespace rmatrix {
   #include "resonanceReconstruction/rmatrix/src/makeParticleChannelData.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeChannelRadiusTable.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeChannelRadii.hpp"
-  #include "resonanceReconstruction/rmatrix/src/makeResonanceTable.hpp"
-  #include "resonanceReconstruction/rmatrix/src/makeSpinGroup.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeCompoundSystem.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeReichMooreChannelData.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeReichMooreCompoundSystem.hpp"
