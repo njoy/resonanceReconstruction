@@ -23,7 +23,8 @@ makeCompoundSystem(
                            in, pairs, endfPairs, spingroup, reducedWidthsFlag,
                            formalism, boundaryOption ); } )
     | ranges::to_vector;
-  std::vector< ParticleChannelData > channels = data | ranges::view::join | ranges::to_vector;
+  std::vector< ParticleChannelData > channels =
+      consolidateChannelData( data | ranges::view::join );
 
   return CompoundSystem< Formalism, BoundaryOption >( std::move( channels ) );
 }
