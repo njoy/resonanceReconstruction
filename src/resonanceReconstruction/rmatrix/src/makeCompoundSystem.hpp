@@ -16,15 +16,14 @@ makeCompoundSystem(
   bool reducedWidthsFlag = endfRMatrix.reducedWidths() == 0 ? false : true;
   auto spingroups = endfRMatrix.spinGroups();
 
-  std::vector< std::vector< ParticleChannelData > > data =
-    spingroups | ranges::view::transform(
-                   [&] ( const auto& spingroup )
-                       { return makeParticleChannelData( in, pairs, endfPairs,
-                                                         spingroup,
-                                                         reducedWidthsFlag,
-                                                         formalism,
-                                                         boundaryOption ); } );
+  auto data = spingroups
+    | ranges::view::transform(
+          [&] ( const auto& spingroup )
+              { return makeParticleChannelData(
+                           in, pairs, endfPairs, spingroup, reducedWidthsFlag,
+                           formalism, boundaryOption ); } )
+    | ranges::to_vector;
+  std::vector< ParticleChannelData > channels = data | ranges::view::join | ranges::to_vector;
 
-  return CompoundSystem< Formalism, BoundaryOption >(
-             std::move( data | ranges::view::join ) );
+  return CompoundSystem< Formalism, BoundaryOption >( std::move( channels ) );
 }
