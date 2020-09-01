@@ -16,6 +16,7 @@ using Fission = rmatrix::Fission;
 using ChargedParticle = rmatrix::ChargedParticle;
 template < typename Type > using Channel = rmatrix::Channel< Type >;
 using ParticleChannel = rmatrix::ParticleChannel;
+using ParticleChannelData = rmatrix::ParticleChannelData;
 using ChannelID = rmatrix::ChannelID;
 using ChannelQuantumNumbers = rmatrix::ChannelQuantumNumbers;
 using ChannelRadii = rmatrix::ChannelRadii;

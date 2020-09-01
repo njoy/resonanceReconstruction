@@ -21,8 +21,17 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
         // ReichMoore
         case 3 : {
 
-          throw std::runtime_error( "fromENDF is not implemented for ENDF "
-                                    "Reich-Moore resolved resonances (LRF = 3)" );
+          auto endfReichMoore =
+            std::get< ENDF::resolved::ReichMoore >( endfResonanceRange.parameters() );
+
+          return Reconstructor(
+                     lower * electronVolt,
+                     upper * electronVolt,
+                     makeReichMooreCompoundSystem( endfReichMoore,
+                                                   neutronMass,
+                                                   elementaryCharge,
+                                                   incident, target,
+                                                   nro, naps ) );
         }
         // R-matrix limited
         case 7 : {

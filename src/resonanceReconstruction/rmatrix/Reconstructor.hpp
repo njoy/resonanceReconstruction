@@ -18,9 +18,26 @@ public:
       system_( reconstructor ) {}
 
   /**
-   *  @brief Return the compund system
+   *  @brief Return the compound system
    */
   CompoundSystemVariant& compoundSystem() { return this->system_; }
+
+  /**
+   *  @brief Return whether or not the reconstructor is for resolved resonances
+   */
+  bool isResolved() {
+
+    return this->system_.index() !=
+           std::variant_size_v< CompoundSystemVariant > - 1;
+  }
+
+  /**
+   *  @brief Return whether or not the reconstructor is for unresolved resonances
+   */
+  bool isUnresolved() {
+
+    return not this->isResolved();
+  }
 
   /**
    *  @brief Return the lower energy boundary

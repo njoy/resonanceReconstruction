@@ -17,6 +17,7 @@ add_subdirectory( src/resonanceReconstruction/rmatrix/ChannelQuantumNumbers/test
 add_subdirectory( src/resonanceReconstruction/rmatrix/ChannelRadiusTable/test )
 add_subdirectory( src/resonanceReconstruction/rmatrix/ChannelRadii/test )
 add_subdirectory( src/resonanceReconstruction/rmatrix/Channel/test )
+add_subdirectory( src/resonanceReconstruction/rmatrix/ParticleChannelData/test )
 add_subdirectory( src/resonanceReconstruction/rmatrix/Resonance/test )
 add_subdirectory( src/resonanceReconstruction/rmatrix/ResonanceTable/test )
 add_subdirectory( src/resonanceReconstruction/rmatrix/LMatrixCalculator/ShiftFactor/test )

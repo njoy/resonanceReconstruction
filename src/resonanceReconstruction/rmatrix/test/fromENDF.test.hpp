@@ -19,6 +19,11 @@ SCENARIO( "fromENDF" ) {
 
     THEN( "the appropriate CompoundSystem is returned" ) {
 
+      CHECK( true == resonances.isResolved() );
+      CHECK( false == resonances.isUnresolved() );
+      CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
+      CHECK( 1.036e+6 == Approx( resonances.upperEnergy().value ) );
+
       auto compoundsystem = std::get< CompoundSystem< ReichMoore, ShiftFactor > >( resonances.compoundSystem() );
 
       // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -384,6 +389,11 @@ SCENARIO( "fromENDF" ) {
     auto resonances = fromENDF( endfResonanceRange, neutronMass, elementaryCharge, ParticleID( "n" ), ParticleID( "Ca40" ) );
 
     THEN( "the appropriate CompoundSystem is returned" ) {
+
+      CHECK( true == resonances.isResolved() );
+      CHECK( false == resonances.isUnresolved() );
+      CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
+      CHECK( 1.5e+6 == Approx( resonances.upperEnergy().value ) );
 
       auto compoundsystem = std::get< CompoundSystem< ReichMoore, ShiftFactor > >( resonances.compoundSystem() );
 
