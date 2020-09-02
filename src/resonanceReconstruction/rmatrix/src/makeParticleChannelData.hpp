@@ -85,6 +85,18 @@ makeParticleChannelData(
   std::vector< ParticleChannelData > data;
 
   // some usefull lambdas
+  auto first = [] ( const auto& pair ) {
+
+    return std::get< 0 >( pair );
+  };
+  auto second = [] ( const auto& pair ) {
+
+    return std::get< 1 >( pair );
+  };
+  auto nonZero = [] ( const auto& pair ) {
+
+    return std::get< 1 >( pair ) != 0.;
+  };
   auto toEnergy = [&] ( double value ) -> Energy {
 
     return value * electronVolt;
@@ -128,14 +140,24 @@ makeParticleChannelData(
 
     if ( endfSpinGroup.parameters().numberResonances() != 0 ) {
 
-      auto energies = endfSpinGroup.parameters().resonanceEnergies()
-                        | ranges::view::transform( toEnergy );
-      auto widths = endfSpinGroup.parameters().resonanceParameters()
-                      | ranges::view::transform( [i] ( const auto& widths )
-                                                     { return widths[i]; } );
-      auto reduced = toReducedWidths( channels[i], energies, widths );
-      data.emplace_back( channels[i], std::move( energies ),
-                         std::move( reduced ), false );
+      auto pairs = ranges::view::zip(
+                     endfSpinGroup.parameters().resonanceEnergies(),
+                     endfSpinGroup.parameters().resonanceParameters()
+                       | ranges::view::transform( [i] ( const auto& widths )
+                                                      { return widths[i]; } ) );
+      auto nonzero = pairs | ranges::view::filter( nonZero );
+
+      if ( ranges::distance( nonzero ) != 0 ) {
+
+        auto energies = nonzero | ranges::view::transform( first )
+                                | ranges::view::transform( toEnergy )
+                                | ranges::to_vector;
+        auto widths = nonzero | ranges::view::transform( second )
+                              | ranges::to_vector;
+        auto reduced = toReducedWidths( channels[i], energies, widths );
+        data.emplace_back( channels[i], std::move( energies ),
+                           std::move( reduced ), false );
+      }
     }
     else {
 
@@ -163,6 +185,18 @@ makeParticleChannelData(
   std::vector< ParticleChannelData > data;
 
   // some usefull lambdas
+  auto first = [] ( const auto& pair ) {
+
+    return std::get< 0 >( pair );
+  };
+  auto second = [] ( const auto& pair ) {
+
+    return std::get< 1 >( pair );
+  };
+  auto nonZero = [] ( const auto& pair ) {
+
+    return std::get< 1 >( pair ) != 0.;
+  };
   auto toEnergy = [&] ( double value ) -> Energy {
 
     return value * electronVolt;
@@ -224,14 +258,25 @@ makeParticleChannelData(
 
     if ( endfSpinGroup.parameters().numberResonances() != 0 ) {
 
-      auto energies = endfSpinGroup.parameters().resonanceEnergies()
-                        | ranges::view::transform( toEnergy );
-      auto widths = endfSpinGroup.parameters().resonanceParameters()
-                      | ranges::view::transform( [i] ( const auto& widths )
-                                                     { return widths[i]; } );
-      auto reduced = toReducedWidths( channels[i], energies, widths );
-      data.emplace_back( channels[i], std::move( energies ),
-                         std::move( reduced ), i == eliminated ? true : false );
+      auto pairs = ranges::view::zip(
+                     endfSpinGroup.parameters().resonanceEnergies(),
+                     endfSpinGroup.parameters().resonanceParameters()
+                       | ranges::view::transform( [i] ( const auto& widths )
+                                                      { return widths[i]; } ) );
+      auto nonzero = pairs | ranges::view::filter( nonZero );
+
+      if ( ranges::distance( nonzero ) != 0 ) {
+
+        auto energies = nonzero | ranges::view::transform( first )
+                                | ranges::view::transform( toEnergy )
+                                | ranges::to_vector;
+        auto widths = nonzero | ranges::view::transform( second )
+                              | ranges::to_vector;
+        auto reduced = toReducedWidths( channels[i], energies, widths );
+        data.emplace_back( channels[i], std::move( energies ),
+                           std::move( reduced ),
+                           i == eliminated ? true : false );
+      }
     }
     else {
 
