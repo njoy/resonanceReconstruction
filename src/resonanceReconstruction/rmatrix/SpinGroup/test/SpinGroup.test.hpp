@@ -443,7 +443,5 @@ void verifySpinGroup( const SpinGroup< ReichMoore, ShiftFactor >& group ) {
   // grid information
   auto grid = group.grid();
   CHECK( 3 == grid.size() );
-  CHECK( ( 0.25 > grid[0].value ) == true );
   CHECK( 0.25 == Approx( grid[1].value ) );
-  CHECK( ( 0.25 < grid[2].value ) == true );
 }

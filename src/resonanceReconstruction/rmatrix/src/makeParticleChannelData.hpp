@@ -85,6 +85,22 @@ makeParticleChannelData(
   std::vector< ParticleChannelData > data;
 
   // some usefull lambdas
+  auto isIncidentChannel = [] ( const auto& channel ) {
+
+    return channel.isIncidentChannel();
+  };
+  auto first = [] ( const auto& pair ) {
+
+    return std::get< 0 >( pair );
+  };
+  auto second = [] ( const auto& pair ) {
+
+    return std::get< 1 >( pair );
+  };
+  auto nonZero = [] ( const auto& pair ) {
+
+    return std::get< 1 >( pair ) != 0.;
+  };
   auto toEnergy = [&] ( double value ) -> Energy {
 
     return value * electronVolt;
@@ -128,21 +144,51 @@ makeParticleChannelData(
 
     if ( endfSpinGroup.parameters().numberResonances() != 0 ) {
 
-      auto energies = endfSpinGroup.parameters().resonanceEnergies()
-                        | ranges::view::transform( toEnergy );
-      auto widths = endfSpinGroup.parameters().resonanceParameters()
-                      | ranges::view::transform( [i] ( const auto& widths )
-                                                     { return widths[i]; } );
-      auto reduced = toReducedWidths( channels[i], energies, widths );
-      data.emplace_back( channels[i], std::move( energies ),
-                         std::move( reduced ), false );
+      auto pairs = ranges::view::zip(
+                     endfSpinGroup.parameters().resonanceEnergies(),
+                     endfSpinGroup.parameters().resonanceParameters()
+                       | ranges::view::transform( [i] ( const auto& widths )
+                                                      { return widths[i]; } ) );
+      auto nonzero = pairs | ranges::view::filter( nonZero );
+
+      // only add the channel if there are resonances
+      if ( ranges::distance( nonzero ) != 0 ) {
+
+        auto energies = nonzero | ranges::view::transform( first )
+                                | ranges::view::transform( toEnergy )
+                                | ranges::to_vector;
+        auto widths = nonzero | ranges::view::transform( second )
+                              | ranges::to_vector;
+        auto reduced = toReducedWidths( channels[i], energies, widths );
+        data.emplace_back( channels[i], std::move( energies ),
+                           std::move( reduced ), false );
+      }
+      else {
+
+        // the channel has no data - only elastic channels contribute
+        // if it is an elastic channel, add an empty elastic channel to take
+        // into account potential scattering
+        if ( std::visit( isIncidentChannel, channels[i] ) == true ) {
+
+          data.emplace_back( channels[i],
+                             std::vector< Energy >{},
+                             std::vector< ReducedWidth >{},
+                             false );
+        }
+      }
     }
     else {
 
-      data.emplace_back( channels[i],
-                         std::vector< Energy >{},
-                         std::vector< ReducedWidth >{},
-                         false );
+      // the entire spin group is empty - only elastic channels contribute
+      // if it is an elastic channel, add an empty elastic channel to take
+      // into account potential scattering
+      if ( std::visit( isIncidentChannel, channels[i] ) == true ) {
+
+        data.emplace_back( channels[i],
+                           std::vector< Energy >{},
+                           std::vector< ReducedWidth >{},
+                           false );
+      }
     }
   }
 
@@ -163,6 +209,22 @@ makeParticleChannelData(
   std::vector< ParticleChannelData > data;
 
   // some usefull lambdas
+  auto isIncidentChannel = [] ( const auto& channel ) {
+
+    return channel.isIncidentChannel();
+  };
+  auto first = [] ( const auto& pair ) {
+
+    return std::get< 0 >( pair );
+  };
+  auto second = [] ( const auto& pair ) {
+
+    return std::get< 1 >( pair );
+  };
+  auto nonZero = [] ( const auto& pair ) {
+
+    return std::get< 1 >( pair ) != 0.;
+  };
   auto toEnergy = [&] ( double value ) -> Energy {
 
     return value * electronVolt;
@@ -224,21 +286,51 @@ makeParticleChannelData(
 
     if ( endfSpinGroup.parameters().numberResonances() != 0 ) {
 
-      auto energies = endfSpinGroup.parameters().resonanceEnergies()
-                        | ranges::view::transform( toEnergy );
-      auto widths = endfSpinGroup.parameters().resonanceParameters()
-                      | ranges::view::transform( [i] ( const auto& widths )
-                                                     { return widths[i]; } );
-      auto reduced = toReducedWidths( channels[i], energies, widths );
-      data.emplace_back( channels[i], std::move( energies ),
-                         std::move( reduced ), i == eliminated ? true : false );
+      auto pairs = ranges::view::zip(
+                     endfSpinGroup.parameters().resonanceEnergies(),
+                     endfSpinGroup.parameters().resonanceParameters()
+                       | ranges::view::transform( [i] ( const auto& widths )
+                                                      { return widths[i]; } ) );
+      auto nonzero = pairs | ranges::view::filter( nonZero );
+
+      if ( ranges::distance( nonzero ) != 0 ) {
+
+        auto energies = nonzero | ranges::view::transform( first )
+                                | ranges::view::transform( toEnergy )
+                                | ranges::to_vector;
+        auto widths = nonzero | ranges::view::transform( second )
+                              | ranges::to_vector;
+        auto reduced = toReducedWidths( channels[i], energies, widths );
+        data.emplace_back( channels[i], std::move( energies ),
+                           std::move( reduced ),
+                           i == eliminated ? true : false );
+      }
+      else {
+
+        // the channel has no data - only elastic channels contribute
+        // if it is an elastic channel, add an empty elastic channel to take
+        // into account potential scattering
+        if ( std::visit( isIncidentChannel, channels[i] ) == true ) {
+
+          data.emplace_back( channels[i],
+                             std::vector< Energy >{},
+                             std::vector< ReducedWidth >{},
+                             false );
+        }
+      }
     }
     else {
 
-      data.emplace_back( channels[i],
-                         std::vector< Energy >{},
-                         std::vector< ReducedWidth >{},
-                         i == eliminated ? true : false );
+      // the entire spin group is empty - only elastic channels contribute
+      // if it is an elastic channel, add an empty elastic channel to take
+      // into account potential scattering
+      if ( std::visit( isIncidentChannel, channels[i] ) == true ) {
+
+        data.emplace_back( channels[i],
+                           std::vector< Energy >{},
+                           std::vector< ReducedWidth >{},
+                           false );
+      }
     }
   }
 
