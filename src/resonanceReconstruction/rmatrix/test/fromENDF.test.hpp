@@ -363,14 +363,71 @@ SCENARIO( "fromENDF" ) {
       // resonance reconstruction verification
       // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
+      // values taken from NJOY2016 PENDF tape for ENDF/B-VIII.0 Fe54
+
       ReactionID elas( "n,Fe54->n,Fe54" );
       ReactionID capt( "n,Fe54->capture" );
       std::map< ReactionID, CrossSection > xs;
 
       xs = resonances( 1e-5 * electronVolt );
       CHECK( 2 == xs.size() );
-      CHECK( 2.1623144509 == Approx( xs[ elas ].value ) );
-      CHECK( 113.3307443304 == Approx( xs[ capt ].value ) );
+      CHECK( 2.162315 == Approx( xs[ elas ].value ) );
+      CHECK( 1.133306e+2 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1e-4 * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 2.162315 == Approx( xs[ elas ].value ) );
+      CHECK( 3.583829e+1 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1e-3 * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 2.162314 == Approx( xs[ elas ].value ) );
+      CHECK( 1.133307e+1 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1e-2 * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 2.162307 == Approx( xs[ elas ].value ) );
+      CHECK( 3.583834 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1e-1 * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 2.162233 == Approx( xs[ elas ].value ) );
+      CHECK( 1.133321 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1. * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 2.161498 == Approx( xs[ elas ].value ) );
+      CHECK( 3.584290e-1 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1e+1 * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 2.154145 == Approx( xs[ elas ].value ) );
+      CHECK( 1.134767e-1 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1e+2 * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 2.080799 == Approx( xs[ elas ].value ) );
+      CHECK( 3.631075e-2 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1e+3 * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 1.366975 == Approx( xs[ elas ].value ) );
+      CHECK( 1.321792e-2 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1e+4 * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 46.15276 == Approx( xs[ elas ].value ) );
+      CHECK( 2.555440e-2 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1e+5 * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 3.750047 == Approx( xs[ elas ].value ) );
+      CHECK( 5.879488e-3 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1e+6 * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 4.481752 == Approx( xs[ elas ].value ) );
+      CHECK( 1.369045e-3 == Approx( xs[ capt ].value ) );
     } // THEN
   } // GIVEN
 
@@ -1264,6 +1321,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 3.54988e-5 == Approx( xs[ capt ].value ) );
     } // THEN
   } // GIVEN
+
   GIVEN( "valid ENDF data for Cl35" ) {
 
     std::string string = Cl35();
@@ -2270,7 +2328,6 @@ SCENARIO( "fromENDF" ) {
       ReactionID capt( "n,Cl35->capture" );
       std::map< ReactionID, CrossSection > xs;
 
-      // this value previously produced NaN cross section values
       xs = resonances( 1e-5 * electronVolt );
       CHECK( 3 == xs.size() );
       CHECK( 20.6887411443 == Approx( xs[ elas ].value ) );

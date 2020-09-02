@@ -1081,7 +1081,7 @@ SCENARIO( "fromENDF - LRF3" ) {
 
     THEN( "cross sections can be reconstructed" ) {
 
-      // values taken from NJOY2016 PeNDF tape for ENDF/B-VIII.0 Pu239
+      // values taken from NJOY2016 PENDF tape for ENDF/B-VIII.0 Pu239
 
       ReactionID elas( "n,Pu239->n,Pu239" );
       ReactionID fiss( "n,Pu239->fission" );
