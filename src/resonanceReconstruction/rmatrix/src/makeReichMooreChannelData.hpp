@@ -3,6 +3,7 @@ makeReichMooreChannelData(
     const ENDF::resolved::ReichMooreLValue& endfLValue,
     const ParticlePair& pair, const ChannelRadii& radii,
     std::vector< ChannelQuantumNumbers >& available,
+    const std::optional< ChannelRadiusTable >& nro,
     const unsigned int& naps ) {
 
   // the spin groups found
@@ -98,7 +99,8 @@ makeReichMooreChannelData(
   ChannelRadii useRadii = radii;
   if ( apl != 0. ) {
 
-    useRadii = makeChannelRadii( apl, naps, awri, pair.particle().mass().value );
+    useRadii = makeChannelRadii( apl, nro, naps,
+                                 awri, pair.particle().mass().value );
   }
 
   // the different J values referenced in the table

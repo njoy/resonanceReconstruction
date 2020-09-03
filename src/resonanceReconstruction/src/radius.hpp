@@ -1,4 +1,4 @@
-inline auto radius( double scalar ){
+inline auto radius( const double scalar ){
   return
     [ r = scalar * rootBarn ]
     ( const Quantity<ElectronVolts> /* energy */ )

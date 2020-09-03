@@ -5,6 +5,7 @@ makeReichMooreCompoundSystem(
     const ElectricalCharge& elementaryCharge,
     const ParticleID& incident,
     const ParticleID& target,
+    const std::optional< ChannelRadiusTable >& nro,
     unsigned int naps ) {
 
   // get some information
@@ -21,7 +22,8 @@ makeReichMooreCompoundSystem(
                              0.0 * coulombs, spin, +1) );
 
   // channel radii
-  ChannelRadii radii = makeChannelRadii( ap, naps, awri, neutronMass.value );
+  ChannelRadii radii = makeChannelRadii( ap, nro, naps,
+                                         awri, neutronMass.value );
 
   // create the spin groups and assign the quantum numbers
   auto required = makeQuantumNumbers( in, nlsc );
@@ -29,7 +31,8 @@ makeReichMooreCompoundSystem(
   std::vector< ParticleChannelData > data;
   for ( const auto& lvalue : lvalues ) {
 
-    auto stuff = makeReichMooreChannelData( lvalue, in, radii, required, naps );
+    auto stuff = makeReichMooreChannelData( lvalue, in, radii, required,
+                                            nro, naps );
     data.insert( data.end(), stuff.begin(), stuff.end() );
   }
 
@@ -43,5 +46,6 @@ makeReichMooreCompoundSystem(
   }
 
   // return the resulting compound system
-  return CompoundSystem< ReichMoore, ShiftFactor >( std::move( data ) );
+  return CompoundSystem< ReichMoore, ShiftFactor >(
+             std::move( consolidateChannelData( data ) ) );
 }

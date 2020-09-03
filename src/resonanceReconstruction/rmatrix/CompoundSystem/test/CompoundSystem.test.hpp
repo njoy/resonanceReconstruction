@@ -345,4 +345,14 @@ void checkCompoundSystem( const CompoundSystem< ReichMoore, ShiftFactor >& syste
   CHECK( 0. == Approx( resonance.eliminatedWidth().value ) );
   CHECK( 1 == resonance.widths().size() );
   CHECK( 9. == Approx( resonance.widths()[0].value ) );
+
+  // grid information
+  auto grid = system.grid();
+  CHECK( 18 == grid.size() );
+  CHECK( 10. == Approx( grid[1].value ) );
+  CHECK( 100. == Approx( grid[4].value ) );
+  CHECK( 1000. == Approx( grid[7].value ) );
+  CHECK( 10000. == Approx( grid[10].value ) );
+  CHECK( 100000. == Approx( grid[13].value ) );
+  CHECK( 150000. == Approx( grid[16].value ) );
 }

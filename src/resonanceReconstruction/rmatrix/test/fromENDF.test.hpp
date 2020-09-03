@@ -62,7 +62,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( +1 == incident00.residual().parity() );
       CHECK( "n,Fe54" == incident00.pairID().symbol() );
 
-      // particle pair
+      // particle pairs
       const auto pair00 = channel00.particlePair();
       CHECK( 1.008664 == Approx( pair00.particle().mass().value ) );
       CHECK( 0.0 == Approx( pair00.particle().charge().value ) );
@@ -76,11 +76,11 @@ SCENARIO( "fromENDF" ) {
 
       // quantum numbers
       const auto numbers00 = channel00.quantumNumbers();
-      CHECK( 0 == numbers00.orbitalAngularMomentum() );
+      CHECK( 1 == numbers00.orbitalAngularMomentum() );
       CHECK( 0.5 == numbers00.spin() );
       CHECK( 0.5 == numbers00.totalAngularMomentum() );
-      CHECK( +1 == numbers00.parity() );
-      CHECK( "{0,1/2,1/2+}" == numbers00.toString() );
+      CHECK( -1 == numbers00.parity() );
+      CHECK( "{1,1/2,1/2-}" == numbers00.toString() );
 
       // radii
       const auto radii00 = channel00.radii();
@@ -93,28 +93,6 @@ SCENARIO( "fromENDF" ) {
 
       // Q value
       CHECK( 0.0 == Approx( channel00.Q().value ) );
-
-      // resonance table
-      auto table0 = spingroup0.resonanceTable();
-
-      CHECK( 1 == table0.numberChannels() ); // 1 normal channel + 1 eliminated
-      CHECK( 148 == table0.numberResonances() );
-
-      auto energies0 = table0.energies();
-      CHECK( -1.223300e+6 == Approx( energies0.front().value ) );
-      CHECK( 1.505510e+6 == Approx( energies0.back().value ) );
-
-      auto resonances0 = table0.resonances();
-      CHECK( -1.223300e+6 == Approx( resonances0.front().energy().value ) );
-      CHECK( 1.505510e+6 == Approx( resonances0.back().energy().value ) );
-      CHECK( 1 == resonances0.front().widths().size() );
-      CHECK( 1 == resonances0.back().widths().size() );
-      CHECK( std::sqrt( 961108.6 / 2. / channel00.penetrability( -1.223300e+6 * electronVolt ) )
-             == Approx( resonances0.front().widths().front().value ) );
-      CHECK( std::sqrt( 1601.084 / 2. / channel00.penetrability( 1.505510e+6 * electronVolt ) )
-             == Approx( resonances0.back().widths().front().value ) );
-      CHECK( std::sqrt( 1. / 2. ) == Approx( resonances0.front().eliminatedWidth().value ) );
-      CHECK( std::sqrt( .64906 / 2. ) == Approx( resonances0.back().eliminatedWidth().value ) );
 
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // spin group 1
@@ -144,7 +122,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( +1 == incident10.residual().parity() );
       CHECK( "n,Fe54" == incident10.pairID().symbol() );
 
-      // particle pairs
+      // particle pair
       const auto pair10 = channel10.particlePair();
       CHECK( 1.008664 == Approx( pair10.particle().mass().value ) );
       CHECK( 0.0 == Approx( pair10.particle().charge().value ) );
@@ -158,11 +136,11 @@ SCENARIO( "fromENDF" ) {
 
       // quantum numbers
       const auto numbers10 = channel10.quantumNumbers();
-      CHECK( 1 == numbers10.orbitalAngularMomentum() );
+      CHECK( 0 == numbers10.orbitalAngularMomentum() );
       CHECK( 0.5 == numbers10.spin() );
       CHECK( 0.5 == numbers10.totalAngularMomentum() );
-      CHECK( -1 == numbers10.parity() );
-      CHECK( "{1,1/2,1/2-}" == numbers10.toString() );
+      CHECK( +1 == numbers10.parity() );
+      CHECK( "{0,1/2,1/2+}" == numbers10.toString() );
 
       // radii
       const auto radii10 = channel10.radii();
@@ -175,6 +153,28 @@ SCENARIO( "fromENDF" ) {
 
       // Q value
       CHECK( 0.0 == Approx( channel10.Q().value ) );
+
+      // resonance table
+      auto table1 = spingroup1.resonanceTable();
+
+      CHECK( 1 == table1.numberChannels() ); // 1 normal channel + 1 eliminated
+      CHECK( 148 == table1.numberResonances() );
+
+      auto energies1 = table1.energies();
+      CHECK( -1.223300e+6 == Approx( energies1.front().value ) );
+      CHECK( 1.505510e+6 == Approx( energies1.back().value ) );
+
+      auto resonances1 = table1.resonances();
+      CHECK( -1.223300e+6 == Approx( resonances1.front().energy().value ) );
+      CHECK( 1.505510e+6 == Approx( resonances1.back().energy().value ) );
+      CHECK( 1 == resonances1.front().widths().size() );
+      CHECK( 1 == resonances1.back().widths().size() );
+      CHECK( std::sqrt( 961108.6 / 2. / channel10.penetrability( -1.223300e+6 * electronVolt ) )
+             == Approx( resonances1.front().widths().front().value ) );
+      CHECK( std::sqrt( 1601.084 / 2. / channel10.penetrability( 1.505510e+6 * electronVolt ) )
+             == Approx( resonances1.back().widths().front().value ) );
+      CHECK( std::sqrt( 1. / 2. ) == Approx( resonances1.front().eliminatedWidth().value ) );
+      CHECK( std::sqrt( .64906 / 2. ) == Approx( resonances1.back().eliminatedWidth().value ) );
 
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // spin group 2
@@ -355,18 +355,79 @@ SCENARIO( "fromENDF" ) {
 
       // Q value
       CHECK( 0.0 == Approx( channel40.Q().value ) );
+    } // THEN
+
+    THEN( "cross sections can be reconstructed" ) {
 
       // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
       // resonance reconstruction verification
       // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-    } // THEN
+      // values taken from NJOY2016 PENDF tape for ENDF/B-VIII.0 Fe54
 
-    THEN( "cross sections can be reconstructed" ) {
+      ReactionID elas( "n,Fe54->n,Fe54" );
+      ReactionID capt( "n,Fe54->capture" );
+      std::map< ReactionID, CrossSection > xs;
 
-      std::map< ReactionID, CrossSection > result = resonances( 1e-5 * electronVolt );
+      xs = resonances( 1e-5 * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 2.162315 == Approx( xs[ elas ].value ) );
+      CHECK( 1.133306e+2 == Approx( xs[ capt ].value ) );
 
+      xs = resonances( 1e-4 * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 2.162315 == Approx( xs[ elas ].value ) );
+      CHECK( 3.583829e+1 == Approx( xs[ capt ].value ) );
 
+      xs = resonances( 1e-3 * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 2.162314 == Approx( xs[ elas ].value ) );
+      CHECK( 1.133307e+1 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1e-2 * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 2.162307 == Approx( xs[ elas ].value ) );
+      CHECK( 3.583834 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1e-1 * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 2.162233 == Approx( xs[ elas ].value ) );
+      CHECK( 1.133321 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1. * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 2.161498 == Approx( xs[ elas ].value ) );
+      CHECK( 3.584290e-1 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1e+1 * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 2.154145 == Approx( xs[ elas ].value ) );
+      CHECK( 1.134767e-1 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1e+2 * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 2.080799 == Approx( xs[ elas ].value ) );
+      CHECK( 3.631075e-2 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1e+3 * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 1.366975 == Approx( xs[ elas ].value ) );
+      CHECK( 1.321792e-2 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1e+4 * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 46.15276 == Approx( xs[ elas ].value ) );
+      CHECK( 2.555440e-2 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1e+5 * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 3.750047 == Approx( xs[ elas ].value ) );
+      CHECK( 5.879488e-3 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1e+6 * electronVolt );
+      CHECK( 2 == xs.size() );
+      CHECK( 4.481752 == Approx( xs[ elas ].value ) );
+      CHECK( 1.369045e-3 == Approx( xs[ capt ].value ) );
     } // THEN
   } // GIVEN
 
@@ -442,17 +503,17 @@ SCENARIO( "fromENDF" ) {
 
       // quantum numbers
       const auto numbers00 = channel00.quantumNumbers();
-      CHECK( 0 == numbers00.orbitalAngularMomentum() );
+      CHECK( 1 == numbers00.orbitalAngularMomentum() );
       CHECK( 0.5 == numbers00.spin() );
       CHECK( 0.5 == numbers00.totalAngularMomentum() );
-      CHECK( +1 == numbers00.parity() );
-      CHECK( "{0,1/2,1/2+}" == numbers00.toString() );
+      CHECK( -1 == numbers00.parity() );
+      CHECK( "{1,1/2,1/2-}" == numbers00.toString() );
 
       // radii
       const auto radii00 = channel00.radii();
       CHECK( 0.4993153 == Approx( radii00.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
       CHECK( 0.4993153 == Approx( radii00.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
-      CHECK( 0.3828792 == Approx( radii00.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.5574746 == Approx( radii00.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
 
       // boundary conditions
       CHECK( 0. == channel00.boundaryCondition() );
@@ -492,11 +553,11 @@ SCENARIO( "fromENDF" ) {
 
       // quantum numbers
       const auto numbers01 = channel01.quantumNumbers();
-      CHECK( 2 == numbers01.orbitalAngularMomentum() );
+      CHECK( 1 == numbers01.orbitalAngularMomentum() );
       CHECK( 1.5 == numbers01.spin() );
       CHECK( 0.5 == numbers01.totalAngularMomentum() );
-      CHECK( +1 == numbers01.parity() );
-      CHECK( "{2,3/2,1/2+}" == numbers01.toString() );
+      CHECK( -1 == numbers01.parity() );
+      CHECK( "{1,3/2,1/2-}" == numbers01.toString() );
 
       // radii
       const auto radii01 = channel01.radii();
@@ -514,27 +575,27 @@ SCENARIO( "fromENDF" ) {
       auto table0 = spingroup0.resonanceTable();
 
       CHECK( 2 == table0.numberChannels() ); // 2 normal channel + 1 eliminated
-      CHECK( 39 == table0.numberResonances() );
+      CHECK( 51 == table0.numberResonances() );
 
       auto energies0 = table0.energies();
-      CHECK( -4.586687e+5 == Approx( energies0.front().value ) );
-      CHECK( 1.913996e+6 == Approx( energies0.back().value ) );
+      CHECK( 2.880782e+3 == Approx( energies0.front().value ) );
+      CHECK( 1.496383e+6 == Approx( energies0.back().value ) );
 
       auto resonances0 = table0.resonances();
-      CHECK( -4.586687e+5 == Approx( resonances0.front().energy().value ) );
-      CHECK( 1.913996e+6 == Approx( resonances0.back().energy().value ) );
+      CHECK( 2.880782e+3 == Approx( resonances0.front().energy().value ) );
+      CHECK( 1.496383e+6 == Approx( resonances0.back().energy().value ) );
       CHECK( 2 == resonances0.front().widths().size() );
       CHECK( 2 == resonances0.back().widths().size() );
-      CHECK( std::sqrt( 9.809761e+2 / 2. / channel00.penetrability( -4.586687e+5 * electronVolt ) )
+      CHECK( std::sqrt( 1.810972e-3 / 2. / channel00.penetrability( 2.880782e+3 * electronVolt ) )
              == Approx( resonances0.front().widths()[0].value ) );
-      CHECK( std::sqrt( 2.199782e-3 / 2. / channel01.penetrability( -4.586687e+5 * electronVolt ) )
+      CHECK( std::sqrt( 1.000029e-3 / 2. / channel01.penetrability( 2.880782e+3 * electronVolt ) )
              == Approx( resonances0.front().widths()[1].value ) );
-      CHECK( std::sqrt( 1.878975e+5 / 2. / channel00.penetrability( 1.913996e+6 * electronVolt ) )
+      CHECK( std::sqrt( 1.448484e+2 / 2. / channel00.penetrability( 1.496383e+6 * electronVolt ) )
              == Approx( resonances0.back().widths()[0].value ) );
-      CHECK( std::sqrt( 2.784131e-4 / 2. / channel01.penetrability( 1.913996e+6 * electronVolt ) )
+      CHECK( std::sqrt( 1.012630e-3 / 2. / channel01.penetrability( 1.496383e+6 * electronVolt ) )
              == Approx( resonances0.back().widths()[1].value ) );
-      CHECK( std::sqrt( 1.000091 / 2. ) == Approx( resonances0.front().eliminatedWidth().value ) );
-      CHECK( std::sqrt( 1. / 2. ) == Approx( resonances0.back().eliminatedWidth().value ) );
+      CHECK( std::sqrt( 3.499989e-1 / 2. ) == Approx( resonances0.front().eliminatedWidth().value ) );
+      CHECK( std::sqrt( 1.050878 / 2. ) == Approx( resonances0.back().eliminatedWidth().value ) );
 
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // spin group 1
@@ -578,17 +639,17 @@ SCENARIO( "fromENDF" ) {
 
       // quantum numbers
       const auto numbers10 = channel10.quantumNumbers();
-      CHECK( 1 == numbers10.orbitalAngularMomentum() );
+      CHECK( 0 == numbers10.orbitalAngularMomentum() );
       CHECK( 0.5 == numbers10.spin() );
       CHECK( 0.5 == numbers10.totalAngularMomentum() );
-      CHECK( -1 == numbers10.parity() );
-      CHECK( "{1,1/2,1/2-}" == numbers10.toString() );
+      CHECK( +1 == numbers10.parity() );
+      CHECK( "{0,1/2,1/2+}" == numbers10.toString() );
 
       // radii
       const auto radii10 = channel10.radii();
       CHECK( 0.4993153 == Approx( radii10.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
       CHECK( 0.4993153 == Approx( radii10.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
-      CHECK( 0.5574746 == Approx( radii10.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.3828792 == Approx( radii10.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
 
       // boundary conditions
       CHECK( 0. == channel10.boundaryCondition() );
@@ -628,11 +689,11 @@ SCENARIO( "fromENDF" ) {
 
       // quantum numbers
       const auto numbers11 = channel11.quantumNumbers();
-      CHECK( 1 == numbers11.orbitalAngularMomentum() );
+      CHECK( 2 == numbers11.orbitalAngularMomentum() );
       CHECK( 1.5 == numbers11.spin() );
       CHECK( 0.5 == numbers11.totalAngularMomentum() );
-      CHECK( -1 == numbers11.parity() );
-      CHECK( "{1,3/2,1/2-}" == numbers11.toString() );
+      CHECK( +1 == numbers11.parity() );
+      CHECK( "{2,3/2,1/2+}" == numbers11.toString() );
 
       // radii
       const auto radii11 = channel11.radii();
@@ -650,27 +711,27 @@ SCENARIO( "fromENDF" ) {
       auto table1 = spingroup1.resonanceTable();
 
       CHECK( 2 == table1.numberChannels() ); // 2 normal channel + 1 eliminated
-      CHECK( 51 == table1.numberResonances() );
+      CHECK( 39 == table1.numberResonances() );
 
       auto energies1 = table1.energies();
-      CHECK( 2.880782e+3 == Approx( energies1.front().value ) );
-      CHECK( 1.496383e+6 == Approx( energies1.back().value ) );
+      CHECK( -4.586687e+5 == Approx( energies1.front().value ) );
+      CHECK( 1.913996e+6 == Approx( energies1.back().value ) );
 
       auto resonances1 = table1.resonances();
-      CHECK( 2.880782e+3 == Approx( resonances1.front().energy().value ) );
-      CHECK( 1.496383e+6 == Approx( resonances1.back().energy().value ) );
+      CHECK( -4.586687e+5 == Approx( resonances1.front().energy().value ) );
+      CHECK( 1.913996e+6 == Approx( resonances1.back().energy().value ) );
       CHECK( 2 == resonances1.front().widths().size() );
       CHECK( 2 == resonances1.back().widths().size() );
-      CHECK( std::sqrt( 1.810972e-3 / 2. / channel10.penetrability( 2.880782e+3 * electronVolt ) )
+      CHECK( std::sqrt( 9.809761e+2 / 2. / channel10.penetrability( -4.586687e+5 * electronVolt ) )
              == Approx( resonances1.front().widths()[0].value ) );
-      CHECK( std::sqrt( 1.000029e-3 / 2. / channel11.penetrability( 2.880782e+3 * electronVolt ) )
+      CHECK( std::sqrt( 2.199782e-3 / 2. / channel11.penetrability( -4.586687e+5 * electronVolt ) )
              == Approx( resonances1.front().widths()[1].value ) );
-      CHECK( std::sqrt( 1.448484e+2 / 2. / channel10.penetrability( 1.496383e+6 * electronVolt ) )
+      CHECK( std::sqrt( 1.878975e+5 / 2. / channel10.penetrability( 1.913996e+6 * electronVolt ) )
              == Approx( resonances1.back().widths()[0].value ) );
-      CHECK( std::sqrt( 1.012630e-3 / 2. / channel11.penetrability( 1.496383e+6 * electronVolt ) )
+      CHECK( std::sqrt( 2.784131e-4 / 2. / channel11.penetrability( 1.913996e+6 * electronVolt ) )
              == Approx( resonances1.back().widths()[1].value ) );
-      CHECK( std::sqrt( 3.499989e-1 / 2. ) == Approx( resonances1.front().eliminatedWidth().value ) );
-      CHECK( std::sqrt( 1.050878 / 2. ) == Approx( resonances1.back().eliminatedWidth().value ) );
+      CHECK( std::sqrt( 1.000091 / 2. ) == Approx( resonances1.front().eliminatedWidth().value ) );
+      CHECK( std::sqrt( 1. / 2. ) == Approx( resonances1.back().eliminatedWidth().value ) );
 
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // spin group 2
@@ -760,7 +821,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 19.0 * 1.602e-19 == Approx( pair21.residual().charge().value ) );
       CHECK( 4.0 == Approx( pair21.residual().spin() ) );
       CHECK( -1 == pair21.residual().parity() );
-      CHECK( "p,K40_e1" == pair21.pairID().symbol() );
+      CHECK( "p,K40" == pair21.pairID().symbol() );
 
       // quantum numbers
       const auto numbers21 = channel21.quantumNumbers();
@@ -1140,7 +1201,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 19.0 * 1.602e-19 == Approx( pair41.residual().charge().value ) );
       CHECK( 4.0 == Approx( pair41.residual().spin() ) );
       CHECK( -1 == pair41.residual().parity() );
-      CHECK( "p,K40_e1" == pair41.pairID().symbol() );
+      CHECK( "p,K40" == pair41.pairID().symbol() );
 
       // quantum numbers
       const auto numbers41 = channel41.quantumNumbers();
@@ -1245,9 +1306,1033 @@ SCENARIO( "fromENDF" ) {
 
     THEN( "cross sections can be reconstructed" ) {
 
-      std::map< ReactionID, CrossSection > result = resonances( 1e-5 * electronVolt );
+      ReactionID elas( "n,Ca40->n,Ca40" );
+      ReactionID prot( "n,Ca40->h1,K40" );
+      ReactionID alph( "n,Ca40->he4,Ar37" );
+      ReactionID capt( "n,Ca40->capture" );
+      std::map< ReactionID, CrossSection > xs;
 
+      // this value previously produced NaN cross section values
+      xs = resonances( 542087 * electronVolt );
+      CHECK( 4 == xs.size() );
+      CHECK( 0.5977843018 == Approx( xs[ elas ].value ) );
+      CHECK( 0. == Approx( xs[ prot ].value ) );
+      CHECK( 9.8241e-6 == Approx( xs[ alph ].value ) );
+      CHECK( 3.54988e-5 == Approx( xs[ capt ].value ) );
+    } // THEN
+  } // GIVEN
 
+  GIVEN( "valid ENDF data for Cl35" ) {
+
+    std::string string = Cl35();
+    auto begin = string.begin();
+    auto end = string.end();
+    long lineNumber = 1;
+
+    njoy::ENDFtk::HeadRecord head( begin, end, lineNumber );
+    njoy::ENDFtk::section::Type< 2, 151 > endf( head, begin, end, lineNumber, 1725 );
+    ResonanceRange endfResonanceRange = endf.isotopes().front().resonanceRanges().front();
+
+    auto resonances = fromENDF( endfResonanceRange, neutronMass, elementaryCharge, ParticleID( "n" ), ParticleID( "Cl35" ) );
+
+    THEN( "the appropriate CompoundSystem is returned" ) {
+
+      CHECK( true == resonances.isResolved() );
+      CHECK( false == resonances.isUnresolved() );
+      CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
+      CHECK( 1.2e+6 == Approx( resonances.upperEnergy().value ) );
+
+      auto compoundsystem = std::get< CompoundSystem< ReichMoore, ShiftFactor > >( resonances.compoundSystem() );
+
+      // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+      // content verification
+      // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+      // spin groups
+      auto spingroups = compoundsystem.spinGroups();
+      CHECK( 6 == spingroups.size() );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 0
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      auto spingroup0 = spingroups[0];
+
+      // channels
+      auto channels0 = spingroup0.channels();
+
+      CHECK( 1 == channels0.size() ); // 2 normal channel + 1 eliminated
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 0, channel 0: elastic
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel00 = std::get< Channel< Neutron > >( channels0[0] );
+
+      // incident particle pair
+      const auto incident00 = channel00.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident00.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident00.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident00.particle().spin() ) );
+      CHECK( +1 == incident00.particle().parity() );
+      CHECK( 34.66845 * 1.008664 == Approx( incident00.residual().mass().value ) );
+      CHECK( 17.0 * 1.602e-19 == Approx( incident00.residual().charge().value ) );
+      CHECK( 1.5 == Approx( incident00.residual().spin() ) );
+      CHECK( +1 == incident00.residual().parity() );
+      CHECK( "n,Cl35" == incident00.pairID().symbol() );
+
+      // particle pair
+      const auto pair00 = channel00.particlePair();
+      CHECK( 1.008664 == Approx( pair00.particle().mass().value ) );
+      CHECK( 0.0 == Approx( pair00.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair00.particle().spin() ) );
+      CHECK( +1 == pair00.particle().parity() );
+      CHECK( 34.66845 * 1.008664 == Approx( pair00.residual().mass().value ) );
+      CHECK( 17.0 * 1.602e-19 == Approx( pair00.residual().charge().value ) );
+      CHECK( 1.5 == Approx( pair00.residual().spin() ) );
+      CHECK( +1 == pair00.residual().parity() );
+      CHECK( "n,Cl35" == pair00.pairID().symbol() );
+
+      // quantum numbers
+      const auto numbers00 = channel00.quantumNumbers();
+      CHECK( 1 == numbers00.orbitalAngularMomentum() );
+      CHECK( 1. == numbers00.spin() );
+      CHECK( 0. == numbers00.totalAngularMomentum() );
+      CHECK( -1 == numbers00.parity() );
+      CHECK( "{1,1,0-}" == numbers00.toString() );
+
+      // radii
+      const auto radii00 = channel00.radii();
+      CHECK( 0.4822220 == Approx( radii00.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4822220 == Approx( radii00.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4888750 == Approx( radii00.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel00.boundaryCondition() );
+
+      // Q value
+      CHECK( 0.0 == Approx( channel00.Q().value ) );
+
+      // resonance table
+      auto table0 = spingroup0.resonanceTable();
+
+      CHECK( 1 == table0.numberChannels() ); // 2 normal channel + 1 eliminated
+      CHECK( 9 == table0.numberResonances() );
+
+      auto energies0 = table0.energies();
+      CHECK( 2.239640e+4 == Approx( energies0.front().value ) );
+      CHECK( 5.478545e+5 == Approx( energies0.back().value ) );
+
+      auto resonances0 = table0.resonances();
+      CHECK( 2.239640e+4 == Approx( resonances0.front().energy().value ) );
+      CHECK( 5.478545e+5 == Approx( resonances0.back().energy().value ) );
+      CHECK( 1 == resonances0.front().widths().size() );
+      CHECK( 1 == resonances0.back().widths().size() );
+      CHECK( std::sqrt( .9663670 / 2. / channel00.penetrability( 2.239640e+4 * electronVolt ) )
+             == Approx( resonances0.front().widths()[0].value ) );
+      CHECK( std::sqrt( 7.640130e+2 / 2. / channel00.penetrability( 5.478545e+5 * electronVolt ) )
+             == Approx( resonances0.back().widths()[0].value ) );
+      CHECK( std::sqrt( 1.724800 / 2. ) == Approx( resonances0.front().eliminatedWidth().value ) );
+      CHECK( std::sqrt( 0.86 / 2. ) == Approx( resonances0.back().eliminatedWidth().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 1
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      auto spingroup1 = spingroups[1];
+
+      // channels
+      auto channels1 = spingroup1.channels();
+
+      CHECK( 4 == channels1.size() ); // 4 normal channel + 1 eliminated
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 1, channel 0: elastic
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel10 = std::get< Channel< Neutron > >( channels1[0] );
+
+      // incident particle pair
+      const auto incident10 = channel10.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident10.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident10.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident10.particle().spin() ) );
+      CHECK( +1 == incident10.particle().parity() );
+      CHECK( 34.66845 * 1.008664 == Approx( incident10.residual().mass().value ) );
+      CHECK( 17.0 * 1.602e-19 == Approx( incident10.residual().charge().value ) );
+      CHECK( 1.5 == Approx( incident10.residual().spin() ) );
+      CHECK( +1 == incident10.residual().parity() );
+      CHECK( "n,Cl35" == incident10.pairID().symbol() );
+
+      // particle pair
+      const auto pair10 = channel10.particlePair();
+      CHECK( 1.008664 == Approx( pair10.particle().mass().value ) );
+      CHECK( 0.0 == Approx( pair10.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair10.particle().spin() ) );
+      CHECK( +1 == pair10.particle().parity() );
+      CHECK( 34.66845 * 1.008664 == Approx( pair10.residual().mass().value ) );
+      CHECK( 17.0 * 1.602e-19 == Approx( pair10.residual().charge().value ) );
+      CHECK( 1.5 == Approx( pair10.residual().spin() ) );
+      CHECK( +1 == pair10.residual().parity() );
+      CHECK( "n,Cl35" == pair10.pairID().symbol() );
+
+      // quantum numbers
+      const auto numbers10 = channel10.quantumNumbers();
+      CHECK( 1 == numbers10.orbitalAngularMomentum() );
+      CHECK( 1. == numbers10.spin() );
+      CHECK( 1. == numbers10.totalAngularMomentum() );
+      CHECK( -1 == numbers10.parity() );
+      CHECK( "{1,1,1-}" == numbers10.toString() );
+
+      // radii
+      const auto radii10 = channel10.radii();
+      CHECK( 0.4822220 == Approx( radii10.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4822220 == Approx( radii10.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4888750 == Approx( radii10.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel10.boundaryCondition() );
+
+      // Q value
+      CHECK( 0.0 == Approx( channel10.Q().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 1, channel 1: n,p
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel11 = std::get< Channel< ChargedParticle > >( channels1[1] );
+
+      // incident particle pair
+      const auto incident11 = channel11.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident11.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident11.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident11.particle().spin() ) );
+      CHECK( +1 == incident11.particle().parity() );
+      CHECK( 34.66845 * 1.008664 == Approx( incident11.residual().mass().value ) );
+      CHECK( 17.0 * 1.602e-19 == Approx( incident11.residual().charge().value ) );
+      CHECK( 1.5 == Approx( incident11.residual().spin() ) );
+      CHECK( +1 == incident11.residual().parity() );
+      CHECK( "n,Cl35" == incident11.pairID().symbol() );
+
+      // particle pair
+      const auto pair11 = channel11.particlePair();
+      CHECK( 0.9986235 * 1.008664 == Approx( pair11.particle().mass().value ) );
+      CHECK( 1.0 * 1.602e-19 == Approx( pair11.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair11.particle().spin() ) );
+      CHECK( +1 == pair11.particle().parity() );
+      CHECK( 34.66863 * 1.008664 == Approx( pair11.residual().mass().value ) );
+      CHECK( 16.0 * 1.602e-19 == Approx( pair11.residual().charge().value ) );
+      CHECK( 1.5 == Approx( pair11.residual().spin() ) );
+      CHECK( +1 == pair11.residual().parity() );
+      CHECK( "p,S35" == pair11.pairID().symbol() );
+
+      // quantum numbers
+      const auto numbers11 = channel11.quantumNumbers();
+      CHECK( 1 == numbers11.orbitalAngularMomentum() );
+      CHECK( 1. == numbers11.spin() );
+      CHECK( 1. == numbers11.totalAngularMomentum() );
+      CHECK( -1 == numbers11.parity() );
+      CHECK( "{1,1,1-}" == numbers11.toString() );
+
+      // radii
+      const auto radii11 = channel11.radii();
+      CHECK( 0.4822220 == Approx( radii11.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4822220 == Approx( radii11.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4888750 == Approx( radii11.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel11.boundaryCondition() );
+
+      // Q value
+      CHECK( 6.152200e+5 == Approx( channel11.Q().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 1, channel 2: elastic
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel12 = std::get< Channel< Neutron > >( channels1[2] );
+
+      // incident particle pair
+      const auto incident12 = channel12.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident12.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident12.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident12.particle().spin() ) );
+      CHECK( +1 == incident12.particle().parity() );
+      CHECK( 34.66845 * 1.008664 == Approx( incident12.residual().mass().value ) );
+      CHECK( 17.0 * 1.602e-19 == Approx( incident12.residual().charge().value ) );
+      CHECK( 1.5 == Approx( incident12.residual().spin() ) );
+      CHECK( +1 == incident12.residual().parity() );
+      CHECK( "n,Cl35" == incident12.pairID().symbol() );
+
+      // particle pair
+      const auto pair12 = channel12.particlePair();
+      CHECK( 1.008664 == Approx( pair12.particle().mass().value ) );
+      CHECK( 0.0 == Approx( pair12.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair12.particle().spin() ) );
+      CHECK( +1 == pair12.particle().parity() );
+      CHECK( 34.66845 * 1.008664 == Approx( pair12.residual().mass().value ) );
+      CHECK( 17.0 * 1.602e-19 == Approx( pair12.residual().charge().value ) );
+      CHECK( 1.5 == Approx( pair12.residual().spin() ) );
+      CHECK( +1 == pair12.residual().parity() );
+      CHECK( "n,Cl35" == pair12.pairID().symbol() );
+
+      // quantum numbers
+      const auto numbers12 = channel12.quantumNumbers();
+      CHECK( 1 == numbers12.orbitalAngularMomentum() );
+      CHECK( 2. == numbers12.spin() );
+      CHECK( 1. == numbers12.totalAngularMomentum() );
+      CHECK( -1 == numbers12.parity() );
+      CHECK( "{1,2,1-}" == numbers12.toString() );
+
+      // radii
+      const auto radii12 = channel12.radii();
+      CHECK( 0.4822220 == Approx( radii12.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4822220 == Approx( radii12.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4888750 == Approx( radii12.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel12.boundaryCondition() );
+
+      // Q value
+      CHECK( 0.0 == Approx( channel12.Q().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 1, channel 3: n,p
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel13 = std::get< Channel< ChargedParticle > >( channels1[3] );
+
+      // incident particle pair
+      const auto incident13 = channel13.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident13.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident13.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident13.particle().spin() ) );
+      CHECK( +1 == incident13.particle().parity() );
+      CHECK( 34.66845 * 1.008664 == Approx( incident13.residual().mass().value ) );
+      CHECK( 17.0 * 1.602e-19 == Approx( incident13.residual().charge().value ) );
+      CHECK( 1.5 == Approx( incident13.residual().spin() ) );
+      CHECK( +1 == incident13.residual().parity() );
+      CHECK( "n,Cl35" == incident13.pairID().symbol() );
+
+      // particle pair
+      const auto pair13 = channel13.particlePair();
+      CHECK( 0.9986235 * 1.008664 == Approx( pair13.particle().mass().value ) );
+      CHECK( 1.0 * 1.602e-19 == Approx( pair13.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair13.particle().spin() ) );
+      CHECK( +1 == pair13.particle().parity() );
+      CHECK( 34.66863 * 1.008664 == Approx( pair13.residual().mass().value ) );
+      CHECK( 16.0 * 1.602e-19 == Approx( pair13.residual().charge().value ) );
+      CHECK( 1.5 == Approx( pair13.residual().spin() ) );
+      CHECK( +1 == pair13.residual().parity() );
+      CHECK( "p,S35" == pair13.pairID().symbol() );
+
+      // quantum numbers
+      const auto numbers13 = channel13.quantumNumbers();
+      CHECK( 1 == numbers13.orbitalAngularMomentum() );
+      CHECK( 2. == numbers13.spin() );
+      CHECK( 1. == numbers13.totalAngularMomentum() );
+      CHECK( -1 == numbers13.parity() );
+      CHECK( "{1,2,1-}" == numbers13.toString() );
+
+      // radii
+      const auto radii13 = channel13.radii();
+      CHECK( 0.4822220 == Approx( radii13.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4822220 == Approx( radii13.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4888750 == Approx( radii13.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel13.boundaryCondition() );
+
+      // Q value
+      CHECK( 6.152200e+5 == Approx( channel13.Q().value ) );
+
+      // resonance table
+      auto table1 = spingroup1.resonanceTable();
+
+      CHECK( 4 == table1.numberChannels() ); // 2 normal channel + 1 eliminated
+      CHECK( 38 + 18 == table1.numberResonances() ); // 38 for l=1, 18 for l=2
+
+      auto energies1 = table1.energies();
+      CHECK( 4250.762 == Approx( energies1.front().value ) );
+      CHECK( 1.435502e+6 == Approx( energies1.back().value ) );
+
+      auto resonances1 = table1.resonances();
+      CHECK( 4250.762 == Approx( resonances1.front().energy().value ) );
+      CHECK( 1.435502e+6 == Approx( resonances1.back().energy().value ) );
+      CHECK( 4 == resonances1.front().widths().size() );
+      CHECK( 4 == resonances1.back().widths().size() );
+      CHECK( std::sqrt( .628 / 2. / channel10.penetrability( 4250.762 * electronVolt ) )
+             == Approx( resonances1.front().widths()[0].value ) );
+      CHECK( std::sqrt( .23 / 2. / channel11.penetrability( 4250.762 * electronVolt ) )
+             == Approx( resonances1.front().widths()[1].value ) );
+      CHECK( 0. == Approx( resonances1.front().widths()[2].value ) );
+      CHECK( 0. == Approx( resonances1.front().widths()[3].value ) );
+      CHECK( std::sqrt( 5.365630e+3 / 2. / channel10.penetrability( 1.435502e+6 * electronVolt ) )
+             == Approx( resonances1.back().widths()[0].value ) );
+      CHECK( 0. == Approx( resonances1.back().widths()[1].value ) );
+      CHECK( 0. == Approx( resonances1.back().widths()[2].value ) );
+      CHECK( 0. == Approx( resonances1.back().widths()[3].value ) );
+      CHECK( std::sqrt( 0.472 / 2. ) == Approx( resonances1.front().eliminatedWidth().value ) );
+      CHECK( std::sqrt( 0.86 / 2. ) == Approx( resonances1.back().eliminatedWidth().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 2
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      auto spingroup2 = spingroups[2];
+
+      // channels
+      auto channels2 = spingroup2.channels();
+
+      CHECK( 2 == channels2.size() ); // 2 normal channel + 1 eliminated
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 2, channel 0: elastic
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel20 = std::get< Channel< Neutron > >( channels2[0] );
+
+      // incident particle pair
+      const auto incident20 = channel20.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident20.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident20.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident20.particle().spin() ) );
+      CHECK( +1 == incident20.particle().parity() );
+      CHECK( 34.66845 * 1.008664 == Approx( incident20.residual().mass().value ) );
+      CHECK( 17.0 * 1.602e-19 == Approx( incident20.residual().charge().value ) );
+      CHECK( 1.5 == Approx( incident20.residual().spin() ) );
+      CHECK( +1 == incident20.residual().parity() );
+      CHECK( "n,Cl35" == incident20.pairID().symbol() );
+
+      // particle pair
+      const auto pair20 = channel20.particlePair();
+      CHECK( 1.008664 == Approx( pair20.particle().mass().value ) );
+      CHECK( 0.0 == Approx( pair20.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair20.particle().spin() ) );
+      CHECK( +1 == pair20.particle().parity() );
+      CHECK( 34.66845 * 1.008664 == Approx( pair20.residual().mass().value ) );
+      CHECK( 17.0 * 1.602e-19 == Approx( pair20.residual().charge().value ) );
+      CHECK( 1.5 == Approx( pair20.residual().spin() ) );
+      CHECK( +1 == pair20.residual().parity() );
+      CHECK( "n,Cl35" == pair20.pairID().symbol() );
+
+      // quantum numbers
+      const auto numbers20 = channel20.quantumNumbers();
+      CHECK( 0 == numbers20.orbitalAngularMomentum() );
+      CHECK( 1. == numbers20.spin() );
+      CHECK( 1. == numbers20.totalAngularMomentum() );
+      CHECK( +1 == numbers20.parity() );
+      CHECK( "{0,1,1+}" == numbers20.toString() );
+
+      // radii
+      const auto radii20 = channel20.radii();
+      CHECK( 0.4822220 == Approx( radii20.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4822220 == Approx( radii20.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.3667980 == Approx( radii20.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel20.boundaryCondition() );
+
+      // Q value
+      CHECK( 0.0 == Approx( channel20.Q().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 2, channel 1: n,p
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel21 = std::get< Channel< ChargedParticle > >( channels2[1] );
+
+      // incident particle pair
+      const auto incident21 = channel21.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident21.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident21.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident21.particle().spin() ) );
+      CHECK( +1 == incident21.particle().parity() );
+      CHECK( 34.66845 * 1.008664 == Approx( incident21.residual().mass().value ) );
+      CHECK( 17.0 * 1.602e-19 == Approx( incident21.residual().charge().value ) );
+      CHECK( 1.5 == Approx( incident21.residual().spin() ) );
+      CHECK( +1 == incident21.residual().parity() );
+      CHECK( "n,Cl35" == incident21.pairID().symbol() );
+
+      // particle pair
+      const auto pair21 = channel21.particlePair();
+      CHECK( 0.9986235 * 1.008664 == Approx( pair21.particle().mass().value ) );
+      CHECK( 1.0 * 1.602e-19 == Approx( pair21.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair21.particle().spin() ) );
+      CHECK( +1 == pair21.particle().parity() );
+      CHECK( 34.66863 * 1.008664 == Approx( pair21.residual().mass().value ) );
+      CHECK( 16.0 * 1.602e-19 == Approx( pair21.residual().charge().value ) );
+      CHECK( 1.5 == Approx( pair21.residual().spin() ) );
+      CHECK( +1 == pair21.residual().parity() );
+      CHECK( "p,S35" == pair21.pairID().symbol() );
+
+      // quantum numbers
+      const auto numbers21 = channel21.quantumNumbers();
+      CHECK( 0 == numbers21.orbitalAngularMomentum() );
+      CHECK( 1. == numbers21.spin() );
+      CHECK( 1. == numbers21.totalAngularMomentum() );
+      CHECK( +1 == numbers21.parity() );
+      CHECK( "{0,1,1+}" == numbers21.toString() );
+
+      // radii
+      const auto radii21 = channel21.radii();
+      CHECK( 0.4822220 == Approx( radii21.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4822220 == Approx( radii21.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.3667980 == Approx( radii21.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel21.boundaryCondition() );
+
+      // Q value
+      CHECK( 6.152200e+5 == Approx( channel21.Q().value ) );
+
+      // resonance table
+      auto table2 = spingroup2.resonanceTable();
+
+      CHECK( 2 == table2.numberChannels() ); // 2 normal channel + 1 eliminated
+      CHECK( 23 == table2.numberResonances() );
+
+      auto energies2 = table2.energies();
+      CHECK( 5.493200e+4 == Approx( energies2.front().value ) );
+      CHECK( 1.205687e+6 == Approx( energies2.back().value ) );
+
+      auto resonances2 = table2.resonances();
+      CHECK( 5.493200e+4 == Approx( resonances2.front().energy().value ) );
+      CHECK( 1.205687e+6 == Approx( resonances2.back().energy().value ) );
+      CHECK( 2 == resonances2.front().widths().size() );
+      CHECK( 2 == resonances2.back().widths().size() );
+      CHECK( std::sqrt( 46.44240 / 2. / channel20.penetrability( 5.493200e+4 * electronVolt ) )
+             == Approx( resonances2.front().widths()[0].value ) );
+      CHECK( 0. == Approx( resonances2.front().widths()[1].value ) );
+      CHECK( std::sqrt( 2.179040e+2 / 2. / channel20.penetrability( 6.823616e+4 * electronVolt ) )
+             == Approx( resonances2[1].widths()[0].value ) );
+      CHECK( std::sqrt( 1e-5 / 2. / channel21.penetrability( 6.823616e+4 * electronVolt ) )
+             == Approx( resonances2[1].widths()[1].value ) );
+      CHECK( std::sqrt( 6.425840e+2 / 2. / channel20.penetrability( 1.205687e+6 * electronVolt ) )
+             == Approx( resonances2.back().widths()[0].value ) );
+      CHECK( 0. == Approx( resonances2.back().widths()[1].value ) );
+      CHECK( std::sqrt( 0.36726 / 2. ) == Approx( resonances2.front().eliminatedWidth().value ) );
+      CHECK( std::sqrt( 0.606 / 2. ) == Approx( resonances2.back().eliminatedWidth().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 3
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      auto spingroup3 = spingroups[3];
+
+      // channels
+      auto channels3 = spingroup3.channels();
+
+      CHECK( 4 == channels1.size() ); // 4 normal channel + 1 eliminated
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 3, channel 0: elastic
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel30 = std::get< Channel< Neutron > >( channels3[0] );
+
+      // incident particle pair
+      const auto incident30 = channel30.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident30.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident30.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident30.particle().spin() ) );
+      CHECK( +1 == incident30.particle().parity() );
+      CHECK( 34.66845 * 1.008664 == Approx( incident30.residual().mass().value ) );
+      CHECK( 17.0 * 1.602e-19 == Approx( incident30.residual().charge().value ) );
+      CHECK( 1.5 == Approx( incident30.residual().spin() ) );
+      CHECK( +1 == incident30.residual().parity() );
+      CHECK( "n,Cl35" == incident30.pairID().symbol() );
+
+      // particle pair
+      const auto pair30 = channel30.particlePair();
+      CHECK( 1.008664 == Approx( pair30.particle().mass().value ) );
+      CHECK( 0.0 == Approx( pair30.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair30.particle().spin() ) );
+      CHECK( +1 == pair30.particle().parity() );
+      CHECK( 34.66845 * 1.008664 == Approx( pair30.residual().mass().value ) );
+      CHECK( 17.0 * 1.602e-19 == Approx( pair30.residual().charge().value ) );
+      CHECK( 1.5 == Approx( pair30.residual().spin() ) );
+      CHECK( +1 == pair30.residual().parity() );
+      CHECK( "n,Cl35" == pair30.pairID().symbol() );
+
+      // quantum numbers
+      const auto numbers30 = channel30.quantumNumbers();
+      CHECK( 1 == numbers30.orbitalAngularMomentum() );
+      CHECK( 1. == numbers30.spin() );
+      CHECK( 2. == numbers30.totalAngularMomentum() );
+      CHECK( -1 == numbers30.parity() );
+      CHECK( "{1,1,2-}" == numbers30.toString() );
+
+      // radii
+      const auto radii30 = channel30.radii();
+      CHECK( 0.4822220 == Approx( radii30.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4822220 == Approx( radii30.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4888750 == Approx( radii30.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel30.boundaryCondition() );
+
+      // Q value
+      CHECK( 0.0 == Approx( channel30.Q().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 3, channel 1: n,p
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel31 = std::get< Channel< ChargedParticle > >( channels3[1] );
+
+      // incident particle pair
+      const auto incident31 = channel31.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident31.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident31.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident31.particle().spin() ) );
+      CHECK( +1 == incident31.particle().parity() );
+      CHECK( 34.66845 * 1.008664 == Approx( incident31.residual().mass().value ) );
+      CHECK( 17.0 * 1.602e-19 == Approx( incident31.residual().charge().value ) );
+      CHECK( 1.5 == Approx( incident31.residual().spin() ) );
+      CHECK( +1 == incident31.residual().parity() );
+      CHECK( "n,Cl35" == incident31.pairID().symbol() );
+
+      // particle pair
+      const auto pair31 = channel31.particlePair();
+      CHECK( 0.9986235 * 1.008664 == Approx( pair31.particle().mass().value ) );
+      CHECK( 1.0 * 1.602e-19 == Approx( pair31.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair31.particle().spin() ) );
+      CHECK( +1 == pair31.particle().parity() );
+      CHECK( 34.66863 * 1.008664 == Approx( pair31.residual().mass().value ) );
+      CHECK( 16.0 * 1.602e-19 == Approx( pair31.residual().charge().value ) );
+      CHECK( 1.5 == Approx( pair31.residual().spin() ) );
+      CHECK( +1 == pair31.residual().parity() );
+      CHECK( "p,S35" == pair31.pairID().symbol() );
+
+      // quantum numbers
+      const auto numbers31 = channel31.quantumNumbers();
+      CHECK( 1 == numbers31.orbitalAngularMomentum() );
+      CHECK( 1. == numbers31.spin() );
+      CHECK( 2. == numbers31.totalAngularMomentum() );
+      CHECK( -1 == numbers31.parity() );
+      CHECK( "{1,1,2-}" == numbers31.toString() );
+
+      // radii
+      const auto radii31 = channel31.radii();
+      CHECK( 0.4822220 == Approx( radii31.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4822220 == Approx( radii31.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4888750 == Approx( radii31.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel31.boundaryCondition() );
+
+      // Q value
+      CHECK( 6.152200e+5 == Approx( channel31.Q().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 3, channel 2: elastic
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel32 = std::get< Channel< Neutron > >( channels3[2] );
+
+      // incident particle pair
+      const auto incident32 = channel32.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident32.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident32.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident32.particle().spin() ) );
+      CHECK( +1 == incident32.particle().parity() );
+      CHECK( 34.66845 * 1.008664 == Approx( incident32.residual().mass().value ) );
+      CHECK( 17.0 * 1.602e-19 == Approx( incident32.residual().charge().value ) );
+      CHECK( 1.5 == Approx( incident32.residual().spin() ) );
+      CHECK( +1 == incident32.residual().parity() );
+      CHECK( "n,Cl35" == incident32.pairID().symbol() );
+
+      // particle pair
+      const auto pair32 = channel32.particlePair();
+      CHECK( 1.008664 == Approx( pair32.particle().mass().value ) );
+      CHECK( 0.0 == Approx( pair32.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair32.particle().spin() ) );
+      CHECK( +1 == pair32.particle().parity() );
+      CHECK( 34.66845 * 1.008664 == Approx( pair32.residual().mass().value ) );
+      CHECK( 17.0 * 1.602e-19 == Approx( pair32.residual().charge().value ) );
+      CHECK( 1.5 == Approx( pair32.residual().spin() ) );
+      CHECK( +1 == pair32.residual().parity() );
+      CHECK( "n,Cl35" == pair32.pairID().symbol() );
+
+      // quantum numbers
+      const auto numbers32 = channel32.quantumNumbers();
+      CHECK( 1 == numbers32.orbitalAngularMomentum() );
+      CHECK( 2. == numbers32.spin() );
+      CHECK( 2. == numbers32.totalAngularMomentum() );
+      CHECK( -1 == numbers32.parity() );
+      CHECK( "{1,2,2-}" == numbers32.toString() );
+
+      // radii
+      const auto radii32 = channel32.radii();
+      CHECK( 0.4822220 == Approx( radii32.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4822220 == Approx( radii32.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4888750 == Approx( radii32.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel32.boundaryCondition() );
+
+      // Q value
+      CHECK( 0.0 == Approx( channel32.Q().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 3, channel 3: n,p
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel33 = std::get< Channel< ChargedParticle > >( channels3[3] );
+
+      // incident particle pair
+      const auto incident33 = channel33.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident33.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident33.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident33.particle().spin() ) );
+      CHECK( +1 == incident33.particle().parity() );
+      CHECK( 34.66845 * 1.008664 == Approx( incident33.residual().mass().value ) );
+      CHECK( 17.0 * 1.602e-19 == Approx( incident33.residual().charge().value ) );
+      CHECK( 1.5 == Approx( incident33.residual().spin() ) );
+      CHECK( +1 == incident33.residual().parity() );
+      CHECK( "n,Cl35" == incident33.pairID().symbol() );
+
+      // particle pair
+      const auto pair33 = channel33.particlePair();
+      CHECK( 0.9986235 * 1.008664 == Approx( pair33.particle().mass().value ) );
+      CHECK( 1.0 * 1.602e-19 == Approx( pair33.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair33.particle().spin() ) );
+      CHECK( +1 == pair33.particle().parity() );
+      CHECK( 34.66863 * 1.008664 == Approx( pair33.residual().mass().value ) );
+      CHECK( 16.0 * 1.602e-19 == Approx( pair33.residual().charge().value ) );
+      CHECK( 1.5 == Approx( pair33.residual().spin() ) );
+      CHECK( +1 == pair33.residual().parity() );
+      CHECK( "p,S35" == pair33.pairID().symbol() );
+
+      // quantum numbers
+      const auto numbers33 = channel33.quantumNumbers();
+      CHECK( 1 == numbers33.orbitalAngularMomentum() );
+      CHECK( 2. == numbers33.spin() );
+      CHECK( 2. == numbers33.totalAngularMomentum() );
+      CHECK( -1 == numbers33.parity() );
+      CHECK( "{1,2,2-}" == numbers33.toString() );
+
+      // radii
+      const auto radii33 = channel33.radii();
+      CHECK( 0.4822220 == Approx( radii33.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4822220 == Approx( radii33.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4888750 == Approx( radii33.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel33.boundaryCondition() );
+
+      // Q value
+      CHECK( 6.152200e+5 == Approx( channel33.Q().value ) );
+
+      // resonance table
+      auto table3 = spingroup3.resonanceTable();
+
+      CHECK( 4 == table3.numberChannels() ); // 4 normal channel + 1 eliminated
+      CHECK( 67 + 28 == table3.numberResonances() );
+
+      auto energies3 = table3.energies();
+      CHECK( -3.369334e+5 == Approx( energies3.front().value ) );
+      CHECK( 1.441365e+6 == Approx( energies3.back().value ) );
+
+      auto resonances3 = table3.resonances();
+      CHECK( -3.369334e+5 == Approx( resonances3.front().energy().value ) );
+      CHECK( 1.441365e+6 == Approx( resonances3.back().energy().value ) );
+      CHECK( 4 == resonances3.front().widths().size() );
+      CHECK( 4 == resonances3.back().widths().size() );
+      CHECK( std::sqrt( 3.820180e+4 / 2. / channel30.penetrability( -3.369334e+5 * electronVolt ) )
+             == Approx( resonances3.front().widths()[0].value ) );
+      CHECK( 0. == Approx( resonances3.front().widths()[1].value ) );
+      CHECK( 0. == Approx( resonances3.front().widths()[2].value ) );
+      CHECK( 0. == Approx( resonances3.front().widths()[3].value ) );
+      CHECK( 0. == Approx( resonances3.back().widths()[0].value ) );
+      CHECK( 0. == Approx( resonances3.back().widths()[1].value ) );
+      CHECK( std::sqrt( 1.608740e+3 / 2. / channel32.penetrability( 1.441365e+6 * electronVolt ) )
+             == Approx( resonances3.back().widths()[2].value ) );
+      CHECK( 0. == Approx( resonances3.back().widths()[3].value ) );
+      CHECK( std::sqrt( 0.53401 / 2. ) == Approx( resonances3.front().eliminatedWidth().value ) );
+      CHECK( std::sqrt( 0.86 / 2. ) == Approx( resonances3.back().eliminatedWidth().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 4
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      auto spingroup4 = spingroups[4];
+
+      // channels
+      auto channels4 = spingroup4.channels();
+
+      CHECK( 2 == channels4.size() ); // 2 normal channel + 1 eliminated
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 4, channel 0: elastic
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel40 = std::get< Channel< Neutron > >( channels4[0] );
+
+      // incident particle pair
+      const auto incident40 = channel40.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident40.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident40.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident40.particle().spin() ) );
+      CHECK( +1 == incident40.particle().parity() );
+      CHECK( 34.66845 * 1.008664 == Approx( incident40.residual().mass().value ) );
+      CHECK( 17.0 * 1.602e-19 == Approx( incident40.residual().charge().value ) );
+      CHECK( 1.5 == Approx( incident40.residual().spin() ) );
+      CHECK( +1 == incident40.residual().parity() );
+      CHECK( "n,Cl35" == incident40.pairID().symbol() );
+
+      // particle pair
+      const auto pair40 = channel40.particlePair();
+      CHECK( 1.008664 == Approx( pair40.particle().mass().value ) );
+      CHECK( 0.0 == Approx( pair40.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair40.particle().spin() ) );
+      CHECK( +1 == pair40.particle().parity() );
+      CHECK( 34.66845 * 1.008664 == Approx( pair40.residual().mass().value ) );
+      CHECK( 17.0 * 1.602e-19 == Approx( pair40.residual().charge().value ) );
+      CHECK( 1.5 == Approx( pair40.residual().spin() ) );
+      CHECK( +1 == pair40.residual().parity() );
+      CHECK( "n,Cl35" == pair40.pairID().symbol() );
+
+      // quantum numbers
+      const auto numbers40 = channel40.quantumNumbers();
+      CHECK( 0 == numbers40.orbitalAngularMomentum() );
+      CHECK( 2. == numbers40.spin() );
+      CHECK( 2. == numbers40.totalAngularMomentum() );
+      CHECK( +1 == numbers40.parity() );
+      CHECK( "{0,2,2+}" == numbers40.toString() );
+
+      // radii
+      const auto radii40 = channel40.radii();
+      CHECK( 0.4822220 == Approx( radii40.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4822220 == Approx( radii40.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.3667980 == Approx( radii40.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel40.boundaryCondition() );
+
+      // Q value
+      CHECK( 0.0 == Approx( channel40.Q().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 4, channel 1: n,p
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel41 = std::get< Channel< ChargedParticle > >( channels4[1] );
+
+      // incident particle pair
+      const auto incident41 = channel41.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident41.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident41.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident41.particle().spin() ) );
+      CHECK( +1 == incident41.particle().parity() );
+      CHECK( 34.66845 * 1.008664 == Approx( incident41.residual().mass().value ) );
+      CHECK( 17.0 * 1.602e-19 == Approx( incident41.residual().charge().value ) );
+      CHECK( 1.5 == Approx( incident41.residual().spin() ) );
+      CHECK( +1 == incident41.residual().parity() );
+      CHECK( "n,Cl35" == incident41.pairID().symbol() );
+
+      // particle pair
+      const auto pair41 = channel41.particlePair();
+      CHECK( 0.9986235 * 1.008664 == Approx( pair41.particle().mass().value ) );
+      CHECK( 1.0 * 1.602e-19 == Approx( pair41.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair41.particle().spin() ) );
+      CHECK( +1 == pair41.particle().parity() );
+      CHECK( 34.66863 * 1.008664 == Approx( pair41.residual().mass().value ) );
+      CHECK( 16.0 * 1.602e-19 == Approx( pair41.residual().charge().value ) );
+      CHECK( 1.5 == Approx( pair41.residual().spin() ) );
+      CHECK( +1 == pair41.residual().parity() );
+      CHECK( "p,S35" == pair41.pairID().symbol() );
+
+      // quantum numbers
+      const auto numbers41 = channel41.quantumNumbers();
+      CHECK( 0 == numbers41.orbitalAngularMomentum() );
+      CHECK( 2. == numbers41.spin() );
+      CHECK( 2. == numbers41.totalAngularMomentum() );
+      CHECK( +1 == numbers41.parity() );
+      CHECK( "{0,2,2+}" == numbers41.toString() );
+
+      // radii
+      const auto radii41 = channel41.radii();
+      CHECK( 0.4822220 == Approx( radii41.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4822220 == Approx( radii41.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.3667980 == Approx( radii41.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel41.boundaryCondition() );
+
+      // Q value
+      CHECK( 6.152200e+5 == Approx( channel41.Q().value ) );
+
+      // resonance table
+      auto table4 = spingroup4.resonanceTable();
+
+      CHECK( 2 == table4.numberChannels() ); // 2 normal channel + 1 eliminated
+      CHECK( 32 == table4.numberResonances() );
+
+      auto energies4 = table4.energies();
+      CHECK( -1.806500e+2 == Approx( energies4.front().value ) );
+      CHECK( 7.563145e+6 == Approx( energies4.back().value ) );
+
+      auto resonances4 = table4.resonances();
+      CHECK( -1.806500e+2 == Approx( resonances4.front().energy().value ) );
+      CHECK( 7.563145e+6 == Approx( resonances4.back().energy().value ) );
+      CHECK( 2 == resonances4.front().widths().size() );
+      CHECK( 2 == resonances4.back().widths().size() );
+      CHECK( std::sqrt( 13.27700 / 2. / channel40.penetrability( -1.806500e+2 * electronVolt ) )
+             == Approx( resonances4.front().widths()[0].value ) );
+      CHECK( std::sqrt( 5.992300e-3 / 2. / channel41.penetrability( -1.806500e+2 * electronVolt ) )
+             == Approx( resonances4.front().widths()[1].value ) );
+      CHECK( std::sqrt( 6.219050e+5 / 2. / channel40.penetrability( 7.563145e+6 * electronVolt ) )
+             == Approx( resonances4.back().widths()[0].value ) );
+      CHECK( std::sqrt( 1000. / 2. / channel41.penetrability( 7.563145e+6 * electronVolt ) )
+             == Approx( resonances4.back().widths()[1].value ) );
+      CHECK( std::sqrt( 0.53015 / 2. ) == Approx( resonances4.front().eliminatedWidth().value ) );
+      CHECK( std::sqrt( 0.38398 / 2. ) == Approx( resonances4.back().eliminatedWidth().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 5
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      auto spingroup5 = spingroups[5];
+
+      // channels
+      auto channels5 = spingroup5.channels();
+
+      CHECK( 2 == channels5.size() ); // 2 normal channel + 1 eliminated
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 5, channel 0: elastic
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel50 = std::get< Channel< Neutron > >( channels5[0] );
+
+      // incident particle pair
+      const auto incident50 = channel50.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident50.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident50.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident50.particle().spin() ) );
+      CHECK( +1 == incident50.particle().parity() );
+      CHECK( 34.66845 * 1.008664 == Approx( incident50.residual().mass().value ) );
+      CHECK( 17.0 * 1.602e-19 == Approx( incident50.residual().charge().value ) );
+      CHECK( 1.5 == Approx( incident50.residual().spin() ) );
+      CHECK( +1 == incident50.residual().parity() );
+      CHECK( "n,Cl35" == incident50.pairID().symbol() );
+
+      // particle pair
+      const auto pair50 = channel50.particlePair();
+      CHECK( 1.008664 == Approx( pair50.particle().mass().value ) );
+      CHECK( 0.0 == Approx( pair50.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair50.particle().spin() ) );
+      CHECK( +1 == pair50.particle().parity() );
+      CHECK( 34.66845 * 1.008664 == Approx( pair50.residual().mass().value ) );
+      CHECK( 17.0 * 1.602e-19 == Approx( pair50.residual().charge().value ) );
+      CHECK( 1.5 == Approx( pair50.residual().spin() ) );
+      CHECK( +1 == pair50.residual().parity() );
+      CHECK( "n,Cl35" == pair50.pairID().symbol() );
+
+      // quantum numbers
+      const auto numbers50 = channel50.quantumNumbers();
+      CHECK( 1 == numbers50.orbitalAngularMomentum() );
+      CHECK( 2. == numbers50.spin() );
+      CHECK( 3. == numbers50.totalAngularMomentum() );
+      CHECK( -1 == numbers50.parity() );
+      CHECK( "{1,2,3-}" == numbers50.toString() );
+
+      // radii
+      const auto radii50 = channel50.radii();
+      CHECK( 0.4822220 == Approx( radii50.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4822220 == Approx( radii50.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4888750 == Approx( radii50.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel50.boundaryCondition() );
+
+      // Q value
+      CHECK( 0.0 == Approx( channel50.Q().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 5, channel 1: n,p
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel51 = std::get< Channel< ChargedParticle > >( channels5[1] );
+
+      // incident particle pair
+      const auto incident51 = channel51.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident51.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident51.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident51.particle().spin() ) );
+      CHECK( +1 == incident51.particle().parity() );
+      CHECK( 34.66845 * 1.008664 == Approx( incident51.residual().mass().value ) );
+      CHECK( 17.0 * 1.602e-19 == Approx( incident51.residual().charge().value ) );
+      CHECK( 1.5 == Approx( incident51.residual().spin() ) );
+      CHECK( +1 == incident51.residual().parity() );
+      CHECK( "n,Cl35" == incident51.pairID().symbol() );
+
+      // particle pair
+      const auto pair51 = channel51.particlePair();
+      CHECK( 0.9986235 * 1.008664 == Approx( pair51.particle().mass().value ) );
+      CHECK( 1.0 * 1.602e-19 == Approx( pair51.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair51.particle().spin() ) );
+      CHECK( +1 == pair51.particle().parity() );
+      CHECK( 34.66863 * 1.008664 == Approx( pair51.residual().mass().value ) );
+      CHECK( 16.0 * 1.602e-19 == Approx( pair51.residual().charge().value ) );
+      CHECK( 1.5 == Approx( pair51.residual().spin() ) );
+      CHECK( +1 == pair51.residual().parity() );
+      CHECK( "p,S35" == pair51.pairID().symbol() );
+
+      // quantum numbers
+      const auto numbers51 = channel51.quantumNumbers();
+      CHECK( 1 == numbers51.orbitalAngularMomentum() );
+      CHECK( 2. == numbers51.spin() );
+      CHECK( 3. == numbers51.totalAngularMomentum() );
+      CHECK( -1 == numbers51.parity() );
+      CHECK( "{1,2,3-}" == numbers51.toString() );
+
+      // radii
+      const auto radii51 = channel51.radii();
+      CHECK( 0.4822220 == Approx( radii51.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4822220 == Approx( radii51.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( 0.4888750 == Approx( radii51.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel51.boundaryCondition() );
+
+      // Q value
+      CHECK( 6.152200e+5 == Approx( channel51.Q().value ) );
+
+      // resonance table
+      auto table5 = spingroup5.resonanceTable();
+
+      CHECK( 2 == table5.numberChannels() ); // 2 normal channel + 1 eliminated
+      CHECK( 57 == table5.numberResonances() );
+
+      auto energies5 = table5.energies();
+      CHECK( 1.635612e+4 == Approx( energies5.front().value ) );
+      CHECK( 1.485128e+6 == Approx( energies5.back().value ) );
+
+      auto resonances5 = table5.resonances();
+      CHECK( 1.635612e+4 == Approx( resonances5.front().energy().value ) );
+      CHECK( 1.485128e+6 == Approx( resonances5.back().energy().value ) );
+      CHECK( 2 == resonances5.front().widths().size() );
+      CHECK( 2 == resonances5.back().widths().size() );
+      CHECK( std::sqrt( 5.981800 / 2. / channel50.penetrability( 1.635612e+4 * electronVolt ) )
+             == Approx( resonances5.front().widths()[0].value ) );
+      CHECK( std::sqrt( 0.164019 / 2. / channel51.penetrability( 1.635612e+4 * electronVolt ) )
+             == Approx( resonances5.front().widths()[1].value ) );
+      CHECK( std::sqrt( 1.054090e+4 / 2. / channel50.penetrability( 1.485128e+6 * electronVolt ) )
+             == Approx( resonances5.back().widths()[0].value ) );
+      CHECK( 0. == Approx( resonances5.back().widths()[1].value ) );
+      CHECK( std::sqrt( 0.3865 / 2. ) == Approx( resonances5.front().eliminatedWidth().value ) );
+      CHECK( std::sqrt( 0.86 / 2. ) == Approx( resonances5.back().eliminatedWidth().value ) );
+    } // THEN
+
+    THEN( "cross sections can be reconstructed" ) {
+
+      ReactionID elas( "n,Cl35->n,Cl35" );
+      ReactionID prot( "n,Cl35->h1,S35" );
+      ReactionID capt( "n,Cl35->capture" );
+      std::map< ReactionID, CrossSection > xs;
+
+      xs = resonances( 1e-5 * electronVolt );
+      CHECK( 3 == xs.size() );
+      CHECK( 20.6887411443 == Approx( xs[ elas ].value ) );
+      CHECK( 0. == Approx( xs[ prot ].value ) );
+      CHECK( 2185.6323459543 == Approx( xs[ capt ].value ) );
     } // THEN
   } // GIVEN
 } // SCENARIO
@@ -2325,9 +3410,15 @@ std::string Ca40() {
 std::string Cl35() {
 
   // Cl35 ENDF/B-VIII.0 LRF=7 resonance evaluation
-  // particular features: Z for n,gamma is set to 0.0 (should be 17.0)
+  // particular features: - Z for n,gamma is set to 0.0 (should be 17.0)
+  //                      - spin groups are not unitque (1- and 2- occur
+  //                        multiple times)
 
   return
+    " 1.703500+4 3.466845+1          0          0          1          01725 2151     \n"
+    " 1.703500+4 1.000000+0          0          0          1          01725 2151     \n"
+    " 1.000000-5 1.200000+6          1          7          0          01725 2151     \n"
+    " 0.000000+0 0.000000+0          0          3          8          01725 2151     \n"
     " 0.000000+0 0.000000+0          3          0         36          61725 2151     \n"
     " 0.000000+0 3.565932+1 0.000000+0 0.000000+0 1.000000+0 0.000000+01725 2151     \n"
     " 0.000000+0 0.000000+0 0.000000+0 1.020000+2 0.000000+0 0.000000+01725 2151     \n"
@@ -2338,5 +3429,314 @@ std::string Cl35() {
     " 1.000000+0 0.000000+0          0          0         18          31725 2151     \n"
     " 1.000000+0 0.000000+0 0.000000+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
     " 2.000000+0 0.000000+0 1.000000+0 0.000000+0 3.667980-1 4.822220-11725 2151     \n"
-    " 3.000000+0 0.000000+0 1.000000+0 0.000000+0 3.667980-1 4.822220-11725 2151     \n";
+    " 3.000000+0 0.000000+0 1.000000+0 0.000000+0 3.667980-1 4.822220-11725 2151     \n"
+    " 0.000000+0 0.000000+0          0         23        138         231725 2151     \n"
+    " 5.493200+4 3.672600-1 4.644240+1 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 6.823616+4 3.933600-1 2.179040+2 1.000000-5 0.000000+0 0.000000+01725 2151     \n"
+    " 1.150980+5 7.390000-1 4.307780+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.825230+5 7.451500-1 1.759740+3 4.000000-1 0.000000+0 0.000000+01725 2151     \n"
+    " 2.397427+5 6.871600-1 2.685470+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 3.351287+5 3.583800-1 5.525660+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 3.991469+5 7.409700-1 1.093810+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 4.156650+5 3.286800-1 1.146260+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 4.506303+5 3.929900-1 4.613320+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 4.997896+5 6.704600-1 2.312410+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 5.422214+5 6.060000-1 5.220340+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 6.542074+5 6.060000-1 5.186030+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 6.652896+5 6.060000-1 1.406720+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 6.723573+5 6.060000-1 5.754080+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 6.780000+5 6.060000-1 1.331580+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 6.949358+5 6.060000-1 1.824950+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 7.251773+5 6.060000-1 1.672450+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 7.546912+5 6.060000-1 2.690680+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 7.814646+5 6.060000-1 1.294130+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 8.315787+5 8.600000-1 4.453040+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 8.829776+5 6.060000-1 9.780610+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.109188+6 6.060000-1 2.742350+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.205687+6 6.060000-1 6.425840+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.000000+0 0.000000+0          0          0         18          31725 2151     \n"
+    " 1.000000+0 0.000000+0 0.000000+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.000000+0 0.000000+0 2.000000+0 0.000000+0 3.667980-1 4.822220-11725 2151     \n"
+    " 3.000000+0 0.000000+0 2.000000+0 0.000000+0 3.667980-1 4.822220-11725 2151     \n"
+    " 0.000000+0 0.000000+0          0         32        192         321725 2151     \n"
+    "-1.806500+2 5.301500-1 1.327700+1 5.992300-3 0.000000+0 0.000000+01725 2151     \n"
+    " 1.480195+4 3.456800-1 3.259950+1 2.800020-2 0.000000+0 0.000000+01725 2151     \n"
+    " 2.661579+4 3.041500-1 1.154980+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 7.549467+4 8.059200-1 7.991540-2 1.000000-5 0.000000+0 0.000000+01725 2151     \n"
+    " 1.304435+5 7.593500-1 7.665700-1 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.149232+5 3.485100-1 6.528390+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.425998+5 9.018300-1 3.440090+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.846570+5 4.994200-1 1.194020+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 3.137503+5 4.763300-1 1.475680+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 3.310710+5 3.982400-1 3.276200+1 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 3.389756+5 2.383300+0 8.777960+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 3.802625+5 4.630100-1 1.178590+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 3.864177+5 4.180700-1 1.240150+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 4.593615+5 6.156500-1 3.859970+1 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 4.886274+5 4.081400-1 7.806800+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 5.143982+5 6.060000-1 5.284320+3 4.000000-1 0.000000+0 0.000000+01725 2151     \n"
+    " 5.279391+5 6.060000-1 2.812390+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 5.590263+5 6.060000-1 1.813310+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 5.908121+5 6.060000-1 3.235630+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 6.216780+5 6.060000-1 6.758690+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 6.310363+5 6.060000-1 1.636760+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 6.408054+5 6.060000-1 8.597480+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 6.578143+5 6.060000-1 2.069420+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 6.810575+5 6.060000-1 6.654900+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 6.902708+5 6.060000-1 4.632110+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 7.799749+5 6.060000-1 5.311180+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 8.249523+5 6.060000-1 2.763840+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 8.609610+5 6.060000-1 7.202410+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.053393+6 6.060000-1 2.038130+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.137885+6 6.060000-1 1.835530+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.257680+6 6.060000-1 1.749830+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 7.563145+6 3.839800-1 6.219050+5 1.000000+3 0.000000+0 0.000000+01725 2151     \n"
+    " 0.000000+0-1.000000+0          0          0         18          31725 2151     \n"
+    " 1.000000+0 1.000000+0 0.000000+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.000000+0 1.000000+0 1.000000+0 0.000000+0 4.888750-1 4.822220-11725 2151     \n"
+    " 3.000000+0 1.000000+0 1.000000+0 0.000000+0 4.888750-1 4.822220-11725 2151     \n"
+    " 0.000000+0 0.000000+0          0          9         54          91725 2151     \n"
+    " 2.239640+4 1.724800+0 9.663670-1 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 9.660415+4 1.565000+0 2.761380+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.300740+5 3.240100-1 8.118180+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.432153+5 7.032000-1 2.174300+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.454785+5 8.319700-1 6.556420+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 3.413389+5 6.549700-1 5.720320+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 4.812809+5 7.821300-1 1.774270+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 5.048567+5 8.600000-1 6.790940+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 5.478545+5 8.600000-1 7.640130+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    "-1.000000+0 0.000000+0          0          0         18          31725 2151     \n"
+    " 1.000000+0 1.000000+0 0.000000+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.000000+0 1.000000+0 1.000000+0 0.000000+0 4.888750-1 4.822220-11725 2151     \n"
+    " 3.000000+0 1.000000+0 1.000000+0 0.000000+0 4.888750-1 4.822220-11725 2151     \n"
+    " 0.000000+0 0.000000+0          0         38        228         381725 2151     \n"
+    " 4.250762+3 4.720000-1 6.280000-1 2.300000-1 0.000000+0 0.000000+01725 2151     \n"
+    " 5.491020+3 9.702100-1 3.863540-3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 3.776792+4 1.912000-1 4.407970-1 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 4.416635+4 1.042900+0 3.054660+1 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 6.277945+4 6.209000-1 1.345600+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.035154+5 3.880500-1 3.819530+2 1.972980+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.351161+5 3.410900-1 1.875460+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.625608+5 6.471800-1 5.634890+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.654823+5 1.050100+0 2.072840+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.199922+5 4.001800-1 3.847750+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.241121+5 4.033900-1 7.567220+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.288860+5 5.941900-1 1.768540+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.615514+5 8.458200-1 1.063750+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.791149+5 3.767200-1 1.254490+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.845043+5 9.053700-1 4.161730+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 3.060336+5 5.628500-1 7.718360+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 3.074111+5 6.403400-1 1.172260+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 3.406957+5 5.654300-1 3.875200+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 3.819655+5 8.183600+0 1.602770+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 3.878895+5 9.112300-1 3.238570+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 4.044696+5 1.492300+0 1.010090+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 4.526283+5 8.600500-1 3.430810+3 4.000000-1 0.000000+0 0.000000+01725 2151     \n"
+    " 4.653384+5 3.666800-1 6.938600+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 5.526254+5 8.600000-1 2.791240+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 5.592470+5 8.600000-1 5.857230+2 4.000000-1 0.000000+0 0.000000+01725 2151     \n"
+    " 5.913358+5 8.600000-1 1.674080+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 6.008407+5 8.600000-1 1.208510+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 6.295837+5 8.600000-1 6.225330+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 6.593525+5 8.600000-1 1.356080+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 7.183788+5 8.600000-1 9.740400+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 7.328902+5 8.600000-1 1.955950+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 8.103378+5 8.600000-1 5.088680+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 8.715664+5 8.600000-1 1.987240+3 4.000000-1 0.000000+0 0.000000+01725 2151     \n"
+    " 9.439464+5 8.600000-1 5.556340+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 9.845132+5 8.600000-1 1.801810+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.138720+6 8.600000-1 9.544250+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.353551+6 8.600000-1 3.879680+4 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.435502+6 8.600000-1 5.365630+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    "-2.000000+0 0.000000+0          0          0         18          31725 2151     \n"
+    " 1.000000+0 1.000000+0 0.000000+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.000000+0 1.000000+0 1.000000+0 0.000000+0 4.888750-1 4.822220-11725 2151     \n"
+    " 3.000000+0 1.000000+0 1.000000+0 0.000000+0 4.888750-1 4.822220-11725 2151     \n"
+    " 0.000000+0 0.000000+0          0         67        402         671725 2151     \n"
+    "-3.369334+5 5.340100-1 3.820180+4 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.734636+4 4.579210-1 6.027800+0 1.472210-1 0.000000+0 0.000000+01725 2151     \n"
+    " 5.297412+4 5.624100-1 8.159470-1 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 5.781159+4 5.380650-1 1.073890+2 9.980470-1 0.000000+0 0.000000+01725 2151     \n"
+    " 9.042023+4 7.164960-1 2.178860+1 2.740270-1 0.000000+0 0.000000+01725 2151     \n"
+    " 9.052563+4 1.275920-1 4.235150+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.134033+5 3.369900-1 1.422880+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.408311+5 5.458500-1 9.871460+1 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.498295+5 7.555300-1 1.132080+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.926794+5 2.287600-1 3.381170+1 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.010949+5 2.905500-1 3.650400+1 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.066160+5 5.943300-1 5.594230-1 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.145480+5 2.323800-1 4.238200+1 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.153514+5 7.735500-1 4.558520+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.170986+5 6.185100-1 5.772230+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.213851+5 1.592700+0 4.073280+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.458488+5 7.646700-1 5.612490+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.501986+5 4.046000-1 4.345790+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.856091+5 8.420300-1 1.568700+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.900777+5 1.615200+0 1.520800+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 3.014487+5 4.017200-1 8.855620+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 3.038357+5 1.697600+0 6.957360+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 3.455490+5 3.479100-1 6.319440+1 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 3.543783+5 2.329000-1 8.058180+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 3.844697+5 5.785800+0 1.985550+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 4.078202+5 5.513100-1 2.040430+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 4.386472+5 6.448700-1 1.273690+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 4.444759+5 2.050000-1 1.810450+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 4.513762+5 1.759900+0 5.759080+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 4.578911+5 1.147400+0 7.322610+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 4.655024+5 5.580100-1 4.040480+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 4.691015+5 9.520300-1 3.761160+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 4.771962+5 5.403700-1 1.658970+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 4.854618+5 1.273200+0 4.799550+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 5.437824+5 8.600000-1 6.917280+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 5.645835+5 8.600000-1 5.359800+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 5.738796+5 8.600000-1 1.469740+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 6.330964+5 8.600000-1 1.445360+2 4.000000-1 0.000000+0 0.000000+01725 2151     \n"
+    " 6.427422+5 8.600000-1 9.499240+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 7.125272+5 8.600000-1 3.300900+3 4.000000-1 0.000000+0 0.000000+01725 2151     \n"
+    " 7.295798+5 8.600000-1 6.465640+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 7.398106+5 8.600000-1 3.042130+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 7.702915+5 8.600000-1 3.185460+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 7.985633+5 8.600000-1 2.910980+3 4.000000-1 0.000000+0 0.000000+01725 2151     \n"
+    " 8.273814+5 6.060000-1 4.360650+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 8.322588+5 8.600000-1 1.382530+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 8.484064+5 8.600000-1 2.391310+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 8.524894+5 8.600000-1 1.726720+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 8.950719+5 8.600000-1 1.505930+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 9.156492+5 8.600000-1 1.033970+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 9.331357+5 8.600000-1 9.386810+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 9.533511+5 8.600000-1 1.000950+3 4.000000-1 0.000000+0 0.000000+01725 2151     \n"
+    " 9.915402+5 8.600000-1 4.348100+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.006461+6 8.600000-1 3.591290+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.028543+6 8.600000-1 2.388860+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.055512+6 8.600000-1 3.888630+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.074009+6 8.600000-1 1.039250+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.080187+6 8.600000-1 7.511970+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.115662+6 8.600000-1 3.444140+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.131997+6 8.600000-1 1.523380+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.165343+6 8.600000-1 7.309520+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.198501+6 8.600000-1 3.243460+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.218130+6 8.600000-1 3.246660+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.243534+6 8.600000-1 3.096960+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.311787+6 8.600000-1 7.946430+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.354056+6 8.600000-1 1.103350+4 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.434336+6 8.600000-1 5.422940+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    "-1.000000+0 0.000000+0          0          0         18          31725 2151     \n"
+    " 1.000000+0 1.000000+0 0.000000+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.000000+0 1.000000+0 2.000000+0 0.000000+0 4.888750-1 4.822220-11725 2151     \n"
+    " 3.000000+0 1.000000+0 2.000000+0 0.000000+0 4.888750-1 4.822220-11725 2151     \n"
+    " 0.000000+0 0.000000+0          0         18        108         181725 2151     \n"
+    " 1.339884+5 2.314200+0 6.600970+2 4.000000-1 0.000000+0 0.000000+01725 2151     \n"
+    " 2.251416+5 1.346200+0 5.685270+2 4.000000-1 0.000000+0 0.000000+01725 2151     \n"
+    " 3.728997+5 2.107900+0 1.796360+3 4.000000-1 0.000000+0 0.000000+01725 2151     \n"
+    " 4.019221+5 3.329500-1 1.212200+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 4.221047+5 2.868200+0 8.577140+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 4.836869+5 1.907300+0 2.735270+3 4.000000-1 0.000000+0 0.000000+01725 2151     \n"
+    " 5.811770+5 8.600000-1 2.087720+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 6.142552+5 8.600000-1 1.153480+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 7.219908+5 8.600000-1 8.268190+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 7.484834+5 8.600000-1 1.023870+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 7.654137+5 8.600000-1 1.519860+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 7.927810+5 8.600000-1 1.040840+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 8.451494+5 8.600000-1 4.176760+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 9.366575+5 8.600000-1 6.061270+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 9.747505+5 8.600000-1 3.259090+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.091954+6 8.600000-1 1.974980+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.177028+6 8.600000-1 1.488160+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.225254+6 8.600000-1 1.807190+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    "-2.000000+0 0.000000+0          0          0         18          31725 2151     \n"
+    " 1.000000+0 1.000000+0 0.000000+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.000000+0 1.000000+0 2.000000+0 0.000000+0 4.888750-1 4.822220-11725 2151     \n"
+    " 3.000000+0 1.000000+0 2.000000+0 0.000000+0 4.888750-1 4.822220-11725 2151     \n"
+    " 0.000000+0 0.000000+0          0         28        168         281725 2151     \n"
+    " 3.978154+2 6.650000-1 5.050000-2 3.220000-1 0.000000+0 0.000000+01725 2151     \n"
+    " 1.136064+5 2.947700-1 3.972030+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.430242+5 4.921800-1 3.147430+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.059671+5 4.506700-1 5.887780-1 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.837547+5 6.466700-1 4.237100+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.870089+5 5.536890-1 2.126030+1 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.949461+5 7.387600-1 4.747470+2 4.000000-1 0.000000+0 0.000000+01725 2151     \n"
+    " 5.903574+5 8.600000-1 7.550480+2 4.000000-1 0.000000+0 0.000000+01725 2151     \n"
+    " 6.181025+5 8.600000-1 1.075440+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 7.036239+5 8.600000-1 9.311240+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 7.350094+5 8.600000-1 3.777530+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 8.013281+5 8.600000-1 6.807230+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 8.358532+5 8.600000-1 1.181190+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 8.769947+5 8.600000-1 5.757280+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 9.225158+5 8.600000-1 1.571600+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 9.461013+5 8.600000-1 4.806310+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 9.810389+5 8.600000-1 4.229000+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 9.998479+5 8.600000-1 3.022270+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.016475+6 8.600000-1 4.019670+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.050581+6 8.600000-1 1.304140+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.088712+6 8.600000-1 5.239370+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.116025+6 8.600000-1 4.363740+4 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.172051+6 8.600000-1 1.494510+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.283751+6 8.600000-1 5.041400+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.337132+6 8.600000-1 4.850280+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.366148+6 8.600000-1 8.350230+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.403885+6 8.600000-1 8.067070+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.441365+6 8.600000-1 1.608740+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    "-3.000000+0 0.000000+0          0          0         18          31725 2151     \n"
+    " 1.000000+0 1.000000+0 0.000000+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.000000+0 1.000000+0 2.000000+0 0.000000+0 4.888750-1 4.822220-11725 2151     \n"
+    " 3.000000+0 1.000000+0 2.000000+0 0.000000+0 4.888750-1 4.822220-11725 2151     \n"
+    " 0.000000+0 0.000000+0          0         57        342         571725 2151     \n"
+    " 1.635612+4 3.865000-1 5.981800+0 1.640190-1 0.000000+0 0.000000+01725 2151     \n"
+    " 1.713387+4 8.022800-1 1.409590+1 3.199990-2 0.000000+0 0.000000+01725 2151     \n"
+    " 4.027028+4 5.774900-1 1.773460-1 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 5.160803+4 4.471700-2 2.417150+0 9.599660-2 0.000000+0 0.000000+01725 2151     \n"
+    " 9.520675+4 4.531600-1 1.549000-1 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 9.944099+4 2.322700-1 2.393210+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.120451+5 3.240700-1 2.642330-1 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.400910+5 3.664800-1 3.778030+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.416415+5 3.131300-1 3.954240+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.529224+5 2.989300-1 3.820560-1 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.835405+5 3.333300-1 4.615080+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.852814+5 4.665000-1 4.482330+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.881523+5 4.975300-1 4.222480+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.901806+5 2.935300-1 1.024950+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.929420+5 7.559100-1 1.635970+1 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.991683+5 2.550000-1 2.775550+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 2.933823+5 1.802700+0 5.941830+0 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 3.367631+5 4.162100-1 2.890370+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 4.753035+5 8.300600-1 2.791800+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 5.097591+5 8.600000-1 3.870270+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 5.298958+5 8.600000-1 1.353670+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 5.352483+5 8.600000-1 4.481020+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 6.080558+5 8.600000-1 7.747700+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 6.657961+5 8.600000-1 2.099450+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 6.739830+5 6.060000-1 4.896460+1 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 6.816687+5 8.600000-1 6.028770+1 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 6.850220+5 8.600000-1 1.172880+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 7.010023+5 8.600000-1 1.251920+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 7.574622+5 8.600000-1 3.780250+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 7.611067+5 8.600000-1 2.238910+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 7.749692+5 8.600000-1 3.689300+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 8.068823+5 8.600000-1 6.298260+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 8.389452+5 8.600000-1 3.394540+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 8.626053+5 8.600000-1 6.945570+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 8.865767+5 8.600000-1 3.197900+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 9.058611+5 8.600000-1 4.411560+2 4.000000-1 0.000000+0 0.000000+01725 2151     \n"
+    " 9.109009+5 8.600000-1 3.339470+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 9.504659+5 8.600000-1 6.451080+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.010401+6 8.600000-1 7.910460+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.033683+6 8.600000-1 3.549570+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.062148+6 8.600000-1 4.207760+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.071198+6 8.600000-1 1.944480+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.085425+6 8.600000-1 1.339760+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.103724+6 8.600000-1 1.609290+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.120932+6 8.600000-1 3.890220+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.126914+6 8.600000-1 6.155220+2 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.144865+6 8.600000-1 1.586600+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.155330+6 8.600000-1 1.577740+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.189685+6 8.600000-1 7.290220+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.209020+6 8.600000-1 3.485080+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.237194+6 8.600000-1 5.888380+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.268642+6 8.600000-1 2.391480+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.277668+6 8.600000-1 2.984480+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.315129+6 8.600000-1 1.210580+4 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.390745+6 8.600000-1 5.502450+3 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.425393+6 8.600000-1 1.381970+4 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    " 1.485128+6 8.600000-1 1.054090+4 0.000000+0 0.000000+0 0.000000+01725 2151     \n"
+    "                                                                  1725 2  0     \n";
 }

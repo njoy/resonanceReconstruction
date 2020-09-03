@@ -75,5 +75,5 @@ double calculatePenetrability< ChargedParticle >( const unsigned int l,
 
   double F = gf.imag();
   double G = gf.real();
-  return ratio / ( F * F + G * G );
+  return ( F == 0. ) and ( G == 0. ) ? 0. : ratio / ( F * F + G * G );
 }
