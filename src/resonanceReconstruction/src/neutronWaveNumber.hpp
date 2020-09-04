@@ -1,16 +1,26 @@
-inline auto neutronWaveNumber( const double atomicWeightRatio ){
-  using Units4Constant =
-    decltype( pow( Barns() * ElectronVolts(), Ratio<-1,2> ) );
+class NeutronWaveNumber
+{
+   using units = decltype(pow(Barns()*ElectronVolts(),Ratio<-1,2>));
+   static constexpr Quantity<units> neutronConstant =
+      5.787793139E-14 * root(kilo(grams))/constant::dirac;
+   const Quantity<units> constant;
 
-  constexpr Quantity< Units4Constant >
-                      /* sqrt( 2.0 * neutron mass ) */
-    neutronConstant = 5.787793139E-14 * root( kilo(grams) ) / constant::dirac;
+public:
 
-  const auto weightFraction =
-    atomicWeightRatio / ( atomicWeightRatio + 1.0 );
+   explicit NeutronWaveNumber(const double atomicWeightRatio) :
+      constant(neutronConstant * atomicWeightRatio/(atomicWeightRatio+1)) { }
 
-  return
-    [ constant = weightFraction * neutronConstant ]
-    ( const Quantity<ElectronVolts> energy )
-    { return constant * sqrt( std::abs( energy ) ); };
+   // unused int is to distinguish from the above; both ctors are used
+   NeutronWaveNumber(const double weightFraction, int) :
+      constant(neutronConstant * weightFraction) { }
+
+   Quantity<InvRootBarns> operator()(const Quantity<ElectronVolts> energy) const
+   {
+      return constant * sqrt(std::abs(energy));
+   }
+};
+
+inline NeutronWaveNumber neutronWaveNumber(const double atomicWeightRatio)
+{
+   return NeutronWaveNumber(atomicWeightRatio);
 }
