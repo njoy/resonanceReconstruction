@@ -1,5 +1,5 @@
 static
-unsigned int getLMax( const std::vector< SpinGroup >& groups ) {
+unsigned int getLMax( const std::vector< SpinGroupType >& groups ) {
 
   if ( groups.size() != 0 ) {
 
