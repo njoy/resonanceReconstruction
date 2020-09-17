@@ -36,8 +36,8 @@ void evaluate( const Energy& energy,
     const auto delta = energy - resonance.energyPrime( s );
     const auto denominator = delta * delta + 0.25 * total * total;
 
-    return { ( elastic * elastic - 2. * elastic * total * sin2phi
-               + 2. * delta * total * sintwophi ) / denominator,
+    return { ( elastic * ( elastic - 2. * total * sin2phi
+                           + 2. * delta * sintwophi ) ) / denominator,
              capture * elastic / denominator,
              fission * elastic / denominator,
              0.0 };
