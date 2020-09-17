@@ -81,6 +81,24 @@ SCENARIO( "evaluate" ) {
       CHECK( 6657.999 == Approx( xs[ elas ].value ) );
       CHECK( 2161.1909561504717 == Approx( xs[ capt ].value ) );
       xs.clear();
+
+      system.evaluate( 4.755 * electronVolt, xs );
+      CHECK( 2 == xs.size() );
+      CHECK( 9.335218e+4 == Approx( xs[ elas ].value ) );
+      CHECK( 45893.526706445802 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      system.evaluate( 5. * electronVolt, xs );
+      CHECK( 2 == xs.size() );
+      CHECK( 1.828299e+5 == Approx( xs[ elas ].value ) );
+      CHECK( 87782.287793509589 == Approx( xs[ capt ].value ) );
+      xs.clear();
+
+      system.evaluate( 5.245 * electronVolt, xs );
+      CHECK( 2 == xs.size() );
+      CHECK( 9.177689e+4 == Approx( xs[ elas ].value ) );
+      CHECK( 42264.081005233311 == Approx( xs[ capt ].value ) );
+      xs.clear();
     } // THEN
   } // GIVEN
 } // SCENARIO
