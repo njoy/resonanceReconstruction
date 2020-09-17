@@ -18,7 +18,7 @@ makeLegacyUnresolvedSpinGroups(
                                    { l, 0.5, endfJValue.spin(),
                                      std::pow( -1, l ) > 0.
                                          ? static_cast< Parity >( +1 )
-                                         : static_cast< Parity >( +1 ) },
+                                         : static_cast< Parity >( -1 ) },
                                    radii ),
                makeLegacyUnresolvedResonanceTable( endfJValue, energies ) );
   };

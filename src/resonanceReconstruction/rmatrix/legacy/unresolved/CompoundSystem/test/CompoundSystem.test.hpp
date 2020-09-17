@@ -251,7 +251,7 @@ SCENARIO( "CompoundSystem" ) {
     THEN( "an exception is thrown at construction when there are no spin "
           "groups" ) {
 
-      CHECK_THROWS( CompoundSystem( {} ) );
+      CHECK_THROWS( CompoundSystem( std::vector< SpinGroup >{} ) );
     } // THEN
 
     THEN( "an exception is thrown at construction when the spin groups "
