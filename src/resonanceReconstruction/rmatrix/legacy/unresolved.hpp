@@ -14,5 +14,5 @@ namespace unresolved {
 
   // unresolved spin group and compound system
   #include "resonanceReconstruction/rmatrix/legacy/unresolved/SpinGroup.hpp"
-  using CompoundSystem = CompoundSystemBase< unresolved::SpinGroup >;
-}
+  #include "resonanceReconstruction/rmatrix/legacy/unresolved/CompoundSystem.hpp"
+\}

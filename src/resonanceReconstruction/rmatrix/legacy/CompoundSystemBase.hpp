@@ -29,5 +29,4 @@ public:
   auto spinGroups() const { return ranges::view::all( this->groups_ ); }
 
   #include "resonanceReconstruction/rmatrix/legacy/CompoundSystemBase/src/evaluate.hpp"
-  #include "resonanceReconstruction/rmatrix/legacy/CompoundSystemBase/src/grid.hpp"
 };
