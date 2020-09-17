@@ -30,5 +30,6 @@ public:
    */
   const Energy& QX() const { return this->qx_; }
 
+  #include "resonanceReconstruction/rmatrix/legacy/resolved/SpinGroup/src/grid.hpp"
   #include "resonanceReconstruction/rmatrix/legacy/resolved/SpinGroup/src/evaluate.hpp"
 };

@@ -10,8 +10,5 @@ namespace resolved {
 
   // resolved spin group and compound system
   #include "resonanceReconstruction/rmatrix/legacy/resolved/SpinGroup.hpp"
-  template < typename Formalism > using CompoundSystem = CompoundSystemBase< resolved::SpinGroup< Formalism > >;
-
-  //! @todo make a proper CompoundSystem and implement grid() for resolved
-
+  #include "resonanceReconstruction/rmatrix/legacy/resolved/CompoundSystem.hpp"
 }

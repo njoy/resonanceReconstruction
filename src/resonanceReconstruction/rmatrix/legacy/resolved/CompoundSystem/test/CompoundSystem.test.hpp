@@ -116,12 +116,12 @@ SCENARIO( "CompoundSystem" ) {
       CHECK( 0 == Approx( resonance.competition().value ) );
 
       // check the minimal energy grid
-//      auto grid = system.grid();
-//
-//      CHECK( 3 == grid.size() );
-//      CHECK( 2500. == Approx( grid[0].value ) );
-//      CHECK( 5. == Approx( grid[1].value ) );
-//      CHECK( 3500. == Approx( grid[2].value ) );
+      auto grid = group.grid();
+
+      CHECK( 3 == grid.size() );
+      CHECK( 4.755 == Approx( grid[0].value ) );
+      CHECK( 5. == Approx( grid[1].value ) );
+      CHECK( 5.245 == Approx( grid[2].value ) );
     } // THEN
   } // GIVEN
 } // SCENARIO

@@ -64,6 +64,15 @@ public:
   const Width& competition() const { return this->competition_; }
 
   /**
+   *  @brief Return the total width (in eV)
+   */
+  Width total() const {
+
+    return this->elastic() + this->capture()
+           + this->fission() + this->competition();
+  }
+
+  /**
    *  @brief Return the neutron penetrability at the resonance energy
    */
   double penetrability() const { return this->penetrability_; }
