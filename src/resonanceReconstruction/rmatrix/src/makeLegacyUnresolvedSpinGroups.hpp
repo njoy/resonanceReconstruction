@@ -16,7 +16,10 @@ makeLegacyUnresolvedSpinGroups(
     return legacy::unresolved::SpinGroup(
                Channel< Neutron >( in, in, 0. * electronVolt,
                                    { l, 0.5, endfJValue.spin(),
-                                     std::pow( -1, l ) > 0. ? +1 : -1 }, radii ),
+                                     std::pow( -1, l ) > 0.
+                                         ? static_cast< Parity >( +1 )
+                                         : static_cast< Parity >( +1 ) },
+                                   radii ),
                makeLegacyUnresolvedResonanceTable( endfJValue, energies ) );
   };
 
