@@ -1,3 +1,5 @@
+template < typename Formalism > class SpinGroup;
+
 /**
  *  @class
  *  @brief Unresolved resonance data for a specific l,J spin group
@@ -5,8 +7,8 @@
  *  This class contains the unresolved resonance parameters and the associated
  *  incident channel for legacy ENDF data.
  */
-//template < typename Formalism >
-class SpinGroup : protected SpinGroupBase< resolved::ResonanceTable > {
+template <>
+class SpinGroup< SingleLevelBreitWigner > : protected SpinGroupBase< resolved::ResonanceTable > {
 
   /* fields */
   Energy qx_;
@@ -14,7 +16,7 @@ class SpinGroup : protected SpinGroupBase< resolved::ResonanceTable > {
 public:
 
   /* constructor */
-  #include "resonanceReconstruction/rmatrix/legacy/SpinGroup/src/ctor.hpp"
+  #include "resonanceReconstruction/rmatrix/legacy/resolved/SpinGroup/src/ctor.hpp"
 
   /* methods */
 

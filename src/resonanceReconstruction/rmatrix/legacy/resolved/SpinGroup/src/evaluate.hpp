@@ -9,7 +9,6 @@ void evaluate( const Energy& energy,
 
   // data we need: k, P, phi, rho, g_J
   const auto channel = this->incidentChannel();
-  const auto incident = channel.particlePair().pairID();
   const auto incident = channel.particlePair().particle().particleID();
   const auto target = channel.particlePair().residual().particleID();
   const auto waveNumber = channel.waveNumber( energy );
@@ -20,7 +19,6 @@ void evaluate( const Energy& energy,
   const auto phaseShift = channel.phaseShift( energy );
   const auto radius = channel.radii().penetrabilityRadius( energy );
   const auto spinFactor = channel.statisticalSpinFactor();
-  const auto ratio = waveNumber * radius;
   const auto sinphi = std::sin( phaseShift );
   const auto sintwophi = std::sin( 2. * phaseShift );
   const auto sin2phi = sinphi * sinphi;
@@ -46,10 +44,10 @@ void evaluate( const Energy& energy,
   };
 
   // accumulate the cross section components
-  const Data< double > = ranges::accumulate(
-                           this->table().resonances()
-                             | ranges::view::transform( calculate ),
-                           { 0., 0., 0., 0. } );
+  const Data< double > components =
+    ranges::accumulate( this->resonanceTable().resonances()
+                            | ranges::view::transform( calculate ),
+                        Data< double >{ 0., 0., 0., 0. } );
 
   // calculate the resulting cross sections
   ReactionID elas = ReactionID( incident, target, elementary::ReactionType( "elastic" ) );
