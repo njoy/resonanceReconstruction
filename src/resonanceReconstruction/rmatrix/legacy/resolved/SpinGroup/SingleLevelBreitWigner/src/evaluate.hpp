@@ -9,21 +9,18 @@ void evaluate( const Energy& energy,
 
   // data we need: k, P, phi, rho, g_J
   const auto channel = this->incidentChannel();
-  const auto incident = channel.particlePair().particle().particleID();
-  const auto target = channel.particlePair().residual().particleID();
   const auto waveNumber = channel.waveNumber( energy );
   const auto qx = this->QX();
   const auto p = channel.penetrability( energy );
   const auto q = qx.value != 0. ? channel.penetrability( energy - qx ) : p;
   const auto s = channel.shiftFactor( energy );
   const auto phaseShift = channel.phaseShift( energy );
-  const auto radius = channel.radii().penetrabilityRadius( energy );
   const auto spinFactor = channel.statisticalSpinFactor();
   const auto sinphi = std::sin( phaseShift );
   const auto sintwophi = std::sin( 2. * phaseShift );
   const auto sin2phi = sinphi * sinphi;
 
-  // the 2 * pi2 / k2 factor
+  // the pi / k2 factor
   const CrossSection factor = pi / ( waveNumber * waveNumber ) * spinFactor;
 
   // lambda to calculate the cross sections for each resonance
@@ -50,13 +47,10 @@ void evaluate( const Energy& energy,
                         Data< double >{ 0., 0., 0., 0. } );
 
   // calculate the resulting cross sections
-  ReactionID elas = ReactionID( incident, target, elementary::ReactionType( "elastic" ) );
-  ReactionID capt = ReactionID( incident, target, elementary::ReactionType( "capture" ) );
-  ReactionID fiss = ReactionID( incident, target, elementary::ReactionType( "fission" ) );
-  result[ elas ] += factor * components.elastic;
-  result[ capt ] += factor * components.capture;
+  result[ this->elastic() ] += factor * components.elastic;
+  result[ this->capture() ] += factor * components.capture;
   if ( components.hasFission() ) {
 
-    result[ fiss ] += factor * components.fission;
+    result[ this->fission() ] += factor * components.fission;
   }
 }

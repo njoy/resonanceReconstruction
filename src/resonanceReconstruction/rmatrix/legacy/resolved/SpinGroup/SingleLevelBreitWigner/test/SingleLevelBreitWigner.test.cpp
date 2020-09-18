@@ -19,10 +19,7 @@ using Resonance = rmatrix::legacy::resolved::Resonance;
 using ResonanceTable = rmatrix::legacy::resolved::ResonanceTable;
 template < typename Formalism >
 using SpinGroup = rmatrix::legacy::resolved::SpinGroup< Formalism >;
-template < typename Formalism >
-using CompoundSystem = rmatrix::legacy::resolved::CompoundSystem< Formalism >;
 using SingleLevelBreitWigner = rmatrix::legacy::resolved::SingleLevelBreitWigner;
-using MultiLevelBreitWigner = rmatrix::legacy::resolved::MultiLevelBreitWigner;
 using ReactionID = rmatrix::ReactionID;
 using ReactionChannelID = rmatrix::ReactionChannelID;
 
@@ -30,5 +27,5 @@ constexpr AtomicMass neutronMass = 1.008664 * daltons;
 constexpr ElectricalCharge elementary = dimwits::constant::elementaryCharge;
 constexpr double e = 1.6021766208e-19;
 
-#include "resonanceReconstruction/rmatrix/legacy/resolved/CompoundSystem/test/CompoundSystem.test.hpp"
-#include "resonanceReconstruction/rmatrix/legacy/resolved/CompoundSystem/test/evaluate.test.hpp"
+#include "resonanceReconstruction/rmatrix/legacy/resolved/SpinGroup/SingleLevelBreitWigner/test/SingleLevelBreitWigner.test.hpp"
+#include "resonanceReconstruction/rmatrix/legacy/resolved/SpinGroup/SingleLevelBreitWigner/test/evaluate.test.hpp"

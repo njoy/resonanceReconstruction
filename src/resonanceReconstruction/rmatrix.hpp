@@ -25,6 +25,7 @@ namespace rmatrix {
   // identifiers
   using ParticleID = elementary::ParticleID;
   using ParticlePairID = elementary::ParticlePairID;
+  using ReactionType = elementary::ReactionType;
   using ReactionID = elementary::ReactionID;
   using ChannelID = std::string;
   using ReactionChannelID = std::string;
