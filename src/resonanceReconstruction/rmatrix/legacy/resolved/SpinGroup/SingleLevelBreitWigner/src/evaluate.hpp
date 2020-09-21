@@ -23,15 +23,12 @@ void evaluate( const Energy& energy,
   // the pi / k2 factor
   const CrossSection factor = pi / ( waveNumber * waveNumber ) * spinFactor;
 
-  // lambda to calculate the cross sections for each resonance
-  auto calculate = [&] ( const auto& resonance ) -> Data< double > {
+  // precompute values for SLBW and MLBW
+  this->precompute( energy );
 
-    const auto total = resonance.total( p, q );
-    const auto elastic = resonance.elastic( p );
-    const auto capture = resonance.capture();
-    const auto fission = resonance.fission();
-    const auto delta = energy - resonance.energyPrime( s );
-    const auto denominator = delta * delta + 0.25 * total * total;
+  // lambda to calculate the cross sections for each resonance
+  auto calculate = [&] ( const auto& elastic, const auto& capture, const auto& fission, const auto& total,
+                         const auto& delta, const auto& denominator ) -> Data< double > {
 
     return { ( elastic * ( elastic - 2. * total * sin2phi
                            + 2. * delta * sintwophi ) ) / denominator,
@@ -42,15 +39,17 @@ void evaluate( const Energy& energy,
 
   // accumulate the cross section components
   const Data< double > components =
-    ranges::accumulate( this->resonanceTable().resonances()
-                            | ranges::view::transform( calculate ),
+    ranges::accumulate( ranges::view::zip_with(
+                            calculate,
+                            this->elastic(), this->capture(), this->fission(),
+                            this->total(), this->delta(), this->denominator() ),
                         Data< double >{ 0., 0., 0., 0. } );
 
   // calculate the resulting cross sections
-  result[ this->elastic() ] += factor * components.elastic;
-  result[ this->capture() ] += factor * components.capture;
+  result[ this->elasticID() ] += factor * components.elastic;
+  result[ this->captureID() ] += factor * components.capture;
   if ( components.hasFission() ) {
 
-    result[ this->fission() ] += factor * components.fission;
+    result[ this->fissionID() ] += factor * components.fission;
   }
 }

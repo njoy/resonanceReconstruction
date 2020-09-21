@@ -16,4 +16,9 @@ SpinGroup( Channel< Neutron >&& incident, resolved::ResonanceTable&& table,
       return {{ ReactionID{ incident, target, ReactionType( "elastic" ) },
                 ReactionID{ incident, target, ReactionType( "capture" ) },
                 ReactionID{ incident, target, ReactionType( "fission" ) } }};
-    }( incident ) ) {}
+    }( incident ) ),
+  elastic_( table.resonances().size() ),
+  capture_( table.resonances().size() ),
+  fission_( table.resonances().size() ),
+  total_( table.resonances().size() ),
+  delta_( table.resonances().size() ) {}
