@@ -47,57 +47,57 @@ SCENARIO( "evaluate" ) {
       std::map< ReactionID, CrossSection > xs;
       group.evaluate( 1e-5 * electronVolt, xs );
       CHECK( 2 == xs.size() );
-      CHECK( 5268.5966369331500 == Approx( xs[ elas ].value ) );
+      CHECK( 5263.766124069020 == Approx( xs[ elas ].value ) );
       CHECK( 801565.16324338294  == Approx( xs[ capt ].value ) );
       xs.clear();
-/*
+
       group.evaluate( 1e-4 * electronVolt, xs );
       CHECK( 2 == xs.size() );
-      CHECK( 9070.5097508583694 == Approx( xs[ elas ].value ) );
+      CHECK( 5263.446004210710 == Approx( xs[ elas ].value ) );
       CHECK( 253468.26154893031 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group.evaluate( 1e-3 * electronVolt, xs );
       CHECK( 2 == xs.size() );
-      CHECK( 9067.1505748817472 == Approx( xs[ elas ].value ) );
+      CHECK( 5260.419521334390 == Approx( xs[ elas ].value ) );
       CHECK( 80132.232264999941 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group.evaluate( 1e-2 * electronVolt, xs );
       CHECK( 2 == xs.size() );
-      CHECK( 9036.3652957521754 == Approx( xs[ elas ].value ) );
+      CHECK( 5230.794770547790 == Approx( xs[ elas ].value ) );
       CHECK( 25279.102640176850 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group.evaluate( 1e-1 * electronVolt, xs );
       CHECK( 2 == xs.size() );
-      CHECK( 8746.8273681445971 == Approx( xs[ elas ].value ) );
+      CHECK( 4944.607017624710 == Approx( xs[ elas ].value ) );
       CHECK( 7816.7206941266395 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group.evaluate( 1. * electronVolt, xs );
       CHECK( 2 == xs.size() );
-      CHECK( 6653.1682520698705 == Approx( xs[ elas ].value ) );
+      CHECK( 2718.260261461080 == Approx( xs[ elas ].value ) );
       CHECK( 2161.1909561504717 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group.evaluate( 4.755 * electronVolt, xs );
       CHECK( 2 == xs.size() );
-      CHECK( 93347.351129302318 == Approx( xs[ elas ].value ) );
+      CHECK( 74812.07953004330 == Approx( xs[ elas ].value ) );
       CHECK( 45893.526706445802 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group.evaluate( 5. * electronVolt, xs );
       CHECK( 2 == xs.size() );
-      CHECK( 182825.08293451308 == Approx( xs[ elas ].value ) );
+      CHECK( 185934.6866480720 == Approx( xs[ elas ].value ) );
       CHECK( 87782.287793509589 == Approx( xs[ capt ].value ) );
       xs.clear();
 
       group.evaluate( 5.245 * electronVolt, xs );
       CHECK( 2 == xs.size() );
-      CHECK( 91772.055495597771 == Approx( xs[ elas ].value ) );
+      CHECK( 111833.7440435780 == Approx( xs[ elas ].value ) );
       CHECK( 42264.081005233311 == Approx( xs[ capt ].value ) );
-      xs.clear();*/
+      xs.clear();
     } // THEN
   } // GIVEN
 } // SCENARIO

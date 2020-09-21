@@ -27,8 +27,10 @@ void evaluate( const Energy& energy,
   this->precompute( energy );
 
   // lambda to calculate the cross sections for each resonance
-  auto calculate = [&] ( const auto& elastic, const auto& capture, const auto& fission, const auto& total,
-                         const auto& delta, const auto& denominator ) -> Data< double > {
+  auto calculate = [&] ( const auto& elastic, const auto& capture,
+                         const auto& fission, const auto& total,
+                         const auto& delta, const auto& denominator )
+                       -> Data< double > {
 
     return { ( elastic * ( elastic - 2. * total * sin2phi
                            + 2. * delta * sintwophi ) ) / denominator,
