@@ -21,18 +21,16 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
         // SLBW
         case 1 : {
 
-          auto endfMLBW =
+          auto endfSLBW =
             std::get< ENDF::resolved::SingleLevelBreitWigner >( endfResonanceRange.parameters() );
 
           return Reconstructor(
                      lower * electronVolt,
                      upper * electronVolt,
-                     makeBreitWignerCompoundSystem( endfMLBW,
-                                                    neutronMass,
-                                                    elementaryCharge,
-                                                    incident, target,
-                                                    nro, naps,
-                                                    SingleLevelBreitWigner() ) );
+                     makeLegacyBreitWignerCompoundSystem(
+                         endfSLBW, neutronMass, elementaryCharge,
+                         incident, target, nro, naps,
+                         SingleLevelBreitWigner() ) );
         }
         // MLBW
         case 2 : {
@@ -43,12 +41,10 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
           return Reconstructor(
                      lower * electronVolt,
                      upper * electronVolt,
-                     makeBreitWignerCompoundSystem( endfMLBW,
-                                                    neutronMass,
-                                                    elementaryCharge,
-                                                    incident, target,
-                                                    nro, naps,
-                                                    MultiLevelBreitWigner() ) );
+                     makeLegacyBreitWignerCompoundSystem(
+                       endfMLBW, neutronMass, elementaryCharge,
+                       incident, target, nro, naps,
+                       MultiLevelBreitWigner() ) );
         }
         // ReichMoore
         case 3 : {
@@ -59,11 +55,9 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
           return Reconstructor(
                      lower * electronVolt,
                      upper * electronVolt,
-                     makeReichMooreCompoundSystem( endfReichMoore,
-                                                   neutronMass,
-                                                   elementaryCharge,
-                                                   incident, target,
-                                                   nro, naps ) );
+                     makeReichMooreCompoundSystem(
+                         endfReichMoore, neutronMass, elementaryCharge,
+                         incident, target, nro, naps ) );
         }
         // R-matrix limited
         case 7 : {

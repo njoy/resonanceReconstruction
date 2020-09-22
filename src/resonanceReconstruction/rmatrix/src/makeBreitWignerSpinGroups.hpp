@@ -1,6 +1,6 @@
 template < typename Formalism >
 std::vector< legacy::resolved::SpinGroup< Formalism > >
-makeBreitWignerSpinGroups(
+makeLegacyBreitWignerSpinGroups(
     const ENDF::resolved::BreitWignerLValue& endfLValue,
     const AtomicMass& neutronMass,
     const ElectricalCharge& elementaryCharge,

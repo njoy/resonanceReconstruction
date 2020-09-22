@@ -1,6 +1,6 @@
 template < typename Formalism, typename BreitWigner >
 legacy::resolved::CompoundSystem< Formalism >
-makeBreitWignerCompoundSystem(
+makeLegacyBreitWignerCompoundSystem(
     const BreitWigner& endfBreitWigner,
     const AtomicMass& neutronMass,
     const ElectricalCharge& elementaryCharge,
@@ -29,7 +29,7 @@ makeBreitWignerCompoundSystem(
   std::vector< legacy::resolved::SpinGroup< Formalism > > groups;
   for ( const auto& lvalue : lvalues ) {
 
-    auto stuff = makeBreitWignerSpinGroups(
+    auto stuff = makeLegacyBreitWignerSpinGroups(
                      lvalue, neutronMass, elementaryCharge, incident, target,
                      required, spin, ap, nro, naps, formalism );
     groups.insert( groups.end(), stuff.begin(), stuff.end() );
