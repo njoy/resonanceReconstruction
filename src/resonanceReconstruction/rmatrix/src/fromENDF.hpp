@@ -18,6 +18,38 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
 
       switch ( endfResonanceRange.representation() ) {
 
+        // SLBW
+        case 1 : {
+
+          auto endfMLBW =
+            std::get< ENDF::resolved::SingleLevelBreitWigner >( endfResonanceRange.parameters() );
+
+          return Reconstructor(
+                     lower * electronVolt,
+                     upper * electronVolt,
+                     makeBreitWignerCompoundSystem( endfMLBW,
+                                                    neutronMass,
+                                                    elementaryCharge,
+                                                    incident, target,
+                                                    nro, naps,
+                                                    SingleLevelBreitWigner() ) );
+        }
+        // MLBW
+        case 2 : {
+
+          auto endfMLBW =
+            std::get< ENDF::resolved::MultiLevelBreitWigner >( endfResonanceRange.parameters() );
+
+          return Reconstructor(
+                     lower * electronVolt,
+                     upper * electronVolt,
+                     makeBreitWignerCompoundSystem( endfMLBW,
+                                                    neutronMass,
+                                                    elementaryCharge,
+                                                    incident, target,
+                                                    nro, naps,
+                                                    MultiLevelBreitWigner() ) );
+        }
         // ReichMoore
         case 3 : {
 
@@ -95,11 +127,11 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
             }
           }
         }
-        // SLBW, MLBW, AA
+        // AA
         default : {
 
-          throw std::runtime_error( "fromENDF is not implemented for the SLBW, "
-                                    "MLBW or AA resolved resonances" );
+          throw std::runtime_error( "fromENDF is not implemented for the "
+                                    "AA resolved resonances" );
         }
       }
     }

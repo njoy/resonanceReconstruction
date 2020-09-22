@@ -54,14 +54,13 @@ namespace rmatrix {
   #include "resonanceReconstruction/rmatrix/ParticleChannel.hpp"
   #include "resonanceReconstruction/rmatrix/ParticleChannelData.hpp"
 
-  // resolved resonance information
+  // resonance information
   #include "resonanceReconstruction/rmatrix/Resonance.hpp"
   #include "resonanceReconstruction/rmatrix/ResonanceTable.hpp"
 
-  // legacy resonance reconstruction
-  #include "resonanceReconstruction/rmatrix/legacy.hpp"
-
-  // R-Matrix formalism options
+  // formalism options
+  struct SingleLevelBreitWigner {};
+  struct MultiLevelBreitWigner {};
   struct ReichMoore {};
   struct GeneralRMatrix {};
   #include "resonanceReconstruction/rmatrix/RLMatrixCalculator.hpp"
@@ -69,6 +68,9 @@ namespace rmatrix {
   // spin group and compound system
   #include "resonanceReconstruction/rmatrix/SpinGroup.hpp"
   #include "resonanceReconstruction/rmatrix/CompoundSystem.hpp"
+
+  // legacy resonance reconstruction
+  #include "resonanceReconstruction/rmatrix/legacy.hpp"
 
   // make components from ENDF
   #include "resonanceReconstruction/rmatrix/src/makeQuantumNumbers.hpp"
@@ -80,13 +82,17 @@ namespace rmatrix {
   #include "resonanceReconstruction/rmatrix/src/makeCompoundSystem.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeReichMooreChannelData.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeReichMooreCompoundSystem.hpp"
+  #include "resonanceReconstruction/rmatrix/src/makeBreitWignerSpinGroups.hpp"
+  #include "resonanceReconstruction/rmatrix/src/makeBreitWignerCompoundSystem.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeLegacyUnresolvedResonanceTable.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeLegacyUnresolvedSpinGroups.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeLegacyUnresolvedCompoundSystem.hpp"
 
   // make the compound system variant from ENDF
   using CompoundSystemVariant =
-      std::variant< CompoundSystem< ReichMoore, ShiftFactor >,
+      std::variant< legacy::resolved::CompoundSystem< SingleLevelBreitWigner >,
+                    legacy::resolved::CompoundSystem< MultiLevelBreitWigner >,
+                    CompoundSystem< ReichMoore, ShiftFactor >,
                     CompoundSystem< ReichMoore, Constant >,
                     //CompoundSystem< GeneralRMatrix, ShiftFactor >,
                     //CompoundSystem< GeneralRMatrix, Constant >,
