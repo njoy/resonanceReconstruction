@@ -31,8 +31,10 @@ makeReichMooreCompoundSystem(
   std::vector< ParticleChannelData > data;
   for ( const auto& lvalue : lvalues ) {
 
-    auto stuff = makeReichMooreChannelData( lvalue, in, radii, required,
-                                            nro, naps );
+    auto stuff = makeReichMooreChannelData( lvalue, neutronMass,
+                                            elementaryCharge,
+                                            incident, target, required,
+                                            spin, ap, nro, naps );
     data.insert( data.end(), stuff.begin(), stuff.end() );
   }
 
