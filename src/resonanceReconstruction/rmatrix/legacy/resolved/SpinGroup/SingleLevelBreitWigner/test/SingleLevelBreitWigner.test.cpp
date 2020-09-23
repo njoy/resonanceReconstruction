@@ -19,7 +19,7 @@ using Resonance = rmatrix::legacy::resolved::Resonance;
 using ResonanceTable = rmatrix::legacy::resolved::ResonanceTable;
 template < typename Formalism >
 using SpinGroup = rmatrix::legacy::resolved::SpinGroup< Formalism >;
-using SingleLevelBreitWigner = rmatrix::legacy::resolved::SingleLevelBreitWigner;
+using SingleLevelBreitWigner = rmatrix::SingleLevelBreitWigner;
 using ReactionID = rmatrix::ReactionID;
 using ReactionChannelID = rmatrix::ReactionChannelID;
 

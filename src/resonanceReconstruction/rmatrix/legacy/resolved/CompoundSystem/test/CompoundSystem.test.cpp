@@ -21,8 +21,8 @@ template < typename Formalism >
 using SpinGroup = rmatrix::legacy::resolved::SpinGroup< Formalism >;
 template < typename Formalism >
 using CompoundSystem = rmatrix::legacy::resolved::CompoundSystem< Formalism >;
-using SingleLevelBreitWigner = rmatrix::legacy::resolved::SingleLevelBreitWigner;
-using MultiLevelBreitWigner = rmatrix::legacy::resolved::MultiLevelBreitWigner;
+using SingleLevelBreitWigner = rmatrix::SingleLevelBreitWigner;
+using MultiLevelBreitWigner = rmatrix::MultiLevelBreitWigner;
 using ReactionID = rmatrix::ReactionID;
 using ReactionChannelID = rmatrix::ReactionChannelID;
 
