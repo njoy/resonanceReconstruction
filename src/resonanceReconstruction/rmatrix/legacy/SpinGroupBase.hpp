@@ -7,6 +7,13 @@ template < typename ResonanceTableType > class SpinGroupBase {
   /* fields */
   Channel< Neutron > incident_;
   ResonanceTableType table_;
+  std::array< ReactionID, 3 > reactions_;
+
+protected:
+
+  const ReactionID& elasticID() const { return this->reactions_[0]; }
+  const ReactionID& captureID() const { return this->reactions_[1]; }
+  const ReactionID& fissionID() const { return this->reactions_[2]; }
 
 public:
 
@@ -20,7 +27,16 @@ public:
    */
   SpinGroupBase( Channel< Neutron >&& incident, ResonanceTableType&& table ) :
     incident_( std::move( incident ) ),
-    table_( std::move( table ) ) {}
+    table_( std::move( table ) ),
+    reactions_(
+      [] ( const auto& channel ) -> std::array< ReactionID, 3 > {
+
+        auto incident = channel.particlePair().particle().particleID();
+        auto target = channel.particlePair().residual().particleID();
+        return {{ ReactionID{ incident, target, ReactionType( "elastic" ) },
+                  ReactionID{ incident, target, ReactionType( "capture" ) },
+                  ReactionID{ incident, target, ReactionType( "fission" ) } }};
+      }( incident ) ) {}
 
   /* methods */
 

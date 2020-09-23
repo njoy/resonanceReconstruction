@@ -15,7 +15,6 @@ class SpinGroup< SingleLevelBreitWigner > : protected SpinGroupBase< resolved::R
   /* fields */
   Energy qx_;
 
-  std::array< ReactionID, 3 > reactions_;
   std::vector< Width > elastic_;
   std::vector< Width > capture_;
   std::vector< Width > fission_;
@@ -28,9 +27,9 @@ class SpinGroup< SingleLevelBreitWigner > : protected SpinGroupBase< resolved::R
 
 protected:
 
-  const ReactionID& elasticID() const { return this->reactions_[0]; }
-  const ReactionID& captureID() const { return this->reactions_[1]; }
-  const ReactionID& fissionID() const { return this->reactions_[2]; }
+  using SpinGroupBase::elasticID;
+  using SpinGroupBase::captureID;
+  using SpinGroupBase::fissionID;
 
   auto elastic() const { return ranges::view::all( this->elastic_ ); }
   auto capture() const { return ranges::view::all( this->capture_ ); }

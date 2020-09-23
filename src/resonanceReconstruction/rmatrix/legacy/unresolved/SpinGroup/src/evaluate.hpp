@@ -39,17 +39,16 @@ void evaluate( const Energy& energy,
     calculateFluctuationIntegrals( widths, degrees );
 
   // calculate the resulting cross sections
-  ReactionID elas = ReactionID( incident, target, elementary::ReactionType( "elastic" ) );
-  ReactionID capt = ReactionID( incident, target, elementary::ReactionType( "capture" ) );
-  ReactionID fiss = ReactionID( incident, target, elementary::ReactionType( "fission" ) );
-  result[ elas ] += factor * ( spinFactor / spacing *
-                      ( widths.elastic * widths.elastic * integrals.elastic
-                        - 2. * widths.elastic * sin2phi ) );
-  result[ capt ] += factor * spinFactor / spacing *
-                      ( widths.elastic * widths.capture * integrals.capture );
+  result[ this->elasticID() ] +=
+    factor * ( spinFactor / spacing *
+    ( widths.elastic * ( widths.elastic * integrals.elastic - 2. * sin2phi ) ) );
+  result[ this->captureID() ] +=
+    factor * spinFactor / spacing *
+    ( widths.elastic * widths.capture * integrals.capture );
   if ( widths.hasFission() ) {
 
-    result[ fiss ] += factor * spinFactor / spacing *
-                        ( widths.elastic * widths.fission * integrals.fission );
+    result[ this->fissionID() ] +=
+      factor * spinFactor / spacing *
+      ( widths.elastic * widths.fission * integrals.fission );
   }
 }
