@@ -15,14 +15,6 @@ makeReichMooreChannelData(
   double awri = endfLValue.atomicWeightRatio();
 
   // some usefull lambdas
-  auto compareNumbers = [] ( const auto& left, const auto& right ) -> bool {
-
-    return
-    ( left.orbitalAngularMomentum() == right.orbitalAngularMomentum() ) and
-    ( left.spin() == right.spin() ) and
-    ( left.totalAngularMomentum() == right.totalAngularMomentum() ) and
-    ( left.parity() == right.parity() );
-  };
   auto toEnergy = [&] ( double value ) -> Energy {
 
     return value * electronVolt;
@@ -49,44 +41,6 @@ makeReichMooreChannelData(
                               { return value == 0.; } ),
                true,
                [] ( bool left, bool right ) { return left and right; } );
-  };
-  auto retrieveQuantumNumber =
-       [&] ( unsigned int l, double j,
-             std::vector< ChannelQuantumNumbers >& available ) {
-
-    // retrieve the available numbers with this l,J
-    auto filter =
-         [l,j] ( const auto& number )
-               { return ( number.orbitalAngularMomentum() == l ) and
-                        ( number.totalAngularMomentum() == std::abs( j ) ); };
-    auto filtered = available | ranges::view::filter( filter );
-
-    auto found = ranges::distance( filtered );
-    if ( found > 0 ) {
-
-      // retrieve the one we need and erase it from the available numbers
-      ChannelQuantumNumbers numbers( 0, 0., 0., +1 );
-      if ( found == 1 ) {
-
-        numbers = filtered.front();
-      }
-      else {
-
-        numbers =  filtered.front().spin() < filtered.back().spin() ?
-                   filtered.front() : filtered.back();
-      }
-      available.erase( std::find_if(
-                           available.begin(), available.end(),
-                           [&] ( const auto& value )
-                               { return compareNumbers( value, numbers ); } ) );
-      return numbers;
-    }
-    else {
-
-      throw std::runtime_error( "None of the expected spin groups has l="
-                                + std::to_string( l ) + " and J="
-                                + std::to_string( j ) );
-    }
   };
 
   // the fission and capture particle pair

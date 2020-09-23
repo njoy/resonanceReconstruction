@@ -58,10 +58,7 @@ makeLegacyBreitWignerSpinGroups(
 
     // create the elastic channel
     Channel< Neutron > cElastic( in, in, 0. * electronVolt,
-                                 { l, 0.5, std::abs( J ),
-                                   std::pow( -1, l ) > 0.
-                                       ? static_cast< Parity >( +1 )
-                                       : static_cast< Parity >( -1 ) },
+                                 retrieveQuantumNumber( l, J, available ),
                                  radii );
 
     // calculate P, Q and S
