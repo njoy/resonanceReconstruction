@@ -50,7 +50,7 @@ SCENARIO( "CompoundSystem" ) {
 
       auto channel = group.incidentChannel();
 
-      CHECK( "n,Rh105{0,1/2,1+}" == channel.channelID() );
+      CHECK( "n,Rh105{0,1,1+}" == channel.channelID() );
       CHECK( "n,Rh105->n,Rh105" == channel.reactionID().symbol() );
 
       CHECK( true == channel.isIncidentChannel() );
