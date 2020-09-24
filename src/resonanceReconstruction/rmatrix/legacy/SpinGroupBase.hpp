@@ -1,6 +1,6 @@
 /**
  *  @class
- *  @brief Resonance data for a specific l,J spin group
+ *  @brief Base interface for a legacy l,J spin group
  */
 template < typename ResonanceTableType > class SpinGroupBase {
 

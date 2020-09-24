@@ -12,11 +12,8 @@
  *  where E is the incidemt neutron energy and Er is the resonance energy.
  *
  *  Since the penetrability for fission and capture (and total which is only
- *  used to calculte the competitive width) is equal to 1, only the elastic
+ *  used to calculate the competitive width) is equal to 1, only the elastic
  *  width is energy dependent.
- *
- *  The values stored here for a given Er are GT, GN and GF for total, capture
- *  and fission. For elastic, the value stored here should be GN / P( Er ).
  */
 class Resonance {
 

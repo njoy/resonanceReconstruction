@@ -1,6 +1,6 @@
 /**
  *  @class
- *  @brief The compound system
+ *  @brief The legacy unresolved compound system
  *
  *  This class contains the unresolved resonance parameters for legacy ENDF
  *  data. It can be used to generate cross section values at any energy but it

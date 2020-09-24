@@ -8,6 +8,7 @@
  *  @param[in] total     the competitive total width
  *  @param[in] P         the penetrability at the energy Er
  *  @param[in] Q         the penetrability at the energy Er - Q
+ *  @param[in] S         the shift factor at the energy Er
  */
 Resonance( const Energy& energy,
            const Width& elastic,

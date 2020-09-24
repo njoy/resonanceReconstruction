@@ -4,7 +4,7 @@
  *
  *  The minimal energy grid consists of all resonance energy values (only the
  *  ones that are positive) along with the resonance energies +/- half the
- *  total width (including the eliminated width if it is defined).
+ *  total width.
  */
 std::vector< Energy > grid() const {
 

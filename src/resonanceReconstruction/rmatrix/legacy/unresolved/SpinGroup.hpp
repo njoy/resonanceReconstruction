@@ -13,7 +13,7 @@ public:
 
   using SpinGroupBase::SpinGroupBase;
 
-  /* mewthods */
+  /* methods */
 
   using SpinGroupBase::incidentChannel;
   using SpinGroupBase::orbitalAngularMomentum;
