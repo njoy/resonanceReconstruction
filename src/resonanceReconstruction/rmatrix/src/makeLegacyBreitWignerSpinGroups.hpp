@@ -62,6 +62,7 @@ makeLegacyBreitWignerSpinGroups(
                                  radii );
 
     // calculate P, Q and S
+    unsigned int nr = ranges::distance( current );
     auto qx = endfLValue.QX() * electronVolt;
     bool lrx = endfLValue.competitiveWidthFlag();
     std::vector< Energy > energies =
@@ -96,10 +97,12 @@ makeLegacyBreitWignerSpinGroups(
           current | ranges::view::transform(
                       [] ( const auto& resonance )
                          { return resonance.fissionWidth() * electronVolt; } );
-    auto competition =
-          current | ranges::view::transform(
-                      [] ( const auto& resonance )
-                         { return resonance.competitiveWidth() * electronVolt; } );
+    std::vector< Width > competition =
+    lrx ? current
+              | ranges::view::transform(
+                  [&] ( const auto& resonance )
+                      { return resonance.competitiveWidth() * electronVolt; } )
+        : std::vector< Width >( nr, 0. * electronVolt );
 
     // make the spin group
     groups.emplace_back( std::move( cElastic ),

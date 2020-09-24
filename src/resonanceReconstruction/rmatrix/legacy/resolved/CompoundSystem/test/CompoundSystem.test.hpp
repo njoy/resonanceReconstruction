@@ -17,7 +17,7 @@ SCENARIO( "CompoundSystem" ) {
 
     // channels
     Channel< Neutron > elastic( in, in, 0. * electronVolt,
-                                { 0, 0.5, 1.0, +1 },
+                                { 0, 1.0, 1.0, +1 },
                                 { a * rootBarn, 0.62 * rootBarn } );
 
     // resonance table
@@ -79,7 +79,7 @@ SCENARIO( "CompoundSystem" ) {
 
       auto numbers = channel.quantumNumbers();
       CHECK( 0 == numbers.orbitalAngularMomentum() );
-      CHECK( 0.5 == numbers.spin() );
+      CHECK( 1.0 == numbers.spin() );
       CHECK( 1.0 == numbers.totalAngularMomentum() );
       CHECK( +1 == numbers.parity() );
 
