@@ -36,24 +36,24 @@ using InvElectronVolts = InvElectronVolt;
 constexpr Quantity< RootBarn > rootBarn = 1.0E-12 * centi(meter);
 constexpr Quantity< RootBarn > rootBarns = rootBarn;
 
-//template< int i >
-//using Integer = std::integral_constant< int, i >;
-
 namespace ENDF = ENDFtk::resonanceParameters;
 
-//#include "resonanceReconstruction/src/radius.hpp"
-//#include "resonanceReconstruction/src/channelRadius.hpp"
-//#include "resonanceReconstruction/src/root.hpp"
-//#include "resonanceReconstruction/src/neutronWaveNumber.hpp"
-//#include "resonanceReconstruction/src/penetrationShift.hpp"
-//#include "resonanceReconstruction/src/phaseShift.hpp"
+template< int i >
+using Integer = std::integral_constant< int, i >;
 
-//#include "resonanceReconstruction/pack.hpp"
-//#include "resonanceReconstruction/EnergyRange.hpp"
-//#include "resonanceReconstruction/ZeroWidth.hpp"
+#include "resonanceReconstruction/src/radius.hpp"
+#include "resonanceReconstruction/src/channelRadius.hpp"
+#include "resonanceReconstruction/src/root.hpp"
+#include "resonanceReconstruction/src/neutronWaveNumber.hpp"
+#include "resonanceReconstruction/src/penetrationShift.hpp"
+#include "resonanceReconstruction/src/phaseShift.hpp"
 
-//#include "resonanceReconstruction/breitWigner.hpp"
-//#include "resonanceReconstruction/reichMoore.hpp"
+#include "resonanceReconstruction/pack.hpp"
+#include "resonanceReconstruction/EnergyRange.hpp"
+#include "resonanceReconstruction/ZeroWidth.hpp"
+
+#include "resonanceReconstruction/breitWigner.hpp"
+#include "resonanceReconstruction/reichMoore.hpp"
 
 // physical constants and quantities
 
