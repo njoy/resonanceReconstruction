@@ -52,8 +52,9 @@ retrieveQuantumNumber( unsigned int l, double j,
     }
     else {
 
-      numbers =  filtered.front().spin() < filtered.back().spin() ?
-                 filtered.front() : filtered.back();
+      // when there's two possible channel spin values, the sign of j points
+      // to the correct one (see ENDF manual definition for AJ)
+      numbers =  j < 0. ? filtered.front() : filtered.back();
     }
     available.erase( std::find_if(
                          available.begin(), available.end(),
@@ -65,6 +66,6 @@ retrieveQuantumNumber( unsigned int l, double j,
 
     throw std::runtime_error( "None of the expected spin groups has l="
                               + std::to_string( l ) + " and J="
-                              + std::to_string( j ) );
+                              + std::to_string( std::abs( j ) ) );
   }
 };

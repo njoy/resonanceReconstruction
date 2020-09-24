@@ -123,7 +123,6 @@ SCENARIO( "fromENDF - LRF2" ) {
 
       // check the minimal energy grid
       auto grid0 = spingroup0.grid();
-
       CHECK( 3 == grid0.size() );
       CHECK( 4.755 == Approx( grid0[0].value ) );
       CHECK( 5. == Approx( grid0[1].value ) );
@@ -186,7 +185,7 @@ SCENARIO( "fromENDF - LRF2" ) {
   } // GIVEN
 
   GIVEN( "valid ENDF data for Ag107" ) {
-
+std::cout << "Ag107" << std::endl;
     std::string string = resolvedAg107();
     auto begin = string.begin();
     auto end = string.end();
@@ -197,10 +196,9 @@ SCENARIO( "fromENDF - LRF2" ) {
     ResonanceRange endfResonanceRange = endf.isotopes().front().resonanceRanges().front();
 
     auto resonances = fromENDF( endfResonanceRange, neutronMass, elementaryCharge, ParticleID( "n" ), ParticleID( "Ag107" ) );
+std::cout << "Ag107 - done" << std::endl;
 
-    // check the minimal energy grid
-    auto grid = compoundsystem.grid();
-//    CHECK( 5 == grid.size() );
+    double a = 0.123 * std::pow( 105.987 * 1.008664, 1. / 3. ) + 0.08;
 
     THEN( "the appropriate CompoundSystem is returned" ) {
 
@@ -219,22 +217,21 @@ SCENARIO( "fromENDF - LRF2" ) {
       auto spingroups = compoundsystem.spinGroups();
       CHECK( 5 == spingroups.size() );
 
+      // check the minimal energy grid
+      auto grid = compoundsystem.grid();
+      CHECK( 1196 == grid.size() ); // ( 400 resonances - 1 negative ) * 3 - 1 duplicate
+
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-      // spin group 0 -  empty spin group
+      // spin group 0 -  lJ = 0,0+
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       auto spingroup0 = spingroups[0];
-/*
-      // channels
-      auto channels0 = spingroup0.channels();
-
-      CHECK( 2 == channels0.size() ); // 2 normal channel + 1 eliminated
 
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-      // spin group 0, channel 0: elastic
+      // spin group 0, elastic channel
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-      const auto channel00 = std::get< Channel< Neutron > >( channels0[0] );
-      CHECK( "n,Cf252->n,Cf252" == channel00.reactionID().symbol() );
+      const auto channel00 = spingroup0.incidentChannel();
+      CHECK( "n,Ag107->n,Ag107" == channel00.reactionID().symbol() );
 
       // incident particle pair
       const auto incident00 = channel00.incidentParticlePair();
@@ -242,11 +239,11 @@ SCENARIO( "fromENDF - LRF2" ) {
       CHECK( 0.0 == Approx( incident00.particle().charge().value ) );
       CHECK( 0.5 == Approx( incident00.particle().spin() ) );
       CHECK( +1 == incident00.particle().parity() );
-      CHECK( 236.9986 * 1.008664 == Approx( incident00.residual().mass().value ) );
-      CHECK( 94.0 * 1.602e-19 == Approx( incident00.residual().charge().value ) );
+      CHECK( 105.987 * 1.008664 == Approx( incident00.residual().mass().value ) );
+      CHECK( 47.0 * 1.602e-19 == Approx( incident00.residual().charge().value ) );
       CHECK( 0.5 == Approx( incident00.residual().spin() ) );
       CHECK( +1 == incident00.residual().parity() );
-      CHECK( "n,Cf252" == incident00.pairID().symbol() );
+      CHECK( "n,Ag107" == incident00.pairID().symbol() );
 
       // particle pair
       const auto pair00 = channel00.particlePair();
@@ -254,25 +251,25 @@ SCENARIO( "fromENDF - LRF2" ) {
       CHECK( 0.0 == Approx( pair00.particle().charge().value ) );
       CHECK( 0.5 == Approx( pair00.particle().spin() ) );
       CHECK( +1 == pair00.particle().parity() );
-      CHECK( 236.9986 * 1.008664 == Approx( pair00.residual().mass().value ) );
-      CHECK( 94.0 * 1.602e-19 == Approx( pair00.residual().charge().value ) );
+      CHECK( 105.987 * 1.008664 == Approx( pair00.residual().mass().value ) );
+      CHECK( 47.0 * 1.602e-19 == Approx( pair00.residual().charge().value ) );
       CHECK( 0.5 == Approx( pair00.residual().spin() ) );
       CHECK( +1 == pair00.residual().parity() );
-      CHECK( "n,Cf252" == pair00.pairID().symbol() );
+      CHECK( "n,Ag107" == pair00.pairID().symbol() );
 
       // quantum numbers
       const auto numbers00 = channel00.quantumNumbers();
-      CHECK( 1 == numbers00.orbitalAngularMomentum() );
-      CHECK( 1.0 == numbers00.spin() );
-      CHECK( 0.0 == numbers00.totalAngularMomentum() );
-      CHECK( -1 == numbers00.parity() );
-      CHECK( "{1,1,0-}" == numbers00.toString() );
+      CHECK( 0 == numbers00.orbitalAngularMomentum() );
+      CHECK( 0 == numbers00.spin() );
+      CHECK( 0. == numbers00.totalAngularMomentum() );
+      CHECK( +1 == numbers00.parity() );
+      CHECK( "{0,0,0+}" == numbers00.toString() );
 
-      // radii
+      // radii - NRO=1 NAPS=0
       const auto radii00 = channel00.radii();
-      CHECK( .9410000 == Approx( radii00.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
-      CHECK( .9410000 == Approx( radii00.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
-      CHECK( .9410000 == Approx( radii00.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( a == Approx( radii00.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( a == Approx( radii00.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .66 == Approx( radii00.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
 
       // boundary conditions
       CHECK( 0. == channel00.boundaryCondition() );
@@ -281,35 +278,363 @@ SCENARIO( "fromENDF - LRF2" ) {
       CHECK( 0.0 == Approx( channel00.Q().value ) );
 
       // resonance table
+      auto table0 = spingroup0.resonanceTable();
+
+      CHECK( 46 == table0.numberResonances() );
+      CHECK( 46 == table0.resonances().size() );
+      CHECK( 46 == table0.energies().size() );
+      CHECK( 16.3 == Approx( table0.energies().front().value ) );
+      CHECK( 6387.0 == Approx( table0.energies().back().value ) );
+
+      auto rfront0 = table0.resonances().front();
+      CHECK( 16.3 == Approx( rfront0.energy().value ) );
+      CHECK( 1.160000e-2 == Approx( rfront0.elastic().value ) );
+      CHECK( 1.350000e-1 == Approx( rfront0.capture().value ) );
+      CHECK( 0 == Approx( rfront0.fission().value ) );
+      CHECK( 0 == Approx( rfront0.competition().value ) );
+
+      auto rback0 = table0.resonances().back();
+      CHECK( 6387. == Approx( rback0.energy().value ) );
+      CHECK( 3.000000e-1 == Approx( rback0.elastic().value ) );
+      CHECK( 1.430000e-1 == Approx( rback0.capture().value ) );
+      CHECK( 0 == Approx( rback0.fission().value ) );
+      CHECK( 0 == Approx( rback0.competition().value ) );
+
+      // check the minimal energy grid
+      auto grid0 = spingroup0.grid();
+      CHECK( 138 == grid0.size() ); // ( 46 resonances ) * 3
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 1 -  lJ = 0,1+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      auto spingroup1 = spingroups[1];
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 1, elastic channel
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel10 = spingroup1.incidentChannel();
+      CHECK( "n,Ag107->n,Ag107" == channel10.reactionID().symbol() );
+
+      // incident particle pair
+      const auto incident10 = channel10.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident10.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident10.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident10.particle().spin() ) );
+      CHECK( +1 == incident10.particle().parity() );
+      CHECK( 105.987 * 1.008664 == Approx( incident10.residual().mass().value ) );
+      CHECK( 47.0 * 1.602e-19 == Approx( incident10.residual().charge().value ) );
+      CHECK( 0.5 == Approx( incident10.residual().spin() ) );
+      CHECK( +1 == incident10.residual().parity() );
+      CHECK( "n,Ag107" == incident10.pairID().symbol() );
+
+      // particle pair
+      const auto pair10 = channel10.particlePair();
+      CHECK( 1.008664 == Approx( pair10.particle().mass().value ) );
+      CHECK( 0.0 == Approx( pair10.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair10.particle().spin() ) );
+      CHECK( +1 == pair10.particle().parity() );
+      CHECK( 105.987 * 1.008664 == Approx( pair10.residual().mass().value ) );
+      CHECK( 47.0 * 1.602e-19 == Approx( pair10.residual().charge().value ) );
+      CHECK( 0.5 == Approx( pair10.residual().spin() ) );
+      CHECK( +1 == pair10.residual().parity() );
+      CHECK( "n,Ag107" == pair10.pairID().symbol() );
+
+      // quantum numbers
+      const auto numbers10 = channel10.quantumNumbers();
+      CHECK( 0 == numbers10.orbitalAngularMomentum() );
+      CHECK( 1.0 == numbers10.spin() );
+      CHECK( 1.0 == numbers10.totalAngularMomentum() );
+      CHECK( +1 == numbers10.parity() );
+      CHECK( "{0,1,1+}" == numbers10.toString() );
+
+      // radii - NRO=1 NAPS=0
+      const auto radii10 = channel10.radii();
+      CHECK( a == Approx( radii10.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( a == Approx( radii10.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .66 == Approx( radii10.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel10.boundaryCondition() );
+
+      // Q value
+      CHECK( 0.0 == Approx( channel10.Q().value ) );
+
+      // resonance table
       auto table1 = spingroup1.resonanceTable();
 
-      CHECK( 3 == table1.numberChannels() ); // 1 normal channel + 1 eliminated
-      CHECK( 231 == table1.numberResonances() );
+      CHECK( 158 == table1.numberResonances() );
+      CHECK( 158 == table1.resonances().size() );
+      CHECK( 158 == table1.energies().size() );
+      CHECK( -12.6 == Approx( table1.energies().front().value ) );
+      CHECK( 6499. == Approx( table1.energies().back().value ) );
 
-      auto energies1 = table1.energies();
-      CHECK( -6.908700 == Approx( energies1.front().value ) );
-      CHECK( 2.511660e+3 == Approx( energies1.back().value ) );
+      auto rfront1 = table1.resonances().front();
+      CHECK( -12.6 == Approx( rfront1.energy().value ) );
+      CHECK( 4.427000e-2  == Approx( rfront1.elastic().value ) );
+      CHECK( 1.430000e-1 == Approx( rfront1.capture().value ) );
+      CHECK( 0 == Approx( rfront1.fission().value ) );
+      CHECK( 0 == Approx( rfront1.competition().value ) );
 
-      auto resonances1 = table1.resonances();
-      CHECK( -6.908700 == Approx( resonances1.front().energy().value ) );
-      CHECK( 2.511660e+3 == Approx( resonances1.back().energy().value ) );
-      CHECK( 3 == resonances1.front().widths().size() );
-      CHECK( 3 == resonances1.back().widths().size() );
-      CHECK( std::sqrt( 1.805854e-2 / 2. / channel10.penetrability( -6.908700 * electronVolt ) )
-             == Approx( resonances1.front().widths()[0].value ) );
-      CHECK( std::sqrt( 3.123558e-1 / 2. / channel10.penetrability( 2.511660e+3 * electronVolt ) )
-             == Approx( resonances1.back().widths()[0].value ) );
-      CHECK( -std::sqrt( 9.235517e-1 / 2. )
-             == Approx( resonances1.front().widths()[1].value ) );
-      CHECK( std::sqrt( 1.002582 / 2. )
-             == Approx( resonances1.back().widths()[1].value ) );
-      CHECK( std::sqrt( 3.464891e-1 / 2. )
-             == Approx( resonances1.front().widths()[2].value ) );
-      CHECK( std::sqrt( 1.971943e-2 / 2. )
-             == Approx( resonances1.back().widths()[2].value ) );
-      CHECK( std::sqrt( 6.012769e-2 / 2. ) == Approx( resonances1.front().eliminatedWidth().value ) );
-      CHECK( std::sqrt( 3.926596e-2 / 2. ) == Approx( resonances1.back().eliminatedWidth().value ) );
-      */
+      auto rback1 = table1.resonances().back();
+      CHECK( 6499. == Approx( rback1.energy().value ) );
+      CHECK( 6.400000e-2 == Approx( rback1.elastic().value ) );
+      CHECK( 1.430000e-1 == Approx( rback1.capture().value ) );
+      CHECK( 0 == Approx( rback1.fission().value ) );
+      CHECK( 0 == Approx( rback1.competition().value ) );
+
+      // check the minimal energy grid
+      auto grid1 = spingroup1.grid();
+      CHECK( 471 == grid1.size() ); // ( 158 resonances - 1 negative ) * 3
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 2 -  lJ = 1,0-
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      auto spingroup2 = spingroups[2];
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 2, elastic channel
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel20 = spingroup2.incidentChannel();
+      CHECK( "n,Ag107->n,Ag107" == channel20.reactionID().symbol() );
+
+      // incident particle pair
+      const auto incident20 = channel20.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident20.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident20.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident20.particle().spin() ) );
+      CHECK( +1 == incident20.particle().parity() );
+      CHECK( 105.987 * 1.008664 == Approx( incident20.residual().mass().value ) );
+      CHECK( 47.0 * 1.602e-19 == Approx( incident20.residual().charge().value ) );
+      CHECK( 0.5 == Approx( incident20.residual().spin() ) );
+      CHECK( +1 == incident20.residual().parity() );
+      CHECK( "n,Ag107" == incident20.pairID().symbol() );
+
+      // particle pair
+      const auto pair20 = channel20.particlePair();
+      CHECK( 1.008664 == Approx( pair20.particle().mass().value ) );
+      CHECK( 0.0 == Approx( pair20.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair20.particle().spin() ) );
+      CHECK( +1 == pair20.particle().parity() );
+      CHECK( 105.987 * 1.008664 == Approx( pair20.residual().mass().value ) );
+      CHECK( 47.0 * 1.602e-19 == Approx( pair20.residual().charge().value ) );
+      CHECK( 0.5 == Approx( pair20.residual().spin() ) );
+      CHECK( +1 == pair20.residual().parity() );
+      CHECK( "n,Ag107" == pair20.pairID().symbol() );
+
+      // quantum numbers
+      const auto numbers20 = channel20.quantumNumbers();
+      CHECK( 1 == numbers20.orbitalAngularMomentum() );
+      CHECK( 1.0 == numbers20.spin() );
+      CHECK( 0.0 == numbers20.totalAngularMomentum() );
+      CHECK( -1 == numbers20.parity() );
+      CHECK( "{1,1,0-}" == numbers20.toString() );
+
+      // radii - NRO=0 NAPS=0
+      const auto radii20 = channel20.radii();
+      CHECK( a == Approx( radii20.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( a == Approx( radii20.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .66 == Approx( radii20.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel20.boundaryCondition() );
+
+      // Q value
+      CHECK( 0.0 == Approx( channel20.Q().value ) );
+
+      // resonance table
+      auto table2 = spingroup2.resonanceTable();
+
+      CHECK( 28 == table2.numberResonances() );
+      CHECK( 28 == table2.resonances().size() );
+      CHECK( 28 == table2.energies().size() );
+      CHECK( 42.81 == Approx( table2.energies().front().value ) );
+      CHECK( 6256. == Approx( table2.energies().back().value ) );
+
+      auto rfront2 = table2.resonances().front();
+      CHECK( 42.81 == Approx( rfront2.energy().value ) );
+      CHECK( 1.960000e-5  == Approx( rfront2.elastic().value ) );
+      CHECK( 0.143 == Approx( rfront2.capture().value ) );
+      CHECK( 0 == Approx( rfront2.fission().value ) );
+      CHECK( 0 == Approx( rfront2.competition().value ) );
+
+      auto rback2 = table2.resonances().back();
+      CHECK( 6256. == Approx( rback2.energy().value ) );
+      CHECK( 0.142 == Approx( rback2.elastic().value ) );
+      CHECK( 0.143 == Approx( rback2.capture().value ) );
+      CHECK( 0 == Approx( rback2.fission().value ) );
+      CHECK( 0 == Approx( rback2.competition().value ) );
+
+      // check the minimal energy grid
+      auto grid2 = spingroup2.grid();
+      CHECK( 84 == grid2.size() ); // ( 27 resonances ) * 3
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 3 -  lJ = 1,1-
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      auto spingroup3 = spingroups[3];
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 3, elastic channel
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel30 = spingroup3.incidentChannel();
+      CHECK( "n,Ag107->n,Ag107" == channel30.reactionID().symbol() );
+
+      // incident particle pair
+      const auto incident30 = channel30.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident30.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident30.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident30.particle().spin() ) );
+      CHECK( +1 == incident30.particle().parity() );
+      CHECK( 105.987 * 1.008664 == Approx( incident30.residual().mass().value ) );
+      CHECK( 47.0 * 1.602e-19 == Approx( incident30.residual().charge().value ) );
+      CHECK( 0.5 == Approx( incident30.residual().spin() ) );
+      CHECK( +1 == incident30.residual().parity() );
+      CHECK( "n,Ag107" == incident30.pairID().symbol() );
+
+      // particle pair
+      const auto pair30 = channel30.particlePair();
+      CHECK( 1.008664 == Approx( pair30.particle().mass().value ) );
+      CHECK( 0.0 == Approx( pair30.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair30.particle().spin() ) );
+      CHECK( +1 == pair30.particle().parity() );
+      CHECK( 105.987 * 1.008664 == Approx( pair30.residual().mass().value ) );
+      CHECK( 47.0 * 1.602e-19 == Approx( pair30.residual().charge().value ) );
+      CHECK( 0.5 == Approx( pair30.residual().spin() ) );
+      CHECK( +1 == pair30.residual().parity() );
+      CHECK( "n,Ag107" == pair30.pairID().symbol() );
+
+      // quantum numbers
+      const auto numbers30 = channel30.quantumNumbers();
+      CHECK( 1 == numbers30.orbitalAngularMomentum() );
+      CHECK( 1.0 == numbers30.spin() );
+      CHECK( 1.0 == numbers30.totalAngularMomentum() );
+      CHECK( -1 == numbers30.parity() );
+      CHECK( "{1,1,1-}" == numbers30.toString() );
+
+      // radii - NRO=0 NAPS=0
+      const auto radii30 = channel30.radii();
+      CHECK( a == Approx( radii30.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( a == Approx( radii30.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .66 == Approx( radii30.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel30.boundaryCondition() );
+
+      // Q value
+      CHECK( 0.0 == Approx( channel30.Q().value ) );
+
+      // resonance table
+      auto table3 = spingroup3.resonanceTable();
+
+      CHECK( 60 == table3.numberResonances() );
+      CHECK( 60 == table3.resonances().size() );
+      CHECK( 60 == table3.energies().size() );
+      CHECK( 20.3 == Approx( table3.energies().front().value ) );
+      CHECK( 6140. == Approx( table3.energies().back().value ) );
+
+      auto rfront3 = table3.resonances().front();
+      CHECK( 20.3 == Approx( rfront3.energy().value ) );
+      CHECK( 1.600000e-7  == Approx( rfront3.elastic().value ) );
+      CHECK( 0.143 == Approx( rfront3.capture().value ) );
+      CHECK( 0 == Approx( rfront3.fission().value ) );
+      CHECK( 0 == Approx( rfront3.competition().value ) );
+
+      auto rback3 = table3.resonances().back();
+      CHECK( 6140. == Approx( rback3.energy().value ) );
+      CHECK( 4.533334e-2 == Approx( rback3.elastic().value ) );
+      CHECK( 0.143 == Approx( rback3.capture().value ) );
+      CHECK( 0 == Approx( rback3.fission().value ) );
+      CHECK( 0 == Approx( rback3.competition().value ) );
+
+      // check the minimal energy grid
+      auto grid3 = spingroup3.grid();
+      CHECK( 180 == grid3.size() ); // ( 60 resonances ) * 3
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 4 -  lJ = 1,2-
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      auto spingroup4 = spingroups[4];
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 4, elastic channel
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel40 = spingroup4.incidentChannel();
+      CHECK( "n,Ag107->n,Ag107" == channel40.reactionID().symbol() );
+
+      // incident particle pair
+      const auto incident40 = channel40.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident40.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident40.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident40.particle().spin() ) );
+      CHECK( +1 == incident40.particle().parity() );
+      CHECK( 105.987 * 1.008664 == Approx( incident40.residual().mass().value ) );
+      CHECK( 47.0 * 1.602e-19 == Approx( incident40.residual().charge().value ) );
+      CHECK( 0.5 == Approx( incident40.residual().spin() ) );
+      CHECK( +1 == incident40.residual().parity() );
+      CHECK( "n,Ag107" == incident40.pairID().symbol() );
+
+      // particle pair
+      const auto pair40 = channel40.particlePair();
+      CHECK( 1.008664 == Approx( pair40.particle().mass().value ) );
+      CHECK( 0.0 == Approx( pair40.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair40.particle().spin() ) );
+      CHECK( +1 == pair40.particle().parity() );
+      CHECK( 105.987 * 1.008664 == Approx( pair40.residual().mass().value ) );
+      CHECK( 47.0 * 1.602e-19 == Approx( pair40.residual().charge().value ) );
+      CHECK( 0.5 == Approx( pair40.residual().spin() ) );
+      CHECK( +1 == pair40.residual().parity() );
+      CHECK( "n,Ag107" == pair40.pairID().symbol() );
+
+      // quantum numbers
+      const auto numbers40 = channel40.quantumNumbers();
+      CHECK( 1 == numbers40.orbitalAngularMomentum() );
+      CHECK( 1.0 == numbers40.spin() );
+      CHECK( 2.0 == numbers40.totalAngularMomentum() );
+      CHECK( -1 == numbers40.parity() );
+      CHECK( "{1,1,2-}" == numbers40.toString() );
+
+      // radii - NRO=0 NAPS=0
+      const auto radii40 = channel40.radii();
+      CHECK( a == Approx( radii40.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( a == Approx( radii40.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .66 == Approx( radii40.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel40.boundaryCondition() );
+
+      // Q value
+      CHECK( 0.0 == Approx( channel40.Q().value ) );
+
+      // resonance table
+      auto table4 = spingroup4.resonanceTable();
+
+      CHECK( 108 == table4.numberResonances() );
+      CHECK( 108 == table4.resonances().size() );
+      CHECK( 108 == table4.energies().size() );
+      CHECK( 18.9 == Approx( table4.energies().front().value ) );
+      CHECK( 6481. == Approx( table4.energies().back().value ) );
+
+      auto rfront4 = table4.resonances().front();
+      CHECK( 18.9 == Approx( rfront4.energy().value ) );
+      CHECK( 8.800000e-8  == Approx( rfront4.elastic().value ) );
+      CHECK( 0.143 == Approx( rfront4.capture().value ) );
+      CHECK( 0 == Approx( rfront4.fission().value ) );
+      CHECK( 0 == Approx( rfront4.competition().value ) );
+
+      auto rback4 = table4.resonances().back();
+      CHECK( 6481. == Approx( rback4.energy().value ) );
+      CHECK( 1.280000e-2 == Approx( rback4.elastic().value ) );
+      CHECK( 0.143 == Approx( rback4.capture().value ) );
+      CHECK( 0 == Approx( rback4.fission().value ) );
+      CHECK( 0 == Approx( rback4.competition().value ) );
+
+      // check the minimal energy grid
+      auto grid4 = spingroup4.grid();
+      CHECK( 324 == grid4.size() ); // ( 108 resonances ) * 3
     } // THEN
 
     THEN( "cross sections can be reconstructed" ) {
@@ -406,7 +731,7 @@ SCENARIO( "fromENDF - LRF2" ) {
 
       // check the minimal energy grid
       auto grid = compoundsystem.grid();
-      CHECK( 6 == grid0.size() );
+      CHECK( 6 == grid.size() );
 
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // spin group 0 -  lJ = 0,5/2+
@@ -489,7 +814,6 @@ SCENARIO( "fromENDF - LRF2" ) {
 
       // check the minimal energy grid
       auto grid0 = spingroup0.grid();
-
       CHECK( 6 == grid0.size() ); // ( 4 resonances - 2 negative ) * 3
     } // THEN
 
@@ -563,7 +887,7 @@ SCENARIO( "fromENDF - LRF2" ) {
       CHECK( true == resonances.isResolved() );
       CHECK( false == resonances.isUnresolved() );
       CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
-      CHECK( 3.2 == Approx( resonances.upperEnergy().value ) );
+      CHECK( 2008. == Approx( resonances.upperEnergy().value ) );
 
       auto compoundsystem = std::get< legacy::resolved::CompoundSystem< MultiLevelBreitWigner > >( resonances.compoundSystem() );
 
@@ -577,7 +901,7 @@ SCENARIO( "fromENDF - LRF2" ) {
 
       // check the minimal energy grid
       auto grid = compoundsystem.grid();
-      CHECK( 195 == grid0.size() );
+      CHECK( 195 == grid.size() );
 
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // spin group 0 -  lJ = 0,1/2+
@@ -660,7 +984,6 @@ SCENARIO( "fromENDF - LRF2" ) {
 
       // check the minimal energy grid
       auto grid0 = spingroup0.grid();
-
       CHECK( 195 == grid0.size() ); // ( 66 resonances - 1 negative ) * 3
     } // THEN
 
@@ -744,7 +1067,7 @@ SCENARIO( "fromENDF - LRF2" ) {
       CHECK( true == resonances.isResolved() );
       CHECK( false == resonances.isUnresolved() );
       CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
-      CHECK( 3.2 == Approx( resonances.upperEnergy().value ) );
+      CHECK( 4845. == Approx( resonances.upperEnergy().value ) );
 
       auto compoundsystem = std::get< legacy::resolved::CompoundSystem< MultiLevelBreitWigner > >( resonances.compoundSystem() );
 
@@ -758,7 +1081,7 @@ SCENARIO( "fromENDF - LRF2" ) {
 
       // check the minimal energy grid
       auto grid = compoundsystem.grid();
-      CHECK( 225 == grid0.size() );
+      CHECK( 225 == grid.size() );
 
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // spin group 0 -  lJ = 0,1/2+
@@ -841,7 +1164,6 @@ SCENARIO( "fromENDF - LRF2" ) {
 
       // check the minimal energy grid
       auto grid0 = spingroup0.grid();
-
       CHECK( 204 == grid0.size() ); // ( 68 resonances ) * 3
 
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -850,7 +1172,7 @@ SCENARIO( "fromENDF - LRF2" ) {
       auto spingroup1 = spingroups[1];
 
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-      // spin group 0, elastic channel
+      // spin group 1, elastic channel
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
       const auto channel10 = spingroup1.incidentChannel();
@@ -903,30 +1225,112 @@ SCENARIO( "fromENDF - LRF2" ) {
       // resonance table
       auto table1 = spingroup1.resonanceTable();
 
-      CHECK( 68 == table1.numberResonances() );
-      CHECK( 68 == table1.resonances().size() );
-      CHECK( 68 == table1.energies().size() );
-      CHECK( 5.44 == Approx( table1.energies().front().value ) );
-      CHECK( 4844.6 == Approx( table1.energies().back().value ) );
+      CHECK( 1 == table1.numberResonances() );
+      CHECK( 1 == table1.resonances().size() );
+      CHECK( 1 == table1.energies().size() );
+      CHECK( 3270.9 == Approx( table1.energies().front().value ) );
+      CHECK( 3270.9 == Approx( table1.energies().back().value ) );
 
       auto rfront1 = table1.resonances().front();
-      CHECK( 5.44 == Approx( rfront1.energy().value ) );
-      CHECK( 2.110000e-2  == Approx( rfront1.elastic().value ) );
-      CHECK( 1.474000e-1 == Approx( rfront1.capture().value ) );
+      CHECK( 3270.9 == Approx( rfront1.energy().value ) );
+      CHECK( 0.018  == Approx( rfront1.elastic().value ) );
+      CHECK( 0.1168 == Approx( rfront1.capture().value ) );
       CHECK( 0 == Approx( rfront1.fission().value ) );
       CHECK( 0 == Approx( rfront1.competition().value ) );
 
       auto rback1 = table1.resonances().back();
-      CHECK( 4844.6 == Approx( rback1.energy().value ) );
-      CHECK( 1.300000e-1 == Approx( rback1.elastic().value ) );
-      CHECK( 1.168000e-1 == Approx( rback1.capture().value ) );
+      CHECK( 3270.9 == Approx( rback1.energy().value ) );
+      CHECK( 0.018 == Approx( rback1.elastic().value ) );
+      CHECK( 0.1168 == Approx( rback1.capture().value ) );
       CHECK( 0 == Approx( rback1.fission().value ) );
       CHECK( 0 == Approx( rback1.competition().value ) );
 
       // check the minimal energy grid
       auto grid1 = spingroup1.grid();
+      CHECK( 3 == grid1.size() ); // ( 1 resonances ) * 3
 
-      CHECK( 204 == grid1.size() ); // ( 68 resonances ) * 3
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 2 -  lJ = 1,3/2-
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      auto spingroup2 = spingroups[2];
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 2, elastic channel
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel20 = spingroup2.incidentChannel();
+      CHECK( "n,Dy162->n,Dy162" == channel20.reactionID().symbol() );
+
+      // incident particle pair
+      const auto incident20 = channel20.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident20.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident20.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident20.particle().spin() ) );
+      CHECK( +1 == incident20.particle().parity() );
+      CHECK( 160.536 * 1.008664 == Approx( incident20.residual().mass().value ) );
+      CHECK( 66.0 * 1.602e-19 == Approx( incident20.residual().charge().value ) );
+      CHECK( 0. == Approx( incident20.residual().spin() ) );
+      CHECK( +1 == incident20.residual().parity() );
+      CHECK( "n,Dy162" == incident20.pairID().symbol() );
+
+      // particle pair
+      const auto pair20 = channel20.particlePair();
+      CHECK( 1.008664 == Approx( pair20.particle().mass().value ) );
+      CHECK( 0.0 == Approx( pair20.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair20.particle().spin() ) );
+      CHECK( +1 == pair20.particle().parity() );
+      CHECK( 160.536 * 1.008664 == Approx( pair20.residual().mass().value ) );
+      CHECK( 66.0 * 1.602e-19 == Approx( pair20.residual().charge().value ) );
+      CHECK( 0. == Approx( pair20.residual().spin() ) );
+      CHECK( +1 == pair20.residual().parity() );
+      CHECK( "n,Dy162" == pair20.pairID().symbol() );
+
+      // quantum numbers
+      const auto numbers20 = channel20.quantumNumbers();
+      CHECK( 1 == numbers20.orbitalAngularMomentum() );
+      CHECK( 0.5 == numbers20.spin() );
+      CHECK( 1.5 == numbers20.totalAngularMomentum() );
+      CHECK( -1 == numbers20.parity() );
+      CHECK( "{1,1/2,3/2-}" == numbers20.toString() );
+
+      // radii - NRO=0 NAPS=0
+      const auto radii20 = channel20.radii();
+      CHECK( a == Approx( radii20.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( a == Approx( radii20.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .59 == Approx( radii20.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel20.boundaryCondition() );
+
+      // Q value
+      CHECK( 0.0 == Approx( channel20.Q().value ) );
+
+      // resonance table
+      auto table2 = spingroup2.resonanceTable();
+
+      CHECK( 6 == table2.numberResonances() );
+      CHECK( 6 == table2.resonances().size() );
+      CHECK( 6 == table2.energies().size() );
+      CHECK( 1387.5 == Approx( table2.energies().front().value ) );
+      CHECK( 3966.9 == Approx( table2.energies().back().value ) );
+
+      auto rfront2 = table2.resonances().front();
+      CHECK( 1387.5 == Approx( rfront2.energy().value ) );
+      CHECK( 0.0024  == Approx( rfront2.elastic().value ) );
+      CHECK( 1.168000e-1 == Approx( rfront2.capture().value ) );
+      CHECK( 0 == Approx( rfront2.fission().value ) );
+      CHECK( 0 == Approx( rfront2.competition().value ) );
+
+      auto rback2 = table2.resonances().back();
+      CHECK( 3966.9 == Approx( rback2.energy().value ) );
+      CHECK( 1.300000e-2 == Approx( rback2.elastic().value ) );
+      CHECK( 1.168000e-1 == Approx( rback2.capture().value ) );
+      CHECK( 0 == Approx( rback2.fission().value ) );
+      CHECK( 0 == Approx( rback2.competition().value ) );
+
+      // check the minimal energy grid
+      auto grid2 = spingroup2.grid();
+      CHECK( 18 == grid2.size() ); // ( 6 resonances ) * 3
     } // THEN
 
     THEN( "cross sections can be reconstructed" ) {
@@ -939,53 +1343,53 @@ SCENARIO( "fromENDF - LRF2" ) {
 
       xs = resonances( 1e-5 * electronVolt );
       CHECK( 2 == xs.size() );
-      CHECK( 5.7145158652626975 == Approx( xs[ elas ].value ) );
-      CHECK( 2785.3465249964465  == Approx( xs[ capt ].value ) );
+      CHECK( 0.16389960904605858 == Approx( xs[ elas ].value ) );
+      CHECK( 9665.5552533233167 == Approx( xs[ capt ].value ) );
 
       xs = resonances( 1e-4 * electronVolt );
       CHECK( 2 == xs.size() );
-      CHECK( 5.7144706453067666 == Approx( xs[ elas ].value ) );
-      CHECK( 880.83729758558798  == Approx( xs[ capt ].value ) );
+      CHECK( 0.16391779597504672 == Approx( xs[ elas ].value ) );
+      CHECK( 3056.6149238041858 == Approx( xs[ capt ].value ) );
 
       xs = resonances( 1e-3 * electronVolt );
       CHECK( 2 == xs.size() );
-      CHECK( 5.7140201084068787 == Approx( xs[ elas ].value ) );
-      CHECK( 278.65088951079861  == Approx( xs[ capt ].value ) );
+      CHECK( 0.16410333516673514 == Approx( xs[ elas ].value ) );
+      CHECK( 966.89741896145790 == Approx( xs[ capt ].value ) );
 
       xs = resonances( 1e-2 * electronVolt );
       CHECK( 2 == xs.size() );
-      CHECK( 5.7095119231359446 == Approx( xs[ elas ].value ) );
-      CHECK( 88.453629762421997  == Approx( xs[ capt ].value ) );
+      CHECK( 0.16597922650957414 == Approx( xs[ elas ].value ) );
+      CHECK( 306.74666951513154 == Approx( xs[ capt ].value ) );
 
       xs = resonances( 1e-1 * electronVolt );
       CHECK( 2 == xs.size() );
-      CHECK( 5.6635745542418237 == Approx( xs[ elas ].value ) );
-      CHECK( 29.112695931538980  == Approx( xs[ capt ].value ) );
+      CHECK( 0.18572129541119137 == Approx( xs[ elas ].value ) );
+      CHECK( 100.21064013699589 == Approx( xs[ capt ].value ) );
 
       xs = resonances( 1. * electronVolt );
       CHECK( 2 == xs.size() );
-      CHECK( 5.0349439486732308 == Approx( xs[ elas ].value ) );
-      CHECK( 19.782038357730553  == Approx( xs[ capt ].value ) );
+      CHECK( 0.51481436908961931 == Approx( xs[ elas ].value ) );
+      CHECK( 45.463932876992189 == Approx( xs[ capt ].value ) );
 
       xs = resonances( 10. * electronVolt );
       CHECK( 2 == xs.size() );
-      CHECK( 45.290708367401329 == Approx( xs[ elas ].value ) );
-      CHECK( 518.69376992948958  == Approx( xs[ capt ].value ) );
+      CHECK( 6.0327932881822504 == Approx( xs[ elas ].value ) );
+      CHECK( 13.725382293882630 == Approx( xs[ capt ].value ) );
 
       xs = resonances( 100. * electronVolt );
       CHECK( 2 == xs.size() );
-      CHECK( 9.4484330253560902 == Approx( xs[ elas ].value ) );
-      CHECK( 0.43448307071166309  == Approx( xs[ capt ].value ) );
+      CHECK( 7.4167045411978370 == Approx( xs[ elas ].value ) );
+      CHECK( 0.51983222202793633 == Approx( xs[ capt ].value ) );
 
       xs = resonances( 1000. * electronVolt );
       CHECK( 2 == xs.size() );
-      CHECK( 9.0062825973186911 == Approx( xs[ elas ].value ) );
-      CHECK( 6.7745175723848902E-002  == Approx( xs[ capt ].value ) );
+      CHECK( 6.1049261794790972 == Approx( xs[ elas ].value ) );
+      CHECK( 0.16474127115670925 == Approx( xs[ capt ].value ) );
 
-      xs = resonances( 1994.3 * electronVolt );
+      xs = resonances( 3966.9 * electronVolt );
       CHECK( 2 == xs.size() );
-      CHECK( 655.54851943250458 == Approx( xs[ elas ].value ) );
-      CHECK( 276.27064588721004  == Approx( xs[ capt ].value ) );
+      CHECK( 16.437892514295868 == Approx( xs[ elas ].value ) );
+      CHECK( 119.81501088384495 == Approx( xs[ capt ].value ) );
     } // THEN
   } // GIVEN
 } // SCENARIO
@@ -1536,7 +1940,7 @@ std::string Dy162() {
 
   return
     " 6.616200+4 1.605360+2          0          0          1          06643 2151     \n"
-    " 6.616200+4 1.000000+0          0          0          2          06643 2151     \n"
+    " 6.616200+4 1.000000+0          0          0          1          06643 2151     \n"
     " 1.000000-5 4.845000+3          1          2          0          06643 2151     \n"
     " 0.000000+0 5.900000-1          0          0          2          06643 2151     \n"
     " 1.605360+2 0.000000+0          0          0        408         686643 2151     \n"
