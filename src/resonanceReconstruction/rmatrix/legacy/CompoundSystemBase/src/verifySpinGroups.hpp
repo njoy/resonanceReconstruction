@@ -1,5 +1,5 @@
 static
-void verifySpinGroups( const std::vector< SpinGroup >& groups ) {
+void verifySpinGroups( const std::vector< SpinGroupType >& groups ) {
 
   // verify that there is at least one group
 
@@ -36,7 +36,7 @@ void verifySpinGroups( const std::vector< SpinGroup >& groups ) {
                           ( current.totalAngularMomentum() ==
                                 reference.totalAngularMomentum() ); } ) > 1 ) {
 
-      Log::error( "Unresolved spin groups in the compound system do not "
+      Log::error( "The spin groups in the compound system do not "
                   "seem to be unique." );
       Log::info( "There are at least two spin groups with l,J={},{}",
                  reference.orbitalAngularMomentum(),

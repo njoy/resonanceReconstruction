@@ -36,10 +36,10 @@ using InvElectronVolts = InvElectronVolt;
 constexpr Quantity< RootBarn > rootBarn = 1.0E-12 * centi(meter);
 constexpr Quantity< RootBarn > rootBarns = rootBarn;
 
+namespace ENDF = ENDFtk::resonanceParameters;
+
 template< int i >
 using Integer = std::integral_constant< int, i >;
-
-namespace ENDF = ENDFtk::resonanceParameters;
 
 #include "resonanceReconstruction/src/radius.hpp"
 #include "resonanceReconstruction/src/channelRadius.hpp"

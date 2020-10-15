@@ -1,32 +1,22 @@
 /**
  *  @class
- *  @brief The compound system
+ *  @brief The legacy unresolved compound system
  *
  *  This class contains the unresolved resonance parameters for legacy ENDF
  *  data. It can be used to generate cross section values at any energy but it
  *  also provides the energy grid that should be used (this grid is generated
  *  on request by the user).
  */
-class CompoundSystem {
-
-  /* fields */
-  std::vector< SpinGroup > groups_;
-  unsigned int lmax_;
-
-  /* auxiliary functions */
-  #include "resonanceReconstruction/rmatrix/legacy/unresolved/CompoundSystem/src/getLMax.hpp"
-  #include "resonanceReconstruction/rmatrix/legacy/unresolved/CompoundSystem/src/verifySpinGroups.hpp"
+class CompoundSystem : protected CompoundSystemBase< unresolved::SpinGroup > {
 
 public:
 
   /* constructor */
-  #include "resonanceReconstruction/rmatrix/legacy/unresolved/CompoundSystem/src/ctor.hpp"
+  using CompoundSystemBase::CompoundSystemBase;
 
-  /**
-   *  @brief Return the l,J data
-   */
-  auto spinGroups() const { return ranges::view::all( this->groups_ ); }
+  /* methods */
+  using CompoundSystemBase::spinGroups;
+  using CompoundSystemBase::evaluate;
 
-  #include "resonanceReconstruction/rmatrix/legacy/unresolved/CompoundSystem/src/evaluate.hpp"
   #include "resonanceReconstruction/rmatrix/legacy/unresolved/CompoundSystem/src/grid.hpp"
 };

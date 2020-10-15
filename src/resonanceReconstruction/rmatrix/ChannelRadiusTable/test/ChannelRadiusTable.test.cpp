@@ -12,7 +12,7 @@ using LinLinTable = rmatrix::LinLinTable< Energy, ChannelRadius >;
 using LinLogTable = rmatrix::LinLogTable< Energy, ChannelRadius >;
 using LogLinTable = rmatrix::LogLinTable< Energy, ChannelRadius >;
 using LogLogTable = rmatrix::LogLogTable< Energy, ChannelRadius >;
-using Tablevariant = rmatrix::Tablevariant< Energy, ChannelRadius >;
+using TableVariant = rmatrix::TableVariant< Energy, ChannelRadius >;
 using ChannelRadiusTable = rmatrix::ChannelRadiusTable;
 
 SCENARIO( "ChannelRadiusTable" ) {
@@ -21,14 +21,14 @@ SCENARIO( "ChannelRadiusTable" ) {
 
     std::vector< Energy > energies = { 1e-5 * electronVolt, 2e+7 * electronVolt };
     std::vector< ChannelRadius > radii = { .5 * rootBarn, 1.0 * rootBarn };
-    RadiusTable singletable( std::vector< Tablevariant >{
+    RadiusTable singletable( std::vector< TableVariant >{
                    LinLinTable( std::move( energies ), std::move( radii ) ) } );
 
     std::vector< Energy > energies1 = { 1e-5 * electronVolt, 1.0 * electronVolt };
     std::vector< Energy > energies2 = { 1. * electronVolt, 2e+7 * electronVolt };
     std::vector< ChannelRadius > radii1 = { .5 * rootBarn, 1.0 * rootBarn };
     std::vector< ChannelRadius > radii2 = { 1. * rootBarn, 1. * rootBarn };
-    RadiusTable multitable( std::vector< Tablevariant >{
+    RadiusTable multitable( std::vector< TableVariant >{
                    LinLinTable( std::move( energies1 ), std::move( radii1 ) ),
                    HistogramTable( std::move( energies2 ), std::move( radii2 ) ) } );
 

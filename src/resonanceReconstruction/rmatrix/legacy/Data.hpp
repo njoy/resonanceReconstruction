@@ -1,6 +1,6 @@
 /**
  *  @class
- *  @brief Generic data helper class for legacy unresolved data
+ *  @brief Generic data helper class for legacy resolved and unresolved data
  */
 template < typename Quantity >
 struct Data {

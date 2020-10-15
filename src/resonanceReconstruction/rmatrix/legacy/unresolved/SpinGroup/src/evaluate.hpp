@@ -21,7 +21,7 @@ void evaluate( const Energy& energy,
   const auto sin2phi = sinphi * sinphi;
 
   // the 2 * pi2 / k2 factor
-  const CrossSection factor =  2. * pi * pi / ( waveNumber * waveNumber );
+  const CrossSection factor = 2. * pi * pi / ( waveNumber * waveNumber );
 
   // interpolate on the resonance parameters at this energy and get the level
   // spacing and widths
@@ -38,19 +38,17 @@ void evaluate( const Energy& energy,
   const FluctuationIntegrals integrals =
     calculateFluctuationIntegrals( widths, degrees );
 
-
   // calculate the resulting cross sections
-  result[ ReactionID( incident, target, elementary::ReactionType( "elastic" ) ) ] +=
-           factor * ( spinFactor / spacing *
-             ( widths.elastic * widths.elastic * integrals.elastic
-               - 2. * widths.elastic * sin2phi ) );
-  result[ ReactionID( incident, target, elementary::ReactionType( "capture" ) ) ] +=
-           factor * spinFactor / spacing *
-             ( widths.elastic * widths.capture * integrals.capture );
+  result[ this->elasticID() ] +=
+    factor * ( spinFactor / spacing *
+    ( widths.elastic * ( widths.elastic * integrals.elastic - 2. * sin2phi ) ) );
+  result[ this->captureID() ] +=
+    factor * spinFactor / spacing *
+    ( widths.elastic * widths.capture * integrals.capture );
   if ( widths.hasFission() ) {
 
-    result[ ReactionID( incident, target, elementary::ReactionType( "fission" ) ) ] +=
-             factor * spinFactor / spacing *
-               ( widths.elastic * widths.fission * integrals.fission );
+    result[ this->fissionID() ] +=
+      factor * spinFactor / spacing *
+      ( widths.elastic * widths.fission * integrals.fission );
   }
 }

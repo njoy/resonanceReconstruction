@@ -15,6 +15,7 @@ namespace rmatrix {
   struct Photon {};
   struct ChargedParticle {};
   struct Fission {};
+  #include "resonanceReconstruction/rmatrix/src/horner.hpp"
   #include "resonanceReconstruction/rmatrix/src/coh3-coulomb.hpp"
   #include "resonanceReconstruction/rmatrix/src/calculatePenetrability.hpp"
   #include "resonanceReconstruction/rmatrix/src/calculateShiftFactor.hpp"
@@ -24,6 +25,7 @@ namespace rmatrix {
   // identifiers
   using ParticleID = elementary::ParticleID;
   using ParticlePairID = elementary::ParticlePairID;
+  using ReactionType = elementary::ReactionType;
   using ReactionID = elementary::ReactionID;
   using ChannelID = std::string;
   using ReactionChannelID = std::string;
@@ -52,14 +54,13 @@ namespace rmatrix {
   #include "resonanceReconstruction/rmatrix/ParticleChannel.hpp"
   #include "resonanceReconstruction/rmatrix/ParticleChannelData.hpp"
 
-  // resolved resonance information
+  // resonance information
   #include "resonanceReconstruction/rmatrix/Resonance.hpp"
   #include "resonanceReconstruction/rmatrix/ResonanceTable.hpp"
 
-  // legacy resonance reconstruction
-  #include "resonanceReconstruction/rmatrix/legacy.hpp"
-
-  // R-Matrix formalism options
+  // formalism options
+  struct SingleLevelBreitWigner {};
+  struct MultiLevelBreitWigner {};
   struct ReichMoore {};
   struct GeneralRMatrix {};
   #include "resonanceReconstruction/rmatrix/RLMatrixCalculator.hpp"
@@ -67,6 +68,9 @@ namespace rmatrix {
   // spin group and compound system
   #include "resonanceReconstruction/rmatrix/SpinGroup.hpp"
   #include "resonanceReconstruction/rmatrix/CompoundSystem.hpp"
+
+  // legacy resonance reconstruction
+  #include "resonanceReconstruction/rmatrix/legacy.hpp"
 
   // make components from ENDF
   #include "resonanceReconstruction/rmatrix/src/makeQuantumNumbers.hpp"
@@ -78,13 +82,17 @@ namespace rmatrix {
   #include "resonanceReconstruction/rmatrix/src/makeCompoundSystem.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeReichMooreChannelData.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeReichMooreCompoundSystem.hpp"
+  #include "resonanceReconstruction/rmatrix/src/makeLegacyBreitWignerSpinGroups.hpp"
+  #include "resonanceReconstruction/rmatrix/src/makeLegacyBreitWignerCompoundSystem.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeLegacyUnresolvedResonanceTable.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeLegacyUnresolvedSpinGroups.hpp"
   #include "resonanceReconstruction/rmatrix/src/makeLegacyUnresolvedCompoundSystem.hpp"
 
   // make the compound system variant from ENDF
   using CompoundSystemVariant =
-      std::variant< CompoundSystem< ReichMoore, ShiftFactor >,
+      std::variant< legacy::resolved::CompoundSystem< SingleLevelBreitWigner >,
+                    legacy::resolved::CompoundSystem< MultiLevelBreitWigner >,
+                    CompoundSystem< ReichMoore, ShiftFactor >,
                     CompoundSystem< ReichMoore, Constant >,
                     //CompoundSystem< GeneralRMatrix, ShiftFactor >,
                     //CompoundSystem< GeneralRMatrix, Constant >,

@@ -5,49 +5,20 @@
  *  This class contains the unresolved resonance parameters and the associated
  *  incident channel for legacy ENDF data.
  */
-class SpinGroup {
-
-  /* fields */
-  Channel< Neutron > incident_;
-  unresolved::ResonanceTable parameters_;
+class SpinGroup : protected SpinGroupBase< unresolved::ResonanceTable > {
 
 public:
 
   /* constructor */
-  #include "resonanceReconstruction/rmatrix/legacy/unresolved/SpinGroup/src/ctor.hpp"
 
-  /**
-   *  @brief Return the incident channel data
-   *
-   *  REMARK: not all information in the channel will be correct (channel spin,
-   *          target parity, target charge, etc. since this data is not
-   *          required for the unresolved resonances)
-   */
-  const Channel< Neutron >& incidentChannel() const { return this->incident_; }
+  using SpinGroupBase::SpinGroupBase;
 
-  /**
-   *  @brief Return the orbital angular momentum l for this l,J pair
-   */
-  const OrbitalAngularMomentum& orbitalAngularMomentum() const {
+  /* methods */
 
-    return this->incidentChannel().quantumNumbers().orbitalAngularMomentum();
-  }
-
-  /**
-   *  @brief Return the total angular momentum J for this l,J pair
-   */
-  const TotalAngularMomentum& totalAngularMomentum() const {
-
-    return this->incidentChannel().quantumNumbers().totalAngularMomentum();
-  }
-
-  /**
-   *  @brief Return the resonance table
-   */
-  const unresolved::ResonanceTable& resonanceTable() const {
-
-    return this->parameters_;
-  }
+  using SpinGroupBase::incidentChannel;
+  using SpinGroupBase::orbitalAngularMomentum;
+  using SpinGroupBase::totalAngularMomentum;
+  using SpinGroupBase::resonanceTable;
 
   #include "resonanceReconstruction/rmatrix/legacy/unresolved/SpinGroup/src/evaluate.hpp"
 };

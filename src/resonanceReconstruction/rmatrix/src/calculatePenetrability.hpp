@@ -24,7 +24,34 @@ double calculatePenetrability< Neutron >( const unsigned int l,
                                           const double ratio,
                                           const double  ) {
 
-  return resonanceReconstruction::penetrationShift( l, ratio )[0];
+  double squared = ratio * ratio;
+  switch ( l ) {
+
+    case 0 : return ratio;
+    case 1 : return ratio * squared / ( 1. + squared );
+    case 2 : {
+
+      constexpr std::array< double, 3 > denominator = {{ 9., 3., 1. }};
+      return ratio * squared * squared
+             / horner( std::rbegin( denominator ), std::rend( denominator ),
+                       squared );
+    }
+    case 3 : {
+
+      constexpr std::array< double, 4 > denominator = {{ 225., 45., 6., 1. }};
+      return ratio * squared * squared * squared
+             / horner( std::rbegin( denominator ), std::rend( denominator ),
+                       squared );
+    }
+    case 4 : {
+
+      constexpr std::array< double, 5 > denominator = {{ 11025., 1575., 135., 10., 1. }};
+      return ratio * squared * squared * squared * squared
+             / horner( std::rbegin( denominator ), std::rend( denominator ),
+                       squared );
+    }
+    default : throw std::exception();
+  }
 }
 
 /**

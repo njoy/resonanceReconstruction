@@ -24,7 +24,29 @@ double calculatePhaseShift< Neutron >( const unsigned int l,
                                        const double ratio,
                                        const double ) {
 
-  return resonanceReconstruction::phaseShift( l, ratio );
+  double squared = ratio * ratio;
+  switch ( l ) {
+
+    case 0 : return ratio;
+    case 1 : return ratio - std::atan( ratio );
+    case 2 : {
+
+      double offset = 3. * ratio / ( 3. - squared );
+      return ratio - std::atan( offset );
+    }
+    case 3 : {
+
+      double offset = ratio * ( 15. - squared ) / ( 15. - 6. * squared );
+      return ratio - std::atan( offset );
+    }
+    case 4 : {
+
+      constexpr std::array< double, 3 > denominator = {{ 105., -45., 1. }};
+      double offset = ratio * ( 105. - 10. * squared ) / horner( std::rbegin( denominator ), std::rend( denominator ), squared );
+      return ratio - std::atan( offset );
+    }
+    default : throw std::exception();
+  }
 }
 
 /**

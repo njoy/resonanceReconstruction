@@ -7,7 +7,7 @@ using namespace njoy::resonanceReconstruction;
 
 // convenience typedefs
 template < typename Quantity >
-using Data = rmatrix::legacy::unresolved::Data< Quantity >;
+using Data = rmatrix::legacy::Data< Quantity >;
 
 SCENARIO( "Data" ) {
 

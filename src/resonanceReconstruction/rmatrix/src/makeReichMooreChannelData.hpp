@@ -1,8 +1,13 @@
 std::vector< ParticleChannelData >
 makeReichMooreChannelData(
     const ENDF::resolved::ReichMooreLValue& endfLValue,
-    const ParticlePair& pair, const ChannelRadii& radii,
+    const AtomicMass& neutronMass,
+    const ElectricalCharge& elementaryCharge,
+    const ParticleID& incident,
+    const ParticleID& target,
     std::vector< ChannelQuantumNumbers >& available,
+    double spin,
+    double ap,
     const std::optional< ChannelRadiusTable >& nro,
     const unsigned int& naps ) {
 
@@ -15,14 +20,6 @@ makeReichMooreChannelData(
   double awri = endfLValue.atomicWeightRatio();
 
   // some usefull lambdas
-  auto compareNumbers = [] ( const auto& left, const auto& right ) -> bool {
-
-    return
-    ( left.orbitalAngularMomentum() == right.orbitalAngularMomentum() ) and
-    ( left.spin() == right.spin() ) and
-    ( left.totalAngularMomentum() == right.totalAngularMomentum() ) and
-    ( left.parity() == right.parity() );
-  };
   auto toEnergy = [&] ( double value ) -> Energy {
 
     return value * electronVolt;
@@ -50,58 +47,21 @@ makeReichMooreChannelData(
                true,
                [] ( bool left, bool right ) { return left and right; } );
   };
-  auto retrieveQuantumNumber =
-       [&] ( unsigned int l, double j,
-             std::vector< ChannelQuantumNumbers >& available ) {
 
-    // retrieve the available numbers with this l,J
-    auto filter =
-         [l,j] ( const auto& number )
-               { return ( number.orbitalAngularMomentum() == l ) and
-                        ( number.totalAngularMomentum() == std::abs( j ) ); };
-    auto filtered = available | ranges::view::filter( filter );
-
-    auto found = ranges::distance( filtered );
-    if ( found > 0 ) {
-
-      // retrieve the one we need and erase it from the available numbers
-      ChannelQuantumNumbers numbers( 0, 0., 0., +1 );
-      if ( found == 1 ) {
-
-        numbers = filtered.front();
-      }
-      else {
-
-        numbers =  filtered.front().spin() < filtered.back().spin() ?
-                   filtered.front() : filtered.back();
-      }
-      available.erase( std::find_if(
-                           available.begin(), available.end(),
-                           [&] ( const auto& value )
-                               { return compareNumbers( value, numbers ); } ) );
-      return numbers;
-    }
-    else {
-
-      throw std::runtime_error( "None of the expected spin groups has l="
-                                + std::to_string( l ) + " and J="
-                                + std::to_string( j ) );
-    }
-  };
-
-  // the fission and capture particle pair
-  ParticlePair pFission( pair.particle(), pair.residual(),
+  // the elastic, fission and capture particle pair
+  ParticlePair in( Particle( incident, neutronMass,
+                             0.0 * coulombs, 0.5, +1),
+                   Particle( target,
+                             awri * neutronMass,
+                             0.0 * coulombs, spin, +1) );
+  ParticlePair pFission( in.particle(), in.residual(),
                          ParticlePairID( "fission" ) );
-  ParticlePair pCapture( pair.particle(), pair.residual(),
+  ParticlePair pCapture( in.particle(), in.residual(),
                          ParticlePairID( "capture" ) );
 
   // the channel radii to be used in the channels
-  ChannelRadii useRadii = radii;
-  if ( apl != 0. ) {
-
-    useRadii = makeChannelRadii( apl, nro, naps,
-                                 awri, pair.particle().mass().value );
-  }
+  ChannelRadii radii = makeChannelRadii( apl != 0. ? apl : ap, nro, naps,
+                                         awri, neutronMass.value );
 
   // the different J values referenced in the table
   std::vector< double > jvalues = endfLValue.spinValues()
@@ -121,19 +81,21 @@ makeReichMooreChannelData(
     // quantum number for this l,J pair
     ChannelQuantumNumbers nElastic = retrieveQuantumNumber( l, J, available );
     ChannelQuantumNumbers nOther( l, 0, std::abs( J ),
-                                  std::pow( -1, l ) >= 0. ? +1 : -1 );
+                                  std::pow( -1, l ) >= 0.
+                                      ? static_cast< Parity >( +1 )
+                                      : static_cast< Parity >( -1 ) );
 
     // elastic and fission channels that will go in the spin groups
-    Channel< Neutron > cElastic( pair, pair,  0.0 * electronVolt,
-                                nElastic, useRadii );
-    Channel< Photon > cCapture( pair, pCapture,  0.0 * electronVolt,
-                                nElastic, useRadii );
-    Channel< Fission > cFission1( pair, pFission, "fission1",
+    Channel< Neutron > cElastic( in, in,  0.0 * electronVolt,
+                                 nElastic, radii );
+    Channel< Photon > cCapture( in, pCapture,  0.0 * electronVolt,
+                                nOther, radii );
+    Channel< Fission > cFission1( in, pFission, "fission1",
                                   0.0 * electronVolt,
-                                  nOther, useRadii );
-    Channel< Fission > cFission2( pair, pFission, "fission2",
+                                  nOther, radii );
+    Channel< Fission > cFission2( in, pFission, "fission2",
                                   0.0 * electronVolt,
-                                  nOther, useRadii );
+                                  nOther, radii );
 
     // get the widths
     auto wElastic = current | ranges::view::transform(
