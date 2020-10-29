@@ -10,7 +10,7 @@ SCENARIO("radius"){
       | ranges::view::transform
         ( [ ap = radius( AP ) ]( auto&& e ){ return ap( e ); } );
 
-    RANGES_FOR( const auto pair, ranges::view::zip( trial, reference ) ){
+    for ( const auto& pair : ranges::view::zip( trial, reference ) ){
       const auto trial = std::get<0>(pair);
       const auto reference = std::get<1>(pair);
       REQUIRE( trial == reference );
@@ -24,11 +24,10 @@ SCENARIO("radius"){
       std::vector< double > energies = { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0 };
       std::vector< double > radii = { 3.0, 4.0, 5.0, 6.0, 7.0, 8.0 };
 
-      return njoy::ENDFtk::resonanceParameters::ScatteringRadius(
-                                             std::move( boundaries ),
-                                             std::move( interpolants ),
-                                             std::move( energies ),
-                                             std::move( radii ) );
+      return endf::ScatteringRadius( std::move( boundaries ),
+                                     std::move( interpolants ),
+                                     std::move( energies ),
+                                     std::move( radii ) );
     }();
 
     auto trial = ranges::view::linear_distribute( 1.0, 6.0, 11 )
@@ -48,7 +47,7 @@ SCENARIO("radius"){
                                                     7.5 * rootBarn,
                                                     8.0 * rootBarn };
 
-    RANGES_FOR( const auto pair, ranges::view::zip( trial, reference ) ){
+    for ( const auto& pair : ranges::view::zip( trial, reference ) ){
       const auto trial = std::get<0>(pair);
       const auto reference = std::get<1>(pair);
       REQUIRE( trial.value == Approx(reference.value) );

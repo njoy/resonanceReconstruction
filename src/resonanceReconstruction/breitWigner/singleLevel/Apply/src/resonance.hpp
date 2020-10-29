@@ -3,7 +3,7 @@ template< typename ChannelRatio,
           typename PenetrationShift,
           typename Range >
 static auto resonance(
-              const ENDF::resolved::SLBW::LValue::Resonance< Range >& resonance,
+              const endf::SingleLevelBreitWigner::LValue::Resonance< Range >& resonance,
               ChannelRatio&& rho,
               StatisticalFactor&& g,
               PenetrationShift&& penetrationShift ) {
@@ -37,12 +37,12 @@ template< typename ChannelRatio,
           typename CompetitiveWidth,
           typename Range >
 static auto resonance(
-              const ENDF::resolved::SLBW::LValue::Resonance< Range >& resonance,
+              const endf::SingleLevelBreitWigner::LValue::Resonance< Range >& resonance,
               ChannelRatio&& rho,
               StatisticalFactor&& g,
               PenetrationShift&& penetrationShift,
               CompetitiveWidth&& GX ) {
-                
+
   const auto energy = resonance.ER() * electronVolts;
   const auto neutronWidth = resonance.GN() * electronVolts;
   const auto captureWidth = resonance.GG() * electronVolts;

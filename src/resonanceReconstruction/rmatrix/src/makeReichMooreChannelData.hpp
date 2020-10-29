@@ -1,6 +1,6 @@
 std::vector< ParticleChannelData >
 makeReichMooreChannelData(
-    const ENDF::resolved::ReichMooreLValue& endfLValue,
+    const endf::ReichMooreLValue& endfLValue,
     const AtomicMass& neutronMass,
     const ElectricalCharge& elementaryCharge,
     const ParticleID& incident,

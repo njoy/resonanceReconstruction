@@ -7,7 +7,7 @@ std::vector< double > getEnergies( const Unresolved& unresolved,
 
 template <> std::vector< double >
 getEnergies(
-  const ENDF::unresolved::EnergyDependentFissionWidths& unresolved,
+  const endf::UnresolvedEnergyDependentFissionWidths& unresolved,
   double lower, double upper ) {
 
   return unresolved.energies();

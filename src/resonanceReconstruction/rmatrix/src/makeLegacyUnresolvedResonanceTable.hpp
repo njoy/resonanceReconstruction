@@ -1,6 +1,6 @@
 legacy::unresolved::ResonanceTable
 makeLegacyUnresolvedResonanceTable(
-    const ENDF::unresolved::EnergyDependent::JValue& endfParameters,
+    const endf::UnresolvedEnergyDependent::JValue& endfParameters,
     const std::vector< double >& ) {
 
   // some usefull lambdas
@@ -58,7 +58,7 @@ makeLegacyUnresolvedResonanceTable(
 template< typename Range >
 legacy::unresolved::ResonanceTable
 makeLegacyUnresolvedResonanceTable(
-    const ENDF::unresolved::EnergyIndependent::JValue< Range >& endfParameters,
+    const endf::UnresolvedEnergyIndependent::JValue< Range >& endfParameters,
     const std::vector< double >& energies ) {
 
   // some usefull lambdas
@@ -109,7 +109,7 @@ makeLegacyUnresolvedResonanceTable(
 
 legacy::unresolved::ResonanceTable
 makeLegacyUnresolvedResonanceTable(
-    const ENDF::unresolved::EnergyDependentFissionWidths::JValue& endfParameters,
+    const endf::UnresolvedEnergyDependentFissionWidths::JValue& endfParameters,
     const std::vector< double >& energies ) {
 
   // some usefull lambdas

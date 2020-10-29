@@ -45,7 +45,7 @@ SCENARIO("phase shift"){
       3.36539892e+00,   3.45021214e+00,   3.54996339e+00,
       3.66366906e+00,   3.79012636e+00,   3.92806707e+00 };
 
-  RANGES_FOR( const auto pair, ranges::view::zip( trial, reference ) ){
+  for ( const auto& pair : ranges::view::zip( trial, reference ) ){
     const auto trial = std::get<0>(pair);
     const auto reference = std::get<1>(pair);
     REQUIRE( trial == Approx( reference ) );

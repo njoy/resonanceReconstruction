@@ -5,6 +5,9 @@
 #include "catch.hpp"
 #include "resonanceReconstruction.hpp"
 
+#include "header-utilities/slurpFileToMemory.hpp"
+#include "ENDFtk/tree/Tape.hpp"
+
 using namespace njoy::resonanceReconstruction;
 using namespace dimwits;
 
@@ -14,7 +17,7 @@ resonances( const std::string& id );
 auto test( const std::vector< double >& testData ){
   return [&testData]( auto&& xs ){
     auto tuples = testData | ranges::view::chunk(4);
-    RANGES_FOR( auto tuple, tuples ){
+    for( const auto& tuple : tuples ){
       auto energy = tuple[0] * electronVolts;
       double referenceElastic = tuple[1];
       double referenceFission = tuple[2];
@@ -132,7 +135,7 @@ resonances( const std::string& id ){
 
     auto endfFile = njoy::utility::slurpFileToMemory( id + ".endf" );
 
-    njoy::ENDFtk::syntaxTree::Tape< std::string > tape( endfFile );
+    njoy::ENDFtk::tree::Tape< std::string > tape( endfFile );
 
     auto& material = *( tape.begin() );
 

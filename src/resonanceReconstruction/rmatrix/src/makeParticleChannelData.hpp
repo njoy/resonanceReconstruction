@@ -76,8 +76,8 @@ std::vector< ParticleChannelData >
 makeParticleChannelData(
     const ParticlePair& incident,
     const std::vector< ParticlePair > pairs,
-    const ENDF::resolved::RMatrixLimited::ParticlePairs& endfPairs,
-    const ENDF::resolved::RMatrixLimited::SpinGroup& endfSpinGroup,
+    const endf::RMatrixLimited::ParticlePairs& endfPairs,
+    const endf::RMatrixLimited::SpinGroup& endfSpinGroup,
     bool reducedWidthsFlag,
     Formalism,
     BoundaryOption ) {
@@ -200,8 +200,8 @@ std::vector< ParticleChannelData >
 makeParticleChannelData(
     const ParticlePair& incident,
     const std::vector< ParticlePair > pairs,
-    const ENDF::resolved::RMatrixLimited::ParticlePairs& endfPairs,
-    const ENDF::resolved::RMatrixLimited::SpinGroup& endfSpinGroup,
+    const endf::RMatrixLimited::ParticlePairs& endfPairs,
+    const endf::RMatrixLimited::SpinGroup& endfSpinGroup,
     bool reducedWidthsFlag,
     ReichMoore,
     BoundaryOption ) {

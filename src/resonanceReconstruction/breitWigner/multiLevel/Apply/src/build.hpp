@@ -1,6 +1,6 @@
 template< typename Radius >
 static auto build( const EnergyRange& energyRange,
-                   const ENDF::resolved::MLBW& mlbw,
+                   const endf::MultiLevelBreitWigner& mlbw,
                    Radius&& radius ){
   const double atomicWeightRatio = mlbw.lValues().front().AWRI();
 
@@ -27,7 +27,7 @@ static auto build( const EnergyRange& energyRange,
 
 template< typename ChannelRadius, typename ScatteringRadius >
 static auto build( const EnergyRange& energyRange,
-                   const ENDF::resolved::MLBW& mlbw,
+                   const endf::MultiLevelBreitWigner& mlbw,
                    ChannelRadius&& channelRadius,
                    ScatteringRadius&& scatteringRadius ){
 

@@ -3,6 +3,8 @@
 #include "catch.hpp"
 #include "resonanceReconstruction.hpp"
 
+#include "header-utilities/slurpFileToMemory.hpp"
+
 using namespace njoy::resonanceReconstruction;
 using namespace dimwits;
 

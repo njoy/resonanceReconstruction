@@ -1,13 +1,13 @@
 template< typename Functor >
 decltype(auto)
-operator()( const ENDF::ResonanceRange& range,
+operator()( const endf::ResonanceRange& range,
             Functor&& callback ) const {
 
   try {
 
     EnergyRange energyRange{ range.EL() * electronVolts,
                              range.EH() * electronVolts };
-    auto rm = std::get< ENDF::resolved::RM >( range.parameters() );
+    auto rm = std::get< endf::ReichMoore >( range.parameters() );
 
     if( range.NRO() ){
       switch( range.NAPS() ){
@@ -49,7 +49,7 @@ operator()( const ENDF::ResonanceRange& range,
   }
   catch ( ... ) {
 
-    throw std::runtime_error( 
+    throw std::runtime_error(
       "The resonance range does not appear to contain Reich-Moore parameters" );
   }
 }

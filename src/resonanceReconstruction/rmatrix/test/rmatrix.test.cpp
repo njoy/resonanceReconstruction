@@ -9,7 +9,7 @@ using namespace njoy::resonanceReconstruction::rmatrix;
 // convenience typedefs
 using OrbitalAngularMomentum = rmatrix::OrbitalAngularMomentum;
 using Spin = rmatrix::Spin;
-using ResonanceRange = ENDF::ResonanceRange;
+using ResonanceRange = endf::ResonanceRange;
 
 constexpr AtomicMass neutronMass = 1.008664 * daltons;
 constexpr ElectricalCharge elementaryCharge = 1.602e-19 * coulomb;

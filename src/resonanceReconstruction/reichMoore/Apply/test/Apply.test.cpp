@@ -3,6 +3,9 @@
 #include "catch.hpp"
 #include "resonanceReconstruction.hpp"
 
+#include "header-utilities/slurpFileToMemory.hpp"
+#include "ENDFtk/tree/Tape.hpp"
+
 using namespace njoy::resonanceReconstruction;
 using namespace dimwits;
 
@@ -68,7 +71,7 @@ resonances(){
 
   auto endfFile = njoy::utility::slurpFileToMemory( "n-013_Al_027.endf" );
 
-  njoy::ENDFtk::syntaxTree::Tape< std::string > tape( endfFile );
+  njoy::ENDFtk::tree::Tape< std::string > tape( endfFile );
 
   auto& material = *( tape.begin() );
 

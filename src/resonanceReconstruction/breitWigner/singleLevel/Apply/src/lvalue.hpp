@@ -1,7 +1,7 @@
 template< typename ChannelRatio,
           typename StatisticalFactor,
           typename PenetrationShift >
-static auto lvalue( const ENDF::resolved::SLBW::LValue& lstate,
+static auto lvalue( const endf::SingleLevelBreitWigner::LValue& lstate,
                     ChannelRatio&& rho,
                     StatisticalFactor&& g,
                     PenetrationShift&& penetrationShift,
@@ -26,7 +26,7 @@ static auto lvalue( const ENDF::resolved::SLBW::LValue& lstate,
 
 template< typename ChannelRatio,
           typename StatisticalFactor >
-static auto lvalue( const ENDF::resolved::SLBW::LValue& lstate,
+static auto lvalue( const endf::SingleLevelBreitWigner::LValue& lstate,
                     ChannelRatio&& rho,
                     StatisticalFactor&& g,
                     double targetSpin ){

@@ -1,12 +1,12 @@
 template< typename Functor >
 decltype(auto)
-operator()( const ENDF::ResonanceRange& range,
+operator()( const endf::ResonanceRange& range,
             Functor&& callback ) const {
   try {
 
     EnergyRange energyRange{ range.EL() * electronVolts,
                             range.EH() * electronVolts };
-    auto mlbw = std::get< ENDF::resolved::MLBW >( range.parameters() );
+    auto mlbw = std::get< endf::MultiLevelBreitWigner >( range.parameters() );
 
     if( range.NRO() ){
       switch( range.NAPS() ){
@@ -37,7 +37,7 @@ operator()( const ENDF::ResonanceRange& range,
     throw;
   }
   catch ( ... ) {
-    throw std::runtime_error( 
+    throw std::runtime_error(
       "The resonance range does not appear to contain MLBW parameters" );
   }
 }

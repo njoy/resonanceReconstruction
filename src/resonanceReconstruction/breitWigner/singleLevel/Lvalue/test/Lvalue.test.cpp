@@ -3,6 +3,8 @@
 #include "catch.hpp"
 #include "resonanceReconstruction.hpp"
 
+#include "range/v3/view/linear_distribute.hpp"
+
 using namespace njoy::resonanceReconstruction;
 using namespace dimwits;
 
