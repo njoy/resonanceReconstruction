@@ -2,8 +2,8 @@ std::vector< ParticleChannel >
 makeParticleChannels(
     const ParticlePair& incident,
     const std::vector< ParticlePair >& pairs,
-    const ENDF::resolved::RMatrixLimited::ParticlePairs& endfPairs,
-    const ENDF::resolved::RMatrixLimited::ResonanceChannels& endfChannels ) {
+    const endf::RMatrixLimited::ParticlePairs& endfPairs,
+    const endf::RMatrixLimited::ResonanceChannels& endfChannels ) {
 
   // ENDF information we need
   double spin = endfChannels.spin();

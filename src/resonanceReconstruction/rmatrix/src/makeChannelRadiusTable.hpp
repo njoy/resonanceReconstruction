@@ -1,5 +1,5 @@
 std::optional< ChannelRadiusTable >
-makeChannelRadiusTable( const std::optional< ENDF::ScatteringRadius >& radius ) {
+makeChannelRadiusTable( const std::optional< endf::ScatteringRadius >& radius ) {
 
   if ( radius ) {
 

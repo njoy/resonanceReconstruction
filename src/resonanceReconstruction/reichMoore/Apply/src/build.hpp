@@ -1,7 +1,7 @@
 template< typename Tag, typename Radius >
 static auto
 build( const EnergyRange& energyRange,
-       const ENDF::resolved::ReichMoore& rm,
+       const endf::ReichMoore& rm,
        Tag tag,
        Radius&& radius,
        bool useAPL ){
@@ -25,7 +25,7 @@ build( const EnergyRange& energyRange,
 
 template< typename Tag, typename ChannelRadius, typename ScatteringRadius >
 static auto build( const EnergyRange& energyRange,
-                   const ENDF::resolved::ReichMoore& rm,
+                   const endf::ReichMoore& rm,
                    Tag tag,
                    ChannelRadius&& channelRadius,
                    ScatteringRadius&& scatteringRadius,

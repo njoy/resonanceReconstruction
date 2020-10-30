@@ -74,7 +74,7 @@ SCENARIO("wave number"){
       2.46764459e+01,   3.52092655e+01,   5.02378821e+01,
       7.16812680e+01 };
 
-  RANGES_FOR( const auto pair, ranges::view::zip( trial, reference ) ){
+  for ( const auto& pair : ranges::view::zip( trial, reference ) ){
     const auto trial = std::get<0>(pair);
     const auto reference = std::get<1>(pair);
     REQUIRE( trial == Approx( reference ) );

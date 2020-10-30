@@ -5,7 +5,7 @@ inline auto radius( const double scalar ){
     { return r; };
 }
 
-inline auto radius( const ENDFtk::resonanceParameters::ScatteringRadius& tab1 ){
+inline auto radius( const endf::ScatteringRadius& tab1 ){
   using namespace interpolation;
   using namespace ranges;
 

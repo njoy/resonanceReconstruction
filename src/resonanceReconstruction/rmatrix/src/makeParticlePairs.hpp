@@ -1,6 +1,6 @@
 unsigned int
 findParticlePairForReaction(
-    const ENDF::resolved::RMatrixLimited::ParticlePairs& endfPairs,
+    const endf::RMatrixLimited::ParticlePairs& endfPairs,
     int mt ) {
 
   const auto reactions = endfPairs.MT();
@@ -12,21 +12,21 @@ findParticlePairForReaction(
 }
 
 unsigned int
-incident( const ENDF::resolved::RMatrixLimited::ParticlePairs& endfPairs ) {
+incident( const endf::RMatrixLimited::ParticlePairs& endfPairs ) {
 
   // the incident particle pair is the one associated with mt2
   return findParticlePairForReaction( endfPairs, 2 );
 }
 
 unsigned int
-eliminated( const ENDF::resolved::RMatrixLimited::ParticlePairs& endfPairs ) {
+eliminated( const endf::RMatrixLimited::ParticlePairs& endfPairs ) {
 
   // the incident particle pair is the one associated with mt102
   return findParticlePairForReaction( endfPairs, 102 );
 }
 
 std::vector< ParticlePair >
-makeParticlePairs( const ENDF::resolved::RMatrixLimited::ParticlePairs& endfPairs,
+makeParticlePairs( const endf::RMatrixLimited::ParticlePairs& endfPairs,
                    const AtomicMass& neutronMass,
                    const ElectricalCharge& elementaryCharge,
                    const ParticleID& incident,

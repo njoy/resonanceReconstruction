@@ -1,6 +1,6 @@
 CompoundSystem< ReichMoore, ShiftFactor >
 makeReichMooreCompoundSystem(
-    const ENDF::resolved::ReichMoore& endfReichMoore,
+    const endf::ReichMoore& endfReichMoore,
     const AtomicMass& neutronMass,
     const ElectricalCharge& elementaryCharge,
     const ParticleID& incident,

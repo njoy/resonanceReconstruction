@@ -29,7 +29,7 @@ SCENARIO("phaseShift"){
       | ranges::view::transform( [&]( auto ratio )
                                  { return phaseShift( l, ratio ); } );
 
-    RANGES_FOR( auto pair, ranges::view::zip( trial, reference ) ){
+    for ( const auto& pair : ranges::view::zip( trial, reference ) ){
       auto trial = std::get<0>(pair);
       auto reference = std::get<1>(pair);
       REQUIRE( trial == reference );
@@ -54,7 +54,7 @@ SCENARIO("phaseShift"){
       | ranges::view::transform( [&]( auto ratio )
                                  { return phaseShift( l, ratio ); } );
 
-    RANGES_FOR( auto pair, ranges::view::zip( trial, reference ) ){
+    for ( const auto& pair : ranges::view::zip( trial, reference ) ){
       auto trial = std::get<0>(pair);
       auto reference = std::get<1>(pair);
       REQUIRE( trial == reference );

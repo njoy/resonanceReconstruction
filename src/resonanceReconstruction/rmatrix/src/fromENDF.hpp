@@ -1,5 +1,5 @@
 Reconstructor
-fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
+fromENDF( const endf::ResonanceRange& endfResonanceRange,
           const AtomicMass& neutronMass,
           const ElectricalCharge& elementaryCharge,
           const ParticleID& incident,
@@ -22,7 +22,7 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
         case 1 : {
 
           auto endfSLBW =
-            std::get< ENDF::resolved::SingleLevelBreitWigner >( endfResonanceRange.parameters() );
+            std::get< endf::SingleLevelBreitWigner >( endfResonanceRange.parameters() );
 
           return Reconstructor(
                      lower * electronVolt,
@@ -36,7 +36,7 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
         case 2 : {
 
           auto endfMLBW =
-            std::get< ENDF::resolved::MultiLevelBreitWigner >( endfResonanceRange.parameters() );
+            std::get< endf::MultiLevelBreitWigner >( endfResonanceRange.parameters() );
 
           return Reconstructor(
                      lower * electronVolt,
@@ -50,7 +50,7 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
         case 3 : {
 
           auto endfReichMoore =
-            std::get< ENDF::resolved::ReichMoore >( endfResonanceRange.parameters() );
+            std::get< endf::ReichMoore >( endfResonanceRange.parameters() );
 
           return Reconstructor(
                      lower * electronVolt,
@@ -63,7 +63,7 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
         case 7 : {
 
           auto endfRMatrix =
-            std::get< ENDF::resolved::RMatrixLimited >( endfResonanceRange.parameters() );
+            std::get< endf::RMatrixLimited >( endfResonanceRange.parameters() );
           bool shiftFactorBoundary =
               endfRMatrix.particlePairs().shiftFactorFlag().front() == 0 ? true : false;
 
@@ -137,7 +137,7 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
         case 5: {
 
           auto endfEnergyIndependent =
-            std::get< ENDF::unresolved::EnergyIndependent >( endfResonanceRange.parameters() );
+            std::get< endf::UnresolvedEnergyIndependent >( endfResonanceRange.parameters() );
           return Reconstructor(
                      lower * electronVolt,
                      upper * electronVolt,
@@ -149,7 +149,7 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
         case 6: {
 
           auto endfEnergyDependentFission =
-            std::get< ENDF::unresolved::EnergyDependentFissionWidths >( endfResonanceRange.parameters() );
+            std::get< endf::UnresolvedEnergyDependentFissionWidths >( endfResonanceRange.parameters() );
           return Reconstructor(
                      lower * electronVolt,
                      upper * electronVolt,
@@ -161,7 +161,7 @@ fromENDF( const ENDF::ResonanceRange& endfResonanceRange,
         case 7: {
 
           auto endfEnergyDependent =
-            std::get< ENDF::unresolved::EnergyDependent >( endfResonanceRange.parameters() );
+            std::get< endf::UnresolvedEnergyDependent >( endfResonanceRange.parameters() );
           return Reconstructor(
                      lower * electronVolt,
                      upper * electronVolt,
