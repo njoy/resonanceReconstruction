@@ -99,15 +99,20 @@ using Integer = std::integral_constant< int, i >;
 // physical units
 using ElectronVoltSecond = decltype( ElectronVolts() * Seconds() );
 using ElectronVoltSeconds = ElectronVoltSecond;
+using ElectronVoltSquared = decltype( ElectronVolts() * ElectronVolts() );
 using CoulombSquaredSecondPerMeter = decltype( Coulomb() * Coulomb() *
                                                Seconds() / Meters() );
 using FaradPerMeter = decltype( farad / meter );
+using MeterPerSecond = decltype( Meters() / Seconds() );
 
 // hbar constant in eV s - taken from 2014 CODATA
 constexpr Quantity< ElectronVoltSecond > hbar = 6.582119514e-16 * electronVolt * second;
 
 // epsilon0 constant in F m^-1 - taken from 2014 CODATA
 constexpr Quantity< FaradPerMeter > epsilon0 = 8.854187817e-12 * farad / meter;
+
+// light speed constant in m s^-1 - taken from 2014 CODATA
+constexpr Quantity< MeterPerSecond > c = 299792458 * meter / second;
 
 constexpr Quantity< RootElectronVolt > rootElectronVolt = 1.0 * unit::sqrt( electronVolt );
 constexpr Quantity< RootElectronVolt > rootElectronVolts = rootElectronVolt;
@@ -119,6 +124,7 @@ using ElectricalCharge = Quantity< Coulomb >;
 using Energy = Quantity< ElectronVolt >;
 using LevelSpacing = Quantity< ElectronVolt >;
 using QValue = Quantity< ElectronVolt >;
+using EnergySquared = Quantity< ElectronVoltSquared >;
 using WaveNumber = Quantity< InvRootBarn >;
 using ChannelRadius = Quantity< RootBarn >;
 using EtaParameter = Quantity< CoulombSquaredSecondPerMeter >;

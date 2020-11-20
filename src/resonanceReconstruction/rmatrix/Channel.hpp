@@ -100,7 +100,9 @@ public:
 
   #include "resonanceReconstruction/rmatrix/Channel/src/belowThreshold.hpp"
   #include "resonanceReconstruction/rmatrix/Channel/src/sommerfeldParameter.hpp"
+  #include "resonanceReconstruction/rmatrix/Channel/src/mandelstam.hpp"
   #include "resonanceReconstruction/rmatrix/Channel/src/waveNumber.hpp"
+  #include "resonanceReconstruction/rmatrix/Channel/src/relativisticWaveNumber.hpp"
   #include "resonanceReconstruction/rmatrix/Channel/src/penetrability.hpp"
   #include "resonanceReconstruction/rmatrix/Channel/src/shiftFactor.hpp"
   #include "resonanceReconstruction/rmatrix/Channel/src/phaseShift.hpp"
