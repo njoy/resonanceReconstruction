@@ -19,10 +19,10 @@ void evaluateTMatrix(
   const auto channels = this->channelIDs();
 
   // calculate the R_L = ( 1 - RL )^-1 R matrix
-  auto rlmatrix = this->rlmatrix_( energy,
-                                   this->resonanceTable(),
-                                   penetrabilities,
-                                   this->channels() );
+  auto& rlmatrix = this->rlmatrix_( energy,
+                                    this->resonanceTable(),
+                                    penetrabilities,
+                                    this->channels() );
 
   // a lambda to process each channel
   const unsigned int size = channels.size();
