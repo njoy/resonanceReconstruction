@@ -69,9 +69,9 @@ public:
   /**
    *  @brief Reconstruct the cross sections at the given energy
    */
-  std::map< ReactionID, CrossSection > operator()( const Energy& energy ) {
+  Map< ReactionID, CrossSection > operator()( const Energy& energy ) {
 
-    std::map< ReactionID, CrossSection > result;
+    Map< ReactionID, CrossSection > result;
     if ( ( energy >= this->lowerEnergy() ) and
          ( energy <= this->upperEnergy() ) ) {
 

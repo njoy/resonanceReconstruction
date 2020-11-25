@@ -5,7 +5,7 @@
  *  @param[in,out] result   a map containing the accumulated cross sections
  */
 void evaluate( const Energy& energy,
-               std::map< ReactionID, CrossSection >& result ) {
+               Map< ReactionID, CrossSection >& result ) {
 
   // data we need: k, P, phi, rho, g_J
   const auto channel = this->incidentChannel();

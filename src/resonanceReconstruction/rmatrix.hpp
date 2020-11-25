@@ -34,6 +34,9 @@ namespace rmatrix {
   template < typename T > using Matrix = Eigen::Matrix< T, Eigen::Dynamic, Eigen::Dynamic >;
   template < typename T > using DiagonalMatrix = Eigen::DiagonalMatrix< T, Eigen::Dynamic >;
 
+  // map
+  template < typename Key, typename Value > using Map = std::map< Key, Value >;
+
   // utility code
   #include "resonanceReconstruction/rmatrix/Table.hpp"
   #include "resonanceReconstruction/rmatrix/overload.hpp"

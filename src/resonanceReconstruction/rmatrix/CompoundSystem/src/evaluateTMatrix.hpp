@@ -6,7 +6,7 @@
  */
 void evaluateTMatrix(
          const Energy& energy,
-         std::map< ReactionChannelID, std::complex< double > >& result ) {
+         Map< ReactionChannelID, std::complex< double > >& result ) {
 
   ranges::for_each( this->groups_,
                     [&] ( auto& group )

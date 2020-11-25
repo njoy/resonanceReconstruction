@@ -132,7 +132,7 @@ SCENARIO( "evaluate" ) {
 
     THEN( "cross sections can be calculated" ) {
 
-      std::map< ReactionID, CrossSection > xs;
+      Map< ReactionID, CrossSection > xs;
       system.evaluate( 1.5e+4 * electronVolt, xs );
       CHECK( 2 == xs.size() );
       CHECK( 9.3027405025178052 == Approx( xs[ elas ].value ) );
@@ -612,7 +612,7 @@ SCENARIO( "evaluate" ) {
 
     THEN( "cross sections can be calculated" ) {
 
-      std::map< ReactionID, CrossSection > xs;
+      Map< ReactionID, CrossSection > xs;
       system.evaluate( 2500. * electronVolt, xs );
       CHECK( 3 == xs.size() );
       CHECK( 13.431867799494993 == Approx( xs[ elas ].value ) );
