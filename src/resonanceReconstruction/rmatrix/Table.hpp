@@ -1,3 +1,15 @@
+#ifndef NJOY_R2_RMATRIX_TABLE
+#define NJOY_R2_RMATRIX_TABLE
+
+// system includes
+
+// other includes
+#include "interpolation.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+
 // a basic interpolation table templated on x and y types and interpolation type
 template < typename XType, typename YType, typename Interpolation >
 using Table = interpolation::Table<
@@ -46,3 +58,9 @@ using TableVector = interpolation::table::Vector< TableVariant< XType, YType > >
 // interpolation table with multiple interpolation regions
 template < typename XType, typename YType >
 using MultiRegionTable = interpolation::Table< TableVector< XType, YType > >;
+
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

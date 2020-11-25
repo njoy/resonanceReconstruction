@@ -34,10 +34,10 @@ public:
   ChannelRadius penetrabilityRadius( const Energy& energy ) const {
 
     return std::visit(
-             overload{ [&] ( const ChannelRadius& radius )
-                           { return radius; },
-                       [&] ( const ChannelRadiusTable& table )
-                           { return table( energy ); } },
+             njoy::utility::overload{ [&] ( const ChannelRadius& radius )
+                                          { return radius; },
+                                      [&] ( const ChannelRadiusTable& table )
+                                          { return table( energy ); } },
              this->penetrability_ );
   }
 
@@ -49,10 +49,10 @@ public:
   ChannelRadius shiftFactorRadius( const Energy& energy ) const {
 
     return std::visit(
-             overload{ [&] ( const ChannelRadius& radius )
-                           { return radius; },
-                       [&] ( const ChannelRadiusTable& table )
-                           { return table( energy ); } },
+             njoy::utility::overload{ [&] ( const ChannelRadius& radius )
+                                          { return radius; },
+                                      [&] ( const ChannelRadiusTable& table )
+                                          { return table( energy ); } },
              this->shiftFactor_ );
   }
 
@@ -64,10 +64,10 @@ public:
   ChannelRadius phaseShiftRadius( const Energy& energy ) const {
 
     return std::visit(
-             overload{ [&] ( const ChannelRadius& radius )
-                           { return radius; },
-                       [&] ( const ChannelRadiusTable& table )
-                           { return table( energy ); } },
+             njoy::utility::overload{ [&] ( const ChannelRadius& radius )
+                                          { return radius; },
+                                      [&] ( const ChannelRadiusTable& table )
+                                          { return table( energy ); } },
              this->phaseShift_ );
   }
 };

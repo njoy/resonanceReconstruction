@@ -1,6 +1,10 @@
 #include "resonanceReconstruction/quantities.hpp"
 #include "resonanceReconstruction/rmatrix/options.hpp"
 
+// utility code
+#include "resonanceReconstruction/rmatrix/Table.hpp"
+#include "utility/overload.hpp"
+
 #ifndef NJOY_R2_RMATRIX
 #define NJOY_R2_RMATRIX
 
@@ -48,10 +52,6 @@ namespace rmatrix {
 
   // map
   template < typename Key, typename Value > using Map = std::map< Key, Value >;
-
-  // utility code
-  #include "resonanceReconstruction/rmatrix/Table.hpp"
-  #include "resonanceReconstruction/rmatrix/overload.hpp"
 
   // R-Matrix boundary condition
   using BoundaryCondition = double;
