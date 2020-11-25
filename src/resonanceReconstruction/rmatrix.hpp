@@ -1,3 +1,15 @@
+#include "resonanceReconstruction/quantities.hpp"
+#include "resonanceReconstruction/rmatrix/options.hpp"
+
+#ifndef NJOY_R2_RMATRIX
+#define NJOY_R2_RMATRIX
+
+// system includes
+
+// other includes
+
+namespace njoy {
+namespace resonanceReconstruction {
 namespace rmatrix {
 
   // quantum numbers
@@ -41,10 +53,8 @@ namespace rmatrix {
   #include "resonanceReconstruction/rmatrix/Table.hpp"
   #include "resonanceReconstruction/rmatrix/overload.hpp"
 
-  // R-Matrix boundary condition and options
+  // R-Matrix boundary condition
   using BoundaryCondition = double;
-  struct ShiftFactor {};
-  struct Constant {};
   #include "resonanceReconstruction/rmatrix/LMatrixCalculator.hpp"
 
   // R-matrix components (independent of formalism)
@@ -61,11 +71,7 @@ namespace rmatrix {
   #include "resonanceReconstruction/rmatrix/Resonance.hpp"
   #include "resonanceReconstruction/rmatrix/ResonanceTable.hpp"
 
-  // formalism options
-  struct SingleLevelBreitWigner {};
-  struct MultiLevelBreitWigner {};
-  struct ReichMoore {};
-  struct GeneralRMatrix {};
+  // formalism calculators
   #include "resonanceReconstruction/rmatrix/RLMatrixCalculator.hpp"
 
   // spin group and compound system
@@ -102,4 +108,9 @@ namespace rmatrix {
                     legacy::unresolved::CompoundSystem >;
   #include "resonanceReconstruction/rmatrix/Reconstructor.hpp"
   #include "resonanceReconstruction/rmatrix/src/fromENDF.hpp"
-}
+
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

@@ -1,3 +1,6 @@
+// physical quantities used in resonance reconstruction
+#include "resonanceReconstruction/quantities.hpp"
+
 #ifndef NJOY_RESONANCE_RECONSTRUCTION
 #define NJOY_RESONANCE_RECONSTRUCTION
 
@@ -6,7 +9,6 @@
 #include <memory>
 
 #include "interpolation.hpp"
-#include "dimwits.hpp"
 #include "elementary.hpp"
 
 #include "range/v3/distance.hpp"
@@ -60,22 +62,7 @@ namespace endf {
 namespace njoy {
 namespace resonanceReconstruction {
 
-using namespace dimwits;
-
-constexpr double pi = 3.141592653589793;
-
 using Matrix3x3 = Eigen::Matrix3cd;
-using RootBarn = decltype( unit::sqrt( Barns() ) );
-using RootBarns = RootBarn;
-using InvRootBarn = decltype( pow( RootBarn(), Ratio<-1> ) );
-using InvRootBarns = InvRootBarn;
-using RootElectronVolt = decltype( unit::sqrt( ElectronVolts() ) );
-using RootElectronVolts = RootElectronVolt;
-using InvElectronVolt = decltype( pow( ElectronVolts(), Ratio<-1> ) );
-using InvElectronVolts = InvElectronVolt;
-
-constexpr Quantity< RootBarn > rootBarn = 1.0E-12 * centi(meter);
-constexpr Quantity< RootBarn > rootBarns = rootBarn;
 
 template< int i >
 using Integer = std::integral_constant< int, i >;
@@ -93,41 +80,9 @@ using Integer = std::integral_constant< int, i >;
 
 #include "resonanceReconstruction/breitWigner.hpp"
 #include "resonanceReconstruction/reichMoore.hpp"
-
-// physical constants and quantities
-
-// physical units
-using ElectronVoltSecond = decltype( ElectronVolts() * Seconds() );
-using ElectronVoltSeconds = ElectronVoltSecond;
-using CoulombSquaredSecondPerMeter = decltype( Coulomb() * Coulomb() *
-                                               Seconds() / Meters() );
-using FaradPerMeter = decltype( farad / meter );
-
-// hbar constant in eV s - taken from 2014 CODATA
-constexpr Quantity< ElectronVoltSecond > hbar = 6.582119514e-16 * electronVolt * second;
-
-// epsilon0 constant in F m^-1 - taken from 2014 CODATA
-constexpr Quantity< FaradPerMeter > epsilon0 = 8.854187817e-12 * farad / meter;
-
-constexpr Quantity< RootElectronVolt > rootElectronVolt = 1.0 * unit::sqrt( electronVolt );
-constexpr Quantity< RootElectronVolt > rootElectronVolts = rootElectronVolt;
-
-// physical quantities
-using AtomicMass = Quantity< Dalton >;
-using CrossSection = Quantity< Barn >;
-using ElectricalCharge = Quantity< Coulomb >;
-using Energy = Quantity< ElectronVolt >;
-using LevelSpacing = Quantity< ElectronVolt >;
-using QValue = Quantity< ElectronVolt >;
-using WaveNumber = Quantity< InvRootBarn >;
-using ChannelRadius = Quantity< RootBarn >;
-using EtaParameter = Quantity< CoulombSquaredSecondPerMeter >;
-using Width = Quantity< ElectronVolt >;
-using ReducedWidth = Quantity< RootElectronVolt >;
-using FluctuationIntegral = Quantity< InvElectronVolt >;
-
-#include "resonanceReconstruction/rmatrix.hpp"
 }
 }
 
 #endif
+
+#include "resonanceReconstruction/rmatrix.hpp"
