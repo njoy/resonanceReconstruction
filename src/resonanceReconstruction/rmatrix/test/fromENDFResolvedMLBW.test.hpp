@@ -185,7 +185,7 @@ SCENARIO( "fromENDF - LRF2" ) {
   } // GIVEN
 
   GIVEN( "valid ENDF data for Ag107" ) {
-std::cout << "Ag107" << std::endl;
+
     std::string string = resolvedAg107();
     auto begin = string.begin();
     auto end = string.end();
@@ -196,7 +196,6 @@ std::cout << "Ag107" << std::endl;
     ResonanceRange endfResonanceRange = endf.isotopes().front().resonanceRanges().front();
 
     auto resonances = fromENDF( endfResonanceRange, neutronMass, elementaryCharge, ParticleID( "n" ), ParticleID( "Ag107" ) );
-std::cout << "Ag107 - done" << std::endl;
 
     double a = 0.123 * std::pow( 105.987 * 1.008664, 1. / 3. ) + 0.08;
 
