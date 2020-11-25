@@ -15,10 +15,10 @@ void evaluate( const Energy& energy,
   const auto diagonalOmegaMatrix = this->omegas( energy, coulombShifts );
 
   // calculate the R_L = ( 1 - RL )^-1 R matrix
-  auto rlmatrix = this->rlmatrix_( energy,
-                                   this->resonanceTable(),
-                                   penetrabilities,
-                                   this->channels() );
+  decltype(auto) rlmatrix = this->rlmatrix_( energy,
+                                             this->resonanceTable(),
+                                             penetrabilities,
+                                             this->channels() );
 
   // the pi/k2 * gJ factor
   const auto factor = [&] {

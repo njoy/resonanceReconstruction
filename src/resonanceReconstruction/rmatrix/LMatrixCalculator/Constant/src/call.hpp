@@ -27,7 +27,6 @@ operator()( const Energy& energy,
                                                           channel ); } ),
                     penetrabilities );
 
-  this->lmatrix_.setZero();
   for ( unsigned int i = 0; i < diagonal.size(); ++i ) {
 
     this->lmatrix_.diagonal()[i] = diagonal[i];
