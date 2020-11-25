@@ -1086,7 +1086,7 @@ SCENARIO( "fromENDF - LRF3" ) {
       ReactionID elas( "n,Pu239->n,Pu239" );
       ReactionID fiss( "n,Pu239->fission" );
       ReactionID capt( "n,Pu239->capture" );
-      std::map< ReactionID, CrossSection > xs;
+      Map< ReactionID, CrossSection > xs;
 
       xs = resonances( 1e-5 * electronVolt );
       CHECK( 3 == xs.size() );
@@ -1916,7 +1916,7 @@ SCENARIO( "fromENDF - LRF3" ) {
 
       ReactionID elas( "n,Si29->n,Si29" );
       ReactionID capt( "n,Si29->capture" );
-      std::map< ReactionID, CrossSection > xs;
+      Map< ReactionID, CrossSection > xs;
 
       xs = resonances( 1e-5 * electronVolt );
       CHECK( 2 == xs.size() );

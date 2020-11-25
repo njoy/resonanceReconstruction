@@ -367,7 +367,7 @@ SCENARIO( "fromENDF" ) {
 
       ReactionID elas( "n,Fe54->n,Fe54" );
       ReactionID capt( "n,Fe54->capture" );
-      std::map< ReactionID, CrossSection > xs;
+      Map< ReactionID, CrossSection > xs;
 
       xs = resonances( 1e-5 * electronVolt );
       CHECK( 2 == xs.size() );
@@ -1310,7 +1310,7 @@ SCENARIO( "fromENDF" ) {
       ReactionID prot( "n,Ca40->h1,K40" );
       ReactionID alph( "n,Ca40->he4,Ar37" );
       ReactionID capt( "n,Ca40->capture" );
-      std::map< ReactionID, CrossSection > xs;
+      Map< ReactionID, CrossSection > xs;
 
       // this value previously produced NaN cross section values
       xs = resonances( 542087 * electronVolt );
@@ -2326,7 +2326,7 @@ SCENARIO( "fromENDF" ) {
       ReactionID elas( "n,Cl35->n,Cl35" );
       ReactionID prot( "n,Cl35->h1,S35" );
       ReactionID capt( "n,Cl35->capture" );
-      std::map< ReactionID, CrossSection > xs;
+      Map< ReactionID, CrossSection > xs;
 
       xs = resonances( 1e-5 * electronVolt );
       CHECK( 3 == xs.size() );

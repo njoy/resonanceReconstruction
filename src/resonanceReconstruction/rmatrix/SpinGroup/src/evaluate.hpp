@@ -5,7 +5,7 @@
  *  @param[in,out] result   a map containing the accumulated cross sections
  */
 void evaluate( const Energy& energy,
-               std::map< ReactionID, CrossSection >& result ) {
+               Map< ReactionID, CrossSection >& result ) {
 
   // penetrability, Coulomb phase shift, sqrt(P) and Omega = exp( i(w - phi) )
   // for each channel except the eliminated capture channel

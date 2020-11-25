@@ -135,7 +135,7 @@ SCENARIO( "fromENDF - LRF2" ) {
 
       ReactionID elas( "n,Rh105->n,Rh105" );
       ReactionID capt( "n,Rh105->capture" );
-      std::map< ReactionID, CrossSection > xs;
+      Map< ReactionID, CrossSection > xs;
 
       xs = resonances( 1e-5 * electronVolt );
       CHECK( 2 == xs.size() );
@@ -185,7 +185,7 @@ SCENARIO( "fromENDF - LRF2" ) {
   } // GIVEN
 
   GIVEN( "valid ENDF data for Ag107" ) {
-std::cout << "Ag107" << std::endl;
+
     std::string string = resolvedAg107();
     auto begin = string.begin();
     auto end = string.end();
@@ -196,7 +196,6 @@ std::cout << "Ag107" << std::endl;
     ResonanceRange endfResonanceRange = endf.isotopes().front().resonanceRanges().front();
 
     auto resonances = fromENDF( endfResonanceRange, neutronMass, elementaryCharge, ParticleID( "n" ), ParticleID( "Ag107" ) );
-std::cout << "Ag107 - done" << std::endl;
 
     double a = 0.123 * std::pow( 105.987 * 1.008664, 1. / 3. ) + 0.08;
 
@@ -643,7 +642,7 @@ std::cout << "Ag107 - done" << std::endl;
 
       ReactionID elas( "n,Ag107->n,Ag107" );
       ReactionID capt( "n,Ag107->capture" );
-      std::map< ReactionID, CrossSection > xs;
+      Map< ReactionID, CrossSection > xs;
 
       xs = resonances( 1e-5 * electronVolt );
       CHECK( 2 == xs.size() );
@@ -823,7 +822,7 @@ std::cout << "Ag107 - done" << std::endl;
 
       ReactionID elas( "n,Tm168->n,Tm168" );
       ReactionID capt( "n,Tm168->capture" );
-      std::map< ReactionID, CrossSection > xs;
+      Map< ReactionID, CrossSection > xs;
 
       xs = resonances( 1e-5 * electronVolt );
       CHECK( 2 == xs.size() );
@@ -993,7 +992,7 @@ std::cout << "Ag107 - done" << std::endl;
 
       ReactionID elas( "n,Dy160->n,Dy160" );
       ReactionID capt( "n,Dy160->capture" );
-      std::map< ReactionID, CrossSection > xs;
+      Map< ReactionID, CrossSection > xs;
 
       xs = resonances( 1e-5 * electronVolt );
       CHECK( 2 == xs.size() );
@@ -1339,7 +1338,7 @@ std::cout << "Ag107 - done" << std::endl;
 
       ReactionID elas( "n,Dy162->n,Dy162" );
       ReactionID capt( "n,Dy162->capture" );
-      std::map< ReactionID, CrossSection > xs;
+      Map< ReactionID, CrossSection > xs;
 
       xs = resonances( 1e-5 * electronVolt );
       CHECK( 2 == xs.size() );

@@ -21,6 +21,7 @@ using SpinGroup = rmatrix::legacy::unresolved::SpinGroup;
 using CompoundSystem = rmatrix::legacy::unresolved::CompoundSystem;
 using ReactionID = rmatrix::ReactionID;
 using ReactionChannelID = rmatrix::ReactionChannelID;
+template < typename Key, typename Value > using Map = rmatrix::Map< Key, Value >;
 
 constexpr AtomicMass neutronMass = 1.008664 * daltons;
 constexpr ElectricalCharge elementary = dimwits::constant::elementaryCharge;

@@ -5,7 +5,7 @@
  *  @param[in,out] result   a map containing the accumulated cross sections
  */
 void evaluate( const Energy& energy,
-               std::map< ReactionID, CrossSection >& result ) {
+               Map< ReactionID, CrossSection >& result ) {
 
   // accumulate over each spin group
   ranges::for_each( this->groups_,

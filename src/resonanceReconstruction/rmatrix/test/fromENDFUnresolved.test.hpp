@@ -441,7 +441,7 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
 
       ReactionID elas( "n,Na22->n,Na22" );
       ReactionID capt( "n,Na22->capture" );
-      std::map< ReactionID, CrossSection > xs;
+      Map< ReactionID, CrossSection > xs;
 
       xs = resonances( 1.5e+4 * electronVolt );
       CHECK( 2 == xs.size() );
@@ -765,7 +765,7 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
       ReactionID elas( "n,Pu239->n,Pu239" );
       ReactionID capt( "n,Pu239->capture" );
       ReactionID fiss( "n,Pu239->fission" );
-      std::map< ReactionID, CrossSection > xs;
+      Map< ReactionID, CrossSection > xs;
 
       xs = resonances( 2500. * electronVolt );
       CHECK( 3 == xs.size() );
@@ -1431,7 +1431,7 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
 
       ReactionID elas( "n,Er167->n,Er167" );
       ReactionID capt( "n,Er167->capture" );
-      std::map< ReactionID, CrossSection > xs;
+      Map< ReactionID, CrossSection > xs;
 
       xs = resonances( 1750. * electronVolt );
       CHECK( 2 == xs.size() );
@@ -1975,7 +1975,7 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
 
       ReactionID elas( "n,Au197->n,Au197" );
       ReactionID capt( "n,Au197->capture" );
-      std::map< ReactionID, CrossSection > xs;
+      Map< ReactionID, CrossSection > xs;
 
       xs = resonances( 2.000000e+3 * electronVolt );
       CHECK( 2 == xs.size() );
@@ -2496,7 +2496,7 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
 
       ReactionID elas( "n,Ag107->n,Ag107" );
       ReactionID capt( "n,Ag107->capture" );
-      std::map< ReactionID, CrossSection > xs;
+      Map< ReactionID, CrossSection > xs;
 
       xs = resonances( 6.500000e+3 * electronVolt );
       CHECK( 2 == xs.size() );

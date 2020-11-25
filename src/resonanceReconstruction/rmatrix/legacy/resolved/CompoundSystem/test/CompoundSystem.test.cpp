@@ -25,6 +25,7 @@ using SingleLevelBreitWigner = rmatrix::SingleLevelBreitWigner;
 using MultiLevelBreitWigner = rmatrix::MultiLevelBreitWigner;
 using ReactionID = rmatrix::ReactionID;
 using ReactionChannelID = rmatrix::ReactionChannelID;
+template < typename Key, typename Value > using Map = rmatrix::Map< Key, Value >;
 
 constexpr AtomicMass neutronMass = 1.008664 * daltons;
 constexpr ElectricalCharge elementary = dimwits::constant::elementaryCharge;
