@@ -4,11 +4,8 @@
 // system includes
 
 // other includes
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-#pragma GCC diagnostic ignored "-Wextra"
-#include <Eigen/Dense>
-#pragma GCC diagnostic pop
+#include <Eigen/Core>
+#include <Eigen/LU>
 
 namespace njoy {
 namespace resonanceReconstruction {
