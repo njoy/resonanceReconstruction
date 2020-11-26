@@ -1,3 +1,23 @@
+#ifndef NJOY_R2_RMATRIX_RESONANCETABLE
+#define NJOY_R2_RMATRIX_RESONANCETABLE
+
+// system includes
+#include <vector>
+
+// other includes
+#include "Log.hpp"
+#include "range/v3/algorithm/for_each.hpp"
+#include "range/v3/view/all.hpp"
+#include "resonanceReconstruction/quantities.hpp"
+#include "resonanceReconstruction/rmatrix/Resonance.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+
+// identifiers
+using ChannelID = std::string;
+
 /**
  *  @class
  *  @brief Resonance parameters for a specific J,pi value
@@ -40,9 +60,15 @@ public:
    *  @brief Return the resonance energies
    */
   auto energies() const {
-    
+
     return this->resonances()
              | ranges::view::transform( [] ( const auto& resonance )
                                            { return resonance.energy(); } );
   }
 };
+
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif
