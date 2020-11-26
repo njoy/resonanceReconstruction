@@ -9,6 +9,7 @@
 #include "resonanceReconstruction/rmatrix/ChannelQuantumNumbers.hpp"
 #include "resonanceReconstruction/rmatrix/ParticlePair.hpp"
 #include "resonanceReconstruction/rmatrix/ChannelRadii.hpp"
+#include "resonanceReconstruction/rmatrix/ChannelType.hpp"
 #include "resonanceReconstruction/rmatrix/calculatePenetrability.hpp"
 #include "resonanceReconstruction/rmatrix/calculateShiftFactor.hpp"
 #include "resonanceReconstruction/rmatrix/calculatePhaseShift.hpp"

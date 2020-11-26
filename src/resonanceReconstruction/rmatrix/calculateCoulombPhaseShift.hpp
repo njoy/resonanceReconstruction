@@ -7,7 +7,7 @@
 #include "range/v3/numeric/accumulate.hpp"
 #include "range/v3/view/indices.hpp"
 #include "range/v3/view/transform.hpp"
-#include "resonanceReconstruction/rmatrix/ChannelTypes.hpp"
+#include "resonanceReconstruction/rmatrix/ChannelType.hpp"
 
 namespace njoy {
 namespace resonanceReconstruction {
