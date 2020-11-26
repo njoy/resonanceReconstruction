@@ -1,6 +1,7 @@
 #include "resonanceReconstruction/quantities.hpp"
-#include "resonanceReconstruction/rmatrix/options.hpp"
-#include "resonanceReconstruction/rmatrix/ChannelTypes.hpp"
+#include "resonanceReconstruction/rmatrix/Formalism.hpp"
+#include "resonanceReconstruction/rmatrix/BoundaryOption.hpp"
+#include "resonanceReconstruction/rmatrix/ChannelType.hpp"
 
 // utility code
 #include "resonanceReconstruction/rmatrix/Table.hpp"
@@ -20,6 +21,9 @@
 // resonance information
 #include "resonanceReconstruction/rmatrix/Resonance.hpp"
 #include "resonanceReconstruction/rmatrix/ResonanceTable.hpp"
+
+// option dependent calculators
+#include "resonanceReconstruction/rmatrix/LMatrixCalculator.hpp"
 
 // wave function calculation
 #include "resonanceReconstruction/rmatrix/calculatePenetrability.hpp"
@@ -45,15 +49,8 @@ namespace rmatrix {
   // identifiers
   using ReactionChannelID = std::string;
 
-  // matrix
-  template < typename T > using Matrix = Eigen::Matrix< T, Eigen::Dynamic, Eigen::Dynamic >;
-  template < typename T > using DiagonalMatrix = Eigen::DiagonalMatrix< T, Eigen::Dynamic >;
-
   // map
   template < typename Key, typename Value > using Map = std::map< Key, Value >;
-
-  // R-Matrix boundary condition
-  #include "resonanceReconstruction/rmatrix/LMatrixCalculator.hpp"
 
   // formalism calculators
   #include "resonanceReconstruction/rmatrix/RLMatrixCalculator.hpp"

@@ -3,8 +3,6 @@
 #include "catch.hpp"
 #include "resonanceReconstruction/rmatrix/Channel.hpp"
 
-#include "resonanceReconstruction/rmatrix/ChannelTypes.hpp"
-
 using namespace njoy::resonanceReconstruction;
 
 // convenience typedefs
