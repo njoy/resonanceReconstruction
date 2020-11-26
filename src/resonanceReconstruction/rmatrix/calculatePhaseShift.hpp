@@ -1,3 +1,18 @@
+#ifndef NJOY_R2_RMATRIX_CALCULATEPHI
+#define NJOY_R2_RMATRIX_CALCULATEPHI
+
+// system includes
+#include <complex>
+
+// other includes
+#include "utility/horner.hpp"
+#include "resonanceReconstruction/rmatrix/src/coh3-coulomb.hpp"
+#include "resonanceReconstruction/rmatrix/ChannelTypes.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+
 /**
  *  @brief Default value for the phase shift
  *
@@ -42,7 +57,10 @@ double calculatePhaseShift< Neutron >( const unsigned int l,
     case 4 : {
 
       constexpr std::array< double, 3 > denominator = {{ 105., -45., 1. }};
-      double offset = ratio * ( 105. - 10. * squared ) / horner( std::rbegin( denominator ), std::rend( denominator ), squared );
+      double offset = ratio * ( 105. - 10. * squared )
+                      / utility::horner( std::rbegin( denominator ),
+                                         std::rend( denominator ),
+                                         squared );
       return ratio - std::atan( offset );
     }
     default : throw std::exception();
@@ -73,3 +91,9 @@ double calculatePhaseShift< ChargedParticle >( const unsigned int l,
            ? 0.
            : std::acos( G / std::sqrt( F * F + G * G ) );
 }
+
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

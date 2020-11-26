@@ -1,3 +1,6 @@
+#ifndef NJOY_R2_RMATRIX_COH3_ASYMPT
+#define NJOY_R2_RMATRIX_COH3_ASYMPT
+
 /******************************************************************************/
 /*  asympt.cpp                                                                */
 /*        asymptotic Coulomb functions in free space                          */
@@ -373,3 +376,5 @@ double omAsymptoticClosed(double rm, double coulomb)
 
   return(f1);
 }
+
+#endif

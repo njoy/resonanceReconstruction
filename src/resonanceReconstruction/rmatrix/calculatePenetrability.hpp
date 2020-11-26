@@ -1,3 +1,18 @@
+#ifndef NJOY_R2_RMATRIX_CALCULATEP
+#define NJOY_R2_RMATRIX_CALCULATEP
+
+// system includes
+#include <complex>
+
+// other includes
+#include "utility/horner.hpp"
+#include "resonanceReconstruction/rmatrix/src/coh3-coulomb.hpp"
+#include "resonanceReconstruction/rmatrix/ChannelTypes.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+
 /**
  *  @brief Default value for the penetrability
  *
@@ -33,22 +48,25 @@ double calculatePenetrability< Neutron >( const unsigned int l,
 
       constexpr std::array< double, 3 > denominator = {{ 9., 3., 1. }};
       return ratio * squared * squared
-             / horner( std::rbegin( denominator ), std::rend( denominator ),
-                       squared );
+             / utility::horner( std::rbegin( denominator ),
+                                std::rend( denominator ),
+                                squared );
     }
     case 3 : {
 
       constexpr std::array< double, 4 > denominator = {{ 225., 45., 6., 1. }};
       return ratio * squared * squared * squared
-             / horner( std::rbegin( denominator ), std::rend( denominator ),
-                       squared );
+             / utility::horner( std::rbegin( denominator ),
+                                std::rend( denominator ),
+                                squared );
     }
     case 4 : {
 
       constexpr std::array< double, 5 > denominator = {{ 11025., 1575., 135., 10., 1. }};
       return ratio * squared * squared * squared * squared
-             / horner( std::rbegin( denominator ), std::rend( denominator ),
-                       squared );
+             / utility::horner( std::rbegin( denominator ),
+                                std::rend( denominator ),
+                                squared );
     }
     default : throw std::exception();
   }
@@ -77,3 +95,9 @@ double calculatePenetrability< ChargedParticle >( const unsigned int l,
   double G = gf.real();
   return ( F == 0. ) and ( G == 0. ) ? 0. : ratio / ( F * F + G * G );
 }
+
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

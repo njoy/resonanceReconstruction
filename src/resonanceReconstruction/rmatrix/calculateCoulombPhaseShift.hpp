@@ -1,3 +1,18 @@
+#ifndef NJOY_R2_RMATRIX_CALCULATEW
+#define NJOY_R2_RMATRIX_CALCULATEW
+
+// system includes
+
+// other includes
+#include "range/v3/numeric/accumulate.hpp"
+#include "range/v3/view/indices.hpp"
+#include "range/v3/view/transform.hpp"
+#include "resonanceReconstruction/rmatrix/ChannelTypes.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+
 /**
  *  @brief Default value for the Coulomb phase shift
  *
@@ -34,3 +49,9 @@ double calculateCoulombPhaseShift< ChargedParticle >( const int l,
                      [&] ( int n ) -> double
                          { return 1. / std::tan( eta / n ); } ), 0.0 );
 }
+
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

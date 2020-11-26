@@ -1,5 +1,6 @@
 #include "resonanceReconstruction/quantities.hpp"
 #include "resonanceReconstruction/rmatrix/options.hpp"
+#include "resonanceReconstruction/rmatrix/ChannelTypes.hpp"
 
 // utility code
 #include "resonanceReconstruction/rmatrix/Table.hpp"
@@ -12,6 +13,13 @@
 #include "resonanceReconstruction/rmatrix/ParticlePair.hpp"
 #include "resonanceReconstruction/rmatrix/ChannelRadiusTable.hpp"
 #include "resonanceReconstruction/rmatrix/ChannelRadii.hpp"
+#include "resonanceReconstruction/rmatrix/Channel.hpp"
+
+// wave function calculation
+#include "resonanceReconstruction/rmatrix/calculatePenetrability.hpp"
+#include "resonanceReconstruction/rmatrix/calculateShiftFactor.hpp"
+#include "resonanceReconstruction/rmatrix/calculatePhaseShift.hpp"
+#include "resonanceReconstruction/rmatrix/calculateCoulombPhaseShift.hpp"
 
 // auxiliary functions for the quantum numbers
 #include "resonanceReconstruction/rmatrix/possibleChannelSpinValues.hpp"
@@ -28,22 +36,7 @@ namespace njoy {
 namespace resonanceReconstruction {
 namespace rmatrix {
 
-  // particle and channel types, functions dependent on those types
-  struct Neutron {};
-  struct Photon {};
-  struct ChargedParticle {};
-  struct Fission {};
-  #include "resonanceReconstruction/rmatrix/src/horner.hpp"
-  #include "resonanceReconstruction/rmatrix/src/coh3-coulomb.hpp"
-  #include "resonanceReconstruction/rmatrix/src/calculatePenetrability.hpp"
-  #include "resonanceReconstruction/rmatrix/src/calculateShiftFactor.hpp"
-  #include "resonanceReconstruction/rmatrix/src/calculatePhaseShift.hpp"
-  #include "resonanceReconstruction/rmatrix/src/calculateCoulombPhaseShift.hpp"
-
   // identifiers
-  using ReactionType = elementary::ReactionType;
-  using ReactionID = elementary::ReactionID;
-  using ChannelID = std::string;
   using ReactionChannelID = std::string;
 
   // matrix
@@ -54,7 +47,6 @@ namespace rmatrix {
   template < typename Key, typename Value > using Map = std::map< Key, Value >;
 
   // R-Matrix boundary condition
-  using BoundaryCondition = double;
   #include "resonanceReconstruction/rmatrix/LMatrixCalculator.hpp"
 
   // R-matrix components (independent of formalism)

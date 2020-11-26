@@ -1,3 +1,13 @@
+#ifndef NJOY_UTILITY_HORNER
+#define NJOY_UTILITY_HORNER
+
+// system includes
+
+// other includes
+
+namespace njoy {
+namespace utility {
+
 /** @brief Horner evaluation of a polynomial function for different x and y
  *         types
  *
@@ -33,3 +43,8 @@ Y horner( Iter first, Iter last, const X& x ) noexcept {
   }
   return y;
 }
+
+} // utility namespace
+} // njoy namespace
+
+#endif

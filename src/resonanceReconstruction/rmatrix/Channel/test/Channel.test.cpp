@@ -1,7 +1,9 @@
 #define CATCH_CONFIG_MAIN
 
 #include "catch.hpp"
-#include "resonanceReconstruction.hpp"
+#include "resonanceReconstruction/rmatrix/Channel.hpp"
+
+#include "resonanceReconstruction/rmatrix/ChannelTypes.hpp"
 
 using namespace njoy::resonanceReconstruction;
 

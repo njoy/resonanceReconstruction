@@ -1,3 +1,8 @@
+#ifndef NJOY_R2_RMATRIX_COH3_EXTWAVE
+#define NJOY_R2_RMATRIX_COH3_EXTWAVE
+
+#include "Log.hpp"
+
 /******************************************************************************/
 /*  extwave.cpp                                                               */
 /*        wave functions in free space                                        */
@@ -109,7 +114,7 @@ int omExternalFunction(int lmax, double rho_match, double coulomb, double coulom
       }
     }
     if(l0 > MAX_L0){
-      Log::error( "angular momentum too large {}", l0 );
+      njoy::Log::error( "angular momentum too large {}", l0 );
       throw std::exception();
     }
   }while(flag);
@@ -204,3 +209,5 @@ int omExternalClosed(int lmax, double rho_match, double coulomb, std::complex<do
 //          -y1*(1.+(y2-48.)/(30.*y4)+(y2*y2-160.*y2+1280.)/(105.*y4*y4))
 //          /(12.*y3);
 //}
+
+#endif
