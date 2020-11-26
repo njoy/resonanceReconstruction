@@ -1,3 +1,14 @@
+#ifndef NJOY_R2_RMATRIX_POSSIBLESVALUES
+#define NJOY_R2_RMATRIX_POSSIBLESVALUES
+
+// system includes
+
+// other includes
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+
 /**
  *  @brief Calculate possible values for the channel spin s
  *
@@ -23,4 +34,8 @@ possibleChannelSpinValues( const Spin& i, const Spin& I ) {
   return values;
 }
 
-// use ranges::view::iota similar to ranges::view::closed_indices
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

@@ -5,6 +5,13 @@
 #include "resonanceReconstruction/rmatrix/Table.hpp"
 #include "utility/overload.hpp"
 
+#include "resonanceReconstruction/rmatrix/QuantumNumbers.hpp"
+#include "resonanceReconstruction/rmatrix/ChannelQuantumNumbers.hpp"
+
+// auxiliary functions for the quantum numbers
+#include "resonanceReconstruction/rmatrix/possibleChannelSpinValues.hpp"
+#include "resonanceReconstruction/rmatrix/possibleChannelTotalAngularMomentumValues.hpp"
+
 #ifndef NJOY_R2_RMATRIX
 #define NJOY_R2_RMATRIX
 
@@ -15,16 +22,6 @@
 namespace njoy {
 namespace resonanceReconstruction {
 namespace rmatrix {
-
-  // quantum numbers
-  using OrbitalAngularMomentum = unsigned int;
-  using Spin = double;
-  using TotalAngularMomentum = double;
-  using Parity = short;
-
-  // auxiliary functions for the quantum numbers
-  #include "resonanceReconstruction/rmatrix/src/possibleChannelSpinValues.hpp"
-  #include "resonanceReconstruction/rmatrix/src/possibleChannelTotalAngularMomentumValues.hpp"
 
   // particle and channel types, functions dependent on those types
   struct Neutron {};
@@ -60,7 +57,6 @@ namespace rmatrix {
   // R-matrix components (independent of formalism)
   #include "resonanceReconstruction/rmatrix/Particle.hpp"
   #include "resonanceReconstruction/rmatrix/ParticlePair.hpp"
-  #include "resonanceReconstruction/rmatrix/ChannelQuantumNumbers.hpp"
   #include "resonanceReconstruction/rmatrix/ChannelRadiusTable.hpp"
   #include "resonanceReconstruction/rmatrix/ChannelRadii.hpp"
   #include "resonanceReconstruction/rmatrix/Channel.hpp"
