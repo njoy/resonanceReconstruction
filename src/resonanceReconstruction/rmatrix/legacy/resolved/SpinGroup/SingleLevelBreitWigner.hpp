@@ -8,10 +8,6 @@
 template <>
 class SpinGroup< SingleLevelBreitWigner > : protected SpinGroupBase< resolved::ResonanceTable > {
 
-  /* aliases */
-  using EnergySquared = decltype( std::declval< Energy >() *
-                                  std::declval< Energy >() );
-
   /* fields */
   Energy qx_;
 

@@ -22,6 +22,7 @@ namespace resonanceReconstruction {
   using InvElectronVolts = InvElectronVolt;
   using ElectronVoltSecond = decltype( ElectronVolts() * Seconds() );
   using ElectronVoltSeconds = ElectronVoltSecond;
+  using ElectronVoltSquared = decltype( ElectronVolts() * ElectronVolts() );
   using FaradPerMeter = decltype( farad / meter );
   using CoulombSquaredSecondPerMeter = decltype( Coulomb() * Coulomb() *
                                                  Seconds() / Meters() );
@@ -44,6 +45,7 @@ namespace resonanceReconstruction {
   using CrossSection = Quantity< Barn >;
   using ElectricalCharge = Quantity< Coulomb >;
   using Energy = Quantity< ElectronVolt >;
+  using EnergySquared = Quantity< ElectronVoltSquared >;
   using LevelSpacing = Quantity< ElectronVolt >;
   using QValue = Quantity< ElectronVolt >;
   using WaveNumber = Quantity< InvRootBarn >;
