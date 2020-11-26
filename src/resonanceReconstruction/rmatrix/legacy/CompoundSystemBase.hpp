@@ -1,3 +1,22 @@
+#ifndef NJOY_R2_RMATRIX_LEGACY_COMPOUNDSYSTEMBASE
+#define NJOY_R2_RMATRIX_LEGACY_COMPOUNDSYSTEMBASE
+
+// system includes
+#include <vector>
+
+// other includes
+#include "range/v3/algorithm/for_each.hpp"
+#include "range/v3/view/all.hpp"
+#include "resonanceReconstruction/Quantity.hpp"
+#include "resonanceReconstruction/rmatrix/Map.hpp"
+#include "resonanceReconstruction/rmatrix/ReactionID.hpp"
+#include "resonanceReconstruction/rmatrix/calculatePhaseShift.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+namespace legacy {
+
 /**
  *  @class
  *  @brief The base interface for a legacy compound system
@@ -28,3 +47,10 @@ public:
 
   #include "resonanceReconstruction/rmatrix/legacy/CompoundSystemBase/src/evaluate.hpp"
 };
+
+} // legacy namespace
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

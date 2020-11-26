@@ -1,3 +1,18 @@
+#ifndef NJOY_R2_RMATRIX_LEGACY_SPINGROUPBASE
+#define NJOY_R2_RMATRIX_LEGACY_SPINGROUPBASE
+
+// system includes
+
+// other includes
+#include "resonanceReconstruction/rmatrix/ChannelType.hpp"
+#include "resonanceReconstruction/rmatrix/Channel.hpp"
+#include "resonanceReconstruction/rmatrix/ReactionID.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+namespace legacy {
+
 /**
  *  @class
  *  @brief Base interface for a legacy l,J spin group
@@ -70,3 +85,10 @@ public:
    */
   const ResonanceTableType& resonanceTable() const { return this->table_; }
 };
+
+} // legacy namespace
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif
