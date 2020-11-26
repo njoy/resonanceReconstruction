@@ -1,3 +1,18 @@
+#ifndef NJOY_R2_RMATRIX_CHANNELRADII
+#define NJOY_R2_RMATRIX_CHANNELRADII
+
+// system includes
+#include <variant>
+
+// other includes
+#include "utility/overload.hpp"
+#include "resonanceReconstruction/quantities.hpp"
+#include "resonanceReconstruction/rmatrix/ChannelRadiusTable.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+
 /**
  *  @class
  *  @brief Channel radii used in wave function calculations
@@ -71,3 +86,9 @@ public:
              this->phaseShift_ );
   }
 };
+
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

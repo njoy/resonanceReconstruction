@@ -1,3 +1,21 @@
+#ifndef NJOY_R2_RMATRIX_PARTICLEPAIR
+#define NJOY_R2_RMATRIX_PARTICLEPAIR
+
+// system includes
+
+// other includes
+#include "elementary/ParticlePairID.hpp"
+#include "resonanceReconstruction/quantities.hpp"
+#include "resonanceReconstruction/rmatrix/QuantumNumbers.hpp"
+#include "resonanceReconstruction/rmatrix/Particle.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+
+// identifiers
+using ParticlePairID = elementary::ParticlePairID;
+
 /**
  *  @class
  *  @brief Information for a particle pair
@@ -62,3 +80,9 @@ public:
    */
   const AtomicMass& reducedMass() const { return this->reduced_; }
 };
+
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

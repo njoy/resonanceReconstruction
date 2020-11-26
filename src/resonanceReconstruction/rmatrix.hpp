@@ -5,8 +5,13 @@
 #include "resonanceReconstruction/rmatrix/Table.hpp"
 #include "utility/overload.hpp"
 
+// R-matrix components (independent of formalism)
 #include "resonanceReconstruction/rmatrix/QuantumNumbers.hpp"
 #include "resonanceReconstruction/rmatrix/ChannelQuantumNumbers.hpp"
+#include "resonanceReconstruction/rmatrix/Particle.hpp"
+#include "resonanceReconstruction/rmatrix/ParticlePair.hpp"
+#include "resonanceReconstruction/rmatrix/ChannelRadiusTable.hpp"
+#include "resonanceReconstruction/rmatrix/ChannelRadii.hpp"
 
 // auxiliary functions for the quantum numbers
 #include "resonanceReconstruction/rmatrix/possibleChannelSpinValues.hpp"
@@ -36,8 +41,6 @@ namespace rmatrix {
   #include "resonanceReconstruction/rmatrix/src/calculateCoulombPhaseShift.hpp"
 
   // identifiers
-  using ParticleID = elementary::ParticleID;
-  using ParticlePairID = elementary::ParticlePairID;
   using ReactionType = elementary::ReactionType;
   using ReactionID = elementary::ReactionID;
   using ChannelID = std::string;
@@ -55,10 +58,6 @@ namespace rmatrix {
   #include "resonanceReconstruction/rmatrix/LMatrixCalculator.hpp"
 
   // R-matrix components (independent of formalism)
-  #include "resonanceReconstruction/rmatrix/Particle.hpp"
-  #include "resonanceReconstruction/rmatrix/ParticlePair.hpp"
-  #include "resonanceReconstruction/rmatrix/ChannelRadiusTable.hpp"
-  #include "resonanceReconstruction/rmatrix/ChannelRadii.hpp"
   #include "resonanceReconstruction/rmatrix/Channel.hpp"
   #include "resonanceReconstruction/rmatrix/ParticleChannel.hpp"
   #include "resonanceReconstruction/rmatrix/ParticleChannelData.hpp"
