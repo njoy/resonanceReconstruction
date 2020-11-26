@@ -1,3 +1,23 @@
+#ifndef NJOY_R2_RMATRIX_LEGACY_RESOLVED_COMPOUNDSYSTEM
+#define NJOY_R2_RMATRIX_LEGACY_RESOLVED_COMPOUNDSYSTEM
+
+// system includes
+
+// other includes
+#include "range/v3/action/sort.hpp"
+#include "range/v3/action/unique.hpp"
+#include "resonanceReconstruction/rmatrix/Map.hpp"
+#include "resonanceReconstruction/rmatrix/Formalism.hpp"
+#include "resonanceReconstruction/rmatrix/ReactionID.hpp"
+#include "resonanceReconstruction/rmatrix/legacy/CompoundSystemBase.hpp"
+#include "resonanceReconstruction/rmatrix/legacy/resolved/SpinGroup.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+namespace legacy {
+namespace resolved {
+
 /**
  *  @class
  *  @brief The compound system for legacy resolved SLBW and MLBW
@@ -21,3 +41,11 @@ public:
 
   #include "resonanceReconstruction/rmatrix/legacy/resolved/CompoundSystem/src/grid.hpp"
 };
+
+} // resolved namespace
+} // legacy namespace
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

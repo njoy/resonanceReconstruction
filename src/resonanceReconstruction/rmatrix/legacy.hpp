@@ -6,6 +6,9 @@
 // data collections for the legacy resolved and unresolved resonances
 #include "resonanceReconstruction/rmatrix/legacy/Data.hpp"
 
+// legacy resolved and unresolved resonance reconstruction
+#include "resonanceReconstruction/rmatrix/legacy/resolved.hpp"
+
 #ifndef NJOY_R2_RMATRIX_LEGACY
 #define NJOY_R2_RMATRIX_LEGACY
 
@@ -19,7 +22,6 @@ namespace rmatrix {
 namespace legacy {
 
   // legacy resolved and unresolved resonance reconstruction
-  #include "resonanceReconstruction/rmatrix/legacy/resolved.hpp"
   #include "resonanceReconstruction/rmatrix/legacy/unresolved.hpp"
 
 } // legacy namespace

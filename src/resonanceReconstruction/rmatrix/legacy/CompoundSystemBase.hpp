@@ -6,7 +6,9 @@
 
 // other includes
 #include "range/v3/algorithm/for_each.hpp"
+#include "range/v3/algorithm/count_if.hpp"
 #include "range/v3/view/all.hpp"
+#include "range/v3/view/transform.hpp"
 #include "resonanceReconstruction/Quantity.hpp"
 #include "resonanceReconstruction/rmatrix/Map.hpp"
 #include "resonanceReconstruction/rmatrix/ReactionID.hpp"

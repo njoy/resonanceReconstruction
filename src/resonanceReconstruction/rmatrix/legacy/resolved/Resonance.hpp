@@ -1,3 +1,17 @@
+#ifndef NJOY_R2_RMATRIX_LEGACY_RESOLVED_RESONANCE
+#define NJOY_R2_RMATRIX_LEGACY_RESOLVED_RESONANCE
+
+// system includes
+
+// other includes
+#include "resonanceReconstruction/Quantity.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+namespace legacy {
+namespace resolved {
+
 /**
  *  @class
  *  @brief Resolved SLBW or MLBW resonance parameters for a given energy
@@ -117,3 +131,11 @@ public:
              * this->elastic_to_penetrability_;
   }
 };
+
+} // resolved namespace
+} // legacy namespace
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif
