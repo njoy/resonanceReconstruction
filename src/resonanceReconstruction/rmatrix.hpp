@@ -14,6 +14,8 @@
 #include "resonanceReconstruction/rmatrix/ChannelRadiusTable.hpp"
 #include "resonanceReconstruction/rmatrix/ChannelRadii.hpp"
 #include "resonanceReconstruction/rmatrix/Channel.hpp"
+#include "resonanceReconstruction/rmatrix/ParticleChannel.hpp"
+#include "resonanceReconstruction/rmatrix/ParticleChannelData.hpp"
 
 // wave function calculation
 #include "resonanceReconstruction/rmatrix/calculatePenetrability.hpp"
@@ -48,11 +50,6 @@ namespace rmatrix {
 
   // R-Matrix boundary condition
   #include "resonanceReconstruction/rmatrix/LMatrixCalculator.hpp"
-
-  // R-matrix components (independent of formalism)
-  #include "resonanceReconstruction/rmatrix/Channel.hpp"
-  #include "resonanceReconstruction/rmatrix/ParticleChannel.hpp"
-  #include "resonanceReconstruction/rmatrix/ParticleChannelData.hpp"
 
   // resonance information
   #include "resonanceReconstruction/rmatrix/Resonance.hpp"
