@@ -9,7 +9,7 @@
 #include "range/v3/view/cartesian_product.hpp"
 #include "range/v3/view/chunk.hpp"
 #include "range/v3/view/transform.hpp"
-#include "resonanceReconstruction/quantities.hpp"
+#include "resonanceReconstruction/Quantity.hpp"
 
 namespace njoy {
 namespace resonanceReconstruction {

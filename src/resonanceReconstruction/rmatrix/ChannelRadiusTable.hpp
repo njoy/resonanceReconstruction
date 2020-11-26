@@ -5,7 +5,7 @@
 #include <memory>
 
 // other includes
-#include "resonanceReconstruction/quantities.hpp"
+#include "resonanceReconstruction/Quantity.hpp"
 #include "resonanceReconstruction/rmatrix/Table.hpp"
 
 namespace njoy {

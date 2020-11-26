@@ -8,7 +8,7 @@
 #include "Log.hpp"
 #include "range/v3/algorithm/for_each.hpp"
 #include "range/v3/view/all.hpp"
-#include "resonanceReconstruction/quantities.hpp"
+#include "resonanceReconstruction/Quantity.hpp"
 #include "resonanceReconstruction/rmatrix/Resonance.hpp"
 #include "resonanceReconstruction/rmatrix/ChannelID.hpp"
 

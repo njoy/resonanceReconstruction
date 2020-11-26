@@ -1,5 +1,5 @@
 // physical quantities used in resonance reconstruction
-#include "resonanceReconstruction/quantities.hpp"
+#include "resonanceReconstruction/Quantity.hpp"
 
 #ifndef NJOY_RESONANCE_RECONSTRUCTION
 #define NJOY_RESONANCE_RECONSTRUCTION

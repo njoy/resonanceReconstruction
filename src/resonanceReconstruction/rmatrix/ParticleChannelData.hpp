@@ -7,7 +7,7 @@
 
 // other includes
 #include "Log.hpp"
-#include "resonanceReconstruction/quantities.hpp"
+#include "resonanceReconstruction/Quantity.hpp"
 #include "resonanceReconstruction/rmatrix/ParticleChannel.hpp"
 
 namespace njoy {

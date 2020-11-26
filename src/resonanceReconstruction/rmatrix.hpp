@@ -1,4 +1,4 @@
-#include "resonanceReconstruction/quantities.hpp"
+#include "resonanceReconstruction/Quantity.hpp"
 #include "resonanceReconstruction/rmatrix/Formalism.hpp"
 #include "resonanceReconstruction/rmatrix/BoundaryOption.hpp"
 #include "resonanceReconstruction/rmatrix/ChannelType.hpp"
@@ -32,6 +32,9 @@
 #include "resonanceReconstruction/rmatrix/SpinGroup.hpp"
 #include "resonanceReconstruction/rmatrix/CompoundSystem.hpp"
 
+// legacy resonance reconstruction
+#include "resonanceReconstruction/rmatrix/legacy.hpp"
+
 // wave function calculation
 #include "resonanceReconstruction/rmatrix/calculatePenetrability.hpp"
 #include "resonanceReconstruction/rmatrix/calculateShiftFactor.hpp"
@@ -52,9 +55,6 @@
 namespace njoy {
 namespace resonanceReconstruction {
 namespace rmatrix {
-
-  // legacy resonance reconstruction
-  #include "resonanceReconstruction/rmatrix/legacy.hpp"
 
   // make components from ENDF
   #include "resonanceReconstruction/rmatrix/src/makeQuantumNumbers.hpp"

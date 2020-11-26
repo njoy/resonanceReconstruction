@@ -6,7 +6,7 @@
 
 // other includes
 #include "utility/overload.hpp"
-#include "resonanceReconstruction/quantities.hpp"
+#include "resonanceReconstruction/Quantity.hpp"
 #include "resonanceReconstruction/rmatrix/ChannelRadiusTable.hpp"
 
 namespace njoy {

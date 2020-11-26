@@ -9,11 +9,13 @@
 
 namespace njoy {
 namespace resonanceReconstruction {
+namespace rmatrix {
 
   // matrix
   template < typename T > using Matrix = Eigen::Matrix< T, Eigen::Dynamic, Eigen::Dynamic >;
   template < typename T > using DiagonalMatrix = Eigen::DiagonalMatrix< T, Eigen::Dynamic >;
 
+} // rmatrix namespace
 } // resonanceReconstruction namespace
 } // njoy namespace
 

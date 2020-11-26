@@ -4,7 +4,7 @@
 // system includes
 
 // other includes
-#include "resonanceReconstruction/quantities.hpp"
+#include "resonanceReconstruction/Quantity.hpp"
 #include "resonanceReconstruction/rmatrix/BoundaryCondition.hpp"
 #include "resonanceReconstruction/rmatrix/ChannelQuantumNumbers.hpp"
 #include "resonanceReconstruction/rmatrix/ParticlePair.hpp"

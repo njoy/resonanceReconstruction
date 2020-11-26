@@ -8,10 +8,12 @@
 
 namespace njoy {
 namespace resonanceReconstruction {
+namespace rmatrix {
 
   // map
   template < typename Key, typename Value > using Map = std::map< Key, Value >;
 
+} // rmatrix namespace
 } // resonanceReconstruction namespace
 } // njoy namespace
 

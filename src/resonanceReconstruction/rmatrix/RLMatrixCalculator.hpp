@@ -5,8 +5,8 @@
 
 // other includes
 #include "range/v3/view/transform.hpp"
-#include "resonanceReconstruction/quantities.hpp"
-#include "resonanceReconstruction/Matrix.hpp"
+#include "resonanceReconstruction/Quantity.hpp"
+#include "resonanceReconstruction/rmatrix/Matrix.hpp"
 #include "resonanceReconstruction/rmatrix/Formalism.hpp"
 #include "resonanceReconstruction/rmatrix/BoundaryOption.hpp"
 #include "resonanceReconstruction/rmatrix/Channel.hpp"
