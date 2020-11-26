@@ -19,7 +19,7 @@ namespace rmatrix {
  *  For all channel types except for neutron and charged particle channels, the
  *  penetrability is 1.0.
  */
-template < typename Type >
+template < typename ChannelType >
 double calculatePenetrability( const unsigned int, const double, const double ) {
 
   return 1.0;

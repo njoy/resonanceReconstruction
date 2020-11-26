@@ -18,7 +18,7 @@ namespace rmatrix {
  *
  *  For all channel types except for neutron channels, the shift factor is 0.0.
  */
-template < typename Type >
+template < typename ChannelType >
 double calculateShiftFactor( const unsigned int, const double, const double ) {
 
   return 0.0;

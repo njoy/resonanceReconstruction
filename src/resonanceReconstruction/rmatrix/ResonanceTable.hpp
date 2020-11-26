@@ -10,13 +10,11 @@
 #include "range/v3/view/all.hpp"
 #include "resonanceReconstruction/quantities.hpp"
 #include "resonanceReconstruction/rmatrix/Resonance.hpp"
+#include "resonanceReconstruction/rmatrix/ChannelID.hpp"
 
 namespace njoy {
 namespace resonanceReconstruction {
 namespace rmatrix {
-
-// identifiers
-using ChannelID = std::string;
 
 /**
  *  @class

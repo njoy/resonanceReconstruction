@@ -4,17 +4,14 @@
 // system includes
 
 // other includes
-#include "elementary/ParticlePairID.hpp"
 #include "resonanceReconstruction/quantities.hpp"
 #include "resonanceReconstruction/rmatrix/QuantumNumbers.hpp"
 #include "resonanceReconstruction/rmatrix/Particle.hpp"
+#include "resonanceReconstruction/rmatrix/ParticlePairID.hpp"
 
 namespace njoy {
 namespace resonanceReconstruction {
 namespace rmatrix {
-
-// identifiers
-using ParticlePairID = elementary::ParticlePairID;
 
 /**
  *  @class

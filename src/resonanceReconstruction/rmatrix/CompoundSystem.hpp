@@ -16,6 +16,7 @@
 #include "range/v3/view/transform.hpp"
 #include "resonanceReconstruction/quantities.hpp"
 #include "resonanceReconstruction/Map.hpp"
+#include "resonanceReconstruction/rmatrix/ReactionID.hpp"
 #include "resonanceReconstruction/rmatrix/ReactionChannelID.hpp"
 #include "resonanceReconstruction/rmatrix/Formalism.hpp"
 #include "resonanceReconstruction/rmatrix/BoundaryOption.hpp"
@@ -24,7 +25,7 @@
 namespace njoy {
 namespace resonanceReconstruction {
 namespace rmatrix {
-  
+
 /**
  *  @class
  *  @brief The compound nucleus system

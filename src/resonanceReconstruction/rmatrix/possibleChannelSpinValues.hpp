@@ -4,6 +4,7 @@
 // system includes
 
 // other includes
+#include "resonanceReconstruction/rmatrix/QuantumNumbers.hpp"
 
 namespace njoy {
 namespace resonanceReconstruction {

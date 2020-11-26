@@ -19,7 +19,7 @@ namespace rmatrix {
  *  For all channel types except for charged particle channels, the Coulomb
  *  phase shift is 0.0.
  */
-template < typename Type >
+template < typename ChannelType >
 double calculateCoulombPhaseShift( const int, const double ) {
   return 0.0;
 }

@@ -2,6 +2,7 @@
 #define NJOY_R2_RMATRIX_TABLE
 
 // system includes
+#include <vector>
 
 // other includes
 #include "interpolation.hpp"

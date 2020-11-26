@@ -5,16 +5,13 @@
 
 // other includes
 #include "Log.hpp"
-#include "elementary/ParticleID.hpp"
 #include "resonanceReconstruction/quantities.hpp"
+#include "resonanceReconstruction/rmatrix/ParticleID.hpp"
 #include "resonanceReconstruction/rmatrix/QuantumNumbers.hpp"
 
 namespace njoy {
 namespace resonanceReconstruction {
 namespace rmatrix {
-
-// identifiers
-using ParticleID = elementary::ParticleID;
 
 /**
  *  @class
