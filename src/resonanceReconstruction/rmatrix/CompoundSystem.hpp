@@ -1,3 +1,30 @@
+#ifndef NJOY_R2_RMATRIX_COMPOUNDSYSTEM
+#define NJOY_R2_RMATRIX_COMPOUNDSYSTEM
+
+// system includes
+#include <algorithm>
+#include <complex>
+#include <vector>
+
+// other includes
+#include "Log.hpp"
+#include "range/v3/action/sort.hpp"
+#include "range/v3/action/unique.hpp"
+#include "range/v3/algorithm/count_if.hpp"
+#include "range/v3/algorithm/for_each.hpp"
+#include "range/v3/view/all.hpp"
+#include "range/v3/view/transform.hpp"
+#include "resonanceReconstruction/quantities.hpp"
+#include "resonanceReconstruction/Map.hpp"
+#include "resonanceReconstruction/rmatrix/ReactionChannelID.hpp"
+#include "resonanceReconstruction/rmatrix/Formalism.hpp"
+#include "resonanceReconstruction/rmatrix/BoundaryOption.hpp"
+#include "resonanceReconstruction/rmatrix/SpinGroup.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+  
 /**
  *  @class
  *  @brief The compound nucleus system
@@ -24,3 +51,9 @@ public:
   #include "resonanceReconstruction/rmatrix/CompoundSystem/src/evaluateTMatrix.hpp"
   #include "resonanceReconstruction/rmatrix/CompoundSystem/src/grid.hpp"
 };
+
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

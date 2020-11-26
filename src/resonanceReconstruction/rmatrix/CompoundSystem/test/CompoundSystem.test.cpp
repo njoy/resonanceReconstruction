@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
 
 #include "catch.hpp"
-#include "resonanceReconstruction.hpp"
+#include "resonanceReconstruction/rmatrix/CompoundSystem.hpp"
 
 using namespace njoy::resonanceReconstruction;
 
@@ -30,7 +30,6 @@ using ReactionChannelID = rmatrix::ReactionChannelID;
 using ShiftFactor = rmatrix::ShiftFactor;
 using Constant = rmatrix::Constant;
 using ReichMoore = rmatrix::ReichMoore;
-template < typename Key, typename Value > using Map = rmatrix::Map< Key, Value >;
 
 constexpr AtomicMass neutronMass = 1.008664 * daltons;
 constexpr ElectricalCharge elementary = dimwits::constant::elementaryCharge;

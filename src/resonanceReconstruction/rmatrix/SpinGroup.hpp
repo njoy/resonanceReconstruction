@@ -1,3 +1,43 @@
+#ifndef NJOY_R2_RMATRIX_SPINGROUP
+#define NJOY_R2_RMATRIX_SPINGROUP
+
+// system includes
+#include <algorithm>
+#include <complex>
+#include <vector>
+
+// other includes
+#include "Log.hpp"
+#include "range/v3/distance.hpp"
+#include "range/v3/action/sort.hpp"
+#include "range/v3/action/unique.hpp"
+#include "range/v3/algorithm/count_if.hpp"
+#include "range/v3/algorithm/for_each.hpp"
+#include "range/v3/algorithm/find_if.hpp"
+#include "range/v3/iterator_range.hpp"
+#include "range/v3/numeric/accumulate.hpp"
+#include "range/v3/view/all.hpp"
+#include "range/v3/view/concat.hpp"
+#include "range/v3/view/filter.hpp"
+#include "range/v3/view/repeat_n.hpp"
+#include "range/v3/view/single.hpp"
+#include "range/v3/view/transform.hpp"
+#include "range/v3/view/zip_with.hpp"
+#include "range/v3/view/zip.hpp"
+#include "resonanceReconstruction/quantities.hpp"
+#include "resonanceReconstruction/Map.hpp"
+#include "resonanceReconstruction/rmatrix/ReactionChannelID.hpp"
+#include "resonanceReconstruction/rmatrix/Formalism.hpp"
+#include "resonanceReconstruction/rmatrix/BoundaryOption.hpp"
+#include "resonanceReconstruction/rmatrix/ParticleChannel.hpp"
+#include "resonanceReconstruction/rmatrix/ParticleChannelData.hpp"
+#include "resonanceReconstruction/rmatrix/ResonanceTable.hpp"
+#include "resonanceReconstruction/rmatrix/RLMatrixCalculator.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+
 /**
  *  @class
  *  @brief A spin group corresponding to a Jpi quantum number set
@@ -99,3 +139,9 @@ public:
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/evaluateTMatrix.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/grid.hpp"
 };
+
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

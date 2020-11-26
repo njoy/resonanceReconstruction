@@ -10,6 +10,7 @@
 #include "resonanceReconstruction/rmatrix/ParticlePair.hpp"
 #include "resonanceReconstruction/rmatrix/ChannelRadii.hpp"
 #include "resonanceReconstruction/rmatrix/ChannelType.hpp"
+#include "resonanceReconstruction/rmatrix/ChannelID.hpp"
 #include "resonanceReconstruction/rmatrix/calculatePenetrability.hpp"
 #include "resonanceReconstruction/rmatrix/calculateShiftFactor.hpp"
 #include "resonanceReconstruction/rmatrix/calculatePhaseShift.hpp"
@@ -21,7 +22,6 @@ namespace rmatrix {
 
 // identifiers
 using ReactionID = elementary::ReactionID;
-using ChannelID = std::string;
 
 // boundary condition
 using BoundaryCondition = double;

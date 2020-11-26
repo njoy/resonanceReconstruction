@@ -12,11 +12,13 @@
 #include "resonanceReconstruction/rmatrix/ChannelQuantumNumbers.hpp"
 #include "resonanceReconstruction/rmatrix/Particle.hpp"
 #include "resonanceReconstruction/rmatrix/ParticlePair.hpp"
+#include "resonanceReconstruction/rmatrix/ChannelID.hpp"
 #include "resonanceReconstruction/rmatrix/ChannelRadiusTable.hpp"
 #include "resonanceReconstruction/rmatrix/ChannelRadii.hpp"
 #include "resonanceReconstruction/rmatrix/Channel.hpp"
 #include "resonanceReconstruction/rmatrix/ParticleChannel.hpp"
 #include "resonanceReconstruction/rmatrix/ParticleChannelData.hpp"
+#include "resonanceReconstruction/rmatrix/ReactionChannelID.hpp"
 
 // resonance information
 #include "resonanceReconstruction/rmatrix/Resonance.hpp"
@@ -24,6 +26,11 @@
 
 // option dependent calculators
 #include "resonanceReconstruction/rmatrix/LMatrixCalculator.hpp"
+#include "resonanceReconstruction/rmatrix/RLMatrixCalculator.hpp"
+
+// spin group and compound system
+#include "resonanceReconstruction/rmatrix/SpinGroup.hpp"
+#include "resonanceReconstruction/rmatrix/CompoundSystem.hpp"
 
 // wave function calculation
 #include "resonanceReconstruction/rmatrix/calculatePenetrability.hpp"
@@ -45,19 +52,6 @@
 namespace njoy {
 namespace resonanceReconstruction {
 namespace rmatrix {
-
-  // identifiers
-  using ReactionChannelID = std::string;
-
-  // map
-  template < typename Key, typename Value > using Map = std::map< Key, Value >;
-
-  // formalism calculators
-  #include "resonanceReconstruction/rmatrix/RLMatrixCalculator.hpp"
-
-  // spin group and compound system
-  #include "resonanceReconstruction/rmatrix/SpinGroup.hpp"
-  #include "resonanceReconstruction/rmatrix/CompoundSystem.hpp"
 
   // legacy resonance reconstruction
   #include "resonanceReconstruction/rmatrix/legacy.hpp"

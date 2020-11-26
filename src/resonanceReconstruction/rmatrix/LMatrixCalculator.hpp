@@ -2,7 +2,6 @@
 #define NJOY_R2_RMATRIX_LMATRIXCALCULATOR
 
 // system includes
-#include <variant>
 #include <complex>
 
 // other includes
