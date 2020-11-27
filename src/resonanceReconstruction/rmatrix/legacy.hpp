@@ -8,25 +8,4 @@
 
 // legacy resolved and unresolved resonance reconstruction
 #include "resonanceReconstruction/rmatrix/legacy/resolved.hpp"
-
-#ifndef NJOY_R2_RMATRIX_LEGACY
-#define NJOY_R2_RMATRIX_LEGACY
-
-// system includes
-
-// other includes
-
-namespace njoy {
-namespace resonanceReconstruction {
-namespace rmatrix {
-namespace legacy {
-
-  // legacy resolved and unresolved resonance reconstruction
-  #include "resonanceReconstruction/rmatrix/legacy/unresolved.hpp"
-
-} // legacy namespace
-} // rmatrix namespace
-} // resonanceReconstruction namespace
-} // njoy namespace
-
-#endif
+#include "resonanceReconstruction/rmatrix/legacy/unresolved.hpp"

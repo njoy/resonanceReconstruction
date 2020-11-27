@@ -1,3 +1,19 @@
+#ifndef NJOY_R2_RMATRIX_LEGACY_UNRESOLVED_CALCULATEFLUCTUATIONINTEGRALS
+#define NJOY_R2_RMATRIX_LEGACY_UNRESOLVED_CALCULATEFLUCTUATIONINTEGRALS
+
+// system includes
+
+// other includes
+#include "resonanceReconstruction/rmatrix/legacy/unresolved/Degrees.hpp"
+#include "resonanceReconstruction/rmatrix/legacy/unresolved/FluctuationIntegrals.hpp"
+#include "resonanceReconstruction/rmatrix/legacy/unresolved/Widths.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+namespace legacy {
+namespace unresolved {
+
 /**
  *  @brief Calculate the fluctuation integrals for the legacy unresolved
  *         resonance
@@ -10,8 +26,8 @@
  *
  *  @return the fluctuation integral data
  */
-FluctuationIntegrals calculateFluctuationIntegrals( const Widths& widths,
-                                                    const Degrees& degrees ) {
+inline FluctuationIntegrals
+calculateFluctuationIntegrals( const Widths& widths, const Degrees& degrees ) {
 
   static constexpr std::array< std::array< double, 4 >, 10 > w = {{
 
@@ -126,3 +142,11 @@ FluctuationIntegrals calculateFluctuationIntegrals( const Widths& widths,
 
   return result;
 }
+
+} // unresolved namespace
+} // legacy namespace
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

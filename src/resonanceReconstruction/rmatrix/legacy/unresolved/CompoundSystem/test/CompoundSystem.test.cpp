@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
 
 #include "catch.hpp"
-#include "resonanceReconstruction.hpp"
+#include "resonanceReconstruction/rmatrix/legacy/unresolved/CompoundSystem.hpp"
 
 using namespace njoy::resonanceReconstruction;
 
@@ -20,7 +20,6 @@ using ResonanceTable = rmatrix::legacy::unresolved::ResonanceTable;
 using SpinGroup = rmatrix::legacy::unresolved::SpinGroup;
 using CompoundSystem = rmatrix::legacy::unresolved::CompoundSystem;
 using ReactionID = rmatrix::ReactionID;
-using ReactionChannelID = rmatrix::ReactionChannelID;
 template < typename Key, typename Value > using Map = rmatrix::Map< Key, Value >;
 
 constexpr AtomicMass neutronMass = 1.008664 * daltons;

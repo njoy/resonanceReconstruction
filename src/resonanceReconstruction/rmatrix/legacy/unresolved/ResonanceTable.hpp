@@ -1,3 +1,23 @@
+#ifndef NJOY_R2_RMATRIX_LEGACY_UNRESOLVED_RESONANCETABLE
+#define NJOY_R2_RMATRIX_LEGACY_UNRESOLVED_RESONANCETABLE
+
+// system includes
+#include <vector>
+
+// other includes
+#include "Log.hpp"
+#include "resonanceReconstruction/Quantity.hpp"
+#include "resonanceReconstruction/rmatrix/Table.hpp"
+#include "resonanceReconstruction/rmatrix/legacy/ResonanceTableBase.hpp"
+#include "resonanceReconstruction/rmatrix/legacy/unresolved/Degrees.hpp"
+#include "resonanceReconstruction/rmatrix/legacy/unresolved/Resonance.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+namespace legacy {
+namespace unresolved {
+
 /**
  *  @class
  *  @brief Unresolved resonance parameters for a specific l,J value
@@ -50,3 +70,11 @@ public:
   /* constructor */
   #include "resonanceReconstruction/rmatrix/legacy/unresolved/ResonanceTable/src/ctor.hpp"
 };
+
+} // unresolved namespace
+} // legacy namespace
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif
