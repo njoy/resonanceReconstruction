@@ -1,3 +1,34 @@
+#ifndef NJOY_R2_RMATRIX_RECONSTRUCTOR
+#define NJOY_R2_RMATRIX_RECONSTRUCTOR
+
+// system includes
+#include <variant>
+#include <vector>
+
+// other includes
+#include "range/v3/view/filter.hpp"
+#include "resonanceReconstruction/Quantity.hpp"
+#include "resonanceReconstruction/rmatrix/Map.hpp"
+#include "resonanceReconstruction/rmatrix/ReactionID.hpp"
+#include "resonanceReconstruction/rmatrix/Formalism.hpp"
+#include "resonanceReconstruction/rmatrix/BoundaryOption.hpp"
+#include "resonanceReconstruction/rmatrix/CompoundSystem.hpp"
+#include "resonanceReconstruction/rmatrix/legacy/resolved/CompoundSystem.hpp"
+#include "resonanceReconstruction/rmatrix/legacy/unresolved/CompoundSystem.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+
+using CompoundSystemVariant =
+    std::variant< legacy::resolved::CompoundSystem< SingleLevelBreitWigner >,
+                  legacy::resolved::CompoundSystem< MultiLevelBreitWigner >,
+                  CompoundSystem< ReichMoore, ShiftFactor >,
+                  CompoundSystem< ReichMoore, Constant >,
+                  //CompoundSystem< GeneralRMatrix, ShiftFactor >,
+                  //CompoundSystem< GeneralRMatrix, Constant >,
+                  legacy::unresolved::CompoundSystem >;
+
 /**
  *  @class
  *  @brief Class used to reconstruct cross sections from ENDF resonances
@@ -82,3 +113,9 @@ public:
     return result;
   }
 };
+
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

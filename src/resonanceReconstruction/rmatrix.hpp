@@ -1,11 +1,10 @@
+// physical quantities
 #include "resonanceReconstruction/Quantity.hpp"
+
+// formalism options, boundary condition options and channel types
 #include "resonanceReconstruction/rmatrix/Formalism.hpp"
 #include "resonanceReconstruction/rmatrix/BoundaryOption.hpp"
 #include "resonanceReconstruction/rmatrix/ChannelType.hpp"
-
-// utility code
-#include "resonanceReconstruction/rmatrix/Table.hpp"
-#include "utility/overload.hpp"
 
 // R-matrix components (independent of formalism)
 #include "resonanceReconstruction/rmatrix/QuantumNumbers.hpp"
@@ -35,6 +34,10 @@
 // legacy resonance reconstruction
 #include "resonanceReconstruction/rmatrix/legacy.hpp"
 
+// the reconstructor object anf the fromENDF function
+#include "resonanceReconstruction/rmatrix/Reconstructor.hpp"
+#include "resonanceReconstruction/rmatrix/fromENDF.hpp"
+
 // wave function calculation
 #include "resonanceReconstruction/rmatrix/calculatePenetrability.hpp"
 #include "resonanceReconstruction/rmatrix/calculateShiftFactor.hpp"
@@ -44,48 +47,3 @@
 // auxiliary functions for the quantum numbers
 #include "resonanceReconstruction/rmatrix/possibleChannelSpinValues.hpp"
 #include "resonanceReconstruction/rmatrix/possibleChannelTotalAngularMomentumValues.hpp"
-
-#ifndef NJOY_R2_RMATRIX
-#define NJOY_R2_RMATRIX
-
-// system includes
-
-// other includes
-
-namespace njoy {
-namespace resonanceReconstruction {
-namespace rmatrix {
-
-  // make components from ENDF
-  #include "resonanceReconstruction/rmatrix/src/makeQuantumNumbers.hpp"
-  #include "resonanceReconstruction/rmatrix/src/makeParticlePairs.hpp"
-  #include "resonanceReconstruction/rmatrix/src/makeParticleChannels.hpp"
-  #include "resonanceReconstruction/rmatrix/src/makeParticleChannelData.hpp"
-  #include "resonanceReconstruction/rmatrix/src/makeChannelRadiusTable.hpp"
-  #include "resonanceReconstruction/rmatrix/src/makeChannelRadii.hpp"
-  #include "resonanceReconstruction/rmatrix/src/makeCompoundSystem.hpp"
-  #include "resonanceReconstruction/rmatrix/src/makeReichMooreChannelData.hpp"
-  #include "resonanceReconstruction/rmatrix/src/makeReichMooreCompoundSystem.hpp"
-  #include "resonanceReconstruction/rmatrix/src/makeLegacyBreitWignerSpinGroups.hpp"
-  #include "resonanceReconstruction/rmatrix/src/makeLegacyBreitWignerCompoundSystem.hpp"
-  #include "resonanceReconstruction/rmatrix/src/makeLegacyUnresolvedResonanceTable.hpp"
-  #include "resonanceReconstruction/rmatrix/src/makeLegacyUnresolvedSpinGroups.hpp"
-  #include "resonanceReconstruction/rmatrix/src/makeLegacyUnresolvedCompoundSystem.hpp"
-
-  // make the compound system variant from ENDF
-  using CompoundSystemVariant =
-      std::variant< legacy::resolved::CompoundSystem< SingleLevelBreitWigner >,
-                    legacy::resolved::CompoundSystem< MultiLevelBreitWigner >,
-                    CompoundSystem< ReichMoore, ShiftFactor >,
-                    CompoundSystem< ReichMoore, Constant >,
-                    //CompoundSystem< GeneralRMatrix, ShiftFactor >,
-                    //CompoundSystem< GeneralRMatrix, Constant >,
-                    legacy::unresolved::CompoundSystem >;
-  #include "resonanceReconstruction/rmatrix/Reconstructor.hpp"
-  #include "resonanceReconstruction/rmatrix/src/fromENDF.hpp"
-
-} // rmatrix namespace
-} // resonanceReconstruction namespace
-} // njoy namespace
-
-#endif
