@@ -10,6 +10,7 @@
 #include "resonanceReconstruction/rmatrix/Formalism.hpp"
 #include "resonanceReconstruction/rmatrix/BoundaryOption.hpp"
 #include "resonanceReconstruction/rmatrix/Channel.hpp"
+#include "resonanceReconstruction/rmatrix/ParticleChannel.hpp"
 #include "resonanceReconstruction/rmatrix/ResonanceTable.hpp"
 #include "resonanceReconstruction/rmatrix/LMatrixCalculator.hpp"
 

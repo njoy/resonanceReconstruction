@@ -1,0 +1,3 @@
+add_executable( resonanceReconstruction.rmatrix.RLMatrixCalculator.ReichMoore.test ReichMoore.test.cpp )
+target_link_libraries( resonanceReconstruction.rmatrix.RLMatrixCalculator.ReichMoore.test PUBLIC resonanceReconstruction )
+add_test( NAME resonanceReconstruction.rmatrix.RLMatrixCalculator.ReichMoore COMMAND resonanceReconstruction.rmatrix.RLMatrixCalculator.ReichMoore.test )
