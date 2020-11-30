@@ -11,9 +11,9 @@ FetchContent_Declare( ENDFtk
     GIT_SHALLOW     TRUE
     )
 
-FetchContent_Declare( eigen-adapter
-    GIT_REPOSITORY  https://github.com/njoy/eigen-adapter
-    GIT_TAG         origin/master
+FetchContent_Declare( eigen
+    GIT_REPOSITORY  https://gitlab.com/libeigen/eigen.git
+    GIT_TAG         3.3.8
     GIT_SHALLOW     TRUE
     )
 
@@ -41,7 +41,7 @@ FetchContent_Declare( elementary
 
 FetchContent_MakeAvailable(
     ENDFtk
-    eigen-adapter
+    eigen
     interpolation
     dimwits
     elementary

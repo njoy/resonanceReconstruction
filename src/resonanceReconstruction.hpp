@@ -19,8 +19,8 @@
 #include "range/v3/view/transform.hpp"
 
 // Eigen components
-#include <Eigen/Dense>
-#include <Eigen/LU>
+#include "Eigen/Dense"
+#include "Eigen/LU"
 
 namespace njoy {
 namespace resonanceReconstruction {

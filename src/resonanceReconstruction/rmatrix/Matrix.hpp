@@ -4,8 +4,8 @@
 // system includes
 
 // other includes
-#include <Eigen/Core>
-#include <Eigen/LU>
+#include "Eigen/Core"
+#include "Eigen/LU"
 
 namespace njoy {
 namespace resonanceReconstruction {
