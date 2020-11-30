@@ -1,7 +1,8 @@
 #define CATCH_CONFIG_MAIN
 
 #include "catch.hpp"
-#include "resonanceReconstruction.hpp"
+#include "resonanceReconstruction/breitWigner.hpp"
+#include "resonanceReconstruction/reichMoore.hpp"
 
 #include "range/v3/view/cartesian_product.hpp"
 #include "range/v3/view/linear_distribute.hpp"

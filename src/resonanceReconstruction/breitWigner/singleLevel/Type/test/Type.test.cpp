@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
 
 #include "catch.hpp"
-#include "resonanceReconstruction.hpp"
+#include "resonanceReconstruction/breitWigner.hpp"
 
 using namespace njoy::resonanceReconstruction;
 using namespace dimwits;

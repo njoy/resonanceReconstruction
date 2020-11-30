@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
 
 #include "catch.hpp"
-#include "resonanceReconstruction.hpp"
+#include "resonanceReconstruction/reichMoore.hpp"
 
 #include "header-utilities/slurpFileToMemory.hpp"
 #include "ENDFtk/tree/Tape.hpp"
