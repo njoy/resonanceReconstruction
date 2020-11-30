@@ -16,6 +16,7 @@ FetchContent_Declare( eigen
     GIT_TAG         3.3.8
     GIT_SHALLOW     TRUE
     )
+set( BUILD_TESTING CACHE BOOL OFF )
 
 FetchContent_Declare( interpolation
     GIT_REPOSITORY  https://github.com/njoy/interpolation
