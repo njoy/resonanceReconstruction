@@ -26,4 +26,11 @@ struct CrossSection {
              this->capture - other.capture,
              this->fission - other.fission };
   }
+
+  template< class ScalarValue >
+  CrossSection operator*( const ScalarValue& value ) const {
+    return { value * this->elastic,
+             value * this->capture,
+             value * this->fission };
+  }
 };
