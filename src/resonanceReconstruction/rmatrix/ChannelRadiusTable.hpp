@@ -1,3 +1,17 @@
+#ifndef NJOY_R2_RMATRIX_CHANNELRADIUSTABLE
+#define NJOY_R2_RMATRIX_CHANNELRADIUSTABLE
+
+// system includes
+#include <memory>
+
+// other includes
+#include "resonanceReconstruction/Quantity.hpp"
+#include "resonanceReconstruction/rmatrix/Table.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+
 /**
  *  @class
  *  @brief Energy dependent channel radius table
@@ -32,3 +46,9 @@ public:
     return this->table_->operator()( energy );
   }
 };
+
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

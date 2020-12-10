@@ -1,3 +1,18 @@
+#ifndef NJOY_R2_RMATRIX_CHANNELRADII
+#define NJOY_R2_RMATRIX_CHANNELRADII
+
+// system includes
+#include <variant>
+
+// other includes
+#include "utility/overload.hpp"
+#include "resonanceReconstruction/Quantity.hpp"
+#include "resonanceReconstruction/rmatrix/ChannelRadiusTable.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+
 /**
  *  @class
  *  @brief Channel radii used in wave function calculations
@@ -34,10 +49,10 @@ public:
   ChannelRadius penetrabilityRadius( const Energy& energy ) const {
 
     return std::visit(
-             overload{ [&] ( const ChannelRadius& radius )
-                           { return radius; },
-                       [&] ( const ChannelRadiusTable& table )
-                           { return table( energy ); } },
+             njoy::utility::overload{ [&] ( const ChannelRadius& radius )
+                                          { return radius; },
+                                      [&] ( const ChannelRadiusTable& table )
+                                          { return table( energy ); } },
              this->penetrability_ );
   }
 
@@ -49,10 +64,10 @@ public:
   ChannelRadius shiftFactorRadius( const Energy& energy ) const {
 
     return std::visit(
-             overload{ [&] ( const ChannelRadius& radius )
-                           { return radius; },
-                       [&] ( const ChannelRadiusTable& table )
-                           { return table( energy ); } },
+             njoy::utility::overload{ [&] ( const ChannelRadius& radius )
+                                          { return radius; },
+                                      [&] ( const ChannelRadiusTable& table )
+                                          { return table( energy ); } },
              this->shiftFactor_ );
   }
 
@@ -64,10 +79,16 @@ public:
   ChannelRadius phaseShiftRadius( const Energy& energy ) const {
 
     return std::visit(
-             overload{ [&] ( const ChannelRadius& radius )
-                           { return radius; },
-                       [&] ( const ChannelRadiusTable& table )
-                           { return table( energy ); } },
+             njoy::utility::overload{ [&] ( const ChannelRadius& radius )
+                                          { return radius; },
+                                      [&] ( const ChannelRadiusTable& table )
+                                          { return table( energy ); } },
              this->phaseShift_ );
   }
 };
+
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

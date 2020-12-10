@@ -1,3 +1,17 @@
+#ifndef NJOY_R2_RMATRIX_LEGACY_UNRESOLVED_RESONANCE
+#define NJOY_R2_RMATRIX_LEGACY_UNRESOLVED_RESONANCE
+
+// system includes
+
+// other includes
+#include "resonanceReconstruction/Quantity.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+namespace legacy {
+namespace unresolved {
+
 /**
  *  @class
  *  @brief Unresolved resonance parameters for a given energy
@@ -53,3 +67,11 @@ public:
    */
   const Width& competition() const { return this->competition_; }
 };
+
+} // unresolved namespace
+} // legacy namespace
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

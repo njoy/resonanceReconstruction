@@ -1,3 +1,17 @@
+#ifndef NJOY_R2_RMATRIX_LEGACY_RESONANCETABLEBASE
+#define NJOY_R2_RMATRIX_LEGACY_RESONANCETABLEBASE
+
+// system includes
+#include <vector>
+
+// other includes
+#include "range/v3/view/transform.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+namespace legacy {
+
 /**
  *  @class
  *  @brief Base interface for a table of resonances for a specific l,J value
@@ -44,3 +58,10 @@ public:
                                            { return resonance.energy(); } );
   }
 };
+
+} // legacy namespace
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

@@ -1,3 +1,26 @@
+#ifndef NJOY_R2_RMATRIX_CHANNEL
+#define NJOY_R2_RMATRIX_CHANNEL
+
+// system includes
+
+// other includes
+#include "resonanceReconstruction/Quantity.hpp"
+#include "resonanceReconstruction/rmatrix/BoundaryCondition.hpp"
+#include "resonanceReconstruction/rmatrix/ChannelQuantumNumbers.hpp"
+#include "resonanceReconstruction/rmatrix/ParticlePair.hpp"
+#include "resonanceReconstruction/rmatrix/ChannelRadii.hpp"
+#include "resonanceReconstruction/rmatrix/ChannelType.hpp"
+#include "resonanceReconstruction/rmatrix/ChannelID.hpp"
+#include "resonanceReconstruction/rmatrix/ReactionID.hpp"
+#include "resonanceReconstruction/rmatrix/calculatePenetrability.hpp"
+#include "resonanceReconstruction/rmatrix/calculateShiftFactor.hpp"
+#include "resonanceReconstruction/rmatrix/calculatePhaseShift.hpp"
+#include "resonanceReconstruction/rmatrix/calculateCoulombPhaseShift.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+
 /**
  *  @class
  *  @brief A reaction channel
@@ -106,3 +129,9 @@ public:
   #include "resonanceReconstruction/rmatrix/Channel/src/phaseShift.hpp"
   #include "resonanceReconstruction/rmatrix/Channel/src/coulombPhaseShift.hpp"
 };
+
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

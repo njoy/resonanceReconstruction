@@ -20,10 +20,11 @@ FetchContent_Declare( disco
     GIT_TAG         a1a7ddb2c0f69465524d8640ee29988b714a881e
     )
 
-FetchContent_Declare( eigen-adapter
-    GIT_REPOSITORY  https://github.com/njoy/eigen-adapter
-    GIT_TAG         9a05ff66b5afb6c493d6aeca6926ebb07e47013b
+FetchContent_Declare( eigen
+    GIT_REPOSITORY  https://gitlab.com/libeigen/eigen.git
+    GIT_TAG         3.3.8
     )
+set( BUILD_TESTING CACHE BOOL OFF )
 
 FetchContent_Declare( elementary
     GIT_REPOSITORY  https://github.com/njoy/elementary
@@ -74,7 +75,7 @@ FetchContent_MakeAvailable(
     catch-adapter
     dimwits
     disco
-    eigen-adapter
+    eigen
     elementary
     ENDFtk
     hana-adapter

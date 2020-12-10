@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
 
 #include "catch.hpp"
-#include "resonanceReconstruction.hpp"
+#include "resonanceReconstruction/rmatrix/LMatrixCalculator.hpp"
 
 using namespace njoy::resonanceReconstruction;
 
@@ -86,19 +86,19 @@ SCENARIO( "LMatrixCalculator< Constant >" ) {
       CHECK( 0.0 == calculator.matrix().diagonal()[0] );
       CHECK( 0.0 == calculator.matrix().diagonal()[1] );
       CHECK( 0.0 == calculator.matrix().diagonal()[2] );
-    }
+    } // THEN
 
     THEN( "L = S - B + iP can be calculated" ) {
 
       LMatrixCalculator< Constant > calculator( channels.size() );
 
-      const auto matrix = calculator( energy, penetrabilities, channels );
+      decltype(auto) matrix = calculator( energy, penetrabilities, channels );
 
       CHECK( 3 == matrix.diagonal().size() );
       CHECK( std::complex< double >( 3., 1. ) == matrix.diagonal()[0] );
       CHECK( std::complex< double >( 2., 2. ) == matrix.diagonal()[1] );
       CHECK( std::complex< double >( 1., 3. ) == matrix.diagonal()[2] );
-    }
+    } // THEN
   } // GIVEN
 } // SCENARIO
 

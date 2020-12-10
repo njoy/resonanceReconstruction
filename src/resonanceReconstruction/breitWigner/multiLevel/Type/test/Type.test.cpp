@@ -5,7 +5,7 @@
 #include <tuple>
 
 #include "catch.hpp"
-#include "resonanceReconstruction.hpp"
+#include "resonanceReconstruction/breitWigner.hpp"
 
 #include "header-utilities/slurpFileToMemory.hpp"
 #include "ENDFtk/tree/Tape.hpp"

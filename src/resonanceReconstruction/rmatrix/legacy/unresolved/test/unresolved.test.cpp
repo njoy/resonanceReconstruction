@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
 
 #include "catch.hpp"
-#include "resonanceReconstruction.hpp"
+#include "resonanceReconstruction/rmatrix/legacy/unresolved.hpp"
 
 using namespace njoy::resonanceReconstruction;
 using namespace njoy::resonanceReconstruction::rmatrix::legacy::unresolved;

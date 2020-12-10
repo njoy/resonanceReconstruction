@@ -1,3 +1,19 @@
+#ifndef NJOY_R2_RMATRIX_PARTICLECHANNELDATA
+#define NJOY_R2_RMATRIX_PARTICLECHANNELDATA
+
+// system includes
+#include <variant>
+#include <vector>
+
+// other includes
+#include "Log.hpp"
+#include "resonanceReconstruction/Quantity.hpp"
+#include "resonanceReconstruction/rmatrix/ParticleChannel.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+
 /**
  *  @class
  *  @brief Single particle channel data
@@ -127,3 +143,9 @@ public:
    */
   auto isEliminatedChannel() const { return this->eliminated_; }
 };
+
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

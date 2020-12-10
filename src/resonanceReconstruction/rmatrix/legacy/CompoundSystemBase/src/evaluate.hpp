@@ -32,5 +32,5 @@ void evaluate( const Energy& energy,
     value += ( 2. * l + 1. ) * sin2phi;
   }
 
-  result[ ReactionID( incident, target, elementary::ReactionType( "elastic" ) ) ] += factor * value;
+  result[ ReactionID( incident, target, ReactionType( "elastic" ) ) ] += factor * value;
 }

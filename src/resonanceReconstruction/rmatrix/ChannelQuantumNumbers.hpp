@@ -1,3 +1,15 @@
+#ifndef NJOY_R2_RMATRIX_CHANNELQUANTUMNUMBERS
+#define NJOY_R2_RMATRIX_CHANNELQUANTUMNUMBERS
+
+// system includes
+
+// other includes
+#include "resonanceReconstruction/rmatrix/QuantumNumbers.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+
 /**
  *  @class
  *  @brief The l,S,Jpi quantum numbers of a reaction channel
@@ -41,3 +53,9 @@ public:
 
   #include "resonanceReconstruction/rmatrix/ChannelQuantumNumbers/src/toString.hpp"
 };
+
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

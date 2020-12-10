@@ -1,3 +1,39 @@
+#ifndef NJOY_R2_RMATRIX_FROMENDF
+#define NJOY_R2_RMATRIX_FROMENDF
+
+// system includes
+
+// other includes
+#include "resonanceReconstruction/endf.hpp"
+#include "resonanceReconstruction/Quantity.hpp"
+#include "resonanceReconstruction/rmatrix/Formalism.hpp"
+#include "resonanceReconstruction/rmatrix/BoundaryOption.hpp"
+#include "resonanceReconstruction/rmatrix/CompoundSystem.hpp"
+#include "resonanceReconstruction/rmatrix/legacy/resolved/CompoundSystem.hpp"
+#include "resonanceReconstruction/rmatrix/legacy/unresolved/CompoundSystem.hpp"
+#include "resonanceReconstruction/rmatrix/possibleChannelSpinValues.hpp"
+#include "resonanceReconstruction/rmatrix/possibleChannelTotalAngularMomentumValues.hpp"
+#include "resonanceReconstruction/rmatrix/Reconstructor.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+
+#include "resonanceReconstruction/rmatrix/src/makeQuantumNumbers.hpp"
+#include "resonanceReconstruction/rmatrix/src/makeParticlePairs.hpp"
+#include "resonanceReconstruction/rmatrix/src/makeParticleChannels.hpp"
+#include "resonanceReconstruction/rmatrix/src/makeParticleChannelData.hpp"
+#include "resonanceReconstruction/rmatrix/src/makeChannelRadiusTable.hpp"
+#include "resonanceReconstruction/rmatrix/src/makeChannelRadii.hpp"
+#include "resonanceReconstruction/rmatrix/src/makeCompoundSystem.hpp"
+#include "resonanceReconstruction/rmatrix/src/makeReichMooreChannelData.hpp"
+#include "resonanceReconstruction/rmatrix/src/makeReichMooreCompoundSystem.hpp"
+#include "resonanceReconstruction/rmatrix/src/makeLegacyBreitWignerSpinGroups.hpp"
+#include "resonanceReconstruction/rmatrix/src/makeLegacyBreitWignerCompoundSystem.hpp"
+#include "resonanceReconstruction/rmatrix/src/makeLegacyUnresolvedResonanceTable.hpp"
+#include "resonanceReconstruction/rmatrix/src/makeLegacyUnresolvedSpinGroups.hpp"
+#include "resonanceReconstruction/rmatrix/src/makeLegacyUnresolvedCompoundSystem.hpp"
+
 Reconstructor
 fromENDF( const endf::ResonanceRange& endfResonanceRange,
           const AtomicMass& neutronMass,
@@ -184,3 +220,9 @@ fromENDF( const endf::ResonanceRange& endfResonanceRange,
     }
   }
 }
+
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif
