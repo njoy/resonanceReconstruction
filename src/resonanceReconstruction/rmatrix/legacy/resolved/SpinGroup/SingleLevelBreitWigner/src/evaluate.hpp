@@ -7,13 +7,9 @@
 void evaluate( const Energy& energy,
                Map< ReactionID, CrossSection >& result ) {
 
-  // data we need: k, P, phi, rho, g_J
-  const auto channel = this->incidentChannel();
+  // data we need
+  decltype(auto) channel = this->incidentChannel();
   const auto waveNumber = channel.waveNumber( energy );
-  const auto qx = this->QX();
-  const auto p = channel.penetrability( energy );
-  const auto q = qx.value != 0. ? channel.penetrability( energy - qx ) : p;
-  const auto s = channel.shiftFactor( energy );
   const auto phaseShift = channel.phaseShift( energy );
   const auto spinFactor = channel.statisticalSpinFactor();
   const auto sinphi = std::sin( phaseShift );

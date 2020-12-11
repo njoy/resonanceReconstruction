@@ -8,9 +8,7 @@ void evaluate( const Energy& energy,
                Map< ReactionID, CrossSection >& result ) {
 
   // data we need: k, P, phi, rho, g_J
-  const auto channel = this->incidentChannel();
-  const auto incident = channel.particlePair().particle().particleID();
-  const auto target = channel.particlePair().residual().particleID();
+  decltype(auto) channel = this->incidentChannel();
   const auto waveNumber = channel.waveNumber( energy );
   const auto penetrability = channel.penetrability( energy );
   const auto phaseShift = channel.phaseShift( energy );
