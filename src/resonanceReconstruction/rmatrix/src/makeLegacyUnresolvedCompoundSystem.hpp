@@ -1,5 +1,5 @@
 template < typename Unresolved >
-std::vector< double > getEnergies( const Unresolved& unresolved,
+std::vector< double > getEnergies( const Unresolved&,
                                    double lower, double upper ) {
 
   return { lower, upper };
@@ -8,7 +8,7 @@ std::vector< double > getEnergies( const Unresolved& unresolved,
 template <> std::vector< double >
 getEnergies(
   const endf::UnresolvedEnergyDependentFissionWidths& unresolved,
-  double lower, double upper ) {
+  double, double ) {
 
   return unresolved.energies();
 }
@@ -18,7 +18,6 @@ legacy::unresolved::CompoundSystem
 makeLegacyUnresolvedCompoundSystem(
     const Unresolved& unresolved,
     const AtomicMass& neutronMass,
-    const ElectricalCharge& elementaryCharge,
     const ParticleID& incident,
     const ParticleID& target,
     const std::optional< ChannelRadiusTable >& nro,
