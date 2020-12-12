@@ -15,18 +15,16 @@ operator()( const Energy& energy,
             const Penetrabilities& penetrabilities,
             const Channels& channels ) {
 
-  // range with the R-matrices for each resonance
-  auto rmatrices = table.resonances()
-                     | ranges::view::transform(
-                         [&] ( const auto& resonance )
-                             { return resonance.rmatrix( energy ); } );
-
   // accumulate the rmatrix
   const unsigned int size = table.numberChannels();
   this->rmatrix_ = Matrix< std::complex< double > >::Zero( size, size );
-  for ( const auto& rmatrix : rmatrices ) {
+  for ( const auto& resonance : table.resonances() ) {
+
+    decltype(auto) rmatrix = resonance.rmatrix( energy );
     for ( unsigned int c = 0; c < size; ++c ) {
+
       for ( unsigned int cprime = 0; cprime < size; ++cprime ) {
+        
         this->rmatrix_( c, cprime ) += rmatrix[c][cprime];
       }
     }
