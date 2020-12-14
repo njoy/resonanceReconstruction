@@ -16,7 +16,7 @@ SCENARIO("channel radius"){
     | ranges::view::transform
       ( []( double d ){ return channelRadius(d)( 1.0 * electronVolts ).value; } );
 
-  for ( const auto& pair : ranges::view::zip( trial, reference ) ){
+  for ( const auto pair : ranges::view::zip( trial, reference ) ){
     const auto trial = std::get<0>(pair);
     const auto reference = std::get<1>(pair);
     REQUIRE( trial == Approx( reference ) );
