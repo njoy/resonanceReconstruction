@@ -62,8 +62,8 @@ consolidateChannelData( const std::vector< ParticleChannelData >& channels ) {
       auto energies = eliminated | ranges::view::transform( getEnergies );
       auto widths = eliminated | ranges::view::transform( getWidths );
       consolidated.emplace_back( channel,
-                                 std::move( energies | ranges::view::join ),
-                                 std::move( widths | ranges::view::join ),
+                                 energies | ranges::view::join,
+                                 widths | ranges::view::join,
                                  true );
     }
   }

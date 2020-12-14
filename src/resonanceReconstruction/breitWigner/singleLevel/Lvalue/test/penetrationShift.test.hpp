@@ -29,7 +29,7 @@ SCENARIO("penetrationShift"){
       | ranges::view::transform( [&]( auto ratio )
                                  { return penetrationShift( l, ratio ); } );
 
-    for ( const auto& pair : ranges::view::zip( trial, reference ) ){
+    for ( const auto pair : ranges::view::zip( trial, reference ) ){
       auto trial = std::get<0>(pair);
       auto reference = std::get<1>(pair);
       REQUIRE( trial == reference );
@@ -53,7 +53,7 @@ SCENARIO("penetrationShift"){
       | ranges::view::transform( [&]( auto ratio )
                                  { return penetrationShift( l, ratio ); } );
 
-    for ( const auto& pair : ranges::view::zip( trial, reference ) ){
+    for ( const auto pair : ranges::view::zip( trial, reference ) ){
       auto trial = std::get<0>(pair);
       auto reference = std::get<1>(pair);
       REQUIRE( trial == reference );

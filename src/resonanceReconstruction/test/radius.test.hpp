@@ -10,7 +10,7 @@ SCENARIO("radius"){
       | ranges::view::transform
         ( [ ap = radius( AP ) ]( auto&& e ){ return ap( e ); } );
 
-    for ( const auto& pair : ranges::view::zip( trial, reference ) ){
+    for ( const auto pair : ranges::view::zip( trial, reference ) ){
       const auto trial = std::get<0>(pair);
       const auto reference = std::get<1>(pair);
       REQUIRE( trial == reference );
@@ -47,7 +47,7 @@ SCENARIO("radius"){
                                                     7.5 * rootBarn,
                                                     8.0 * rootBarn };
 
-    for ( const auto& pair : ranges::view::zip( trial, reference ) ){
+    for ( const auto pair : ranges::view::zip( trial, reference ) ){
       const auto trial = std::get<0>(pair);
       const auto reference = std::get<1>(pair);
       REQUIRE( trial.value == Approx(reference.value) );

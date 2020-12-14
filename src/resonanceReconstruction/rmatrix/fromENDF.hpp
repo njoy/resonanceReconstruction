@@ -64,7 +64,7 @@ fromENDF( const endf::ResonanceRange& endfResonanceRange,
                      lower * electronVolt,
                      upper * electronVolt,
                      makeLegacyBreitWignerCompoundSystem(
-                         endfSLBW, neutronMass, elementaryCharge,
+                         endfSLBW, neutronMass,
                          incident, target, nro, naps,
                          SingleLevelBreitWigner() ) );
         }
@@ -78,7 +78,7 @@ fromENDF( const endf::ResonanceRange& endfResonanceRange,
                      lower * electronVolt,
                      upper * electronVolt,
                      makeLegacyBreitWignerCompoundSystem(
-                       endfMLBW, neutronMass, elementaryCharge,
+                       endfMLBW, neutronMass,
                        incident, target, nro, naps,
                        MultiLevelBreitWigner() ) );
         }
@@ -92,7 +92,7 @@ fromENDF( const endf::ResonanceRange& endfResonanceRange,
                      lower * electronVolt,
                      upper * electronVolt,
                      makeReichMooreCompoundSystem(
-                         endfReichMoore, neutronMass, elementaryCharge,
+                         endfReichMoore, neutronMass,
                          incident, target, nro, naps ) );
         }
         // R-matrix limited
@@ -178,8 +178,7 @@ fromENDF( const endf::ResonanceRange& endfResonanceRange,
                      lower * electronVolt,
                      upper * electronVolt,
                      makeLegacyUnresolvedCompoundSystem(
-                         endfEnergyIndependent,
-                         neutronMass, elementaryCharge,
+                         endfEnergyIndependent, neutronMass,
                          incident, target, nro, naps, lower, upper ) );
         }
         case 6: {
@@ -190,8 +189,7 @@ fromENDF( const endf::ResonanceRange& endfResonanceRange,
                      lower * electronVolt,
                      upper * electronVolt,
                      makeLegacyUnresolvedCompoundSystem(
-                         endfEnergyDependentFission,
-                         neutronMass, elementaryCharge,
+                         endfEnergyDependentFission, neutronMass,
                          incident, target, nro, naps, lower, upper ) );
         }
         case 7: {
@@ -202,8 +200,7 @@ fromENDF( const endf::ResonanceRange& endfResonanceRange,
                      lower * electronVolt,
                      upper * electronVolt,
                      makeLegacyUnresolvedCompoundSystem(
-                         endfEnergyDependent,
-                         neutronMass, elementaryCharge,
+                         endfEnergyDependent, neutronMass, 
                          incident, target, nro, naps, lower, upper ) );
         }
         default : {

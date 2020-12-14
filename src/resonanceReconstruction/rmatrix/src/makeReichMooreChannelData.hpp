@@ -2,7 +2,6 @@ std::vector< ParticleChannelData >
 makeReichMooreChannelData(
     const endf::ReichMooreLValue& endfLValue,
     const AtomicMass& neutronMass,
-    const ElectricalCharge& elementaryCharge,
     const ParticleID& incident,
     const ParticleID& target,
     std::vector< ChannelQuantumNumbers >& available,
@@ -20,10 +19,6 @@ makeReichMooreChannelData(
   double awri = endfLValue.atomicWeightRatio();
 
   // some usefull lambdas
-  auto toEnergy = [&] ( double value ) -> Energy {
-
-    return value * electronVolt;
-  };
   auto toReducedWidth = [&] ( double value ) -> ReducedWidth {
 
     return value * rootElectronVolt;

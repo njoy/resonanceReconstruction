@@ -17,7 +17,7 @@ resonances( const std::string& id );
 auto test( const std::vector< double >& testData ){
   return [&testData]( auto&& xs ){
     auto tuples = testData | ranges::view::chunk(4);
-    for( const auto& tuple : tuples ){
+    for( const auto tuple : tuples ){
       auto energy = tuple[0] * electronVolts;
       double referenceElastic = tuple[1];
       double referenceFission = tuple[2];

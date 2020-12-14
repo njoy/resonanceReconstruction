@@ -3,7 +3,6 @@ legacy::resolved::CompoundSystem< Formalism >
 makeLegacyBreitWignerCompoundSystem(
     const BreitWigner& endfBreitWigner,
     const AtomicMass& neutronMass,
-    const ElectricalCharge& elementaryCharge,
     const ParticleID& incident,
     const ParticleID& target,
     const std::optional< ChannelRadiusTable >& nro,
@@ -30,7 +29,7 @@ makeLegacyBreitWignerCompoundSystem(
   for ( const auto& lvalue : lvalues ) {
 
     auto stuff = makeLegacyBreitWignerSpinGroups(
-                     lvalue, neutronMass, elementaryCharge, incident, target,
+                     lvalue, neutronMass, incident, target,
                      required, spin, ap, nro, naps, formalism );
     groups.insert( groups.end(), stuff.begin(), stuff.end() );
   }
