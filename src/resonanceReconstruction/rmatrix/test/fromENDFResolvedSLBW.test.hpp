@@ -24,6 +24,7 @@ SCENARIO( "fromENDF - LRF1" ) {
       CHECK( false == resonances.isUnresolved() );
       CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
       CHECK( 7.5 == Approx( resonances.upperEnergy().value ) );
+      CHECK( 2 == resonances.interpolation() );
 
       auto compoundsystem = std::get< legacy::resolved::CompoundSystem< SingleLevelBreitWigner > >( resonances.compoundSystem() );
 
@@ -199,6 +200,7 @@ SCENARIO( "fromENDF - LRF1" ) {
       CHECK( false == resonances.isUnresolved() );
       CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
       CHECK( 366.5 == Approx( resonances.upperEnergy().value ) );
+      CHECK( 2 == resonances.interpolation() );
 
       auto compoundsystem = std::get< legacy::resolved::CompoundSystem< SingleLevelBreitWigner > >( resonances.compoundSystem() );
 

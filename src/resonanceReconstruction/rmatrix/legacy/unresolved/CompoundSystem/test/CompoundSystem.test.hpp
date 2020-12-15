@@ -43,9 +43,10 @@ SCENARIO( "CompoundSystem" ) {
 
       Energy energy = 1e-5 * electronVolts;
 
-      CompoundSystem system( { group1, group2 } );
+      CompoundSystem system( { group1, group2 }, 5 );
 
       CHECK( 2 == system.spinGroups().size() );
+      CHECK( 5 == system.interpolation() );
 
       // group 1 - l,J = 0,0
       auto group = system.spinGroups()[0];
@@ -251,13 +252,13 @@ SCENARIO( "CompoundSystem" ) {
     THEN( "an exception is thrown at construction when there are no spin "
           "groups" ) {
 
-      CHECK_THROWS( CompoundSystem( std::vector< SpinGroup >{} ) );
+      CHECK_THROWS( CompoundSystem( std::vector< SpinGroup >{}, 2 ) );
     } // THEN
 
     THEN( "an exception is thrown at construction when the spin groups "
           "are not unique" ) {
 
-      CHECK_THROWS( CompoundSystem( { group, group } ) );
+      CHECK_THROWS( CompoundSystem( { group, group }, 2 ) );
     } // THEN
   } // GIVEN
 } // SCENARIO

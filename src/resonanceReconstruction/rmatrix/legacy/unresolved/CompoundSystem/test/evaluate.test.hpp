@@ -125,7 +125,7 @@ SCENARIO( "evaluate" ) {
     // the compound system
     CompoundSystem system( { group00, group01, group10, group11, group12,
                              group13, group20, group21, group22, group23,
-                             group24, group25 } );
+                             group24, group25 }, 5 );
 
     ReactionID elas( "n,Na22->n,Na22" );
     ReactionID capt( "n,Na22->capture" );
@@ -604,7 +604,7 @@ SCENARIO( "evaluate" ) {
     SpinGroup group12( std::move( elastic12 ), std::move( table12 ) );
 
     // the compound system
-    CompoundSystem system( { group00, group01, group10, group11, group12 } );
+    CompoundSystem system( { group00, group01, group10, group11, group12 }, 2 );
 
     ReactionID elas( "n,Pu239->n,Pu239" );
     ReactionID capt( "n,Pu239->capture" );

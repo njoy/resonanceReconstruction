@@ -112,6 +112,21 @@ public:
     }
     return result;
   }
+
+  /**
+   *  @brief Return the interpolation scheme
+   *
+   *  @param[in] energy   the energy for which the radius must be given
+   */
+  int interpolation() const {
+
+    return std::visit(
+             njoy::utility::overload{
+                 [&] ( const legacy::unresolved::CompoundSystem& system )
+                     { return system.interpolation(); },
+                 [&] ( const auto& ) { return 2; } },
+             this->system_ );
+  }
 };
 
 } // rmatrix namespace
