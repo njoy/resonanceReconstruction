@@ -25,7 +25,8 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
       CHECK( true == resonances.isUnresolved() );
       CHECK( 15000. == Approx( resonances.lowerEnergy().value ) );
       CHECK( 100000. == Approx( resonances.upperEnergy().value ) );
-      CHECK( 2 == resonances.interpolation() );
+      CHECK( true == bool( resonances.interpolation() ) );
+      CHECK( 2 == resonances.interpolation().value() );
 
       auto compoundsystem = std::get< legacy::unresolved::CompoundSystem >( resonances.compoundSystem() );
 
@@ -518,7 +519,8 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
       CHECK( true == resonances.isUnresolved() );
       CHECK( 2500. == Approx( resonances.lowerEnergy().value ) );
       CHECK( 30000. == Approx( resonances.upperEnergy().value ) );
-      CHECK( 2 == resonances.interpolation() );
+      CHECK( true == bool( resonances.interpolation() ) );
+      CHECK( 2 == resonances.interpolation().value() );
 
       auto compoundsystem = std::get< legacy::unresolved::CompoundSystem >( resonances.compoundSystem() );
 
@@ -1222,7 +1224,8 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
       CHECK( true == resonances.isUnresolved() );
       CHECK( 1750. == Approx( resonances.lowerEnergy().value ) );
       CHECK( 10000. == Approx( resonances.upperEnergy().value ) );
-      CHECK( 5 == resonances.interpolation() );
+      CHECK( true == bool( resonances.interpolation() ) );
+      CHECK( 5 == resonances.interpolation().value() );
 
       auto compoundsystem = std::get< legacy::unresolved::CompoundSystem >( resonances.compoundSystem() );
 
@@ -1526,7 +1529,8 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
       CHECK( true == resonances.isUnresolved() );
       CHECK( 2000. == Approx( resonances.lowerEnergy().value ) );
       CHECK( 100000. == Approx( resonances.upperEnergy().value ) );
-      CHECK( 2 == resonances.interpolation() );
+      CHECK( true == bool( resonances.interpolation() ) );
+      CHECK( 2 == resonances.interpolation().value() );
 
       auto compoundsystem = std::get< legacy::unresolved::CompoundSystem >( resonances.compoundSystem() );
 

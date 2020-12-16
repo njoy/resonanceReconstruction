@@ -118,13 +118,16 @@ public:
    *
    *  @param[in] energy   the energy for which the radius must be given
    */
-  int interpolation() const {
+  std::optional< int > interpolation() const {
 
     return std::visit(
              njoy::utility::overload{
                  [&] ( const legacy::unresolved::CompoundSystem& system )
-                     { return system.interpolation(); },
-                 [&] ( const auto& ) { return 2; } },
+                     -> std::optional< int >
+                     { return std::make_optional( system.interpolation() ); },
+                 [&] ( const auto& )
+                     -> std::optional< int >
+                     { return std::nullopt; } },
              this->system_ );
   }
 };

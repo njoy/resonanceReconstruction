@@ -23,7 +23,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( false == resonances.isUnresolved() );
       CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
       CHECK( 1.036e+6 == Approx( resonances.upperEnergy().value ) );
-      CHECK( 2 == resonances.interpolation() );
+      CHECK( false == bool( resonances.interpolation() ) );
 
       auto compoundsystem = std::get< CompoundSystem< ReichMoore, ShiftFactor > >( resonances.compoundSystem() );
 
@@ -451,7 +451,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( false == resonances.isUnresolved() );
       CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
       CHECK( 1.5e+6 == Approx( resonances.upperEnergy().value ) );
-      CHECK( 2 == resonances.interpolation() );
+      CHECK( false == bool( resonances.interpolation() ) );
 
       auto compoundsystem = std::get< CompoundSystem< ReichMoore, ShiftFactor > >( resonances.compoundSystem() );
 
@@ -1343,7 +1343,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( false == resonances.isUnresolved() );
       CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
       CHECK( 1.2e+6 == Approx( resonances.upperEnergy().value ) );
-      CHECK( 2 == resonances.interpolation() );
+      CHECK( false == bool( resonances.interpolation() ) );
 
       auto compoundsystem = std::get< CompoundSystem< ReichMoore, ShiftFactor > >( resonances.compoundSystem() );
 
