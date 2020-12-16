@@ -25,12 +25,17 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
       CHECK( true == resonances.isUnresolved() );
       CHECK( 15000. == Approx( resonances.lowerEnergy().value ) );
       CHECK( 100000. == Approx( resonances.upperEnergy().value ) );
+      CHECK( true == bool( resonances.interpolation() ) );
+      CHECK( 2 == resonances.interpolation().value() );
 
       auto compoundsystem = std::get< legacy::unresolved::CompoundSystem >( resonances.compoundSystem() );
 
       // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
       // content verification
       // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+      // interpolation
+      CHECK( 2 == compoundsystem.interpolation() );
 
       // spin groups
       auto spingroups = compoundsystem.spinGroups();
@@ -514,12 +519,17 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
       CHECK( true == resonances.isUnresolved() );
       CHECK( 2500. == Approx( resonances.lowerEnergy().value ) );
       CHECK( 30000. == Approx( resonances.upperEnergy().value ) );
+      CHECK( true == bool( resonances.interpolation() ) );
+      CHECK( 2 == resonances.interpolation().value() );
 
       auto compoundsystem = std::get< legacy::unresolved::CompoundSystem >( resonances.compoundSystem() );
 
       // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
       // content verification
       // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+      // interpolation
+      CHECK( 2 == compoundsystem.interpolation() );
 
       // spin groups
       auto spingroups = compoundsystem.spinGroups();
@@ -1210,11 +1220,21 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
 
     THEN( "the appropriate CompoundSystem is returned" ) {
 
+      CHECK( false == resonances.isResolved() );
+      CHECK( true == resonances.isUnresolved() );
+      CHECK( 1750. == Approx( resonances.lowerEnergy().value ) );
+      CHECK( 10000. == Approx( resonances.upperEnergy().value ) );
+      CHECK( true == bool( resonances.interpolation() ) );
+      CHECK( 5 == resonances.interpolation().value() );
+
       auto compoundsystem = std::get< legacy::unresolved::CompoundSystem >( resonances.compoundSystem() );
 
       // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
       // content verification
       // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+      // interpolation
+      CHECK( 5 == compoundsystem.interpolation() );
 
       // spin groups
       auto spingroups = compoundsystem.spinGroups();
@@ -1505,11 +1525,21 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
 
     THEN( "the appropriate CompoundSystem is returned" ) {
 
+      CHECK( false == resonances.isResolved() );
+      CHECK( true == resonances.isUnresolved() );
+      CHECK( 2000. == Approx( resonances.lowerEnergy().value ) );
+      CHECK( 100000. == Approx( resonances.upperEnergy().value ) );
+      CHECK( true == bool( resonances.interpolation() ) );
+      CHECK( 2 == resonances.interpolation().value() );
+
       auto compoundsystem = std::get< legacy::unresolved::CompoundSystem >( resonances.compoundSystem() );
 
       // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
       // content verification
       // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+      // interpolation
+      CHECK( 2 == compoundsystem.interpolation() );
 
       // spin groups
       auto spingroups = compoundsystem.spinGroups();

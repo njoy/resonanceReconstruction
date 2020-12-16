@@ -29,14 +29,21 @@ namespace unresolved {
  */
 class CompoundSystem : protected CompoundSystemBase< unresolved::SpinGroup > {
 
+  int interpolation_;
+
 public:
 
   /* constructor */
-  using CompoundSystemBase::CompoundSystemBase;
+  #include "resonanceReconstruction/rmatrix/legacy/unresolved/CompoundSystem/src/ctor.hpp"
 
   /* methods */
   using CompoundSystemBase::spinGroups;
   using CompoundSystemBase::evaluate;
+
+  /**
+   *  @brief Return the interpolation scheme to be applied
+   */
+  int interpolation() const { return this->interpolation_; }
 
   #include "resonanceReconstruction/rmatrix/legacy/unresolved/CompoundSystem/src/grid.hpp"
 };

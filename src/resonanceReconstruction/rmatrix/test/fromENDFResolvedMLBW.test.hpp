@@ -27,6 +27,7 @@ SCENARIO( "fromENDF - LRF2" ) {
       CHECK( false == resonances.isUnresolved() );
       CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
       CHECK( 7.5 == Approx( resonances.upperEnergy().value ) );
+      CHECK( false == bool( resonances.interpolation() ) );
 
       auto compoundsystem = std::get< legacy::resolved::CompoundSystem< MultiLevelBreitWigner > >( resonances.compoundSystem() );
 
@@ -205,6 +206,7 @@ SCENARIO( "fromENDF - LRF2" ) {
       CHECK( false == resonances.isUnresolved() );
       CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
       CHECK( 6500. == Approx( resonances.upperEnergy().value ) );
+      CHECK( false == bool( resonances.interpolation() ) );
 
       auto compoundsystem = std::get< legacy::resolved::CompoundSystem< MultiLevelBreitWigner > >( resonances.compoundSystem() );
 
@@ -717,6 +719,7 @@ SCENARIO( "fromENDF - LRF2" ) {
       CHECK( false == resonances.isUnresolved() );
       CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
       CHECK( 3.2 == Approx( resonances.upperEnergy().value ) );
+      CHECK( false == bool( resonances.interpolation() ) );
 
       auto compoundsystem = std::get< legacy::resolved::CompoundSystem< MultiLevelBreitWigner > >( resonances.compoundSystem() );
 
@@ -887,6 +890,7 @@ SCENARIO( "fromENDF - LRF2" ) {
       CHECK( false == resonances.isUnresolved() );
       CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
       CHECK( 2008. == Approx( resonances.upperEnergy().value ) );
+      CHECK( false == bool( resonances.interpolation() ) );
 
       auto compoundsystem = std::get< legacy::resolved::CompoundSystem< MultiLevelBreitWigner > >( resonances.compoundSystem() );
 
@@ -1067,6 +1071,7 @@ SCENARIO( "fromENDF - LRF2" ) {
       CHECK( false == resonances.isUnresolved() );
       CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
       CHECK( 4845. == Approx( resonances.upperEnergy().value ) );
+      CHECK( false == bool( resonances.interpolation() ) );
 
       auto compoundsystem = std::get< legacy::resolved::CompoundSystem< MultiLevelBreitWigner > >( resonances.compoundSystem() );
 

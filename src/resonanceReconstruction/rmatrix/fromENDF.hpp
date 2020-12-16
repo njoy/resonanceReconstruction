@@ -4,6 +4,8 @@
 // system includes
 
 // other includes
+#include "range/v3/algorithm/count.hpp"
+#include "resonanceReconstruction/endf.hpp"
 #include "resonanceReconstruction/endf.hpp"
 #include "resonanceReconstruction/Quantity.hpp"
 #include "resonanceReconstruction/rmatrix/Formalism.hpp"
@@ -200,7 +202,7 @@ fromENDF( const endf::ResonanceRange& endfResonanceRange,
                      lower * electronVolt,
                      upper * electronVolt,
                      makeLegacyUnresolvedCompoundSystem(
-                         endfEnergyDependent, neutronMass, 
+                         endfEnergyDependent, neutronMass,
                          incident, target, nro, naps, lower, upper ) );
         }
         default : {

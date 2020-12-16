@@ -14,6 +14,41 @@ getEnergies(
 }
 
 template < typename Unresolved >
+int getUnresolvedInterpolation( const Unresolved& ) { return 5; }
+
+template <>
+int getUnresolvedInterpolation(
+        const endf::UnresolvedEnergyDependent& unresolved ) {
+
+  auto verifyInterpolation = [] ( const auto& interpolants ) {
+
+    int interpolation = interpolants[0];
+    if ( ranges::count( interpolants, interpolation )
+           != ranges::distance( interpolants ) ) {
+
+      throw std::runtime_error( "Different interpolation schemes for "
+                                "unresolved l,J values are currently not "
+                                "implemented" );
+    }
+    return interpolation;
+  };
+
+  auto getInterpolation = [&] ( const auto& values ) {
+
+    return verifyInterpolation(
+               values | ranges::view::transform(
+                            [] ( const auto& jvalue )
+                               { return jvalue.INT(); } ) );
+  };
+
+  return verifyInterpolation(
+             unresolved.lValues()
+                 | ranges::view::transform(
+                       [&] ( const auto& lvalue )
+                           { return getInterpolation( lvalue.jValues() ); } ) );
+}
+
+template < typename Unresolved >
 legacy::unresolved::CompoundSystem
 makeLegacyUnresolvedCompoundSystem(
     const Unresolved& unresolved,
@@ -41,6 +76,9 @@ makeLegacyUnresolvedCompoundSystem(
   ChannelRadii radii = makeChannelRadii( ap, nro, naps,
                                          awri, neutronMass.value );
 
+  // interpolation parameter
+  auto interpolation = getUnresolvedInterpolation( unresolved );
+
   // some magic magic
   auto lvalues = unresolved.lValues();
   auto repeatPair = ranges::view::repeat_n( in, nls );
@@ -56,5 +94,5 @@ makeLegacyUnresolvedCompoundSystem(
           repeatEnergies );
 
   return legacy::unresolved::CompoundSystem(
-             std::move( groups | ranges::view::join ) );
+             std::move( groups | ranges::view::join ), interpolation );
 }

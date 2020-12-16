@@ -22,6 +22,7 @@ SCENARIO( "fromENDF - LRF3" ) {
       CHECK( false == resonances.isUnresolved() );
       CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
       CHECK( 2500. == Approx( resonances.upperEnergy().value ) );
+      CHECK( false == bool( resonances.interpolation() ) );
 
       auto compoundsystem = std::get< CompoundSystem< ReichMoore, ShiftFactor > >( resonances.compoundSystem() );
 
@@ -1187,6 +1188,7 @@ SCENARIO( "fromENDF - LRF3" ) {
       CHECK( false == resonances.isUnresolved() );
       CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
       CHECK( 1.3e+6 == Approx( resonances.upperEnergy().value ) );
+      CHECK( false == bool( resonances.interpolation() ) );
 
       auto compoundsystem = std::get< CompoundSystem< ReichMoore, ShiftFactor > >( resonances.compoundSystem() );
 
