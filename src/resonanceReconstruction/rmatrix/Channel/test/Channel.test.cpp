@@ -315,7 +315,7 @@ SCENARIO( "Channel" ) {
       CHECK( 3.17996084E+00 == Approx( protonEmission.sommerfeldParameter( energy ) ) );
       CHECK( 1.69828445E+00 == Approx( protonEmission.waveNumber( energy ).value ) );
       CHECK( 0.000027793 == Approx( protonEmission.penetrability( energy ) ) );
-      CHECK( -1.8734549658 == Approx( protonEmission.shiftFactor( energy ) ) );
+      CHECK( -1.8732964952 == Approx( protonEmission.shiftFactor( energy ) ) );
       CHECK( 0.0000020468 == Approx( protonEmission.phaseShift( energy ) ) );
       CHECK( 0.0 == Approx( protonEmission.coulombPhaseShift( energy ) ) );
 

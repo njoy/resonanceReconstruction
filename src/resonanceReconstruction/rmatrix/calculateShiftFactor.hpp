@@ -6,7 +6,7 @@
 
 // other includes
 #include "utility/horner.hpp"
-#include "resonanceReconstruction/rmatrix/src/coh3-coulomb.hpp"
+#include "resonanceReconstruction/rmatrix/src/dece-coulomb.hpp"
 #include "resonanceReconstruction/rmatrix/ChannelType.hpp"
 
 namespace njoy {
@@ -93,7 +93,7 @@ double calculateShiftFactor< ChargedParticle >( const unsigned int l,
                                                 const double eta ) {
 
   std::complex< double > gf, dgf;
-  coulombWaveFunctions( l, ratio, eta, gf, dgf);
+  coulombWaveFunctions( l, ratio, eta, &gf, &dgf );
 
   double F = gf.imag();
   double G = gf.real();
