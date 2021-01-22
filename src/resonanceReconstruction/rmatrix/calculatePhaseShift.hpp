@@ -73,6 +73,9 @@ double calculatePhaseShift< Neutron >( const unsigned int l,
  *  For a charged particle channel, the phase shift is defined using the
  *  Coulomb wave functions.
  *
+ *  It can be shown that acos( G / sqrt( F^2 + G^2 ) ) = atan( F / G ) when
+ *  G > 0 and F >= 0.
+ *
  *  @param[in] l       the oribital angular momentum
  *  @param[in] ratio   the value of rho = ka
  *  @param[in] eta     the Sommerfeld parameter
