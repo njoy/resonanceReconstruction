@@ -12,7 +12,7 @@ using Spin = rmatrix::Spin;
 using ResonanceRange = endf::ResonanceRange;
 
 constexpr AtomicMass neutronMass = 1.008664 * daltons;
-constexpr ElectricalCharge elementaryCharge = 1.602e-19 * coulomb;
+constexpr ElectricalCharge elementaryCharge = dimwits::constant::elementaryCharge;
 
 #include "resonanceReconstruction/rmatrix/test/possibleChannelTotalAngularMomentumValues.test.hpp"
 #include "resonanceReconstruction/rmatrix/test/possibleChannelSpinValues.test.hpp"

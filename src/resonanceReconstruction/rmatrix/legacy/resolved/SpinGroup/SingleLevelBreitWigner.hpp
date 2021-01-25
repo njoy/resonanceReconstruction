@@ -45,6 +45,8 @@ public:
   using SpinGroupBase::orbitalAngularMomentum;
   using SpinGroupBase::totalAngularMomentum;
   using SpinGroupBase::resonanceTable;
+  using SpinGroupBase::reactionIDs;
+  using SpinGroupBase::hasFission;
 
   /**
    *  @brief Return competitive Q value

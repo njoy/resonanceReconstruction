@@ -46,7 +46,7 @@ void evaluate( const Energy& energy,
   // calculate the resulting cross sections
   result[ this->elasticID() ] += factor * components.elastic;
   result[ this->captureID() ] += factor * components.capture;
-  if ( components.hasFission() ) {
+  if ( this->hasFission() ) {
 
     result[ this->fissionID() ] += factor * components.fission;
   }

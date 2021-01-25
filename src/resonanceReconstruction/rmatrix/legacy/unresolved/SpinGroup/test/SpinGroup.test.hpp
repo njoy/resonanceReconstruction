@@ -103,6 +103,16 @@ SCENARIO( "SpinGroup" ) {
       CHECK( 4.070000e-2 == Approx( resonance.capture().value ) );
       CHECK( 2.693000e+0 == Approx( resonance.fission().value ) );
       CHECK( 0. == Approx( resonance.competition().value ) );
+
+      // check the reaction identifiers
+      auto reactions = group.reactionIDs();
+
+      CHECK( 3 == reactions.size() );
+      CHECK( "n,Pu239->n,Pu239" == reactions[0].symbol() );
+      CHECK( "n,Pu239->capture" == reactions[1].symbol() );
+      CHECK( "n,Pu239->fission" == reactions[2].symbol() );
+
+      CHECK( true == group.hasFission() );
     } // THEN
   } // GIVEN
 } // SCENARIO

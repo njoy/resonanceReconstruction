@@ -27,6 +27,9 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
       CHECK( 100000. == Approx( resonances.upperEnergy().value ) );
       CHECK( true == bool( resonances.interpolation() ) );
       CHECK( 2 == resonances.interpolation().value() );
+      CHECK( 2 == resonances.reactionIDs().size() );
+      CHECK( "n,Na22->capture" == resonances.reactionIDs()[0].symbol() );
+      CHECK( "n,Na22->n,Na22" == resonances.reactionIDs()[1].symbol() );
 
       auto compoundsystem = std::get< legacy::unresolved::CompoundSystem >( resonances.compoundSystem() );
 
@@ -521,6 +524,10 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
       CHECK( 30000. == Approx( resonances.upperEnergy().value ) );
       CHECK( true == bool( resonances.interpolation() ) );
       CHECK( 2 == resonances.interpolation().value() );
+      CHECK( 3 == resonances.reactionIDs().size() );
+      CHECK( "n,Pu239->capture" == resonances.reactionIDs()[0].symbol() );
+      CHECK( "n,Pu239->fission" == resonances.reactionIDs()[1].symbol() );
+      CHECK( "n,Pu239->n,Pu239" == resonances.reactionIDs()[2].symbol() );
 
       auto compoundsystem = std::get< legacy::unresolved::CompoundSystem >( resonances.compoundSystem() );
 
@@ -1226,6 +1233,9 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
       CHECK( 10000. == Approx( resonances.upperEnergy().value ) );
       CHECK( true == bool( resonances.interpolation() ) );
       CHECK( 5 == resonances.interpolation().value() );
+      CHECK( 2 == resonances.reactionIDs().size() );
+      CHECK( "n,Er167->capture" == resonances.reactionIDs()[0].symbol() );
+      CHECK( "n,Er167->n,Er167" == resonances.reactionIDs()[1].symbol() );
 
       auto compoundsystem = std::get< legacy::unresolved::CompoundSystem >( resonances.compoundSystem() );
 
@@ -1531,6 +1541,9 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
       CHECK( 100000. == Approx( resonances.upperEnergy().value ) );
       CHECK( true == bool( resonances.interpolation() ) );
       CHECK( 2 == resonances.interpolation().value() );
+      CHECK( 2 == resonances.reactionIDs().size() );
+      CHECK( "n,Au197->capture" == resonances.reactionIDs()[0].symbol() );
+      CHECK( "n,Au197->n,Au197" == resonances.reactionIDs()[1].symbol() );
 
       auto compoundsystem = std::get< legacy::unresolved::CompoundSystem >( resonances.compoundSystem() );
 

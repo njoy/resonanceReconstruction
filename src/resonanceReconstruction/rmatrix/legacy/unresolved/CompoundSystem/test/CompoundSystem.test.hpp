@@ -48,6 +48,14 @@ SCENARIO( "CompoundSystem" ) {
       CHECK( 2 == system.spinGroups().size() );
       CHECK( 5 == system.interpolation() );
 
+      // check the reaction identifiers
+      auto reactions = system.reactionIDs();
+
+      CHECK( 3 == reactions.size() );
+      CHECK( "n,Pu239->capture" == reactions[0].symbol() );
+      CHECK( "n,Pu239->fission" == reactions[1].symbol() );
+      CHECK( "n,Pu239->n,Pu239" == reactions[2].symbol() );
+
       // group 1 - l,J = 0,0
       auto group = system.spinGroups()[0];
 

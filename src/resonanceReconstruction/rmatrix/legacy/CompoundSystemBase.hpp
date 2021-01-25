@@ -9,6 +9,7 @@
 #include "range/v3/algorithm/count_if.hpp"
 #include "range/v3/view/all.hpp"
 #include "range/v3/view/transform.hpp"
+#include "range/v3/view/join.hpp"
 #include "resonanceReconstruction/Quantity.hpp"
 #include "resonanceReconstruction/rmatrix/Map.hpp"
 #include "resonanceReconstruction/rmatrix/ReactionID.hpp"
@@ -31,9 +32,11 @@ class CompoundSystemBase {
 
   /* fields */
   std::vector< SpinGroupType > groups_;
+  std::vector< ReactionID > reactions_;
   unsigned int lmax_;
 
   /* auxiliary functions */
+  #include "resonanceReconstruction/rmatrix/legacy/CompoundSystemBase/src/makeReactionIDs.hpp"
   #include "resonanceReconstruction/rmatrix/legacy/CompoundSystemBase/src/getLMax.hpp"
   #include "resonanceReconstruction/rmatrix/legacy/CompoundSystemBase/src/verifySpinGroups.hpp"
 
@@ -46,6 +49,11 @@ public:
    *  @brief Return the l,J data
    */
   auto spinGroups() const { return ranges::view::all( this->groups_ ); }
+
+  /**
+   *  @brief Return the reactions defined in the compound system
+   */
+  auto reactionIDs() const { return ranges::view::all( this->reactions_ ); }
 
   #include "resonanceReconstruction/rmatrix/legacy/CompoundSystemBase/src/evaluate.hpp"
 };

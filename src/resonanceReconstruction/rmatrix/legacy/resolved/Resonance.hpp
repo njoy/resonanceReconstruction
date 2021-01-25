@@ -70,6 +70,11 @@ public:
   const Width& fission() const { return this->fission_; }
 
   /**
+   *  @brief Return whether or not the resonance has fission or not
+   */
+  bool hasFission() const { return this->fission_.value != 0.0; }
+
+  /**
    *  @brief Return the competitive width (in eV)
    */
   const Width& competition() const { return this->competition_; }

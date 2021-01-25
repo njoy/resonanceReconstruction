@@ -8,7 +8,8 @@ makeSpinGroups( std::vector< ParticleChannelData >&& channels ) {
   auto getJpi = [] ( const auto& channel ) {
 
     return std::make_pair( channel.quantumNumbers().totalAngularMomentum(),
-                           channel.quantumNumbers().parity() ); };
+                           channel.quantumNumbers().parity() );
+  };
 
   // get the different Jpi values in the channels
   std::vector< std::pair< TotalAngularMomentum, Parity > > spins =

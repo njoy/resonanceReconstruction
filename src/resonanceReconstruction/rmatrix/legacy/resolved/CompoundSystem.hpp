@@ -38,6 +38,7 @@ public:
   /* methods */
   using CompoundSystemBase< SpinGroup< Formalism > >::spinGroups;
   using CompoundSystemBase< SpinGroup< Formalism > >::evaluate;
+  using CompoundSystemBase< SpinGroup< Formalism > >::reactionIDs;
 
   #include "resonanceReconstruction/rmatrix/legacy/resolved/CompoundSystem/src/grid.hpp"
 };

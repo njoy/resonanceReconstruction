@@ -236,6 +236,12 @@ void checkCompoundSystem( const CompoundSystem< ReichMoore, ShiftFactor >& syste
   // number of spin groups
   CHECK( 5 == system.spinGroups().size() );
 
+  // reaction identifiers
+  auto reactions = system.reactionIDs();
+  CHECK( 2 == reactions.size() );
+  CHECK( "n,Fe54->capture" == reactions[0].symbol() );
+  CHECK( "n,Fe54->n,Fe54" == reactions[1].symbol() );
+
   // group 1 - Jpi = 0.5-
   auto group = system.spinGroups()[0];
   CHECK( 1 == group.incidentChannels().size() );

@@ -39,6 +39,7 @@ public:
   /* methods */
   using CompoundSystemBase::spinGroups;
   using CompoundSystemBase::evaluate;
+  using CompoundSystemBase::reactionIDs;
 
   /**
    *  @brief Return the interpolation scheme to be applied
