@@ -35,8 +35,10 @@ class CompoundSystem {
 
   /* fields */
   std::vector< SpinGroup< Formalism, BoundaryOption > > groups_;
+  std::vector< ReactionID > reactions_;
 
   /* auxiliary functions */
+  #include "resonanceReconstruction/rmatrix/CompoundSystem/src/makeReactionIDs.hpp"
   #include "resonanceReconstruction/rmatrix/CompoundSystem/src/makeSpinGroups.hpp"
   #include "resonanceReconstruction/rmatrix/CompoundSystem/src/verifySpinGroups.hpp"
 
@@ -46,6 +48,11 @@ public:
   #include "resonanceReconstruction/rmatrix/CompoundSystem/src/ctor.hpp"
 
   auto spinGroups() const { return ranges::view::all( this->groups_ ); }
+
+  /**
+   *  @brief Return the reactions defined in the compound system
+   */
+  auto reactionIDs() const { return ranges::view::all( this->reactions_ ); }
 
   //#include "resonanceReconstruction/rmatrix/CompoundSystem/src/switchIncidentPair.hpp"
   #include "resonanceReconstruction/rmatrix/CompoundSystem/src/evaluate.hpp"

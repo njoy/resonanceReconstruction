@@ -108,6 +108,15 @@ SCENARIO( "SpinGroup" ) {
       CHECK( 0 == Approx( resonance.fission().value ) );
       CHECK( 0 == Approx( resonance.competition().value ) );
 
+      // check the reaction identifiers
+      auto reactions = group.reactionIDs();
+
+      CHECK( 2 == reactions.size() );
+      CHECK( "n,Rh105->n,Rh105" == reactions[0].symbol() );
+      CHECK( "n,Rh105->capture" == reactions[1].symbol() );
+
+      CHECK( false == group.hasFission() );
+
       // check the minimal energy grid
       auto grid = group.grid();
 

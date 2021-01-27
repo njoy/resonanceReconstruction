@@ -43,7 +43,7 @@ void evaluate( const Energy& energy,
   result[ this->captureID() ] +=
     factor * spinFactor / spacing *
     ( widths.elastic * widths.capture * integrals.capture );
-  if ( widths.hasFission() ) {
+  if ( this->hasFission() ) {
 
     result[ this->fissionID() ] +=
       factor * spinFactor / spacing *

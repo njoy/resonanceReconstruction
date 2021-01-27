@@ -24,6 +24,9 @@ SCENARIO( "fromENDF" ) {
       CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
       CHECK( 1.036e+6 == Approx( resonances.upperEnergy().value ) );
       CHECK( false == bool( resonances.interpolation() ) );
+      CHECK( 2 == resonances.reactionIDs().size() );
+      CHECK( "n,Fe54->capture" == resonances.reactionIDs()[0].symbol() );
+      CHECK( "n,Fe54->n,Fe54" == resonances.reactionIDs()[1].symbol() );
 
       auto compoundsystem = std::get< CompoundSystem< ReichMoore, ShiftFactor > >( resonances.compoundSystem() );
 
@@ -452,6 +455,11 @@ SCENARIO( "fromENDF" ) {
       CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
       CHECK( 1.5e+6 == Approx( resonances.upperEnergy().value ) );
       CHECK( false == bool( resonances.interpolation() ) );
+      CHECK( 4 == resonances.reactionIDs().size() );
+      CHECK( "n,Ca40->capture" == resonances.reactionIDs()[0].symbol() );
+      CHECK( "n,Ca40->he4,Ar37" == resonances.reactionIDs()[1].symbol() );
+      CHECK( "n,Ca40->n,Ca40" == resonances.reactionIDs()[2].symbol() );
+      CHECK( "n,Ca40->p,K40" == resonances.reactionIDs()[3].symbol() );
 
       auto compoundsystem = std::get< CompoundSystem< ReichMoore, ShiftFactor > >( resonances.compoundSystem() );
 
@@ -1344,6 +1352,10 @@ SCENARIO( "fromENDF" ) {
       CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
       CHECK( 1.2e+6 == Approx( resonances.upperEnergy().value ) );
       CHECK( false == bool( resonances.interpolation() ) );
+      CHECK( 3 == resonances.reactionIDs().size() );
+      CHECK( "n,Cl35->capture" == resonances.reactionIDs()[0].symbol() );
+      CHECK( "n,Cl35->n,Cl35" == resonances.reactionIDs()[1].symbol() );
+      CHECK( "n,Cl35->p,S35" == resonances.reactionIDs()[2].symbol() );
 
       auto compoundsystem = std::get< CompoundSystem< ReichMoore, ShiftFactor > >( resonances.compoundSystem() );
 

@@ -81,6 +81,16 @@ public:
   const Energy& upperEnergy() const { return this->upper_; }
 
   /**
+   *  @brief Return the reaction identifiers for this reconstructor
+   */
+  auto reactionIDs() {
+
+    return std::visit( [] ( const auto& system )
+                          { return system.reactionIDs(); },
+                       this->compoundSystem() );
+  }
+
+  /**
    *  @brief Return the minimal energy grid derived from the resonance
    *         parameters
    */
@@ -99,6 +109,9 @@ public:
 
   /**
    *  @brief Reconstruct the cross sections at the given energy
+   *
+   *  @param[in] energy   the energy for which cross sections are to be
+   *                      calculated
    */
   Map< ReactionID, CrossSection > operator()( const Energy& energy ) {
 
@@ -115,8 +128,6 @@ public:
 
   /**
    *  @brief Return the interpolation scheme
-   *
-   *  @param[in] energy   the energy for which the radius must be given
    */
   std::optional< int > interpolation() const {
 

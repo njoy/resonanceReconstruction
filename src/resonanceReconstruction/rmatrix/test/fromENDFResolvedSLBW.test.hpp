@@ -25,6 +25,9 @@ SCENARIO( "fromENDF - LRF1" ) {
       CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
       CHECK( 7.5 == Approx( resonances.upperEnergy().value ) );
       CHECK( false == bool( resonances.interpolation() ) );
+      CHECK( 2 == resonances.reactionIDs().size() );
+      CHECK( "n,Rh105->capture" == resonances.reactionIDs()[0].symbol() );
+      CHECK( "n,Rh105->n,Rh105" == resonances.reactionIDs()[1].symbol() );
 
       auto compoundsystem = std::get< legacy::resolved::CompoundSystem< SingleLevelBreitWigner > >( resonances.compoundSystem() );
 
@@ -201,6 +204,10 @@ SCENARIO( "fromENDF - LRF1" ) {
       CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
       CHECK( 366.5 == Approx( resonances.upperEnergy().value ) );
       CHECK( false == bool( resonances.interpolation() ) );
+      CHECK( 3 == resonances.reactionIDs().size() );
+      CHECK( "n,Cf252->capture" == resonances.reactionIDs()[0].symbol() );
+      CHECK( "n,Cf252->fission" == resonances.reactionIDs()[1].symbol() );
+      CHECK( "n,Cf252->n,Cf252" == resonances.reactionIDs()[2].symbol() );
 
       auto compoundsystem = std::get< legacy::resolved::CompoundSystem< SingleLevelBreitWigner > >( resonances.compoundSystem() );
 

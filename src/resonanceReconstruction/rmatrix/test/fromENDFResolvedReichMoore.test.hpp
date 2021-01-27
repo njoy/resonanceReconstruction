@@ -23,6 +23,10 @@ SCENARIO( "fromENDF - LRF3" ) {
       CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
       CHECK( 2500. == Approx( resonances.upperEnergy().value ) );
       CHECK( false == bool( resonances.interpolation() ) );
+      CHECK( 3 == resonances.reactionIDs().size() );
+      CHECK( "n,Pu239->capture" == resonances.reactionIDs()[0].symbol() );
+      CHECK( "n,Pu239->fission" == resonances.reactionIDs()[1].symbol() );
+      CHECK( "n,Pu239->n,Pu239" == resonances.reactionIDs()[2].symbol() );
 
       auto compoundsystem = std::get< CompoundSystem< ReichMoore, ShiftFactor > >( resonances.compoundSystem() );
 
@@ -1189,6 +1193,9 @@ SCENARIO( "fromENDF - LRF3" ) {
       CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
       CHECK( 1.3e+6 == Approx( resonances.upperEnergy().value ) );
       CHECK( false == bool( resonances.interpolation() ) );
+      CHECK( 2 == resonances.reactionIDs().size() );
+      CHECK( "n,Si29->capture" == resonances.reactionIDs()[0].symbol() );
+      CHECK( "n,Si29->n,Si29" == resonances.reactionIDs()[1].symbol() );
 
       auto compoundsystem = std::get< CompoundSystem< ReichMoore, ShiftFactor > >( resonances.compoundSystem() );
 

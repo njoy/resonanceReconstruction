@@ -38,6 +38,8 @@ public:
   using SpinGroupBase::orbitalAngularMomentum;
   using SpinGroupBase::totalAngularMomentum;
   using SpinGroupBase::resonanceTable;
+  using SpinGroupBase::reactionIDs;
+  using SpinGroupBase::hasFission;
 
   #include "resonanceReconstruction/rmatrix/legacy/unresolved/SpinGroup/src/evaluate.hpp"
 };
