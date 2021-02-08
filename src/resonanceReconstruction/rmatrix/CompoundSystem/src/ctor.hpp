@@ -5,7 +5,7 @@ private:
  */
 CompoundSystem( std::vector< ReactionID >&& reactions,
                 std::vector< SpinGroup< Formalism, BoundaryOption > >&& groups ) :
-  reactions_( std::move( reactions ) ), groups_( std::move( groups ) ) {
+  groups_( std::move( groups ) ), reactions_( std::move( reactions ) ) {
 
   verifySpinGroups( this->groups_ );
 }
