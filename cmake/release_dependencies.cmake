@@ -28,12 +28,12 @@ set( BUILD_TESTING CACHE BOOL OFF )
 
 FetchContent_Declare( elementary
     GIT_REPOSITORY  https://github.com/njoy/elementary
-    GIT_TAG         97224cd76b92f174567fdd9259d3b7d8b41ccfae # tag: v0.2.2
+    GIT_TAG         feature/python-v2
     )
 
 FetchContent_Declare( ENDFtk
     GIT_REPOSITORY  https://github.com/njoy/ENDFtk
-    GIT_TAG         b6618b396f51e802b7ee19ba529533c27e6ac302 # tag: v0.1.0
+    GIT_TAG         develop
     )
 
 FetchContent_Declare( hana-adapter
@@ -66,6 +66,12 @@ FetchContent_Declare( spdlog
     GIT_TAG         a51b4856377a71f81b6d74b9af459305c4c644f8
     )
 set( SPDLOG_BUILD_TESTING CACHE BOOL OFF )
+
+FetchContent_Declare( pybind11
+    GIT_REPOSITORY  https://github.com/pybind/pybind11
+    GIT_TAG         v2.6.1
+    GIT_SHALLOW     TRUE
+    )
 
 #######################################################################
 # Load dependencies

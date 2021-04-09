@@ -52,6 +52,10 @@ endif()
 # Project targets
 ########################################################################
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# resonanceReconstruction : library
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 add_library( resonanceReconstruction INTERFACE
     )
 target_include_directories( resonanceReconstruction INTERFACE src/ )
@@ -63,6 +67,21 @@ target_link_libraries( resonanceReconstruction
     INTERFACE elementary
     )
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# resonanceReconstruction : python bindings
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+include_directories( python/src/ )
+
+pybind11_add_module( resonanceReconstruction.python
+    EXCLUDE_FROM_ALL
+    python/src/resonanceReconstruction.python.cpp
+    )
+target_link_libraries( resonanceReconstruction.python PUBLIC resonanceReconstruction )
+target_compile_options( resonanceReconstruction.python PUBLIC "-fPIC" )
+target_compile_options( resonanceReconstruction.python PUBLIC "-fvisibility=hidden" )
+set_target_properties( resonanceReconstruction.python PROPERTIES OUTPUT_NAME elementary )
+set_target_properties( resonanceReconstruction.python PROPERTIES COMPILE_DEFINITIONS "PYBIND11" )
 
 #######################################################################
 # Top-level Only

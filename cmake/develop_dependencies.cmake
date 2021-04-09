@@ -7,7 +7,7 @@ include( FetchContent )
 
 FetchContent_Declare( ENDFtk
     GIT_REPOSITORY  https://github.com/njoy/ENDFtk
-    GIT_TAG         origin/master
+    GIT_TAG         develop
     GIT_SHALLOW     TRUE
     )
 
@@ -32,7 +32,13 @@ FetchContent_Declare( dimwits
 
 FetchContent_Declare( elementary
     GIT_REPOSITORY  https://github.com/njoy/elementary
-    GIT_TAG         origin/master
+    GIT_TAG         feature/python-v2
+    GIT_SHALLOW     TRUE
+    )
+
+FetchContent_Declare( pybind11
+    GIT_REPOSITORY  https://github.com/pybind/pybind11
+    GIT_TAG         v2.6.1
     GIT_SHALLOW     TRUE
     )
 
