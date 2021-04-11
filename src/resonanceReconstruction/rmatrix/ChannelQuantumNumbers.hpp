@@ -12,7 +12,7 @@ namespace rmatrix {
 
 /**
  *  @class
- *  @brief The l,S,Jpi quantum numbers of a reaction channel
+ *  @brief The (l,s,J,parity) quantum numbers of a reaction channel
  *
  *  The ChannelQuantumNumbers class contains the quantum numbers associated to
  *  a given reaction channel. Only channels that have the same Jpi contribute

@@ -6,11 +6,9 @@
 namespace python = pybind11;
 
 // declarations
-// void wrapFromENDF( python::module& );
+namespace rmatrix {
 
-int add( int i, int j ) {
-
-    return i + j;
+  void wrapChannelQuantumNumbers( python::module& );
 }
 
 /**
@@ -21,9 +19,5 @@ int add( int i, int j ) {
  */
 PYBIND11_MODULE( resonanceReconstruction, module ) {
 
-  m.doc() = "pybind11 example plugin"; // optional module docstring
-
-  m.def("add", &add, "A function which adds two numbers");
-
-  // wrapFromENDF( module );
+  rmatrix::wrapChannelQuantumNumbers( module );
 }
