@@ -11,7 +11,7 @@ class Test_r2_ChannelQuantumNumbers( unittest.TestCase ) :
 
     def test_component( self ) :
 
-        numbers = ChannelQuantumNumbers( l = 1, s = 0.5, J = 1.5, parity = +1 )
+        numbers = ChannelQuantumNumbers( l = 1, s = 1/2, J = 3/2, parity = +1 )
 
         self.assertEqual( 1, numbers.orbital_angular_momentum )
         self.assertEqual( 0.5, numbers.spin )

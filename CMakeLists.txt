@@ -77,6 +77,7 @@ pybind11_add_module( resonanceReconstruction.python
     EXCLUDE_FROM_ALL
     python/src/resonanceReconstruction.python.cpp
     python/src/rmatrix/ChannelQuantumNumbers.python.cpp
+    python/src/rmatrix/Particle.python.cpp
     )
 target_link_libraries( resonanceReconstruction.python PUBLIC resonanceReconstruction )
 target_compile_options( resonanceReconstruction.python PUBLIC "-fPIC" )
