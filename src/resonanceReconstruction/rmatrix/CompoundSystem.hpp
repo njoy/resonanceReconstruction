@@ -47,12 +47,18 @@ public:
   /* constructor */
   #include "resonanceReconstruction/rmatrix/CompoundSystem/src/ctor.hpp"
 
-  auto spinGroups() const { return ranges::view::all( this->groups_ ); }
+  auto spinGroups() const {
+
+    return ranges::cpp20::views::all( this->groups_ );
+  }
 
   /**
    *  @brief Return the reactions defined in the compound system
    */
-  auto reactionIDs() const { return ranges::view::all( this->reactions_ ); }
+  auto reactionIDs() const {
+
+    return ranges::cpp20::views::all( this->reactions_ );
+  }
 
   //#include "resonanceReconstruction/rmatrix/CompoundSystem/src/switchIncidentPair.hpp"
   #include "resonanceReconstruction/rmatrix/CompoundSystem/src/evaluate.hpp"

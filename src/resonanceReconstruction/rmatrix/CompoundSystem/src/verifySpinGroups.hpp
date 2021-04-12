@@ -12,12 +12,12 @@ void verifySpinGroups(
 
   // verify that each group is unique (i.e. each Jpi occurs only once)
 
-  auto toHalfIntegerString = 
+  auto toHalfIntegerString =
       [] ( const double a )
          { double half;
            return std::modf( a, &half ) == 0. ?
                       std::to_string( static_cast<int>( half ) ) :
-                      std::to_string( 2 * static_cast<int>( half ) + 1 ) 
+                      std::to_string( 2 * static_cast<int>( half ) + 1 )
                         + "/2"; };
 
   const auto getQuantumNumbers = [] ( const auto& group ) {
@@ -26,11 +26,11 @@ void verifySpinGroups(
                        group.channels().front() );
   };
 
-  const auto numbers = groups | ranges::view::transform( getQuantumNumbers );
+  const auto numbers = groups | ranges::views::transform( getQuantumNumbers );
 
   const auto verifyUniqueSpinGroup = [&] ( const auto& reference ) {
 
-    if ( ranges::count_if(
+    if ( ranges::cpp20::count_if(
              numbers,
              [&] ( const auto& current )
                  { return ( current.totalAngularMomentum() ==

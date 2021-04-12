@@ -4,10 +4,11 @@ makeReactionIDs( const std::vector< SpinGroup< Formalism, BoundaryOption > >& gr
 
   std::vector< ReactionID > reactions;
 
-  reactions = groups | ranges::view::transform(
-                           [] ( const auto& group )
-                              { return group.reactionIDs(); } )
-                     | ranges::view::join;
+  reactions = ranges::to< std::vector< ReactionID > >(
+                  groups | ranges::views::transform(
+                               [] ( const auto& group )
+                                  { return group.reactionIDs(); } )
+                         | ranges::views::join );
 
   std::sort( reactions.begin(), reactions.end() );
   reactions.erase( std::unique( reactions.begin(), reactions.end() ),

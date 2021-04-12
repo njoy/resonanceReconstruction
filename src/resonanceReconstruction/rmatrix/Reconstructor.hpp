@@ -104,7 +104,7 @@ public:
 
     auto energies = std::visit( [&] ( auto& system ) { return system.grid(); },
                                 this->system_ );
-    return energies | ranges::view::filter( filter );
+    return energies | ranges::cpp20::views::filter( filter );
   }
 
   /**

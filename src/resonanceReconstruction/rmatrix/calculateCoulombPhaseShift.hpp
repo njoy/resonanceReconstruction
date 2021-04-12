@@ -44,8 +44,8 @@ template <>
 double calculateCoulombPhaseShift< ChargedParticle >( const int l,
                                                       const double eta ) {
   return ranges::accumulate(
-             ranges::view::indices( 1, l + 1 )
-               | ranges::view::transform(
+             ranges::views::indices( 1, l + 1 )
+               | ranges::views::transform(
                      [&] ( int n ) -> double
                          { return 1. / std::tan( eta / n ); } ), 0.0 );
 }
