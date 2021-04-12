@@ -33,16 +33,16 @@ auto rmatrix( const Energy& energy ) const {
 
   const auto widths = this->widths();
   const int size = widths.size();
-  return ranges::view::cartesian_product( widths, widths )
-           | ranges::view::transform(
+  return ranges::views::cartesian_product( widths, widths )
+           | ranges::views::transform(
                  [] ( auto&& pair ) -> Energy
                     { return std::get< 0 >( pair ) *
                              std::get< 1 >( pair ); } )
-           | ranges::view::transform(
+           | ranges::views::transform(
                  [] ( auto&& square ) -> double
                     { return square / electronVolt; } )
-           | ranges::view::transform(
+           | ranges::views::transform(
                  [terminator] ( auto&& element ) -> std::complex< double >
                               { return element * terminator; } )
-           | ranges::view::chunk( size );
+           | ranges::views::chunk( size );
 }

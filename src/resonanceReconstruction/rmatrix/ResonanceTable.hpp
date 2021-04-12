@@ -47,12 +47,18 @@ public:
   /**
    *  @brief Return the channel IDs
    */
-  auto channels() const { return ranges::view::all( this->channels_ ); }
+  auto channels() const {
+
+    return ranges::cpp20::views::all( this->channels_ );
+  }
 
   /**
    *  @brief Return the resonances
    */
-  auto resonances() const { return ranges::view::all( this->widths_ ); }
+  auto resonances() const {
+
+    return ranges::cpp20::views::all( this->widths_ );
+  }
 
   /**
    *  @brief Return the resonance energies
@@ -60,8 +66,8 @@ public:
   auto energies() const {
 
     return this->resonances()
-             | ranges::view::transform( [] ( const auto& resonance )
-                                           { return resonance.energy(); } );
+             | ranges::views::transform( [] ( const auto& resonance )
+                                            { return resonance.energy(); } );
   }
 };
 
