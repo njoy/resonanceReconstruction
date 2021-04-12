@@ -24,11 +24,11 @@ void verifySpinGroups( const std::vector< SpinGroupType >& groups ) {
     return group.incidentChannel().quantumNumbers();
   };
 
-  const auto numbers = groups | ranges::view::transform( getQuantumNumbers );
+  const auto numbers = groups | ranges::views::transform( getQuantumNumbers );
 
   const auto verifyUniqueSpinGroup = [&] ( const auto& reference ) {
 
-    if ( ranges::count_if(
+    if ( ranges::cpp20::count_if(
              numbers,
              [&] ( const auto& current )
                  { return ( current.orbitalAngularMomentum() ==
@@ -45,5 +45,5 @@ void verifySpinGroups( const std::vector< SpinGroupType >& groups ) {
     }
   };
 
-  ranges::for_each( numbers, verifyUniqueSpinGroup );
+  ranges::cpp20::for_each( numbers, verifyUniqueSpinGroup );
 }

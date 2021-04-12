@@ -16,7 +16,7 @@ std::vector< Energy > grid() const {
     auto groupgrid = group.grid();
     grid.insert( grid.end(), groupgrid.begin(), groupgrid.end() );
   }
-  grid |= ranges::action::sort | ranges::action::unique;
+  grid |= ranges::actions::sort | ranges::actions::unique;
 
   return grid;
 }

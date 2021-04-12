@@ -22,7 +22,7 @@ std::vector< Energy > grid() const {
       grid.push_back( energy + 0.5 * total );
     }
   }
-  grid |= ranges::action::sort | ranges::action::unique;
+  grid |= ranges::actions::sort | ranges::actions::unique;
 
   return grid;
 }

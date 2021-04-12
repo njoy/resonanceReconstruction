@@ -54,8 +54,8 @@ public:
   auto energies() const {
 
     return this->resonances()
-             | ranges::view::transform( [] ( const auto& resonance )
-                                           { return resonance.energy(); } );
+             | ranges::views::transform( [] ( const auto& resonance )
+                                            { return resonance.energy(); } );
   }
 };
 

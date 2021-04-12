@@ -37,7 +37,7 @@ void evaluate( const Energy& energy,
 
   // accumulate the cross section components
   const Data< double > components =
-    ranges::accumulate( ranges::view::zip_with(
+    ranges::accumulate( ranges::views::zip_with(
                             calculate,
                             this->elastic(), this->capture(), this->fission(),
                             this->total(), this->delta(), this->denominator() ),

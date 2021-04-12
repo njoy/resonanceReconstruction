@@ -20,11 +20,18 @@ void precompute( const Energy& energy ) {
 
   // precompute values
   const auto resonances = this->resonanceTable().resonances();
-  this->elastic_ = resonances | ranges::view::transform( elastic );
-  this->capture_ = resonances | ranges::view::transform( capture );
-  this->fission_ = resonances | ranges::view::transform( fission );
-  this->total_ = resonances | ranges::view::transform( total );
-  this->delta_ = resonances | ranges::view::transform( delta );
-  this->denominator_ = ranges::view::zip_with( denominator,
-                                               this->delta_, this->total_ );
+  this->elastic_ = ranges::to< std::vector< Width > >(
+                       resonances | ranges::views::transform( elastic ) );
+  this->capture_ = ranges::to< std::vector< Width > >(
+                       resonances | ranges::views::transform( capture ) );
+  this->fission_ = ranges::to< std::vector< Width > >(
+                       resonances | ranges::views::transform( fission ) );
+  this->total_ = ranges::to< std::vector< Width > >(
+                     resonances | ranges::views::transform( total ) );
+  this->delta_ = ranges::to< std::vector< Energy > >(
+                     resonances | ranges::views::transform( delta ) );
+  this->denominator_ = ranges::to< std::vector< EnergySquared > >(
+                           ranges::views::zip_with( denominator,
+                                                    this->delta_,
+                                                    this->total_ ) );
 }

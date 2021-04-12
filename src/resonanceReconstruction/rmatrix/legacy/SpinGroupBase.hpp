@@ -75,7 +75,10 @@ public:
   /**
    *  @brief Return the reactions defined here
    */
-  auto reactionIDs() const { return ranges::view::all( this->reactions_ ); }
+  auto reactionIDs() const {
+
+    return ranges::cpp20::views::all( this->reactions_ ); 
+  }
 
   /**
    *  @brief Return whether or not the spin group has fission or not
