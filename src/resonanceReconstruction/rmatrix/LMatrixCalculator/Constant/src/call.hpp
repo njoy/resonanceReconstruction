@@ -19,9 +19,9 @@ operator()( const Energy& energy,
   auto toComplex = [] ( double real, double imaginary )
                       { return std::complex< double >( real, imaginary ); };
 
-  auto diagonal = ranges::view::zip_with(
+  auto diagonal = ranges::views::zip_with(
                     toComplex,
-                    channels | ranges::view::transform(
+                    channels | ranges::views::transform(
                                  [&] ( const auto& channel )
                                      { return std::visit( shiftMinusBoundary,
                                                           channel ); } ),
