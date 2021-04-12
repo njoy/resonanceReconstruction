@@ -35,8 +35,8 @@ void verifyResonanceChannels( const std::vector< ParticleChannel >& channels,
     }
   };
 
-  ranges::for_each(
-      ranges::view::zip( channels | ranges::view::transform( getChannelID ),
-                         table.channels() ),
+  ranges::cpp20::for_each(
+      ranges::views::zip( channels | ranges::views::transform( getChannelID ),
+                          table.channels() ),
       checkLabels );
 }

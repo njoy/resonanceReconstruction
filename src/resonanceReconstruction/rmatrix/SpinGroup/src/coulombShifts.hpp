@@ -4,7 +4,7 @@ auto coulombShifts( const Energy& energy ) const {
                                { return channel.coulombPhaseShift( energy ); };
 
   return this->channels()
-           | ranges::view::transform(
+           | ranges::views::transform(
                  [=] ( const auto& channel )
                      { return std::visit( coulombPhaseShift, channel ); } );
 }

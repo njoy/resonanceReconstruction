@@ -4,7 +4,7 @@ auto phaseShifts( const Energy& energy ) const {
                         { return channel.phaseShift( energy ); };
 
   return this->channels()
-           | ranges::view::transform(
+           | ranges::views::transform(
                  [=] ( const auto& channel )
                      { return std::visit( phaseShift, channel ); } );
 }

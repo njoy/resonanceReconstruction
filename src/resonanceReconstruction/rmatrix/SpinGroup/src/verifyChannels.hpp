@@ -21,7 +21,7 @@ void verifyChannels( const std::vector< ParticleChannel >& channels ) {
   const auto in = getIncidentPairID( channels.front() );
 
   if ( static_cast< unsigned int >(
-         ranges::count_if(
+         ranges::cpp20::count_if(
              channels,
              [&] ( const auto& channel )
                  { return getIncidentPairID( channel ) == in; } ) )
@@ -44,7 +44,7 @@ void verifyChannels( const std::vector< ParticleChannel >& channels ) {
     };
 
     const auto label = getChannelID( entry );
-    if ( ranges::count_if(
+    if ( ranges::cpp20::count_if(
              channels,
              [&] ( const auto& channel )
                  { return getChannelID( channel ) == label; } ) > 1 ) {
@@ -55,7 +55,7 @@ void verifyChannels( const std::vector< ParticleChannel >& channels ) {
     }
   };
 
-  ranges::for_each( channels, verifyUniqueChannel );
+  ranges::cpp20::for_each( channels, verifyUniqueChannel );
 
   // verify that each channel's Jpi is the same
 
@@ -86,6 +86,6 @@ void verifyChannels( const std::vector< ParticleChannel >& channels ) {
     }
   };
 
-  ranges::for_each( channels | ranges::view::drop_exactly( 1 ),
-                    checkQuantumNumbers );
+  ranges::cpp20::for_each( channels | ranges::views::drop_exactly( 1 ),
+                           checkQuantumNumbers );
 }

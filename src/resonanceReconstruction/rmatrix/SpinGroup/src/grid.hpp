@@ -16,7 +16,7 @@ std::vector< Energy > grid() const {
                     { return 2. * p * gamma * gamma; };
   auto totalWidth = [&] ( const auto& resonance ) -> Width {
 
-    auto widths = ranges::view::zip_with(
+    auto widths = ranges::views::zip_with(
                       toWidth,
                       resonance.widths(),
                       this->penetrabilities( resonance.energy() ) );
@@ -37,7 +37,7 @@ std::vector< Energy > grid() const {
       grid.push_back( energy + 0.5 * total );
     }
   }
-  grid |= ranges::action::sort | ranges::action::unique;
+  grid |= ranges::actions::sort | ranges::actions::unique;
 
   return grid;
 }
