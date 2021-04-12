@@ -131,12 +131,18 @@ public:
   /**
    *  @brief Return the resonance energies
    */
-  auto energies() const { return ranges::view::all( this->energies_ ); }
+  auto energies() const {
+
+    return ranges::cpp20::views::all( this->energies_ );
+  }
 
   /**
    *  @brief Return the resonance widths
    */
-  auto widths() const { return ranges::view::all( this->widths_ ); }
+  auto widths() const {
+
+    return ranges::cpp20::views::all( this->widths_ );
+  }
 
   /**
    *  @brief Return whether or not this is an eliminated channel
