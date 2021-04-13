@@ -19,7 +19,7 @@ auto evaluate( const ResonanceShape& kernel,
 
   const auto Jgroups =
     this->resonances()
-    | ranges::view::group_by( []( const auto& reference, const auto& trial ){
+    | ranges::views::group_by( []( const auto& reference, const auto& trial ){
         return reference.statisticalFactor == trial.statisticalFactor;
       } );
 
@@ -27,10 +27,10 @@ auto evaluate( const ResonanceShape& kernel,
 
   const auto crossSections =
     Jgroups
-    | ranges::view::transform( [&]( const auto& Jgroup ){
+    | ranges::views::transform( [&]( const auto& Jgroup ){
         const auto Jresonances =
           Jgroup
-          | ranges::view::transform(
+          | ranges::views::transform(
               [&]( const auto& resonance ){
                 return resonance( penetrationFactor,
                                   shiftFactor,

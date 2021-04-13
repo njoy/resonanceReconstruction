@@ -15,16 +15,16 @@ auto operator()( const Quantity<ElectronVolts> energy,
   const auto cos2Phi = std::cos( 2. * phaseShift );
 
   const auto groupByStatisticalFactor =
-    ranges::view::group_by( []( auto&& left, auto&& right ){
+    ranges::views::group_by( []( auto&& left, auto&& right ){
         return left.flaggedStatisticalFactor == right.flaggedStatisticalFactor;
       } );
 
   const auto evaluateJgroups =
-    ranges::view::transform( [&]( const auto& group ){
+    ranges::views::transform( [&]( const auto& group ){
         Matrix3x3 rMatrix = Matrix3x3::Zero();
 
         const auto evaluateResonances =
-          ranges::view::transform( [&]( const auto& resonance ) {
+          ranges::views::transform( [&]( const auto& resonance ) {
               return resonance( energy, rootPenetrationFactor, rMatrix );
             } );
 
@@ -41,8 +41,11 @@ auto operator()( const Quantity<ElectronVolts> energy,
           ( rMatrix, cos2Phi, sin2Phi, statisticalFactor, phaseShift );
       } );
 
-  const auto crossSections =
-    this->resonances | groupByStatisticalFactor | evaluateJgroups;
+  // @todo change the vector into a view
+  using Pack = decltype( pack( 0., 0., 0., 0. ) );
+  const std::vector< Pack > crossSections =
+    ranges::to< std::vector< Pack > >(
+      this->resonances | groupByStatisticalFactor | evaluateJgroups );
 
   const auto sum =
     ranges::accumulate( crossSections, pack( 0., 0., 0., 0. ) ).data;
