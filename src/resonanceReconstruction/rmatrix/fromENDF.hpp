@@ -4,6 +4,7 @@
 // system includes
 
 // other includes
+#include "range/v3/range/conversion.hpp"
 #include "range/v3/algorithm/count.hpp"
 #include "resonanceReconstruction/endf.hpp"
 #include "resonanceReconstruction/endf.hpp"

@@ -41,17 +41,17 @@ makeLegacyBreitWignerSpinGroups(
                                          awri, neutronMass.value );
 
   // the different J values referenced in the table
-  std::vector< double > jvalues = endfLValue.spinValues()
-                                      | ranges::to_vector
-                                      | ranges::action::sort
-                                      | ranges::action::unique;
+  std::vector< double > jvalues =
+      ranges::to< std::vector< double > >( endfLValue.spinValues() )
+      | ranges::actions::sort
+      | ranges::actions::unique;
 
   // loop over each J value
   auto resonances = endfLValue.resonances();
   for ( double J : jvalues ) {
 
     // filter out resonances with this J value
-    auto current = resonances | ranges::view::filter(
+    auto current = resonances | ranges::views::filter(
                                      [J] ( const auto& resonance )
                                          { return resonance.spin() == J; } );
 
@@ -61,56 +61,66 @@ makeLegacyBreitWignerSpinGroups(
                                  radii );
 
     // calculate P, Q and S
-    unsigned int nr = ranges::distance( current );
+    unsigned int nr = ranges::cpp20::distance( current );
     auto qx = endfLValue.QX() * electronVolt;
     bool lrx = endfLValue.competitiveWidthFlag();
     std::vector< Energy > energies =
-        current | ranges::view::transform(
+      ranges::to< std::vector< Energy > >(
+        current | ranges::views::transform(
                     [] ( const auto& resonance )
-                       { return resonance.resonanceEnergy() * electronVolt; } );
+                       { return resonance.resonanceEnergy() * electronVolt; } ) );
     std::vector< double >  p =
-        energies | ranges::view::transform(
+      ranges::to< std::vector< double > >(
+        energies | ranges::views::transform(
                      [&] ( const auto& energy )
-                         { return cElastic.penetrability( energy ); } );
+                         { return cElastic.penetrability( energy ); } ) );
     std::vector< double > q =
-        lrx ? energies
-                | ranges::view::transform(
-                    [&] ( const auto& energy )
-                        { return cElastic.penetrability( energy - qx ); } )
+        lrx ? ranges::to< std::vector< double > >(
+                energies
+                  | ranges::views::transform(
+                      [&] ( const auto& energy )
+                          { return cElastic.penetrability( energy - qx ); } ) )
             : p;
     std::vector< double > s =
-        energies | ranges::view::transform(
+      ranges::to< std::vector< double > >(
+        energies | ranges::views::transform(
                      [&] ( const auto& energy )
-                         { return cElastic.shiftFactor( energy ); } );
+                         { return cElastic.shiftFactor( energy ); } ) );
 
     // get the widths
     auto elastic =
-          current | ranges::view::transform(
+          current | ranges::views::transform(
                       [] ( const auto& resonance )
                          { return resonance.neutronWidth() * electronVolt; } );
     auto capture =
-          current | ranges::view::transform(
+          current | ranges::views::transform(
                       [] ( const auto& resonance )
                          { return resonance.gammaWidth() * electronVolt; } );
     auto fission =
-          current | ranges::view::transform(
+          current | ranges::views::transform(
                       [] ( const auto& resonance )
                          { return resonance.fissionWidth() * electronVolt; } );
     std::vector< Width > competition =
-    lrx ? current
-              | ranges::view::transform(
+    lrx ? ranges::to< std::vector< Width > >(
+            current
+              | ranges::views::transform(
                   [&] ( const auto& resonance )
-                      { return resonance.competitiveWidth() * electronVolt; } )
+                      { return resonance.competitiveWidth() * electronVolt; } ) )
         : std::vector< Width >( nr, 0. * electronVolt );
 
+    // the resonances
+    std::vector< legacy::resolved::Resonance > resonances =
+      ranges::to< std::vector< legacy::resolved::Resonance > >(
+        ranges::views::zip_with(
+          toResonance,
+          energies, elastic, capture, fission,
+          competition, p, q, s ) );
+
     // make the spin group
-    groups.emplace_back( std::move( cElastic ),
-                         legacy::resolved::ResonanceTable(
-                             ranges::view::zip_with(
-                                 toResonance,
-                                 energies, elastic, capture, fission,
-                                 competition, p, q, s ) ),
-                         qx );
+    groups.emplace_back(
+        std::move( cElastic ),
+        legacy::resolved::ResonanceTable( std::move( resonances ) ),
+        qx );
   }
 
   // return the groups

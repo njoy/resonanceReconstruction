@@ -36,7 +36,7 @@ makeReichMooreChannelData(
   auto isAllZero = [&] ( auto&& range ) -> bool {
 
     return ranges::accumulate(
-               range | ranges::view::transform(
+               range | ranges::views::transform(
                            [] ( const auto& value )
                               { return value == 0.; } ),
                true,
@@ -61,15 +61,15 @@ makeReichMooreChannelData(
   // the different J values referenced in the table
   std::vector< double > jvalues = endfLValue.spinValues()
                                       | ranges::to_vector
-                                      | ranges::action::sort
-                                      | ranges::action::unique;
+                                      | ranges::actions::sort
+                                      | ranges::actions::unique;
 
   // loop over each J value
   auto resonances = endfLValue.resonances();
   for ( double J : jvalues ) {
 
     // filter out resonances with this J value
-    auto current = resonances | ranges::view::filter(
+    auto current = resonances | ranges::views::filter(
                                      [J] ( const auto& resonance )
                                          { return resonance.spin() == J; } );
 
@@ -93,56 +93,69 @@ makeReichMooreChannelData(
                                   nOther, radii );
 
     // get the widths
-    auto wElastic = current | ranges::view::transform(
+    auto wElastic = current | ranges::views::transform(
                                 [] ( const auto& resonance )
                                    { return resonance.neutronWidth(); } );
-    auto wCapture = current | ranges::view::transform(
+    auto wCapture = current | ranges::views::transform(
                                 [] ( const auto& resonance )
                                    { return resonance.gammaWidth(); } );
-    auto wFission1 = current | ranges::view::transform(
+    auto wFission1 = current | ranges::views::transform(
                                  [] ( const auto& resonance )
                                     { return resonance.firstFissionWidth(); } );
-    auto wFission2 = current | ranges::view::transform(
+    auto wFission2 = current | ranges::views::transform(
                                  [] ( const auto& resonance )
                                     { return resonance.secondFissionWidth(); } );
 
     // calculate penetrabilities
     std::vector< Energy > energies =
-        current | ranges::view::transform(
+      ranges::to< std::vector< Energy > >(
+        current | ranges::views::transform(
                     [] ( const auto& resonance )
-                       { return resonance.resonanceEnergy() * electronVolt; } );
+                       { return resonance.resonanceEnergy() * electronVolt; } ) );
     auto penetrabilities =
-        energies | ranges::view::transform(
+        energies | ranges::views::transform(
                      [&] ( const auto& energy )
                          { return cElastic.penetrability( energy ); } );
 
     // calculate reduced widths
-    auto rwElastic = ranges::view::zip_with(
-                         toElasticWidth, wElastic, penetrabilities );
-    auto rwCapture = wCapture | ranges::view::transform( toOtherWidth );
-    auto rwFission1 = wFission1 | ranges::view::transform( toOtherWidth );
-    auto rwFission2 = wFission2 | ranges::view::transform( toOtherWidth );
+    std::vector< ReducedWidth > rwElastic =
+      ranges::to< std::vector< ReducedWidth > >(
+        ranges::views::zip_with( toElasticWidth, wElastic, penetrabilities ) );
+    std::vector< ReducedWidth > rwCapture =
+      ranges::to< std::vector< ReducedWidth > >(
+        wCapture | ranges::views::transform( toOtherWidth ) );
+    std::vector< ReducedWidth > rwFission1 =
+      ranges::to< std::vector< ReducedWidth > >(
+        wFission1 | ranges::views::transform( toOtherWidth ) );
+    std::vector< ReducedWidth > rwFission2 =
+      ranges::to< std::vector< ReducedWidth > >(
+        wFission2 | ranges::views::transform( toOtherWidth ) );
 
     // see how many channels we have
     bool bFission1 = not isAllZero( wFission1 );
     bool bFission2 = not isAllZero( wFission2 );
 
     // add channel data
-    data.emplace_back( cElastic, std::vector< Energy >( energies ), rwElastic );
-    data.emplace_back( cCapture, std::vector< Energy >( energies ), rwCapture, true );
+    data.emplace_back( cElastic, std::vector< Energy >( energies ),
+                       std::move( rwElastic ) );
+    data.emplace_back( cCapture, std::vector< Energy >( energies ),
+                       std::move( rwCapture ), true );
     if ( bFission1 ) {
 
-      data.emplace_back( cFission1, std::vector< Energy >( energies ), rwFission1 );
+      data.emplace_back( cFission1, std::vector< Energy >( energies ),
+                         std::move( rwFission1 ) );
     }
     if ( bFission2 ) {
 
       if ( bFission1 ) {
 
-        data.emplace_back( cFission2, std::vector< Energy >( energies ), rwFission2 );
+        data.emplace_back( cFission2, std::vector< Energy >( energies ),
+                           std::move( rwFission2 ) );
       }
       else {
 
-        data.emplace_back( cFission1, std::vector< Energy >( energies ), rwFission2 );
+        data.emplace_back( cFission1, std::vector< Energy >( energies ),
+                           std::move( rwFission2 ) );
       }
     }
   }

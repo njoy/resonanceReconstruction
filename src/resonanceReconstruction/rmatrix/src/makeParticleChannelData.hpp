@@ -28,16 +28,17 @@ consolidateChannelData( const std::vector< ParticleChannelData >& channels ) {
   };
 
   // get all data for channels that are not eliminated
-  consolidated = channels | ranges::view::filter( isNotEliminated );
-  auto remaining = channels | ranges::view::filter( isEliminated );
+  consolidated = ranges::to< std::vector< ParticleChannelData > >(
+                     channels | ranges::views::filter( isNotEliminated ) );
+  auto remaining = channels | ranges::views::filter( isEliminated );
 
   // get the different Jpi values in the eliminated channels
   std::vector< std::pair< TotalAngularMomentum, Parity > > spins =
-    channels | ranges::view::filter( isEliminated )
-             | ranges::view::transform( getJpi )
-             | ranges::to_vector
-             | ranges::action::sort
-             | ranges::action::unique;
+    ranges::to< std::vector< std::pair< TotalAngularMomentum, Parity > > >(
+      channels | ranges::views::filter( isEliminated )
+               | ranges::views::transform( getJpi ) )
+    | ranges::actions::sort
+    | ranges::actions::unique;
 
   // go over the Jpi
   for ( const auto& Jpi : spins ) {
@@ -51,19 +52,25 @@ consolidateChannelData( const std::vector< ParticleChannelData >& channels ) {
              ( channel.quantumNumbers().parity() == parity );
     };
 
-    auto eliminated = remaining | ranges::view::filter( filter );
-    if ( ranges::distance( eliminated ) == 1 ) {
+    auto eliminated = remaining | ranges::views::filter( filter );
+    if ( ranges::cpp20::distance( eliminated ) == 1 ) {
 
       consolidated.push_back( eliminated.front() );
     }
     else {
 
       auto channel = eliminated.front().channel();
-      auto energies = eliminated | ranges::view::transform( getEnergies );
-      auto widths = eliminated | ranges::view::transform( getWidths );
+      std::vector< Energy > energies =
+        ranges::to< std::vector< Energy > >(
+          eliminated | ranges::views::transform( getEnergies )
+                     | ranges::views::join );
+      std::vector< ReducedWidth >  widths =
+        ranges::to< std::vector< ReducedWidth > >(
+          eliminated | ranges::views::transform( getWidths )
+                     | ranges::views::join );
       consolidated.emplace_back( channel,
-                                 energies | ranges::view::join,
-                                 widths | ranges::view::join,
+                                 std::move( energies ),
+                                 std::move( widths ),
                                  true );
     }
   }
@@ -125,14 +132,14 @@ makeParticleChannelData(
 
     if ( reducedWidthsFlag ) {
 
-      return widths | ranges::view::transform( toReducedWidth );
+      return widths | ranges::views::transform( toReducedWidth );
     }
 
-    return ranges::view::zip_with(
+    return ranges::views::zip_with(
                calculateReducedWidth,
                energies,
                widths,
-               ranges::view::repeat_n( channel, energies.size() ) );
+               ranges::views::repeat_n( channel, energies.size() ) );
   };
 
   std::vector< ParticleChannel > channels =
@@ -144,21 +151,23 @@ makeParticleChannelData(
 
     if ( endfSpinGroup.parameters().numberResonances() != 0 ) {
 
-      auto pairs = ranges::view::zip(
+      auto pairs = ranges::views::zip(
                      endfSpinGroup.parameters().resonanceEnergies(),
                      endfSpinGroup.parameters().resonanceParameters()
-                       | ranges::view::transform( [i] ( const auto& widths )
+                       | ranges::views::transform( [i] ( const auto& widths )
                                                       { return widths[i]; } ) );
-      auto nonzero = pairs | ranges::view::filter( nonZero );
+      auto nonzero = pairs | ranges::views::filter( nonZero );
 
       // only add the channel if there are resonances
-      if ( ranges::distance( nonzero ) != 0 ) {
+      if ( ranges::cpp20::distance( nonzero ) != 0 ) {
 
-        auto energies = nonzero | ranges::view::transform( first )
-                                | ranges::view::transform( toEnergy )
-                                | ranges::to_vector;
-        auto widths = nonzero | ranges::view::transform( second )
-                              | ranges::to_vector;
+        std::vector< Energy > energies =
+          ranges::to< std::vector< Energy > >(
+            nonzero | ranges::views::transform( first )
+                    | ranges::views::transform( toEnergy ) );
+        std::vector< ReducedWidth > widths =
+          ranges::to< std::vector< ReducedWidth > >(
+            nonzero | ranges::views::transform( second ) );
         auto reduced = toReducedWidths( channels[i], energies, widths );
         data.emplace_back( channels[i], std::move( energies ),
                            std::move( reduced ), false );
@@ -249,14 +258,16 @@ makeParticleChannelData(
 
     if ( reducedWidthsFlag ) {
 
-      return widths | ranges::view::transform( toReducedWidth );
+      return ranges::to< std::vector< ReducedWidth > >(
+                 widths | ranges::views::transform( toReducedWidth ) );
     }
 
-    return ranges::view::zip_with(
+    return ranges::to< std::vector< ReducedWidth > >(
+             ranges::views::zip_with(
                calculateReducedWidth,
                energies,
                widths,
-               ranges::view::repeat_n( channel, energies.size() ) );
+               ranges::views::repeat_n( channel, energies.size() ) ) );
   };
 
   std::vector< ParticleChannel > channels =
@@ -272,10 +283,10 @@ makeParticleChannelData(
     };
 
     auto eliminatedPair = pairs[ rmatrix::eliminated( endfPairs ) ];
-    auto pairs = channels | ranges::view::transform( getParticlePair );
+    auto pairs = channels | ranges::views::transform( getParticlePair );
     auto found = std::find_if(
-                     ranges::begin( pairs ),
-                     ranges::end( pairs ),
+                     ranges::cpp20::begin( pairs ),
+                     ranges::cpp20::end( pairs ),
                      [&] ( const auto& pair )
                          { return eliminatedPair.pairID() == pair.pairID(); } );
     return std::distance( ranges::begin( pairs ), found );
@@ -286,19 +297,19 @@ makeParticleChannelData(
 
     if ( endfSpinGroup.parameters().numberResonances() != 0 ) {
 
-      auto pairs = ranges::view::zip(
+      auto pairs = ranges::views::zip(
                      endfSpinGroup.parameters().resonanceEnergies(),
                      endfSpinGroup.parameters().resonanceParameters()
-                       | ranges::view::transform( [i] ( const auto& widths )
-                                                      { return widths[i]; } ) );
-      auto nonzero = pairs | ranges::view::filter( nonZero );
+                       | ranges::views::transform( [i] ( const auto& widths )
+                                                       { return widths[i]; } ) );
+      auto nonzero = pairs | ranges::views::filter( nonZero );
 
       if ( ranges::distance( nonzero ) != 0 ) {
 
-        auto energies = nonzero | ranges::view::transform( first )
-                                | ranges::view::transform( toEnergy )
+        auto energies = nonzero | ranges::views::transform( first )
+                                | ranges::views::transform( toEnergy )
                                 | ranges::to_vector;
-        auto widths = nonzero | ranges::view::transform( second )
+        auto widths = nonzero | ranges::views::transform( second )
                               | ranges::to_vector;
         auto reduced = toReducedWidths( channels[i], energies, widths );
         data.emplace_back( channels[i], std::move( energies ),

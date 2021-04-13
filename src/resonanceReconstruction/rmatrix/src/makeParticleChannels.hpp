@@ -62,22 +62,23 @@ makeParticleChannels(
 
   // do some range magic
   auto q = endfPairs.Q();
-  auto incidentPairs = ranges::view::repeat_n( incident, pairs.size() );
+  auto incidentPairs = ranges::views::repeat_n( incident, pairs.size() );
   auto channelPairs = endfChannels.particlePairNumbers()
-                          | ranges::view::transform( getParticlePair );
+                          | ranges::views::transform( getParticlePair );
   auto qValues = endfChannels.particlePairNumbers()
-                     | ranges::view::transform( [&] ( unsigned int i )
-                                                    { return q[ i - 1 ]; } );
-  auto channelNumbers = ranges::view::zip_with(
+                     | ranges::views::transform( [&] ( unsigned int i )
+                                                     { return q[ i - 1 ]; } );
+  auto channelNumbers = ranges::views::zip_with(
                             makeChannelQuantumNumbers,
                             endfChannels.orbitalMomentumValues(),
                             endfChannels.channelSpinValues() );
-  auto channelRadii = ranges::view::zip_with(
+  auto channelRadii = ranges::views::zip_with(
                           makeChannelRadii,
                           endfChannels.trueChannelRadii(),
                           endfChannels.effectiveChannelRadii() );
 
-  return ranges::view::zip_with(
+  return ranges::to< std::vector< ParticleChannel > >(
+           ranges::views::zip_with(
              makeParticleChannel,
              incidentPairs,
              channelPairs,
@@ -85,5 +86,5 @@ makeParticleChannels(
              channelNumbers,
              channelRadii,
              endfChannels.boundaryConditionValues(),
-             endfPairs.MT() );
+             endfPairs.MT() ) );
 }

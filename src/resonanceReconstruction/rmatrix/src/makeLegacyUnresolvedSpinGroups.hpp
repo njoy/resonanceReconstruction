@@ -24,15 +24,16 @@ makeLegacyUnresolvedSpinGroups(
   };
 
   // some ranges magic
-  auto repeatL = ranges::view::repeat_n( l, njs );
-  auto repeatPair = ranges::view::repeat_n( pair, njs );
-  auto repeatRadii = ranges::view::repeat_n( radii, njs );
+  auto repeatL = ranges::views::repeat_n( l, njs );
+  auto repeatPair = ranges::views::repeat_n( pair, njs );
+  auto repeatRadii = ranges::views::repeat_n( radii, njs );
   auto jvalues = endfLValue.jValues();
 
-  return ranges::view::zip_with(
-           makeSpinGroup,
-           repeatL,
-           repeatPair,
-           repeatRadii,
-           jvalues );
+  return ranges::to< std::vector< legacy::unresolved::SpinGroup > >(
+           ranges::views::zip_with(
+             makeSpinGroup,
+             repeatL,
+             repeatPair,
+             repeatRadii,
+             jvalues ) );
 }

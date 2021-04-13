@@ -10,7 +10,7 @@ getEnergies(
   const endf::UnresolvedEnergyDependentFissionWidths& unresolved,
   double, double ) {
 
-  return unresolved.energies();
+  return ranges::to< std::vector< double > >( unresolved.energies() );
 }
 
 template < typename Unresolved >
@@ -23,8 +23,8 @@ int getUnresolvedInterpolation(
   auto verifyInterpolation = [] ( const auto& interpolants ) {
 
     int interpolation = interpolants[0];
-    if ( ranges::count( interpolants, interpolation )
-           != ranges::distance( interpolants ) ) {
+    if ( ranges::cpp20::count( interpolants, interpolation )
+           != ranges::cpp20::distance( interpolants ) ) {
 
       throw std::runtime_error( "Different interpolation schemes for "
                                 "unresolved l,J values are currently not "
@@ -36,14 +36,14 @@ int getUnresolvedInterpolation(
   auto getInterpolation = [&] ( const auto& values ) {
 
     return verifyInterpolation(
-               values | ranges::view::transform(
+               values | ranges::views::transform(
                             [] ( const auto& jvalue )
                                { return jvalue.INT(); } ) );
   };
 
   return verifyInterpolation(
              unresolved.lValues()
-                 | ranges::view::transform(
+                 | ranges::views::transform(
                        [&] ( const auto& lvalue )
                            { return getInterpolation( lvalue.jValues() ); } ) );
 }
@@ -81,18 +81,22 @@ makeLegacyUnresolvedCompoundSystem(
 
   // some magic magic
   auto lvalues = unresolved.lValues();
-  auto repeatPair = ranges::view::repeat_n( in, nls );
-  auto repeatRadii = ranges::view::repeat_n( radii, nls );
-  auto repeatEnergies = ranges::view::repeat_n(
+  auto repeatPair = ranges::views::repeat_n( in, nls );
+  auto repeatRadii = ranges::views::repeat_n( radii, nls );
+  auto repeatEnergies = ranges::views::repeat_n(
                             getEnergies( unresolved, lower, upper ), nls );
-  std::vector< std::vector< legacy::unresolved::SpinGroup > > groups =
-      ranges::view::zip_with(
-          makeLegacyUnresolvedSpinGroups< typename Unresolved::LValue >,
-          lvalues,
-          repeatPair,
-          repeatRadii,
-          repeatEnergies );
 
-  return legacy::unresolved::CompoundSystem(
-             std::move( groups | ranges::view::join ), interpolation );
+  std::vector< legacy::unresolved::SpinGroup > groups;
+  auto data = ranges::views::zip_with(
+                  makeLegacyUnresolvedSpinGroups< typename Unresolved::LValue >,
+                  lvalues,
+                  repeatPair,
+                  repeatRadii,
+                  repeatEnergies );
+  for ( const auto& entry : data ) {
+
+    groups.insert( groups.end(), entry.begin(), entry.end() );
+  }
+
+  return legacy::unresolved::CompoundSystem( std::move( groups ), interpolation );
 }

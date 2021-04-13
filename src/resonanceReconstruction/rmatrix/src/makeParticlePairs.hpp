@@ -4,8 +4,8 @@ findParticlePairForReaction(
     int mt ) {
 
   const auto reactions = endfPairs.MT();
-  auto found = std::find_if( ranges::begin( reactions ),
-                             ranges::end( reactions ),
+  auto found = std::find_if( ranges::cpp20::begin( reactions ),
+                             ranges::cpp20::end( reactions ),
                              [&] ( const auto& reaction )
                                  { return mt == reaction; } );
   return std::distance( ranges::begin( reactions ), found );
@@ -76,26 +76,27 @@ makeParticlePairs( const endf::RMatrixLimited::ParticlePairs& endfPairs,
   };
 
   // do some range magic
-  auto identifiers = endfPairs.MT() | ranges::view::transform( makeParticleIDs );
-  auto particles = ranges::view::zip_with(
+  auto identifiers = endfPairs.MT() | ranges::views::transform( makeParticleIDs );
+  auto particles = ranges::views::zip_with(
                        makeParticle,
-                       identifiers | ranges::view::transform( first ),
+                       identifiers | ranges::views::transform( first ),
                        endfPairs.massParticleA(),
                        endfPairs.chargeParticleA(),
                        endfPairs.spinParticleA(),
                        endfPairs.parityParticleA() );
-  auto residuals = ranges::view::zip_with(
+  auto residuals = ranges::views::zip_with(
                        makeParticle,
-                       identifiers | ranges::view::transform( second ),
+                       identifiers | ranges::views::transform( second ),
                        endfPairs.massParticleB(),
                        endfPairs.chargeParticleB(),
                        endfPairs.spinParticleB(),
                        endfPairs.parityParticleB() );
-  auto pairs = identifiers | ranges::view::transform( third );
+  auto pairs = identifiers | ranges::views::transform( third );
 
-  return ranges::view::zip_with(
+  return ranges::to< std::vector< ParticlePair > >(
+           ranges::views::zip_with(
              makeParticlePair,
              particles,
              residuals,
-             pairs );
+             pairs ) );
 }

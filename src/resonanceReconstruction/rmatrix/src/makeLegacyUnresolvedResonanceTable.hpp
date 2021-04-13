@@ -32,20 +32,21 @@ makeLegacyUnresolvedResonanceTable(
   };
 
   // do some ranges magic
-  auto resonances =
-      ranges::view::zip_with( toResonance,
+  std::vector< legacy::unresolved::Resonance > resonances =
+    ranges::to< std::vector< legacy::unresolved::Resonance > >(
+      ranges::views::zip_with( toResonance,
                               endfParameters.energies()
-                                | ranges::view::transform( toEnergy ),
+                                | ranges::views::transform( toEnergy ),
                               endfParameters.averageLevelSpacings()
-                                | ranges::view::transform( toLevelSpacing ),
+                                | ranges::views::transform( toLevelSpacing ),
                               endfParameters.averageNeutronWidths()
-                                | ranges::view::transform( toReducedWidth ),
+                                | ranges::views::transform( toReducedWidth ),
                               endfParameters.averageGammaWidths()
-                                | ranges::view::transform( toWidth ),
+                                | ranges::views::transform( toWidth ),
                               endfParameters.averageFissionWidths()
-                                | ranges::view::transform( toWidth ),
+                                | ranges::views::transform( toWidth ),
                               endfParameters.averageCompetitiveWidths()
-                                | ranges::view::transform( toWidth ) );
+                                | ranges::views::transform( toWidth ) ) );
 
   return legacy::unresolved::ResonanceTable(
              std::move( resonances ),
@@ -146,15 +147,16 @@ makeLegacyUnresolvedResonanceTable(
   auto elastic = toReducedWidth( endfParameters.averageNeutronWidth() );
   auto gamma = toWidth( endfParameters.averageGammaWidth() );
   auto competition = toWidth( endfParameters.averageCompetitiveWidth() );
-  auto resonances =
-      ranges::view::zip_with( toResonance,
-                              energies | ranges::view::transform( toEnergy ),
-                              ranges::view::repeat_n( spacing, ne ),
-                              ranges::view::repeat_n( elastic, ne ),
-                              ranges::view::repeat_n( gamma, ne ),
+  std::vector< legacy::unresolved::Resonance > resonances =
+    ranges::to< std::vector< legacy::unresolved::Resonance > >(
+      ranges::views::zip_with( toResonance,
+                              energies | ranges::views::transform( toEnergy ),
+                              ranges::views::repeat_n( spacing, ne ),
+                              ranges::views::repeat_n( elastic, ne ),
+                              ranges::views::repeat_n( gamma, ne ),
                               endfParameters.averageFissionWidths()
-                                | ranges::view::transform( toWidth ),
-                              ranges::view::repeat_n( competition, ne ) );
+                                | ranges::views::transform( toWidth ),
+                              ranges::views::repeat_n( competition, ne ) ) );
 
   return legacy::unresolved::ResonanceTable(
              std::move( resonances ),
