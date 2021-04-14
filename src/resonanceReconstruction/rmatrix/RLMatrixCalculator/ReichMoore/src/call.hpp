@@ -32,7 +32,7 @@ operator()( const Energy& energy,
 
   // zero out threshold reactions
   auto belowThreshold = channels
-         | ranges::views::transform(
+         | ranges::cpp20::views::transform(
               [&] ( const auto& channel )
                   { return std::visit(
                                [&] ( const auto& channel )

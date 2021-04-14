@@ -84,7 +84,7 @@ public:
    */
   auto reactionIDs() {
 
-    return std::visit( [] ( const auto& system )
+    return std::visit( [] ( const auto& system ) -> decltype(auto)
                           { return system.reactionIDs(); },
                        this->compoundSystem() );
   }
@@ -101,7 +101,8 @@ public:
              ( energy <= this->upperEnergy() );
     };
 
-    auto energies = std::visit( [&] ( auto& system ) { return system.grid(); },
+    auto energies = std::visit( [&] ( auto& system ) -> decltype(auto)
+                                    { return system.grid(); },
                                 this->system_ );
     return ranges::to< std::vector< Energy > >(
                energies | ranges::cpp20::views::filter( filter ) );
@@ -119,7 +120,7 @@ public:
     if ( ( energy >= this->lowerEnergy() ) and
          ( energy <= this->upperEnergy() ) ) {
 
-      std::visit( [&] ( auto& system )
+      std::visit( [&] ( auto& system ) -> void
                       { system.evaluate( energy, result ); },
                   this->system_ );
     }

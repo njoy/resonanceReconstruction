@@ -21,7 +21,7 @@ operator()( const Energy& energy,
 
   auto diagonal = ranges::views::zip_with(
                     toComplex,
-                    channels | ranges::views::transform(
+                    channels | ranges::cpp20::views::transform(
                                  [&] ( const auto& channel )
                                      { return std::visit( shiftMinusBoundary,
                                                           channel ); } ),
