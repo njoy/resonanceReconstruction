@@ -4,15 +4,15 @@ makeReactionIDs( const std::vector< SpinGroupType >& groups ) {
 
   std::vector< ReactionID > reactions;
 
-  reactions = ranges::to< std::vector< ReactionID > >(
-                  groups | ranges::views::transform(
-                               [] ( const auto& group )
-                                  { return group.reactionIDs(); } )
-                         | ranges::views::join );
+  for ( const auto& group : groups ) {
 
-  std::sort( reactions.begin(), reactions.end() );
-  reactions.erase( std::unique( reactions.begin(), reactions.end() ),
-                   reactions.end() );
+    decltype(auto) groupreactions = group.reactionIDs();
+    reactions.insert( reactions.end(),
+                      groupreactions.begin(), groupreactions.end() );
+  }
+
+  ranges::cpp20::sort( reactions );
+  reactions.erase( ranges::cpp20::unique( reactions ), reactions.end() );
 
   return reactions;
 }

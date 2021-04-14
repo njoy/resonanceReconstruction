@@ -28,13 +28,15 @@ void verifySpinGroups( const std::vector< SpinGroupType >& groups ) {
 
   const auto verifyUniqueSpinGroup = [&] ( const auto& reference ) {
 
-    if ( ranges::cpp20::count_if(
-             numbers,
-             [&] ( const auto& current )
-                 { return ( current.orbitalAngularMomentum() ==
-                                reference.orbitalAngularMomentum() ) &&
-                          ( current.totalAngularMomentum() ==
-                                reference.totalAngularMomentum() ); } ) > 1 ) {
+    const auto equalToReferenceNumbers = [&] ( const auto& current ) {
+
+      return ( current.orbitalAngularMomentum()
+                  == reference.orbitalAngularMomentum() ) &&
+             ( current.totalAngularMomentum()
+                  == reference.totalAngularMomentum() );
+    };
+
+    if ( ranges::cpp20::count_if( numbers, equalToReferenceNumbers ) > 1 ) {
 
       Log::error( "The spin groups in the compound system do not "
                   "seem to be unique." );

@@ -11,8 +11,8 @@
 #include "range/v3/view/transform.hpp"
 #include "range/v3/view/join.hpp"
 #include "resonanceReconstruction/Quantity.hpp"
+#include "resonanceReconstruction/rmatrix/identifiers.hpp"
 #include "resonanceReconstruction/rmatrix/Map.hpp"
-#include "resonanceReconstruction/rmatrix/ReactionID.hpp"
 #include "resonanceReconstruction/rmatrix/calculatePhaseShift.hpp"
 
 namespace njoy {
@@ -58,7 +58,7 @@ public:
    */
   auto reactionIDs() const {
 
-    return ranges::cpp20::views::all( this->reactions_ ); 
+    return ranges::cpp20::views::all( this->reactions_ );
   }
 
   #include "resonanceReconstruction/rmatrix/legacy/CompoundSystemBase/src/evaluate.hpp"

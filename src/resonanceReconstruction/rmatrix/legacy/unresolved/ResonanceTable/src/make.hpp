@@ -3,8 +3,9 @@ makeEnergies( const std::vector< Resonance >& resonances ) {
 
   return ranges::to< std::vector< Energy > >(
          resonances
-         | ranges::views::transform( [] ( const auto& resonance )
-                                        { return resonance.energy(); } ) );
+         | ranges::cpp20::views::transform(
+               [] ( const auto& resonance ) -> decltype(auto)
+                  { return resonance.energy(); } ) );
 }
 
 static std::vector< LevelSpacing >
@@ -12,8 +13,9 @@ makeSpacings( const std::vector< Resonance >& resonances ) {
 
   return ranges::to< std::vector< LevelSpacing > >(
          resonances
-         | ranges::views::transform( [] ( const auto& resonance )
-                                        { return resonance.levelSpacing(); } ) );
+         | ranges::cpp20::views::transform(
+               [] ( const auto& resonance ) -> decltype(auto)
+                  { return resonance.levelSpacing(); } ) );
 }
 
 static std::vector< ReducedWidth >
@@ -21,8 +23,9 @@ makeElasticWidths( const std::vector< Resonance >& resonances ) {
 
   return ranges::to< std::vector< ReducedWidth > >(
          resonances
-         | ranges::views::transform( [] ( const auto& resonance )
-                                        { return resonance.elastic(); } ) );
+         | ranges::cpp20::views::transform(
+               [] ( const auto& resonance ) -> decltype(auto)
+                  { return resonance.elastic(); } ) );
 }
 
 static std::vector< Width >
@@ -30,8 +33,9 @@ makeCaptureWidths( const std::vector< Resonance >& resonances ) {
 
   return ranges::to< std::vector< Width > >(
          resonances
-         | ranges::views::transform( [] ( const auto& resonance )
-                                        { return resonance.capture(); } ) );
+         | ranges::cpp20::views::transform(
+               [] ( const auto& resonance ) -> decltype(auto)
+                  { return resonance.capture(); } ) );
 }
 
 static std::vector< Width >
@@ -39,8 +43,9 @@ makeFissionWidths( const std::vector< Resonance >& resonances ) {
 
   return ranges::to< std::vector< Width > >(
          resonances
-         | ranges::views::transform( [] ( const auto& resonance )
-                                        { return resonance.fission(); } ) );
+         | ranges::cpp20::views::transform(
+               [] ( const auto& resonance ) -> decltype(auto)
+                  { return resonance.fission(); } ) );
 }
 
 static std::vector< Width >
@@ -48,8 +53,9 @@ makeCompetitionWidths( const std::vector< Resonance >& resonances ) {
 
   return ranges::to< std::vector< Width > >(
          resonances
-         | ranges::views::transform( [] ( const auto& resonance )
-                                        { return resonance.competition(); } ) );
+         | ranges::cpp20::views::transform(
+               [] ( const auto& resonance ) -> decltype(auto)
+                  { return resonance.competition(); } ) );
 }
 
 static std::tuple< LevelSpacingTable, ReducedWidthTable,

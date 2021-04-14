@@ -16,15 +16,15 @@
 std::vector< Energy > grid() const {
 
   // generate the initial grid using the energies of all resonance tables
-  std::vector< Energy > grid  =
-      ranges::to< std::vector< Energy > >(
-          this->spinGroups()
-              | ranges::views::transform(
-                    [] ( const auto& group )
-                       { return group.resonanceTable().energies(); } )
-              | ranges::views::join )
-      | ranges::actions::sort
-      | ranges::actions::unique;
+  std::vector< Energy > grid;
+  for ( const auto& group : this->spinGroups() ) {
+
+    decltype(auto) groupgrid = group.resonanceTable().energies();
+    grid.insert( grid.end(), groupgrid.begin(), groupgrid.end() );
+  }
+
+  ranges::cpp20::sort( grid );
+  grid.erase( ranges::cpp20::unique( grid ), grid.end() );
 
   // go over each energy point (no need to do this for empty grids or grids that
   // have only 1 element in them because an exception will be thrown anyway)
@@ -46,7 +46,7 @@ std::vector< Energy > grid() const {
         }
 
         auto values =
-            points | ranges::views::transform(
+            points | ranges::cpp20::views::transform(
                          [&] ( const auto& point ) -> Energy
                              { return point * std::pow( 10., exponent )
                                       * electronVolt; } );

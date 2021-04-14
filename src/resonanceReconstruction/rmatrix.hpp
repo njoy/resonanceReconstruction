@@ -5,17 +5,16 @@
 #include "resonanceReconstruction/rmatrix/options.hpp"
 
 // R-matrix components (independent of formalism)
+#include "resonanceReconstruction/rmatrix/identifiers.hpp"
 #include "resonanceReconstruction/rmatrix/QuantumNumbers.hpp"
 #include "resonanceReconstruction/rmatrix/ChannelQuantumNumbers.hpp"
 #include "resonanceReconstruction/rmatrix/Particle.hpp"
 #include "resonanceReconstruction/rmatrix/ParticlePair.hpp"
-#include "resonanceReconstruction/rmatrix/ChannelID.hpp"
 #include "resonanceReconstruction/rmatrix/ChannelRadiusTable.hpp"
 #include "resonanceReconstruction/rmatrix/ChannelRadii.hpp"
 #include "resonanceReconstruction/rmatrix/Channel.hpp"
 #include "resonanceReconstruction/rmatrix/ParticleChannel.hpp"
 #include "resonanceReconstruction/rmatrix/ParticleChannelData.hpp"
-#include "resonanceReconstruction/rmatrix/ReactionChannelID.hpp"
 
 // resonance information
 #include "resonanceReconstruction/rmatrix/Resonance.hpp"

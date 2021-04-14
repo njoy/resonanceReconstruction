@@ -5,8 +5,8 @@
 
 // other includes
 #include "resonanceReconstruction/rmatrix/options.hpp"
+#include "resonanceReconstruction/rmatrix/identifiers.hpp"
 #include "resonanceReconstruction/rmatrix/Channel.hpp"
-#include "resonanceReconstruction/rmatrix/ReactionID.hpp"
 #include "range/v3/algorithm/count_if.hpp"
 #include "range/v3/view/all.hpp"
 

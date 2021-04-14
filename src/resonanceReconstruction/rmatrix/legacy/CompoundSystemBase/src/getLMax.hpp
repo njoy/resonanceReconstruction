@@ -5,7 +5,7 @@ unsigned int getLMax( const std::vector< SpinGroupType >& groups ) {
 
     return ranges::cpp20::max(
              groups
-               | ranges::views::transform(
+               | ranges::cpp20::views::transform(
                    [] ( const auto& spingroup )
                       { return spingroup.orbitalAngularMomentum(); } ) );
   }
