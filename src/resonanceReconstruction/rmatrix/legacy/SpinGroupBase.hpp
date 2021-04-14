@@ -4,7 +4,7 @@
 // system includes
 
 // other includes
-#include "resonanceReconstruction/rmatrix/ChannelType.hpp"
+#include "resonanceReconstruction/rmatrix/options.hpp"
 #include "resonanceReconstruction/rmatrix/Channel.hpp"
 #include "resonanceReconstruction/rmatrix/ReactionID.hpp"
 #include "range/v3/algorithm/count_if.hpp"
@@ -77,7 +77,7 @@ public:
    */
   auto reactionIDs() const {
 
-    return ranges::cpp20::views::all( this->reactions_ ); 
+    return ranges::cpp20::views::all( this->reactions_ );
   }
 
   /**

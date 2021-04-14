@@ -8,10 +8,9 @@
 // other includes
 #include "range/v3/view/filter.hpp"
 #include "resonanceReconstruction/Quantity.hpp"
+#include "resonanceReconstruction/rmatrix/options.hpp"
 #include "resonanceReconstruction/rmatrix/Map.hpp"
 #include "resonanceReconstruction/rmatrix/ReactionID.hpp"
-#include "resonanceReconstruction/rmatrix/Formalism.hpp"
-#include "resonanceReconstruction/rmatrix/BoundaryOption.hpp"
 #include "resonanceReconstruction/rmatrix/CompoundSystem.hpp"
 #include "resonanceReconstruction/rmatrix/legacy/resolved/CompoundSystem.hpp"
 #include "resonanceReconstruction/rmatrix/legacy/unresolved/CompoundSystem.hpp"

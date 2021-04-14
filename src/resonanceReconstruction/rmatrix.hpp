@@ -2,9 +2,7 @@
 #include "resonanceReconstruction/Quantity.hpp"
 
 // formalism options, boundary condition options and channel types
-#include "resonanceReconstruction/rmatrix/Formalism.hpp"
-#include "resonanceReconstruction/rmatrix/BoundaryOption.hpp"
-#include "resonanceReconstruction/rmatrix/ChannelType.hpp"
+#include "resonanceReconstruction/rmatrix/options.hpp"
 
 // R-matrix components (independent of formalism)
 #include "resonanceReconstruction/rmatrix/QuantumNumbers.hpp"
