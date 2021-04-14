@@ -32,7 +32,7 @@ FetchContent_Declare( dimwits
 
 FetchContent_Declare( elementary
     GIT_REPOSITORY  https://github.com/njoy/elementary
-    GIT_TAG         origin/master
+    GIT_TAG         feature/comparison
     GIT_SHALLOW     TRUE
     )
 

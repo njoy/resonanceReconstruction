@@ -28,7 +28,7 @@ set( BUILD_TESTING CACHE BOOL OFF )
 
 FetchContent_Declare( elementary
     GIT_REPOSITORY  https://github.com/njoy/elementary
-    GIT_TAG         97224cd76b92f174567fdd9259d3b7d8b41ccfae # tag: v0.2.2
+    GIT_TAG         feature/comparison
     )
 
 FetchContent_Declare( ENDFtk

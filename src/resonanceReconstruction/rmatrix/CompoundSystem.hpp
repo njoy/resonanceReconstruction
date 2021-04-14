@@ -8,8 +8,8 @@
 
 // other includes
 #include "Log.hpp"
-#include "range/v3/action/sort.hpp"
-#include "range/v3/action/unique.hpp"
+#include "range/v3/algorithm/sort.hpp"
+#include "range/v3/algorithm/unique.hpp"
 #include "range/v3/algorithm/count_if.hpp"
 #include "range/v3/algorithm/for_each.hpp"
 #include "range/v3/view/all.hpp"

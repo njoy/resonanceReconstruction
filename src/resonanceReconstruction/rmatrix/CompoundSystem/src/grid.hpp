@@ -13,10 +13,12 @@ std::vector< Energy > grid() const {
   std::vector< Energy > grid;
   for ( const auto& group : this->spinGroups() ) {
 
-    auto groupgrid = group.grid();
+    decltype(auto) groupgrid = group.grid();
     grid.insert( grid.end(), groupgrid.begin(), groupgrid.end() );
   }
-  grid |= ranges::actions::sort | ranges::actions::unique;
+
+  ranges::cpp20::sort( grid );
+  grid.erase( ranges::cpp20::unique( grid ), grid.end() );
 
   return grid;
 }
