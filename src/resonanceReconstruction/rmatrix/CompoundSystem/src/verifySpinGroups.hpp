@@ -20,9 +20,9 @@ void verifySpinGroups(
                std::to_string( 2 * static_cast<int>( half ) + 1 ) + "/2";
   };
 
-  const auto getNumbers = [] ( const auto& group ) {
+  const auto getNumbers = [] ( const auto& group ) -> decltype(auto) {
 
-    return std::visit( [] ( const auto& entry )
+    return std::visit( [] ( const auto& entry ) -> decltype(auto)
                           { return entry.quantumNumbers(); },
                        group.channels().front() );
   };

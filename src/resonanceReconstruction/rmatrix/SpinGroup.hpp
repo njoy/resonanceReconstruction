@@ -89,17 +89,29 @@ public:
    */
   auto incidentChannels() const {
 
-    return ranges::cpp20::views::all( this->incident_ )
-             | ranges::views::transform( [&] ( const unsigned int i )
-                                             { return this->channels_[i]; } ); }
+    const auto isIncidentChannel = [] ( const auto& channel ) {
+
+      return channel.isIncidentChannel();
+    };
+
+    const auto visit = [&] ( const auto& channel ) {
+
+      return std::visit( isIncidentChannel, channel );
+    };
+
+    return this->channels_ | ranges::cpp20::views::filter( visit );
+  }
 
   /**
    *  @brief Return the current incident particle pair
    */
-  const ParticlePair incidentPair() const {
+  const ParticlePair& incidentPair() const {
 
-    auto incidentParticlePair = [] ( const auto& channel )
-                                   { return channel.incidentParticlePair(); };
+    const auto incidentParticlePair =
+    [] ( const auto& channel ) -> decltype(auto) {
+
+      return channel.incidentParticlePair();
+    };
 
     return std::visit( incidentParticlePair, this->channels_.front() );
   }
@@ -114,13 +126,17 @@ public:
    */
   auto channelIDs() const {
 
-    auto channelID = [] ( const auto& channel )
-                        { return channel.channelID(); };
+    const auto channelID = [] ( const auto& channel ) -> decltype(auto) {
 
-    return this->channels()
-             | ranges::views::transform(
-                   [=] ( const auto& channel )
-                       { return std::visit( channelID, channel ); } );
+      return channel.channelID();
+    };
+
+    const auto visit = [&] ( const auto& channel ) -> decltype(auto) {
+
+      return std::visit( channelID, channel );
+    };
+
+    return this->channels() | ranges::cpp20::views::transform( visit );
   }
 
   /**

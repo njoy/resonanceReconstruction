@@ -49,7 +49,7 @@ void evaluateTMatrix(
     const auto current = channels[c];
     const auto identifiers =
         channels
-          | ranges::views::transform(
+          | ranges::cpp20::views::transform(
                 [&] ( const auto& id )
                     { return ReactionChannelID( current + "->" + id ); } );
 
@@ -62,6 +62,6 @@ void evaluateTMatrix(
 
   // process the channels
   const unsigned int start = 0;
-  ranges::cpp20::for_each( ranges::views::indices( start, size ),
+  ranges::cpp20::for_each( ranges::cpp20::views::iota( start, size ),
                            processChannel );
 }

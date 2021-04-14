@@ -1,53 +1,55 @@
-static
-void verifyChannels( const std::vector< ParticleChannel >& channels ) {
+static void
+verifyIncidentParticlePairs( const std::vector< ParticleChannel >& channels ) {
 
-  // verify that there is at least one channel
+  const auto incidentPairID = [] ( const auto& channel ) -> decltype(auto) {
 
-  if ( channels.size() == 0 ) {
-
-    Log::error( "The number of channels in a spin group cannot be 0." );
-    throw std::exception();
-  }
-
-  // verify that each channel has the same incident particle pair
-
-  const auto getIncidentPairID = [] ( const auto& entry ) {
-
-    return std::visit( [] ( const auto& channel )
-                          { return channel.incidentParticlePair().pairID(); },
-                       entry );
+    return channel.incidentParticlePair().pairID();
   };
 
-  const auto in = getIncidentPairID( channels.front() );
+  const auto getIncidentPairID = [&] ( const auto& channel ) -> decltype(auto) {
 
-  if ( static_cast< unsigned int >(
-         ranges::cpp20::count_if(
-             channels,
-             [&] ( const auto& channel )
-                 { return getIncidentPairID( channel ) == in; } ) )
-       < channels.size() ) {
+    return std::visit( incidentPairID, channel );
+  };
+
+  decltype(auto) in = getIncidentPairID( channels.front() );
+
+  const auto equalIncidentPairID = [&] ( const auto& channel ) {
+
+    return getIncidentPairID( channel ) == in;
+  };
+
+  unsigned int number = ranges::cpp20::count_if( channels, equalIncidentPairID );
+  if ( number != channels.size() ) {
 
     Log::error( "Not all channels in the spin group have the same incident "
                 "particle pair." );
     throw std::exception();
-  };
+  }
+}
 
-  // verify that each channel is unique
+static void
+verifyUniqueChannels( const std::vector< ParticleChannel >& channels ) {
 
   const auto verifyUniqueChannel = [&] ( const auto& entry ) {
 
-    const auto getChannelID = [] ( const auto& entry ) {
+    const auto channelID = [] ( const auto& channel ) -> decltype(auto) {
 
-      return std::visit( [] ( const auto& channel )
-                            { return channel.channelID(); },
-                         entry );
+      return channel.channelID();
+    };
+
+    const auto getChannelID = [&] ( const auto& channel ) -> decltype(auto) {
+
+      return std::visit( channelID, channel );
     };
 
     const auto label = getChannelID( entry );
-    if ( ranges::cpp20::count_if(
-             channels,
-             [&] ( const auto& channel )
-                 { return getChannelID( channel ) == label; } ) > 1 ) {
+
+    const auto equalChannelID = [&] ( const auto& channel ) {
+
+      return getChannelID( channel ) == label;
+    };
+
+    if ( ranges::cpp20::count_if( channels, equalChannelID ) > 1 ) {
 
       Log::error( "Channels in the spin group do not seem to be unique." );
       Log::info( "Channel {} is present at least twice", label );
@@ -56,18 +58,25 @@ void verifyChannels( const std::vector< ParticleChannel >& channels ) {
   };
 
   ranges::cpp20::for_each( channels, verifyUniqueChannel );
+}
 
-  // verify that each channel's Jpi is the same
+static void
+verifySpinParity( const std::vector< ParticleChannel >& channels ) {
 
-  const auto getQuantumNumbers = [] ( const auto& entry ) {
-    return std::visit( [] ( const auto& channel )
-                          { return channel.quantumNumbers(); },
-                       entry );
+  const auto quantumNumbers = [] ( const auto& channel ) -> decltype(auto) {
+
+    return channel.quantumNumbers();
   };
 
-  const auto reference = getQuantumNumbers( channels.front() );
+  const auto getQuantumNumbers = [&] ( const auto& channel ) -> decltype(auto) {
+
+    return std::visit( quantumNumbers, channel );
+  };
+
+  decltype(auto) reference = getQuantumNumbers( channels.front() );
 
   auto checkQuantumNumbers = [&] ( const auto& entry ) {
+
     const auto current = getQuantumNumbers( entry );
     const bool mismatch =
       ( ( current.totalAngularMomentum() != reference.totalAngularMomentum() ) ||
@@ -86,6 +95,25 @@ void verifyChannels( const std::vector< ParticleChannel >& channels ) {
     }
   };
 
-  ranges::cpp20::for_each( channels | ranges::views::drop_exactly( 1 ),
-                           checkQuantumNumbers );
+  ranges::cpp20::for_each( channels, checkQuantumNumbers );
+}
+
+static
+void verifyChannels( const std::vector< ParticleChannel >& channels ) {
+
+  // verify that there is at least one channel
+  if ( channels.size() == 0 ) {
+
+    Log::error( "The number of channels in a spin group cannot be 0." );
+    throw std::exception();
+  }
+
+  // verify that each channel has the same incident particle pair
+  verifyIncidentParticlePairs( channels );
+
+  // verify that each channel is unique
+  verifyUniqueChannels( channels );
+
+  // verify that each channel's Jpi is the same
+  verifySpinParity( channels );
 }

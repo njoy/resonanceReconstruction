@@ -42,7 +42,7 @@ void evaluate( const Energy& energy,
     auto delta = [c,size] ( const auto value ) {
       return ranges::views::concat(
                  ranges::views::repeat_n( 0., c ),
-                 ranges::views::single( value ),
+                 ranges::cpp20::views::single( value ),
                  ranges::views::repeat_n( 0., size - c - 1 ) );
     };
 
@@ -82,9 +82,9 @@ void evaluate( const Energy& energy,
 
     // the eliminated capture channel - Reich-Moore only
     const auto capture =
-      ranges::views::single(
+      ranges::cpp20::views::single(
           ranges::accumulate(
-              uElements | ranges::views::transform(
+              uElements | ranges::cpp20::views::transform(
                               [] ( const auto value ) -> double
                                  { return std::norm( value ); } ),
               1., ranges::minus() ) );
@@ -92,7 +92,7 @@ void evaluate( const Energy& energy,
     // concat and multiply by pi / k^2 g_J
     const auto crossSections =
       ranges::views::concat( sigma, capture )
-        | ranges::views::transform(
+        | ranges::cpp20::views::transform(
               [=] ( const auto value ) -> Quantity< Barn >
                   { return factor * value; } );
 

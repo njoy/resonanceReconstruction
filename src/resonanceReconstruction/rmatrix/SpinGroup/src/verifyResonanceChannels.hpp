@@ -15,14 +15,17 @@ void verifyResonanceChannels( const std::vector< ParticleChannel >& channels,
 
   // verify that the channel labels are in the same order
 
-  const auto getChannelID = [] ( const auto& entry ) {
+  const auto channelID = [] ( const auto& channel ) -> decltype(auto) {
 
-    return std::visit( [] ( const auto& channel )
-                          { return channel.channelID(); },
-                       entry );
+    return channel.channelID();
   };
 
-  const auto checkLabels = [&] ( const auto& pair ) {
+  const auto visit = [&] ( const auto& channel ) -> decltype(auto) {
+
+    return std::visit( channelID, channel );
+  };
+
+  const auto checkLabels = [&] ( const auto& pair ) -> void {
 
     const auto channel = std::get< 0 >( pair );
     const auto resonance = std::get< 1 >( pair );
@@ -36,7 +39,7 @@ void verifyResonanceChannels( const std::vector< ParticleChannel >& channels,
   };
 
   ranges::cpp20::for_each(
-      ranges::views::zip( channels | ranges::views::transform( getChannelID ),
+      ranges::views::zip( channels | ranges::cpp20::views::transform( visit ),
                           table.channels() ),
       checkLabels );
 }

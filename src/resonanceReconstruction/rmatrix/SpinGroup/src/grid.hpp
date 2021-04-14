@@ -12,8 +12,11 @@ std::vector< Energy > grid() const {
   grid.reserve( 3 * this->resonanceTable().numberResonances() );
 
   // some useful lambdas
-  auto toWidth = [] ( const auto& gamma, const auto& p ) -> Width
-                    { return 2. * p * gamma * gamma; };
+  auto toWidth = [] ( const auto& gamma, const auto& p ) -> Width {
+
+    return 2. * p * gamma * gamma;
+  };
+
   auto totalWidth = [&] ( const auto& resonance ) -> Width {
 
     auto widths = ranges::views::zip_with(
@@ -28,16 +31,18 @@ std::vector< Energy > grid() const {
 
   for ( const auto& resonance : this->resonanceTable().resonances() ) {
 
-    auto energy = resonance.energy();
+    decltype(auto) energy = resonance.energy();
     if ( energy > 0. * electronVolt ) {
 
-      auto total = totalWidth( resonance );
+      decltype(auto) total = totalWidth( resonance );
       grid.push_back( energy - 0.5 * total );
       grid.push_back( energy );
       grid.push_back( energy + 0.5 * total );
     }
   }
-  grid |= ranges::actions::sort | ranges::actions::unique;
+
+  ranges::cpp20::sort( grid );
+  grid.erase( ranges::cpp20::unique( grid ), grid.end() );
 
   return grid;
 }

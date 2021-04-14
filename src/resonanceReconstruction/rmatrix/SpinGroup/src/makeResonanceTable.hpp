@@ -10,7 +10,7 @@ makeResonanceTable( const std::vector< ParticleChannelData >& channels ) {
                    { return value == true; };
 
   // there may be at most one eleminated channel
-  auto eliminated = channels | ranges::views::transform( isEliminated );
+  auto eliminated = channels | ranges::cpp20::views::transform( isEliminated );
   auto indexEliminated = ranges::cpp20::distance(
                            ranges::cpp20::begin( eliminated ),
                            std::find_if( ranges::cpp20::begin( eliminated ),
@@ -27,7 +27,7 @@ makeResonanceTable( const std::vector< ParticleChannelData >& channels ) {
   // get the channel IDs (remove the eliminated channel if required)
   std::vector< ChannelID > ids =
       ranges::to< std::vector< ChannelID > >(
-          channels | ranges::views::transform( getID ) );
+          channels | ranges::cpp20::views::transform( getID ) );
   auto numberChannels = ranges::cpp20::distance( ids );
   if ( numberEliminated ) {
 
@@ -78,7 +78,7 @@ makeResonanceTable( const std::vector< ParticleChannelData >& channels ) {
   };
   std::vector< Resonance > resonances =
       ranges::to< std::vector< Resonance > >(
-          map | ranges::views::transform( toResonance ) );
+          map | ranges::cpp20::views::transform( toResonance ) );
 
   return ResonanceTable( std::move( ids ), std::move( resonances ) );
 }

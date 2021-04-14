@@ -34,8 +34,7 @@ makeSpinGroups( std::vector< ParticleChannelData >&& channels ) {
 
     auto filtered = channels | ranges::cpp20::views::filter( filter );
     groups.emplace_back(
-        std::vector< ParticleChannelData >( ranges::cpp20::begin( filtered ),
-                                            ranges::cpp20::end( filtered ) ) );
+        ranges::to< std::vector< ParticleChannelData > >( filtered ) );
   }
 
   return groups;
