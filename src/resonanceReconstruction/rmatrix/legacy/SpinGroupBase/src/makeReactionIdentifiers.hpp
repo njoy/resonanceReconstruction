@@ -11,11 +11,12 @@ makeReactionIdentifiers( const Channel< Neutron >& channel,
   reactions.push_back( ReactionID{ incident, target, ReactionType( "elastic" ) } );
   reactions.push_back( ReactionID{ incident, target, ReactionType( "capture" ) } );
 
+  // lambdas
+  auto hasFission = [] ( const auto& resonance )
+                       { return resonance.hasFission(); };
+
   // add fission if it exists
-  if ( ranges::cpp20::count_if(
-           table.resonances(),
-           [&] ( const auto& resonance )
-               { return resonance.hasFission(); } ) > 1 ) {
+  if ( ranges::cpp20::count_if( table.resonances(), hasFission ) ) {
 
     reactions.push_back( ReactionID{ incident, target, ReactionType( "fission" ) } );
   }
