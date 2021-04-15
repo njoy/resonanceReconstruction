@@ -39,7 +39,7 @@ retrieveQuantumNumber( unsigned int l, double j,
        [l,j] ( const auto& number )
              { return ( number.orbitalAngularMomentum() == l ) and
                       ( number.totalAngularMomentum() == std::abs( j ) ); };
-  auto filtered = available | ranges::views::filter( filter );
+  auto filtered = available | ranges::cpp20::views::filter( filter );
 
   auto found = ranges::cpp20::distance( filtered );
   if ( found > 0 ) {

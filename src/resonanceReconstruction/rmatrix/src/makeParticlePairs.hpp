@@ -8,7 +8,7 @@ findParticlePairForReaction(
                              ranges::cpp20::end( reactions ),
                              [&] ( const auto& reaction )
                                  { return mt == reaction; } );
-  return std::distance( ranges::begin( reactions ), found );
+  return std::distance( ranges::cpp20::begin( reactions ), found );
 }
 
 unsigned int
@@ -76,22 +76,22 @@ makeParticlePairs( const endf::RMatrixLimited::ParticlePairs& endfPairs,
   };
 
   // do some range magic
-  auto identifiers = endfPairs.MT() | ranges::views::transform( makeParticleIDs );
+  auto identifiers = endfPairs.MT() | ranges::cpp20::views::transform( makeParticleIDs );
   auto particles = ranges::views::zip_with(
                        makeParticle,
-                       identifiers | ranges::views::transform( first ),
+                       identifiers | ranges::cpp20::views::transform( first ),
                        endfPairs.massParticleA(),
                        endfPairs.chargeParticleA(),
                        endfPairs.spinParticleA(),
                        endfPairs.parityParticleA() );
   auto residuals = ranges::views::zip_with(
                        makeParticle,
-                       identifiers | ranges::views::transform( second ),
+                       identifiers | ranges::cpp20::views::transform( second ),
                        endfPairs.massParticleB(),
                        endfPairs.chargeParticleB(),
                        endfPairs.spinParticleB(),
                        endfPairs.parityParticleB() );
-  auto pairs = identifiers | ranges::views::transform( third );
+  auto pairs = identifiers | ranges::cpp20::views::transform( third );
 
   return ranges::to< std::vector< ParticlePair > >(
            ranges::views::zip_with(

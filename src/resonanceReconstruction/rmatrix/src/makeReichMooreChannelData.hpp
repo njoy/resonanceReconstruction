@@ -36,7 +36,7 @@ makeReichMooreChannelData(
   auto isAllZero = [&] ( auto&& range ) -> bool {
 
     return ranges::accumulate(
-               range | ranges::views::transform(
+               range | ranges::cpp20::views::transform(
                            [] ( const auto& value )
                               { return value == 0.; } ),
                true,
@@ -69,7 +69,7 @@ makeReichMooreChannelData(
   for ( double J : jvalues ) {
 
     // filter out resonances with this J value
-    auto current = resonances | ranges::views::filter(
+    auto current = resonances | ranges::cpp20::views::filter(
                                      [J] ( const auto& resonance )
                                          { return resonance.spin() == J; } );
 
@@ -93,27 +93,27 @@ makeReichMooreChannelData(
                                   nOther, radii );
 
     // get the widths
-    auto wElastic = current | ranges::views::transform(
+    auto wElastic = current | ranges::cpp20::views::transform(
                                 [] ( const auto& resonance )
                                    { return resonance.neutronWidth(); } );
-    auto wCapture = current | ranges::views::transform(
+    auto wCapture = current | ranges::cpp20::views::transform(
                                 [] ( const auto& resonance )
                                    { return resonance.gammaWidth(); } );
-    auto wFission1 = current | ranges::views::transform(
+    auto wFission1 = current | ranges::cpp20::views::transform(
                                  [] ( const auto& resonance )
                                     { return resonance.firstFissionWidth(); } );
-    auto wFission2 = current | ranges::views::transform(
+    auto wFission2 = current | ranges::cpp20::views::transform(
                                  [] ( const auto& resonance )
                                     { return resonance.secondFissionWidth(); } );
 
     // calculate penetrabilities
     std::vector< Energy > energies =
       ranges::to< std::vector< Energy > >(
-        current | ranges::views::transform(
+        current | ranges::cpp20::views::transform(
                     [] ( const auto& resonance )
                        { return resonance.resonanceEnergy() * electronVolt; } ) );
     auto penetrabilities =
-        energies | ranges::views::transform(
+        energies | ranges::cpp20::views::transform(
                      [&] ( const auto& energy )
                          { return cElastic.penetrability( energy ); } );
 
@@ -123,13 +123,13 @@ makeReichMooreChannelData(
         ranges::views::zip_with( toElasticWidth, wElastic, penetrabilities ) );
     std::vector< ReducedWidth > rwCapture =
       ranges::to< std::vector< ReducedWidth > >(
-        wCapture | ranges::views::transform( toOtherWidth ) );
+        wCapture | ranges::cpp20::views::transform( toOtherWidth ) );
     std::vector< ReducedWidth > rwFission1 =
       ranges::to< std::vector< ReducedWidth > >(
-        wFission1 | ranges::views::transform( toOtherWidth ) );
+        wFission1 | ranges::cpp20::views::transform( toOtherWidth ) );
     std::vector< ReducedWidth > rwFission2 =
       ranges::to< std::vector< ReducedWidth > >(
-        wFission2 | ranges::views::transform( toOtherWidth ) );
+        wFission2 | ranges::cpp20::views::transform( toOtherWidth ) );
 
     // see how many channels we have
     bool bFission1 = not isAllZero( wFission1 );

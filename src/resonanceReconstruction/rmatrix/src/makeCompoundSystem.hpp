@@ -19,7 +19,7 @@ makeCompoundSystem(
   std::vector< ParticleChannelData > channels;
   auto data =
     spingroups
-      | ranges::views::transform(
+      | ranges::cpp20::views::transform(
             [&] ( const auto& spingroup )
                 { return makeParticleChannelData(
                              in, pairs, endfPairs, spingroup, reducedWidthsFlag,

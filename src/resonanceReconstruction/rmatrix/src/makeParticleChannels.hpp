@@ -64,10 +64,10 @@ makeParticleChannels(
   auto q = endfPairs.Q();
   auto incidentPairs = ranges::views::repeat_n( incident, pairs.size() );
   auto channelPairs = endfChannels.particlePairNumbers()
-                          | ranges::views::transform( getParticlePair );
+                          | ranges::cpp20::views::transform( getParticlePair );
   auto qValues = endfChannels.particlePairNumbers()
-                     | ranges::views::transform( [&] ( unsigned int i )
-                                                     { return q[ i - 1 ]; } );
+                     | ranges::cpp20::views::transform(
+                           [&] ( unsigned int i ) { return q[ i - 1 ]; } );
   auto channelNumbers = ranges::views::zip_with(
                             makeChannelQuantumNumbers,
                             endfChannels.orbitalMomentumValues(),

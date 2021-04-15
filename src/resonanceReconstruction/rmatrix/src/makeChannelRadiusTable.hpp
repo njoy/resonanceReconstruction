@@ -6,15 +6,17 @@ makeChannelRadiusTable( const std::optional< endf::ScatteringRadius >& radius ) 
     auto makeTable = [] ( auto&& region, int interpolant )
       -> TableVariant< Energy, ChannelRadius > {
 
-      auto toEnergy = [] ( const auto& value ) { return value * electronVolt; };
-      auto toRadius = [] ( const auto& value ) { return value * rootBarn; };
+      const auto toEnergy = [] ( const auto& value ) -> Energy
+                               { return value * electronVolt; };
+      const auto toRadius = [] ( const auto& value ) -> ChannelRadius
+                               { return value * rootBarn; };
 
       std::vector< Energy > energies =
           ranges::to< std::vector< Energy > >(
-              region.first | ranges::views::transform( toEnergy ) );
+              region.first | ranges::cpp20::views::transform( toEnergy ) );
       std::vector< ChannelRadius > radii =
           ranges::to< std::vector< ChannelRadius > >(
-              region.second | ranges::views::transform( toRadius ) );
+              region.second | ranges::cpp20::views::transform( toRadius ) );
 
       switch( interpolant ) {
 

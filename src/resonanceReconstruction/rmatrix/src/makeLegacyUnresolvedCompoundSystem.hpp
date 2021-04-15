@@ -20,7 +20,7 @@ template <>
 int getUnresolvedInterpolation(
         const endf::UnresolvedEnergyDependent& unresolved ) {
 
-  auto verifyInterpolation = [] ( const auto& interpolants ) {
+  const auto verifyInterpolation = [] ( const auto& interpolants ) {
 
     int interpolation = interpolants[0];
     if ( ranges::cpp20::count( interpolants, interpolation )
@@ -33,17 +33,17 @@ int getUnresolvedInterpolation(
     return interpolation;
   };
 
-  auto getInterpolation = [&] ( const auto& values ) {
+  const auto getInterpolation = [&] ( const auto& values ) {
 
     return verifyInterpolation(
-               values | ranges::views::transform(
+               values | ranges::cpp20::views::transform(
                             [] ( const auto& jvalue )
                                { return jvalue.INT(); } ) );
   };
 
   return verifyInterpolation(
              unresolved.lValues()
-                 | ranges::views::transform(
+                 | ranges::cpp20::views::transform(
                        [&] ( const auto& lvalue )
                            { return getInterpolation( lvalue.jValues() ); } ) );
 }

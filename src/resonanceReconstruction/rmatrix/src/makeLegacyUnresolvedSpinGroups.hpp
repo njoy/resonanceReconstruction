@@ -10,8 +10,8 @@ makeLegacyUnresolvedSpinGroups(
   unsigned int njs = endfLValue.numberSpinValues();
 
   // some useful lambdas
-  auto makeSpinGroup = [&] ( unsigned int l, const auto& in, const auto& radii,
-                             const auto& endfJValue ) {
+  const auto makeSpinGroup = [&] ( unsigned int l, const auto& in, 
+                                   const auto& radii, const auto& endfJValue ) {
 
     return legacy::unresolved::SpinGroup(
                Channel< Neutron >( in, in, 0. * electronVolt,
