@@ -5,8 +5,8 @@
 
 // other includes
 #include "resonanceReconstruction/Quantity.hpp"
+#include "resonanceReconstruction/rmatrix/identifiers.hpp"
 #include "resonanceReconstruction/rmatrix/Map.hpp"
-#include "resonanceReconstruction/rmatrix/ReactionID.hpp"
 #include "resonanceReconstruction/rmatrix/legacy/SpinGroupBase.hpp"
 #include "resonanceReconstruction/rmatrix/legacy/unresolved/calculateFluctuationIntegrals.hpp"
 #include "resonanceReconstruction/rmatrix/legacy/unresolved/ResonanceTable.hpp"

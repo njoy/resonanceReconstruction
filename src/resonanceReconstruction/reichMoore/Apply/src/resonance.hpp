@@ -29,5 +29,5 @@ resonance( const endf::ReichMoore::LValue::Resonance< Range >& resonance,
 
 template< typename Range, typename Factory >
 static auto resonances( Range&& rs, Factory&& factory ){
-  return rs | ranges::view::transform( factory ) | ranges::to_vector;
+  return rs | ranges::views::transform( factory ) | ranges::to_vector;
 }

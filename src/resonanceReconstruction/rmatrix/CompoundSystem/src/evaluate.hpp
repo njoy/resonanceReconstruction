@@ -7,7 +7,7 @@
 void evaluate( const Energy& energy,
                Map< ReactionID, CrossSection >& result ) {
 
-  ranges::for_each( this->groups_,
-                    [&] ( auto& group )
-                        { group.evaluate( energy, result ); } );
+  ranges::cpp20::for_each( this->groups_,
+                           [&] ( auto& group )
+                               { group.evaluate( energy, result ); } );
 }

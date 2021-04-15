@@ -30,7 +30,7 @@ SCENARIO( "Integration test" ){
 
   const auto type = Apply().build( energyRange, slbw,
                                    channelRadius( 104. ), radius( 0.62 ) );
-  for ( auto tuple : ranges::view::zip( energies(), elastic(), capture() ) ){
+  for ( auto tuple : ranges::views::zip( energies(), elastic(), capture() ) ){
     auto energy = std::get<0>( tuple );
     auto elastic = std::get<1>( tuple );
     auto capture = std::get<2>( tuple );

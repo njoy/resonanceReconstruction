@@ -16,7 +16,7 @@ auto evaluate( const Quantity< ElectronVolts > energy,
 
   const auto crossSections =
     this->derived().lvalues()
-    | ranges::view::transform
+    | ranges::views::transform
       ( [&]( auto&& lvalue ){ return lvalue( energy,
                                              kernel,
                                              channelRatio,

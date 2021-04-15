@@ -7,13 +7,13 @@ SCENARIO("wave number"){
                                     2.360058E+2 }}; // uranium-238
 
   auto energies =
-    ranges::view::linear_distribute( -10., 30., 40 )
-    | ranges::view::transform( [] ( double d ){ return std::pow( 2., d ); } )
-    | ranges::view::transform( [] ( double d ){ return d * electronVolts; } );
+    ranges::views::linear_distribute( -10., 30., 40 )
+    | ranges::views::transform( [] ( double d ){ return std::pow( 2., d ); } )
+    | ranges::views::transform( [] ( double d ){ return d * electronVolts; } );
 
   auto trial =
-    ranges::view::cartesian_product( awri, energies )
-    | ranges::view::transform
+    ranges::views::cartesian_product( awri, energies )
+    | ranges::views::transform
       ( []( auto&& tuple ){
           return neutronWaveNumber( std::get<0>(tuple) )
                                   ( std::get<1>(tuple) ).value; } );
@@ -74,7 +74,7 @@ SCENARIO("wave number"){
       2.46764459e+01,   3.52092655e+01,   5.02378821e+01,
       7.16812680e+01 };
 
-  for ( const auto pair : ranges::view::zip( trial, reference ) ){
+  for ( const auto pair : ranges::views::zip( trial, reference ) ){
     const auto trial = std::get<0>(pair);
     const auto reference = std::get<1>(pair);
     REQUIRE( trial == Approx( reference ) );

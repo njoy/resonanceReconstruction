@@ -6,9 +6,8 @@
 // other includes
 #include "range/v3/view/transform.hpp"
 #include "resonanceReconstruction/Quantity.hpp"
+#include "resonanceReconstruction/rmatrix/options.hpp"
 #include "resonanceReconstruction/rmatrix/Matrix.hpp"
-#include "resonanceReconstruction/rmatrix/Formalism.hpp"
-#include "resonanceReconstruction/rmatrix/BoundaryOption.hpp"
 #include "resonanceReconstruction/rmatrix/Channel.hpp"
 #include "resonanceReconstruction/rmatrix/ParticleChannel.hpp"
 #include "resonanceReconstruction/rmatrix/ResonanceTable.hpp"

@@ -4,12 +4,12 @@
 // system includes
 
 // other includes
+#include "range/v3/range/conversion.hpp"
 #include "range/v3/algorithm/count.hpp"
 #include "resonanceReconstruction/endf.hpp"
 #include "resonanceReconstruction/endf.hpp"
 #include "resonanceReconstruction/Quantity.hpp"
-#include "resonanceReconstruction/rmatrix/Formalism.hpp"
-#include "resonanceReconstruction/rmatrix/BoundaryOption.hpp"
+#include "resonanceReconstruction/rmatrix/options.hpp"
 #include "resonanceReconstruction/rmatrix/CompoundSystem.hpp"
 #include "resonanceReconstruction/rmatrix/legacy/resolved/CompoundSystem.hpp"
 #include "resonanceReconstruction/rmatrix/legacy/unresolved/CompoundSystem.hpp"

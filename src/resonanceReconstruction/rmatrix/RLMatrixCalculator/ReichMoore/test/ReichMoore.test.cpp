@@ -127,7 +127,7 @@ SCENARIO( "evaluate" ) {
 
     std::vector< ParticleChannel > channels = { elastic, protonemission };
     const auto penetrabilities = channels
-        | ranges::view::transform(
+        | ranges::views::transform(
             [&] ( const auto& channel )
                 { return std::visit(
                          [&] ( const auto& channel )
@@ -135,7 +135,7 @@ SCENARIO( "evaluate" ) {
                          channel ); } );
 
  const auto shifts = channels
-     | ranges::view::transform(
+     | ranges::views::transform(
          [&] ( const auto& channel )
              { return std::visit(
                       [&] ( const auto& channel )

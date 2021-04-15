@@ -77,6 +77,6 @@ resonances(){
 
   auto MAT = material.MAT();
   return material
-         .fileNumber(2)
-         .sectionNumber(151).parse< 2, 151 >();
+         .file(2)
+         .section(151).parse< 2, 151 >();
 }

@@ -54,7 +54,7 @@ static auto lvalues( const BreitWigner& bw,
                      double targetSpin ){
   return
     bw.lValues()
-    | ranges::view::transform
+    | ranges::views::transform
     ( [&]( auto&& lstate ){ return lvalue( lstate, rho, g, targetSpin ); } )
     | ranges::to_vector;
 }

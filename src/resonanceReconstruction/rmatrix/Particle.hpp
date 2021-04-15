@@ -6,7 +6,7 @@
 // other includes
 #include "Log.hpp"
 #include "resonanceReconstruction/Quantity.hpp"
-#include "resonanceReconstruction/rmatrix/ParticleID.hpp"
+#include "resonanceReconstruction/rmatrix/identifiers.hpp"
 #include "resonanceReconstruction/rmatrix/QuantumNumbers.hpp"
 
 namespace njoy {

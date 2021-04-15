@@ -244,7 +244,7 @@ void checkCompoundSystem( const CompoundSystem< ReichMoore, ShiftFactor >& syste
 
   // group 1 - Jpi = 0.5-
   auto group = system.spinGroups()[0];
-  CHECK( 1 == group.incidentChannels().size() );
+  CHECK( 1 == ranges::cpp20::distance( group.incidentChannels() ) );
   CHECK( 1 == group.channels().size() );
   auto channel = std::get< Channel< Neutron > >( group.channels()[0] );
   CHECK( "n,Fe54{1,1/2,1/2-}" == channel.channelID() );
@@ -265,7 +265,7 @@ void checkCompoundSystem( const CompoundSystem< ReichMoore, ShiftFactor >& syste
 
   // group 2 - Jpi = 0.5+
   group = system.spinGroups()[1];
-  CHECK( 1 == group.incidentChannels().size() );
+  CHECK( 1 == ranges::cpp20::distance( group.incidentChannels() ) );
   CHECK( 1 == group.channels().size() );
   channel = std::get< Channel< Neutron > >( group.channels()[0] );
   CHECK( "n,Fe54{0,1/2,1/2+}" == channel.channelID() );
@@ -286,7 +286,7 @@ void checkCompoundSystem( const CompoundSystem< ReichMoore, ShiftFactor >& syste
 
   // group 3 - Jpi = 1.5-
   group = system.spinGroups()[2];
-  CHECK( 1 == group.incidentChannels().size() );
+  CHECK( 1 == ranges::cpp20::distance( group.incidentChannels() ) );
   CHECK( 1 == group.channels().size() );
   channel = std::get< Channel< Neutron > >( group.channels()[0] );
   CHECK( "n,Fe54{1,1/2,3/2-}" == channel.channelID() );
@@ -307,7 +307,7 @@ void checkCompoundSystem( const CompoundSystem< ReichMoore, ShiftFactor >& syste
 
   // group 4 - Jpi = 1.5+
   group = system.spinGroups()[3];
-  CHECK( 1 == group.incidentChannels().size() );
+  CHECK( 1 == ranges::cpp20::distance( group.incidentChannels() ) );
   CHECK( 1 == group.channels().size() );
   channel = std::get< Channel< Neutron > >( group.channels()[0] );
   CHECK( "n,Fe54{2,1/2,3/2+}" == channel.channelID() );
@@ -328,7 +328,7 @@ void checkCompoundSystem( const CompoundSystem< ReichMoore, ShiftFactor >& syste
 
   // group 5 - Jpi = 2.5+
   group = system.spinGroups()[4];
-  CHECK( 1 == group.incidentChannels().size() );
+  CHECK( 1 == ranges::cpp20::distance( group.incidentChannels() ) );
   CHECK( 1 == group.channels().size() );
   channel = std::get< Channel< Neutron > >( group.channels()[0] );
   CHECK( "n,Fe54{2,1/2,5/2+}" == channel.channelID() );

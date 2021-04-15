@@ -10,14 +10,14 @@ makeResonanceTable( const std::vector< ParticleChannelData >& channels ) {
                    { return value == true; };
 
   // there may be at most one eleminated channel
-  auto eliminated = channels | ranges::view::transform( isEliminated );
-  auto indexEliminated = ranges::distance(
-                           ranges::begin( eliminated ),
-                           std::find_if( ranges::begin( eliminated ),
-                                         ranges::end( eliminated ),
+  auto eliminated = channels | ranges::cpp20::views::transform( isEliminated );
+  auto indexEliminated = ranges::cpp20::distance(
+                           ranges::cpp20::begin( eliminated ),
+                           std::find_if( ranges::cpp20::begin( eliminated ),
+                                         ranges::cpp20::end( eliminated ),
                                         isTrue ) );
-  auto numberEliminated = ranges::distance(
-                              ranges::view::filter( eliminated, isTrue ) );
+  auto numberEliminated = ranges::cpp20::distance(
+                              ranges::cpp20::views::filter( eliminated, isTrue ) );
   if ( numberEliminated > 1 ) {
 
     Log::error( "More than 1 eliminated channel was found." );
@@ -25,8 +25,10 @@ makeResonanceTable( const std::vector< ParticleChannelData >& channels ) {
   }
 
   // get the channel IDs (remove the eliminated channel if required)
-  std::vector< ChannelID > ids = channels | ranges::view::transform( getID );
-  auto numberChannels = ranges::distance( ids );
+  std::vector< ChannelID > ids =
+      ranges::to< std::vector< ChannelID > >(
+          channels | ranges::cpp20::views::transform( getID ) );
+  auto numberChannels = ranges::cpp20::distance( ids );
   if ( numberEliminated ) {
 
     ids.erase( ids.begin() + indexEliminated );
@@ -45,18 +47,19 @@ makeResonanceTable( const std::vector< ParticleChannelData >& channels ) {
 
     auto energies = data.energies();
     auto widhts = data.widths();
-    auto indices = ranges::view::repeat_n( index, ranges::distance( energies ) );
+    auto indices = ranges::views::repeat_n( index,
+                                            ranges::cpp20::distance( energies ) );
 
-    ranges::for_each( ranges::view::zip( energies, widhts, indices ),
-                      [&] ( auto&& tuple )
-                          { addWidth( std::get<0>( tuple ),
-                                      std::get<1>( tuple ),
-                                      std::get<2>( tuple ) ); } );
+    ranges::cpp20::for_each( ranges::views::zip( energies, widhts, indices ),
+                             [&] ( auto&& tuple )
+                                 { addWidth( std::get<0>( tuple ),
+                                             std::get<1>( tuple ),
+                                             std::get<2>( tuple ) ); } );
   };
-  ranges::for_each( ranges::view::zip(
-                        channels,
-                        ranges::view::iota( 0, numberChannels ) ),
-                    addWidthsToMap );
+  ranges::cpp20::for_each( ranges::views::zip(
+                               channels,
+                               ranges::cpp20::views::iota( 0, numberChannels ) ),
+                           addWidthsToMap );
 
   // create the resonances
   auto toResonance = [&] ( const auto& pair ) {
@@ -73,7 +76,9 @@ makeResonanceTable( const std::vector< ParticleChannelData >& channels ) {
 
     return Resonance( energy, std::move( widths ), eWidth );
   };
-  std::vector< Resonance > resonances = map | ranges::view::transform( toResonance );
+  std::vector< Resonance > resonances =
+      ranges::to< std::vector< Resonance > >(
+          map | ranges::cpp20::views::transform( toResonance ) );
 
   return ResonanceTable( std::move( ids ), std::move( resonances ) );
 }

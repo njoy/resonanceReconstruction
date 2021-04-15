@@ -12,8 +12,8 @@ SCENARIO("call"){
   auto rho = [&]( auto energy ) -> double { return a(energy) * k(energy); };
 
   auto energies =
-    ranges::view::linear_distribute( 1.0E-5, 200., 100000 )
-    | ranges::view::transform( [&]( double d ){ return d * electronVolts; } );
+    ranges::views::linear_distribute( 1.0E-5, 200., 100000 )
+    | ranges::views::transform( [&]( double d ){ return d * electronVolts; } );
 
   auto evaluate = [&]( auto&& energy ){
     auto psiChi = breitWigner::psiChi( energy );
@@ -27,9 +27,9 @@ SCENARIO("call"){
   };
 
   auto unwrap = []( auto q ){ return q.value; };
-  std::cout << ( energies | ranges::view::transform( unwrap ) ) << std::endl;
+  std::cout << ( energies | ranges::views::transform( unwrap ) ) << std::endl;
 
-  auto crossSection = energies | ranges::view::transform( evaluate );
+  auto crossSection = energies | ranges::views::transform( evaluate );
   std::cout << crossSection << std::endl;
 
   /* this isn't really a test of correctness,

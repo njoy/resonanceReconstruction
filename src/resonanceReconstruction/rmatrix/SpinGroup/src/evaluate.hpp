@@ -40,14 +40,14 @@ void evaluate( const Energy& energy,
     // lambda to derive a kronecker delta array for the current incident channel
     const unsigned int size = this->channels().size();
     auto delta = [c,size] ( const auto value ) {
-      return ranges::view::concat(
-                 ranges::view::repeat_n( 0., c ),
-                 ranges::view::single( value ),
-                 ranges::view::repeat_n( 0., size - c - 1 ) );
+      return ranges::views::concat(
+                 ranges::views::repeat_n( 0., c ),
+                 ranges::cpp20::views::single( value ),
+                 ranges::views::repeat_n( 0., size - c - 1 ) );
     };
 
     // the elements of the R_L = ( 1 - RL )^-1 R matrix for the incident channel
-    const auto row = ranges::make_iterator_range(
+    const auto row = ranges::make_subrange(
                         rlmatrix.data() + c * size,
                         rlmatrix.data() + ( c + 1 ) * size );
 
@@ -59,7 +59,7 @@ void evaluate( const Energy& energy,
     const auto incidentSqrtP = diagonalSqrtPMatrix[c];
     const auto incidentOmega = diagonalOmegaMatrix[c];
     const auto uElements =
-        ranges::view::zip_with(
+        ranges::views::zip_with(
             [&] ( const auto delta, const auto tValue,
                   const auto sqrtP, const auto omega )
                 { return incidentOmega *
@@ -74,7 +74,7 @@ void evaluate( const Energy& energy,
     // the cross section values for channel c to c' - independent of formalism
     // sigma_cc' = norm( exp( iw_c ) delta_cc' - U_cc' )
     const auto sigma =
-      ranges::view::zip_with(
+      ranges::views::zip_with(
           [&] ( const auto delta, const auto uValue )
               { return std::norm( delta - uValue ); },
           delta( exponential ),
@@ -82,27 +82,27 @@ void evaluate( const Energy& energy,
 
     // the eliminated capture channel - Reich-Moore only
     const auto capture =
-      ranges::view::single(
+      ranges::cpp20::views::single(
           ranges::accumulate(
-              uElements | ranges::view::transform(
+              uElements | ranges::cpp20::views::transform(
                               [] ( const auto value ) -> double
                                  { return std::norm( value ); } ),
               1., ranges::minus() ) );
 
     // concat and multiply by pi / k^2 g_J
     const auto crossSections =
-      ranges::view::concat( sigma, capture )
-        | ranges::view::transform(
+      ranges::views::concat( sigma, capture )
+        | ranges::cpp20::views::transform(
               [=] ( const auto value ) -> Quantity< Barn >
                   { return factor * value; } );
 
     // accumulate results in the map
-    ranges::for_each(
-      ranges::view::zip( identifiers, crossSections ),
+    ranges::cpp20::for_each(
+      ranges::views::zip( identifiers, crossSections ),
       [&] ( const auto& pair ) -> void
           { result[ std::get< 0 >( pair ) ] += std::get< 1 >( pair ); } );
   };
 
   // process the incident channels
-  ranges::for_each( this->incident_, processIncidentChannel );
+  ranges::cpp20::for_each( this->incident_, processIncidentChannel );
 }

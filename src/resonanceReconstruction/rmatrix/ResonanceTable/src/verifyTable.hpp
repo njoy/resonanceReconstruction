@@ -17,5 +17,5 @@ void verifyTable( const std::vector< ChannelID >& channels,
     }
   };
 
-  ranges::for_each( table, verifyNumberOfResonances );
+  ranges::cpp20::for_each( table, verifyNumberOfResonances );
 }

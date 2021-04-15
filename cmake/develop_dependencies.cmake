@@ -7,7 +7,7 @@ include( FetchContent )
 
 FetchContent_Declare( ENDFtk
     GIT_REPOSITORY  https://github.com/njoy/ENDFtk
-    GIT_TAG         origin/master
+    GIT_TAG         update/ranges
     GIT_SHALLOW     TRUE
     )
 
@@ -20,7 +20,7 @@ set( BUILD_TESTING CACHE BOOL OFF )
 
 FetchContent_Declare( interpolation
     GIT_REPOSITORY  https://github.com/njoy/interpolation
-    GIT_TAG         origin/master
+    GIT_TAG         update/ranges
     GIT_SHALLOW     TRUE
     )
 
@@ -32,7 +32,7 @@ FetchContent_Declare( dimwits
 
 FetchContent_Declare( elementary
     GIT_REPOSITORY  https://github.com/njoy/elementary
-    GIT_TAG         origin/master
+    GIT_TAG         feature/comparison
     GIT_SHALLOW     TRUE
     )
 

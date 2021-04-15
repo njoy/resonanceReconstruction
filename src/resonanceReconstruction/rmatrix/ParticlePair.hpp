@@ -5,9 +5,9 @@
 
 // other includes
 #include "resonanceReconstruction/Quantity.hpp"
+#include "resonanceReconstruction/rmatrix/identifiers.hpp"
 #include "resonanceReconstruction/rmatrix/QuantumNumbers.hpp"
 #include "resonanceReconstruction/rmatrix/Particle.hpp"
-#include "resonanceReconstruction/rmatrix/ParticlePairID.hpp"
 
 namespace njoy {
 namespace resonanceReconstruction {

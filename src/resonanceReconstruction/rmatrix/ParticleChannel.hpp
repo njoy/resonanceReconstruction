@@ -5,7 +5,7 @@
 #include <variant>
 
 // other includes
-#include "resonanceReconstruction/rmatrix/ChannelType.hpp"
+#include "resonanceReconstruction/rmatrix/options.hpp"
 #include "resonanceReconstruction/rmatrix/Channel.hpp"
 
 namespace njoy {

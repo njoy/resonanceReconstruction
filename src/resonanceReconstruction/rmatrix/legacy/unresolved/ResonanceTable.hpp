@@ -6,6 +6,7 @@
 
 // other includes
 #include "Log.hpp"
+#include "range/v3/range/conversion.hpp"
 #include "resonanceReconstruction/Quantity.hpp"
 #include "resonanceReconstruction/rmatrix/Table.hpp"
 #include "resonanceReconstruction/rmatrix/legacy/ResonanceTableBase.hpp"
@@ -27,7 +28,7 @@ namespace unresolved {
  *  at any energy in the unresolved resonance region.
  *
  *  @todo since C++17 does not allow us to decltype() something using lambdas,
- *        a ranges::view::transformed table cannot be created and stored as
+ *        a ranges::views::transformed table cannot be created and stored as
  *        a member of the class. It could be done in the call function but then
  *        the interpolation table would be created every time.
  *

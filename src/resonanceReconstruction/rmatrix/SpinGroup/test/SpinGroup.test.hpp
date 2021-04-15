@@ -265,14 +265,20 @@ SCENARIO( "SpinGroup" ) {
 void verifySpinGroup( const SpinGroup< ReichMoore, ShiftFactor >& group ) {
 
   // usefull lambdas
-  auto channelID = [] ( const auto& channel )
-                      { return channel.channelID(); };
+  auto channelID = [] ( const auto& channel ) -> decltype(auto) {
+
+    return channel.channelID();
+  };
+
+  const auto getChannelID = [&] ( const auto& channel ) -> decltype(auto) {
+
+    return std::visit( channelID, channel );
+  };
 
   Energy energy = 1e-5 * electronVolts;
 
-  CHECK( 1 == group.incidentChannels().size() );
-  CHECK( "n,Cl35{0,1,1+}"
-         == std::visit( channelID, group.incidentChannels().front() ) );
+  CHECK( 1 == ranges::cpp20::distance( group.incidentChannels() ) );
+  CHECK( "n,Cl35{0,1,1+}" == getChannelID( group.incidentChannels().front() ) );
 
   CHECK( ParticlePairID( "n,Cl35" ) == group.incidentPair().pairID() );
 

@@ -11,8 +11,8 @@
 #include "range/v3/view/transform.hpp"
 #include "range/v3/view/join.hpp"
 #include "resonanceReconstruction/Quantity.hpp"
+#include "resonanceReconstruction/rmatrix/identifiers.hpp"
 #include "resonanceReconstruction/rmatrix/Map.hpp"
-#include "resonanceReconstruction/rmatrix/ReactionID.hpp"
 #include "resonanceReconstruction/rmatrix/calculatePhaseShift.hpp"
 
 namespace njoy {
@@ -48,12 +48,18 @@ public:
   /**
    *  @brief Return the l,J data
    */
-  auto spinGroups() const { return ranges::view::all( this->groups_ ); }
+  auto spinGroups() const {
+
+    return ranges::cpp20::views::all( this->groups_ );
+  }
 
   /**
    *  @brief Return the reactions defined in the compound system
    */
-  auto reactionIDs() const { return ranges::view::all( this->reactions_ ); }
+  auto reactionIDs() const {
+
+    return ranges::cpp20::views::all( this->reactions_ );
+  }
 
   #include "resonanceReconstruction/rmatrix/legacy/CompoundSystemBase/src/evaluate.hpp"
 };

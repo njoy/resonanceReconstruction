@@ -12,11 +12,11 @@ inline auto radius( const endf::ScatteringRadius& tab1 ){
   auto constructTable = []( auto&& region, int interpolant ){
     auto energy =
       region.first
-      | view::transform( []( auto&& scalar ){ return scalar * electronVolts; } );
+      | views::transform( []( auto&& scalar ){ return scalar * electronVolts; } );
 
     auto radii =
       region.second
-      | view::transform( []( auto&& scalar ){ return scalar * rootBarns; } );
+      | views::transform( []( auto&& scalar ){ return scalar * rootBarns; } );
 
     using Law1 =
       decltype( table::make< Histogram >( std::move(energy),
@@ -51,7 +51,7 @@ inline auto radius( const endf::ScatteringRadius& tab1 ){
   };
 
   auto tables =
-    view::zip_with( constructTable, tab1.regions(), tab1.interpolants() )
+    views::zip_with( constructTable, tab1.regions(), tab1.interpolants() )
     | to_vector;
 
   using ENDFvariant = decltype(tables)::value_type;

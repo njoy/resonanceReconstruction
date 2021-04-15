@@ -17,20 +17,18 @@ auto evaluate( const ResonanceShape& kernel,
 
   const auto sin2Phi = std::sin( 2. * phaseShift );
 
-  const auto Jgroups =
-    this->resonances()
-    | ranges::view::group_by( []( const auto& reference, const auto& trial ){
-        return reference.statisticalFactor == trial.statisticalFactor;
+  const auto groupByStatisticalFactor =
+    ranges::views::group_by( []( auto&& left, auto&& right ){
+        return left.statisticalFactor == right.statisticalFactor;
       } );
 
   const auto zero = pack( pack( 0., 0. ), 0., 0. );
+  const auto evaluateJgroups =
+    ranges::views::transform( [&]( const auto& group ){
 
-  const auto crossSections =
-    Jgroups
-    | ranges::view::transform( [&]( const auto& Jgroup ){
         const auto Jresonances =
-          Jgroup
-          | ranges::view::transform(
+          group
+          | ranges::views::transform(
               [&]( const auto& resonance ){
                 return resonance( penetrationFactor,
                                   shiftFactor,
@@ -49,8 +47,13 @@ auto evaluate( const ResonanceShape& kernel,
         const auto fission = std::get<2>( Jsum );
 
         return pack( scattering, capture, fission )
-               * Jgroup.front().statisticalFactor;
+               * group.front().statisticalFactor;
       } );
+
+  using Pack = decltype( pack( 0., 0., 0. ) );
+  const std::vector< Pack > crossSections =
+    ranges::to< std::vector< Pack > >(
+      this->resonances() | groupByStatisticalFactor | evaluateJgroups );
 
   const double scatteringBase =
     this->D( targetSpin ) * sinSquaredPhi

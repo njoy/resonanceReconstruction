@@ -6,10 +6,10 @@ SCENARIO("phaseShift"){
   auto phi = [&]( auto energy ){ return a(energy) * k(energy); };
 
   auto channelRatios =
-    ranges::view::linear_distribute( -10., 30., 40 )
-    | ranges::view::transform( []( double d ){ return std::pow( 2., d ); } )
-    | ranges::view::transform( []( double d ){ return d * electronVolts; } )
-    | ranges::view::transform( [&]( auto energy ){ return phi(energy); } )
+    ranges::views::linear_distribute( -10., 30., 40 )
+    | ranges::views::transform( []( double d ){ return std::pow( 2., d ); } )
+    | ranges::views::transform( []( double d ){ return d * electronVolts; } )
+    | ranges::views::transform( [&]( auto energy ){ return phi(energy); } )
     | ranges::to_vector;
 
   WHEN("l = 0"){
@@ -21,15 +21,15 @@ SCENARIO("phaseShift"){
 
     auto trial =
       channelRatios
-      | ranges::view::transform( [&]( auto ratio )
+      | ranges::views::transform( [&]( auto ratio )
                                  { return lValue.phaseShift( ratio ); } );
 
     auto reference =
       channelRatios
-      | ranges::view::transform( [&]( auto ratio )
+      | ranges::views::transform( [&]( auto ratio )
                                  { return phaseShift( l, ratio ); } );
 
-    for ( const auto pair : ranges::view::zip( trial, reference ) ){
+    for ( const auto pair : ranges::views::zip( trial, reference ) ){
       auto trial = std::get<0>(pair);
       auto reference = std::get<1>(pair);
       REQUIRE( trial == reference );
@@ -46,15 +46,15 @@ SCENARIO("phaseShift"){
 
     auto trial =
       channelRatios
-      | ranges::view::transform( [&]( auto ratio )
+      | ranges::views::transform( [&]( auto ratio )
                                  { return lValue.phaseShift( ratio ); } );
 
     auto reference =
       channelRatios
-      | ranges::view::transform( [&]( auto ratio )
+      | ranges::views::transform( [&]( auto ratio )
                                  { return phaseShift( l, ratio ); } );
 
-    for ( const auto pair : ranges::view::zip( trial, reference ) ){
+    for ( const auto pair : ranges::views::zip( trial, reference ) ){
       auto trial = std::get<0>(pair);
       auto reference = std::get<1>(pair);
       REQUIRE( trial == reference );

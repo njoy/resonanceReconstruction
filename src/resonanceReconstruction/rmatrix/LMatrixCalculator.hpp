@@ -8,8 +8,8 @@
 #include "range/v3/view/transform.hpp"
 #include "range/v3/view/zip_with.hpp"
 #include "resonanceReconstruction/Quantity.hpp"
+#include "resonanceReconstruction/rmatrix/options.hpp"
 #include "resonanceReconstruction/rmatrix/Matrix.hpp"
-#include "resonanceReconstruction/rmatrix/BoundaryOption.hpp"
 #include "resonanceReconstruction/rmatrix/Channel.hpp"
 
 namespace njoy {
