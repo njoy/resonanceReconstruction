@@ -24,7 +24,7 @@ operator()( const Energy& energy,
     for ( unsigned int c = 0; c < size; ++c ) {
 
       for ( unsigned int cprime = 0; cprime < size; ++cprime ) {
-        
+
         this->rmatrix_( c, cprime ) += rmatrix[c][cprime];
       }
     }
@@ -32,7 +32,7 @@ operator()( const Energy& energy,
 
   // zero out threshold reactions
   auto belowThreshold = channels
-         | ranges::view::transform(
+         | ranges::cpp20::views::transform(
               [&] ( const auto& channel )
                   { return std::visit(
                                [&] ( const auto& channel )

@@ -48,9 +48,9 @@ public:
   /**
    *  @brief Return the unique channel ID
    */
-  auto channelID() const {
+  const ChannelID& channelID() const {
 
-    return std::visit( [] ( const auto& channel )
+    return std::visit( [] ( const auto& channel ) -> decltype(auto)
                           { return channel.channelID(); },
                        this->channel_ ); }
 
@@ -58,45 +58,45 @@ public:
    *  @brief Return the reaction ID fort he reaction to which this channel
    *         constributes
    */
-  auto reactionID() const {
+  const ReactionID& reactionID() const {
 
-   return std::visit( [] ( const auto& channel )
+   return std::visit( [] ( const auto& channel ) -> decltype(auto)
                          { return channel.reactionID(); },
                        this->channel_ ); }
 
   /**
    *  @brief Return the current incident particle pair in the channel
    */
-  auto incidentParticlePair() const {
+  const ParticlePair& incidentParticlePair() const {
 
-   return std::visit( [] ( const auto& channel )
+   return std::visit( [] ( const auto& channel ) -> decltype(auto)
                          { return channel.incidentParticlePair(); },
                        this->channel_ ); }
 
   /**
    *  @brief Return the particle pair in the channel
    */
-  auto particlePair() const {
+  const ParticlePair& particlePair() const {
 
-   return std::visit( [] ( const auto& channel )
+   return std::visit( [] ( const auto& channel ) -> decltype(auto)
                          { return channel.particlePair(); },
                        this->channel_ ); }
 
   /**
    *  @brief Return the l,s,J,pi quantum numbers of the channel
    */
-  auto quantumNumbers() const {
+  const ChannelQuantumNumbers& quantumNumbers() const {
 
-   return std::visit( [] ( const auto& channel )
+   return std::visit( [] ( const auto& channel ) -> decltype(auto)
                          { return channel.quantumNumbers(); },
                        this->channel_ ); }
 
   /**
    *  @brief Return the channel radii
    */
-  auto radii() const {
+  const ChannelRadii& radii() const {
 
-   return std::visit( [] ( const auto& channel )
+   return std::visit( [] ( const auto& channel ) -> decltype(auto)
                          { return channel.radii(); },
                        this->channel_ ); }
 
@@ -104,18 +104,18 @@ public:
    *  @brief Return the Q value for going from the current incident channel
    *         to this channel
    */
-  auto Q() const {
+  const QValue& Q() const {
 
-   return std::visit( [] ( const auto& channel )
+   return std::visit( [] ( const auto& channel ) -> decltype(auto)
                          { return channel.Q(); },
                        this->channel_ ); }
 
   /**
    *  @brief Return the channel boundary condition
    */
-  auto boundaryCondition() const {
+  const BoundaryCondition& boundaryCondition() const {
 
-   return std::visit( [] ( const auto& channel )
+   return std::visit( [] ( const auto& channel ) -> decltype(auto)
                          { return channel.boundaryCondition(); },
                        this->channel_ ); }
 
@@ -131,12 +131,18 @@ public:
   /**
    *  @brief Return the resonance energies
    */
-  auto energies() const { return ranges::view::all( this->energies_ ); }
+  auto energies() const {
+
+    return ranges::cpp20::views::all( this->energies_ );
+  }
 
   /**
    *  @brief Return the resonance widths
    */
-  auto widths() const { return ranges::view::all( this->widths_ ); }
+  auto widths() const {
+
+    return ranges::cpp20::views::all( this->widths_ );
+  }
 
   /**
    *  @brief Return whether or not this is an eliminated channel

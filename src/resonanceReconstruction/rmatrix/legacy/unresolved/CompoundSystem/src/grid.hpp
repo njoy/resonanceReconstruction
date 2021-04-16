@@ -16,15 +16,15 @@
 std::vector< Energy > grid() const {
 
   // generate the initial grid using the energies of all resonance tables
-  std::vector< Energy > grid  =
-      this->spinGroups()
-             | ranges::view::transform(
-                   [] ( const auto& group )
-                      { return group.resonanceTable().energies(); } )
-             | ranges::view::join
-             | ranges::to_vector
-             | ranges::action::sort
-             | ranges::action::unique;
+  std::vector< Energy > grid;
+  for ( const auto& group : this->spinGroups() ) {
+
+    decltype(auto) groupgrid = group.resonanceTable().energies();
+    grid.insert( grid.end(), groupgrid.begin(), groupgrid.end() );
+  }
+
+  ranges::cpp20::sort( grid );
+  grid.erase( ranges::cpp20::unique( grid ), grid.end() );
 
   // go over each energy point (no need to do this for empty grids or grids that
   // have only 1 element in them because an exception will be thrown anyway)
@@ -46,13 +46,19 @@ std::vector< Energy > grid() const {
         }
 
         auto values =
-            points | ranges::view::transform(
+            points | ranges::cpp20::views::transform(
                          [&] ( const auto& point ) -> Energy
                              { return point * std::pow( 10., exponent )
                                       * electronVolt; } );
 
-        auto begin = std::upper_bound( ranges::begin( values ), ranges::end( values ), *previous );
-        auto end = std::lower_bound( ranges::begin( values ), ranges::end( values ), *iter );
+        auto begin = std::upper_bound(
+                         ranges::cpp20::begin( values ),
+                         ranges::cpp20::end( values ),
+                         *previous );
+        auto end = std::lower_bound(
+                       ranges::cpp20::begin( values ),
+                       ranges::cpp20::end( values ),
+                       *iter );
         auto distance = std::distance( begin, end );
         iter = grid.insert( iter, begin, end );
         std::advance( iter, distance - 1 );

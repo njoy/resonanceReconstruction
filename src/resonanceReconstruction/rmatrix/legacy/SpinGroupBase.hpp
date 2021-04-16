@@ -4,9 +4,9 @@
 // system includes
 
 // other includes
-#include "resonanceReconstruction/rmatrix/ChannelType.hpp"
+#include "resonanceReconstruction/rmatrix/options.hpp"
+#include "resonanceReconstruction/rmatrix/identifiers.hpp"
 #include "resonanceReconstruction/rmatrix/Channel.hpp"
-#include "resonanceReconstruction/rmatrix/ReactionID.hpp"
 #include "range/v3/algorithm/count_if.hpp"
 #include "range/v3/view/all.hpp"
 
@@ -75,7 +75,10 @@ public:
   /**
    *  @brief Return the reactions defined here
    */
-  auto reactionIDs() const { return ranges::view::all( this->reactions_ ); }
+  auto reactionIDs() const {
+
+    return ranges::cpp20::views::all( this->reactions_ );
+  }
 
   /**
    *  @brief Return whether or not the spin group has fission or not

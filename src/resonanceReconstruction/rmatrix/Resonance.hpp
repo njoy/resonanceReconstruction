@@ -50,7 +50,10 @@ public:
   /**
    *  @brief Return the reduced widths for this resonance (in sqrt(eV))
    */
-  auto widths() const { return ranges::view::all( this->widths_ ); }
+  auto widths() const {
+
+    return ranges::cpp20::views::all( this->widths_ );
+  }
 
   #include "resonanceReconstruction/rmatrix/Resonance/src/rmatrix.hpp"
 };

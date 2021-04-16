@@ -12,11 +12,13 @@ makeSpinGroups( std::vector< ParticleChannelData >&& channels ) {
   };
 
   // get the different Jpi values in the channels
-  std::vector< std::pair< TotalAngularMomentum, Parity > > spins =
-    channels | ranges::view::transform( getJpi )
-             | ranges::to_vector
-             | ranges::action::sort
-             | ranges::action::unique;
+  using Pair = std::pair< TotalAngularMomentum, Parity >;
+  std::vector< Pair > spins =
+      ranges::to< std::vector< Pair > >(
+          channels | ranges::cpp20::views::transform( getJpi ) );
+
+  ranges::cpp20::sort( spins );
+  spins.erase( ranges::cpp20::unique( spins ), spins.end() );
 
   // go over the Jpi values and create the spin groups
   for ( const auto& Jpi : spins ) {
@@ -30,7 +32,9 @@ makeSpinGroups( std::vector< ParticleChannelData >&& channels ) {
              ( channel.quantumNumbers().parity() == parity );
     };
 
-    groups.emplace_back( channels | ranges::view::filter( filter ) );
+    auto filtered = channels | ranges::cpp20::views::filter( filter );
+    groups.emplace_back(
+        ranges::to< std::vector< ParticleChannelData > >( filtered ) );
   }
 
   return groups;

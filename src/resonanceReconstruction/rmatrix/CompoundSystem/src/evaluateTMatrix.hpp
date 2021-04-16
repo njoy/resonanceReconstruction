@@ -8,7 +8,7 @@ void evaluateTMatrix(
          const Energy& energy,
          Map< ReactionChannelID, std::complex< double > >& result ) {
 
-  ranges::for_each( this->groups_,
-                    [&] ( auto& group )
-                        { group.evaluateTMatrix( energy, result ); } );
+  ranges::cpp20::for_each( this->groups_,
+                           [&] ( auto& group )
+                               { group.evaluateTMatrix( energy, result ); } );
 }

@@ -7,7 +7,7 @@
 // other includes
 #include "utility/horner.hpp"
 #include "resonanceReconstruction/rmatrix/src/coh3-coulomb.hpp"
-#include "resonanceReconstruction/rmatrix/ChannelType.hpp"
+#include "resonanceReconstruction/rmatrix/options.hpp"
 
 namespace njoy {
 namespace resonanceReconstruction {

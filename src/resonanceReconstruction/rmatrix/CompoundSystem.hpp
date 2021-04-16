@@ -8,18 +8,16 @@
 
 // other includes
 #include "Log.hpp"
-#include "range/v3/action/sort.hpp"
-#include "range/v3/action/unique.hpp"
+#include "range/v3/algorithm/sort.hpp"
+#include "range/v3/algorithm/unique.hpp"
 #include "range/v3/algorithm/count_if.hpp"
 #include "range/v3/algorithm/for_each.hpp"
 #include "range/v3/view/all.hpp"
 #include "range/v3/view/transform.hpp"
 #include "resonanceReconstruction/Quantity.hpp"
+#include "resonanceReconstruction/rmatrix/identifiers.hpp"
+#include "resonanceReconstruction/rmatrix/options.hpp"
 #include "resonanceReconstruction/rmatrix/Map.hpp"
-#include "resonanceReconstruction/rmatrix/ReactionID.hpp"
-#include "resonanceReconstruction/rmatrix/ReactionChannelID.hpp"
-#include "resonanceReconstruction/rmatrix/Formalism.hpp"
-#include "resonanceReconstruction/rmatrix/BoundaryOption.hpp"
 #include "resonanceReconstruction/rmatrix/SpinGroup.hpp"
 
 namespace njoy {
@@ -47,12 +45,18 @@ public:
   /* constructor */
   #include "resonanceReconstruction/rmatrix/CompoundSystem/src/ctor.hpp"
 
-  auto spinGroups() const { return ranges::view::all( this->groups_ ); }
+  auto spinGroups() const {
+
+    return ranges::cpp20::views::all( this->groups_ );
+  }
 
   /**
    *  @brief Return the reactions defined in the compound system
    */
-  auto reactionIDs() const { return ranges::view::all( this->reactions_ ); }
+  auto reactionIDs() const {
+
+    return ranges::cpp20::views::all( this->reactions_ );
+  }
 
   //#include "resonanceReconstruction/rmatrix/CompoundSystem/src/switchIncidentPair.hpp"
   #include "resonanceReconstruction/rmatrix/CompoundSystem/src/evaluate.hpp"

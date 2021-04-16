@@ -8,10 +8,9 @@
 // other includes
 #include "range/v3/view/filter.hpp"
 #include "resonanceReconstruction/Quantity.hpp"
+#include "resonanceReconstruction/rmatrix/identifiers.hpp"
+#include "resonanceReconstruction/rmatrix/options.hpp"
 #include "resonanceReconstruction/rmatrix/Map.hpp"
-#include "resonanceReconstruction/rmatrix/ReactionID.hpp"
-#include "resonanceReconstruction/rmatrix/Formalism.hpp"
-#include "resonanceReconstruction/rmatrix/BoundaryOption.hpp"
 #include "resonanceReconstruction/rmatrix/CompoundSystem.hpp"
 #include "resonanceReconstruction/rmatrix/legacy/resolved/CompoundSystem.hpp"
 #include "resonanceReconstruction/rmatrix/legacy/unresolved/CompoundSystem.hpp"
@@ -85,7 +84,7 @@ public:
    */
   auto reactionIDs() {
 
-    return std::visit( [] ( const auto& system )
+    return std::visit( [] ( const auto& system ) -> decltype(auto)
                           { return system.reactionIDs(); },
                        this->compoundSystem() );
   }
@@ -102,9 +101,11 @@ public:
              ( energy <= this->upperEnergy() );
     };
 
-    auto energies = std::visit( [&] ( auto& system ) { return system.grid(); },
+    auto energies = std::visit( [&] ( auto& system ) -> decltype(auto)
+                                    { return system.grid(); },
                                 this->system_ );
-    return energies | ranges::view::filter( filter );
+    return ranges::to< std::vector< Energy > >(
+               energies | ranges::cpp20::views::filter( filter ) );
   }
 
   /**
@@ -119,7 +120,7 @@ public:
     if ( ( energy >= this->lowerEnergy() ) and
          ( energy <= this->upperEnergy() ) ) {
 
-      std::visit( [&] ( auto& system )
+      std::visit( [&] ( auto& system ) -> void
                       { system.evaluate( energy, result ); },
                   this->system_ );
     }

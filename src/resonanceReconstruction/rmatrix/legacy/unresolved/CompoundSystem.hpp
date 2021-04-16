@@ -4,11 +4,12 @@
 // system includes
 
 // other includes
+#include "range/v3/range/conversion.hpp"
 #include "range/v3/action/sort.hpp"
 #include "range/v3/action/unique.hpp"
+#include "resonanceReconstruction/rmatrix/identifiers.hpp"
+#include "resonanceReconstruction/rmatrix/options.hpp"
 #include "resonanceReconstruction/rmatrix/Map.hpp"
-#include "resonanceReconstruction/rmatrix/Formalism.hpp"
-#include "resonanceReconstruction/rmatrix/ReactionID.hpp"
 #include "resonanceReconstruction/rmatrix/legacy/CompoundSystemBase.hpp"
 #include "resonanceReconstruction/rmatrix/legacy/unresolved/SpinGroup.hpp"
 

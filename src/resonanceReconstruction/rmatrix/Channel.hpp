@@ -5,13 +5,12 @@
 
 // other includes
 #include "resonanceReconstruction/Quantity.hpp"
+#include "resonanceReconstruction/rmatrix/identifiers.hpp"
+#include "resonanceReconstruction/rmatrix/options.hpp"
 #include "resonanceReconstruction/rmatrix/BoundaryCondition.hpp"
 #include "resonanceReconstruction/rmatrix/ChannelQuantumNumbers.hpp"
 #include "resonanceReconstruction/rmatrix/ParticlePair.hpp"
 #include "resonanceReconstruction/rmatrix/ChannelRadii.hpp"
-#include "resonanceReconstruction/rmatrix/ChannelType.hpp"
-#include "resonanceReconstruction/rmatrix/ChannelID.hpp"
-#include "resonanceReconstruction/rmatrix/ReactionID.hpp"
 #include "resonanceReconstruction/rmatrix/calculatePenetrability.hpp"
 #include "resonanceReconstruction/rmatrix/calculateShiftFactor.hpp"
 #include "resonanceReconstruction/rmatrix/calculatePhaseShift.hpp"
