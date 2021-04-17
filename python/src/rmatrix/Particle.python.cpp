@@ -31,8 +31,11 @@ void wrapParticle( python::module& module ) {
   component
   .def(
 
-    python::init< const std::string&, double, double,
-                  const Spin&, const Parity& >(),
+    python::init( [] ( const ParticleID&id, double mass, double charge,
+                       const Spin& spin, const Parity& parity )
+                     { return Component( id, toAtomicMass( mass ),
+                                         toElectricalCharge( charge ),
+                                         spin, parity ); } ),
     python::arg( "id" ), python::arg( "mass" ), python::arg( "charge" ),
     python::arg( "spin" ), python::arg( "parity" ),
     "Initialise the quantum numbers\n\n"
@@ -53,13 +56,15 @@ void wrapParticle( python::module& module ) {
   .def_property_readonly(
 
     "mass",
-    [] ( const Component& self ) { return removeUnit( self.mass() ); },
+    [] ( const Component& self ) -> decltype(auto)
+       { return removeUnit( self.mass() ); },
     "The atomic mass of the particle"
   )
   .def_property_readonly(
 
     "charge",
-    [] ( const Component& self ) { return removeUnit( self.charge() ); },
+    [] ( const Component& self ) -> decltype(auto)
+       { return removeUnit( self.charge() ); },
     "The electrical charge of the particle"
   )
   .def_property_readonly(
