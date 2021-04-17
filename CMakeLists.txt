@@ -80,6 +80,7 @@ pybind11_add_module( resonanceReconstruction.python
     python/src/rmatrix/Particle.python.cpp
     )
 target_link_libraries( resonanceReconstruction.python PUBLIC resonanceReconstruction )
+add_dependencies( resonanceReconstruction.python elementary.python )
 target_compile_options( resonanceReconstruction.python PUBLIC "-fPIC" )
 target_compile_options( resonanceReconstruction.python PUBLIC "-fvisibility=hidden" )
 set_target_properties( resonanceReconstruction.python PROPERTIES OUTPUT_NAME resonanceReconstruction )
