@@ -60,7 +60,7 @@ void wrapParticle( python::module& module ) {
                                          spin, parity ); } ),
     python::arg( "id" ), python::arg( "mass" ),
     python::arg( "spin" ), python::arg( "parity" ),
-    "Initialise the quantum numbers\n\n"
+    "Initialise the particle without specifying the electrical charge\n\n"
     "Arguments:\n"
     "    self      the particle\n"
     "    id        the particle id or name (e.g. n, U235, U235_e1)\n"
@@ -72,7 +72,7 @@ void wrapParticle( python::module& module ) {
 
     "particle_id",
     &Component::particleID,
-    "The orbital angular momentum l of the channel"
+    "The identifier of the particle"
   )
   .def_property_readonly(
 
