@@ -19,3 +19,18 @@ Particle( const ParticleID& id,
   verifyNotNegative( this->charge_, "Charge" );
 }
 
+/**
+ *  @brief Constructor
+ *
+ *  @param[in] id       the particle id or name (e.g. n, U235, U235_e1)
+ *  @param[in] mass     the particle or nuclide mass (in amu or dalton)
+ *  @param[in] spin     the particle spin
+ *  @param[in] parity   the particle parity
+ */
+Particle( const ParticleID& id,
+          const AtomicMass& mass,
+          const Spin& spin,
+          const Parity& parity ) :
+  Particle( id, mass,
+            ( id.za() - id.za() % 1000 ) / 1000 * constant::elementaryCharge,
+            spin, parity ) {}

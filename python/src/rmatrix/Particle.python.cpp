@@ -31,7 +31,7 @@ void wrapParticle( python::module& module ) {
   component
   .def(
 
-    python::init( [] ( const ParticleID&id, double mass, double charge,
+    python::init( [] ( const ParticleID& id, double mass, double charge,
                        const Spin& spin, const Parity& parity )
                      { return Component( id, toAtomicMass( mass ),
                                          toElectricalCharge( charge ),
@@ -44,6 +44,22 @@ void wrapParticle( python::module& module ) {
     "    id        the particle id or name (e.g. n, U235, U235_e1)\n"
     "    mass      the particle or nuclide mass (in amu or dalton)\n"
     "    charge    the charge of the particle or nuclide (in Coulomb)\n"
+    "    spin      the particle spin\n"
+    "    parity    the particle parity"
+  )
+  .def(
+
+    python::init( [] ( const ParticleID& id, double mass,
+                       const Spin& spin, const Parity& parity )
+                     { return Component( id, toAtomicMass( mass ),
+                                         spin, parity ); } ),
+    python::arg( "id" ), python::arg( "mass" ), 
+    python::arg( "spin" ), python::arg( "parity" ),
+    "Initialise the quantum numbers\n\n"
+    "Arguments:\n"
+    "    self      the quantum numbers\n"
+    "    id        the particle id or name (e.g. n, U235, U235_e1)\n"
+    "    mass      the particle or nuclide mass (in amu or dalton)\n"
     "    spin      the particle spin\n"
     "    parity    the particle parity"
   )
