@@ -20,17 +20,17 @@ namespace rmatrix {
  *  The penetrability P, shift factor S and phase shift phi require knowledge
  *  of the channel radius in their calculation. The ChannelRadii class provides
  *  these radii for each on of these.
- *
- *  This class only accepts energy independent radii, but the interface does
- *  already provides a semblance of energy dependence when retrieving the
- *  radii.
  */
 class ChannelRadii {
+
+public:
 
   /* alias */
   using ChannelRadiusVariant = std::variant< ChannelRadius,
                                              ChannelRadiusTable >;
 
+private:
+  
   /* fields */
   ChannelRadiusVariant penetrability_;
   ChannelRadiusVariant shiftFactor_;

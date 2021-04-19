@@ -29,7 +29,7 @@ void wrapParticle( python::module& module ) {
     "during resonance reconstruction. The Particle has an atomic mass, an\n"
     "electrical charge, a spin and a parity (either + or -).\n\n"
     "These variables are used to calculate quantities like the wave number k for\n"
-    "an incident reaction channel.\n"
+    "an incident reaction channel."
   );
 
   // wrap the component
