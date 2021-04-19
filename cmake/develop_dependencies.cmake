@@ -7,7 +7,7 @@ include( FetchContent )
 
 FetchContent_Declare( ENDFtk
     GIT_REPOSITORY  https://github.com/njoy/ENDFtk
-    GIT_TAG         update/ranges
+    GIT_TAG         feature/python-extension
     GIT_SHALLOW     TRUE
     )
 

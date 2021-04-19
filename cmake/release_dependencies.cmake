@@ -33,7 +33,7 @@ FetchContent_Declare( elementary
 
 FetchContent_Declare( ENDFtk
     GIT_REPOSITORY  https://github.com/njoy/ENDFtk
-    GIT_TAG         update/ranges
+    GIT_TAG         feature/python-extension
     )
 
 FetchContent_Declare( hana-adapter

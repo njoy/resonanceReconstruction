@@ -39,6 +39,7 @@ jobs:
       working-directory: ./bin
     - name: python -m unittest
       run: |
+        cp ../bin/_deps/endftk-build/*.so .
         cp ../bin/_deps/elementary-build/*.so .
         cp ../bin/*.so .
         python3 -m unittest discover -v -p "Test*"
