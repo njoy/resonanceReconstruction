@@ -17,12 +17,12 @@ Magnitude removeUnit( const Quantity< Unit, Magnitude >& quantity ) {
   return quantity.value;
 }
 
-AtomicMass toAtomicMass( double value ) {
+inline AtomicMass toAtomicMass( double value ) {
 
   return value * dimwits::daltons;
 }
 
-ElectricalCharge toElectricalCharge( double value ) {
+inline ElectricalCharge toElectricalCharge( double value ) {
 
   return value * dimwits::coulombs;
 }

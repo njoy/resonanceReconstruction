@@ -47,8 +47,8 @@ SCENARIO( "Particle" ) {
       CHECK( 0.5 == Approx( neutron.spin() ) );
       CHECK( +1 == neutron.parity() );
 
-      Particle neutron( neutronID, neutronMass,
-                        neutronSpin, neutronParity );
+      neutron = Particle( neutronID, neutronMass,
+                          neutronSpin, neutronParity );
 
       CHECK( "n" == neutron.particleID().symbol() );
       CHECK( 1.008664 == Approx( neutron.mass().value ) );
@@ -65,8 +65,8 @@ SCENARIO( "Particle" ) {
       CHECK( 0.5 == Approx( proton.spin() ) );
       CHECK( +1 == proton.parity() );
 
-      Particle proton( protonID, protonMass,
-                       protonSpin, protonParity );
+      proton = Particle( protonID, protonMass,
+                         protonSpin, protonParity );
 
       CHECK( "p" == proton.particleID().symbol() );
       CHECK( 1.007276 == Approx( proton.mass().value ) );
@@ -82,7 +82,7 @@ SCENARIO( "Particle" ) {
       CHECK( 0.0 == Approx( u235.spin() ) );
       CHECK( +1 == u235.parity() );
 
-      Particle u235( u235ID, u235Mass, u235Spin, u235Parity );
+      u235 = Particle( u235ID, u235Mass, u235Spin, u235Parity );
 
       CHECK( "U235" == u235.particleID().symbol() );
       CHECK( 235.0439299 == Approx( u235.mass().value ) );

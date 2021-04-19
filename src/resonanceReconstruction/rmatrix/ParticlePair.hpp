@@ -15,7 +15,7 @@ namespace rmatrix {
 
 /**
  *  @class
- *  @brief Information for a particle pair
+ *  @brief Particle pair information
  *
  *  A ParticlePair represents the two particles involved in a entrance or exit
  *  reaction channel (we assume that the reaction is a two-body reaction). The

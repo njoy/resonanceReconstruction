@@ -24,7 +24,12 @@ void wrapParticle( python::module& module ) {
 
     module,
     "Particle",
-    "Particle information"
+    "Particle information\n\n"
+    "The Particle class contains specific information for a particle as used\n"
+    "during resonance reconstruction. The Particle has an atomic mass, an\n"
+    "electrical charge, a spin and a parity (either + or -).\n\n"
+    "These variables are used to calculate quantities like the wave number k for\n"
+    "an incident reaction channel.\n"
   );
 
   // wrap the component
@@ -38,9 +43,9 @@ void wrapParticle( python::module& module ) {
                                          spin, parity ); } ),
     python::arg( "id" ), python::arg( "mass" ), python::arg( "charge" ),
     python::arg( "spin" ), python::arg( "parity" ),
-    "Initialise the quantum numbers\n\n"
+    "Initialise the particle\n\n"
     "Arguments:\n"
-    "    self      the quantum numbers\n"
+    "    self      the particle\n"
     "    id        the particle id or name (e.g. n, U235, U235_e1)\n"
     "    mass      the particle or nuclide mass (in amu or dalton)\n"
     "    charge    the charge of the particle or nuclide (in Coulomb)\n"
@@ -53,11 +58,11 @@ void wrapParticle( python::module& module ) {
                        const Spin& spin, const Parity& parity )
                      { return Component( id, toAtomicMass( mass ),
                                          spin, parity ); } ),
-    python::arg( "id" ), python::arg( "mass" ), 
+    python::arg( "id" ), python::arg( "mass" ),
     python::arg( "spin" ), python::arg( "parity" ),
     "Initialise the quantum numbers\n\n"
     "Arguments:\n"
-    "    self      the quantum numbers\n"
+    "    self      the particle\n"
     "    id        the particle id or name (e.g. n, U235, U235_e1)\n"
     "    mass      the particle or nuclide mass (in amu or dalton)\n"
     "    spin      the particle spin\n"

@@ -14,7 +14,6 @@ using Parity = rmatrix::Parity;
 using ParticleID = rmatrix::ParticleID;
 using ParticlePairID = rmatrix::ParticlePairID;
 
-constexpr ElectricalCharge elementary = dimwits::constant::elementaryCharge;
 constexpr double e = 1.6021766208e-19;
 
 SCENARIO( "ParticlePair" ) {
@@ -22,17 +21,12 @@ SCENARIO( "ParticlePair" ) {
   GIVEN( "valid data for a ParticlePair" ) {
 
     // particles
-    Particle photon( ParticleID( "g" ), 0.0 * daltons, 0.0 * coulombs, 1., +1);
-    Particle neutron( ParticleID( "n" ), 1.00866491582 * daltons,
-                      0.0 * coulombs, 0.5, +1);
-    Particle proton( ParticleID( "p" ), 1.00727647 * daltons,
-                     elementary, 0.5, +1);
-    Particle cl36( ParticleID( "Cl36_e0" ), 35.968306822 * daltons,
-                   17.0 * elementary, 0., +1);
-    Particle cl35( ParticleID( "Cl35_e0" ), 34.968852694 * daltons,
-                   17.0 * elementary, 1.5, +1);
-    Particle s36( ParticleID( "S36_e0" ), 35.967080699 * daltons,
-                  16.0 * elementary, 1.5, +1);
+    Particle photon( ParticleID( "g" ), 0.0 * daltons, 1., +1);
+    Particle neutron( ParticleID( "n" ), 1.00866491582 * daltons, 0.5, +1);
+    Particle proton( ParticleID( "p" ), 1.00727647 * daltons, 0.5, +1);
+    Particle cl36( ParticleID( "Cl36_e0" ), 35.968306822 * daltons, 0., +1);
+    Particle cl35( ParticleID( "Cl35_e0" ), 34.968852694 * daltons, 1.5, +1);
+    Particle s36( ParticleID( "S36_e0" ), 35.967080699 * daltons, 1.5, +1);
 
     // custom particle pair identifier
     ParticlePairID id( "fission" );
