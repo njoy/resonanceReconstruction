@@ -13,18 +13,18 @@ class Test_r2_ParticlePair( unittest.TestCase ) :
     def test_component( self ) :
 
         # particles
-        photon = Particle( ParticleID( 'g' ), 0.0, 1., +1);
-        neutron = Particle( ParticleID( 'n' ), 1.00866491582, 0.5, +1);
-        proton = Particle( ParticleID( 'p' ), 1.00727647, 0.5, +1);
-        cl36 = Particle( ParticleID( 'Cl36_e0' ), 35.968306822, 0., +1);
-        cl35 = Particle( ParticleID( 'Cl35_e0' ), 34.968852694, 1.5, +1);
-        s36 = Particle( ParticleID( 'S36_e0' ), 35.967080699, 1.5, +1);
+        photon = Particle( ParticleID( 'g' ), 0.0, 1., +1)
+        neutron = Particle( ParticleID( 'n' ), 1.00866491582, 0.5, +1)
+        proton = Particle( ParticleID( 'p' ), 1.00727647, 0.5, +1)
+        cl36 = Particle( ParticleID( 'Cl36_e0' ), 35.968306822, 0., +1)
+        cl35 = Particle( ParticleID( 'Cl35_e0' ), 34.968852694, 1.5, +1)
+        s36 = Particle( ParticleID( 'S36_e0' ), 35.967080699, 1.5, +1)
 
         # custom particle pair identifier
         id = ParticlePairID( 'fission' );
 
         # a ParticlePair can be constructed without a pair ID
-        pair = ParticlePair( neutron, cl35 );
+        pair = ParticlePair( particle = neutron, residual = cl35 )
 
         self.assertAlmostEqual( 1.00866491582, pair.particle.mass )
         self.assertAlmostEqual( 0.0, pair.particle.charge )

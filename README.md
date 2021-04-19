@@ -71,6 +71,59 @@ The basic building blocks for R-matrix are particle channels defined by:
 - A pair of particles making up the channel, e.g. n,O16
 - A set of quantum numbers composed of the orbital momentum l, channel spin s and the angular momentum and parity Jpi
 
+Within R2, Particle instances are combined into ParticlePair instances as follows:
+```
+import elementary
+import resonanceReconstruction as r2
+
+# define a few particles
+photon = r2.Particle( id = elementary.ParticleID( 'g' ), mass = 0.0, spin = 1, parity = +1)
+neutron = r2.Particle( id = elementary.ParticleID( 'n' ), mass = 1.00866491582, spin = 1/2, parity = +1)
+proton = r2.Particle( id = elementary.ParticleID( 'p' ), mass = 1.00727647, spin = 1/2, parity = +1)
+cl36 = r2.Particle( id = elementary.ParticleID( 'Cl36_e0' ), mass = 35.968306822, spin = 0, parity = +1)
+cl35 = r2.Particle( id = elementary.ParticleID( 'Cl35_e0' ), mass = 34.968852694, spin = 3/2, parity = +1)
+s36 = r2.Particle( id = elementary.ParticleID( 'S36_e0' ), mass = 35.967080699, spin = 3/2, parity = +1)
+```
+
+Particle instances have an identifier (defined in the elementary package), a mass, a charge, particle spin and parity that can be retrieved as properties:
+```
+neutron.particle_id
+neutron.mass
+neutron.charge
+neutron.spin
+neutron.parity
+```
+
+The electrical charge of the particle is automatically determined by the particle's Z-number multiplied by the elementary electrical charge (1.60217662e-19 C). If the user wishes to define his/her own value for the electrical charge, he/she can do so when initialising the Particle instance:
+```
+photon = r2.Particle( id = elementary.ParticleID( 'g' ), mass = 0.0, charge = 0.0, spin = 1, parity = +1)
+```
+
+Every component in R2 has python documentation associated to it that can be viewed using the `help(...)` function in python:
+```
+help( photon ) # this will display the help for the Particle class
+```
+
+Once Particle instances are defined, they can be combined into ParticlePair instances:
+```
+# define a n,Cl35 particle pair
+pair = ParticlePair( particle = neutron, residual = cl35 )
+```
+
+An identifier for the particle pair (represented by the ParticlePairID defined in the elementary package) is generated automatically. In this case, the identifier's symbol will be `n,Cl35`.
+
+A ParticlePair represents the two particles involved in a entrance or exit reaction channel (we assume that the reaction is a two-body reaction). The pair consists of a \"small\" incident or outgoing particle (e.g. a neutron, photon, alpha, etc.) and a \"larger\" target or residual nucleus (e.g. H1, He4, U235, etc.). The composing particle and residual Particle instances can be retrieved through properties:
+```
+pair.particle    
+pair.residual
+```
+
+The ParticlePair class also gives us access to information related to the pair of particles, such as the mass ratio `mb / ( ma + mb )` and the reduced mass `mu = ma * mb / ( ma + mb )`:
+```
+pair.mass_ratio
+pair.reduced_mass
+```
+
 ## LICENSE
 This software is copyrighted by Los Alamos National Laboratory and distributed
 according to the conditions in the accompanying [LICENSE](LICENSE) file.
