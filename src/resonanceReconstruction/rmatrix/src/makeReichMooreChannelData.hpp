@@ -124,12 +124,24 @@ makeReichMooreChannelData(
     auto rwFission2 = wFission2 | ranges::view::transform( toOtherWidth );
 
     // see how many channels we have
+    bool bElastic = not isAllZero( wElastic );
+    bool bCapture = not isAllZero( wCapture );
     bool bFission1 = not isAllZero( wFission1 );
     bool bFission2 = not isAllZero( wFission2 );
 
     // add channel data
-    data.emplace_back( cElastic, std::vector< Energy >( energies ), rwElastic );
-    data.emplace_back( cCapture, std::vector< Energy >( energies ), rwCapture, true );
+    if ( bElastic ) {
+
+      data.emplace_back( cElastic, std::vector< Energy >( energies ), rwElastic );
+    }
+    else {
+
+      data.emplace_back( cElastic, std::vector< Energy >(), std::vector< ReducedWidth >() );
+    }
+    if ( bCapture ) {
+
+      data.emplace_back( cCapture, std::vector< Energy >( energies ), rwCapture, true );
+    }
     if ( bFission1 ) {
 
       data.emplace_back( cFission1, std::vector< Energy >( energies ), rwFission1 );
