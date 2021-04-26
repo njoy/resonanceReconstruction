@@ -12,6 +12,7 @@ namespace rmatrix {
   void wrapParticle( python::module& );
   void wrapParticlePair( python::module& );
   void wrapChannelRadii( python::module& );
+  void wrapParticleChannels( python::module& );
 }
 
 /**
@@ -26,4 +27,5 @@ PYBIND11_MODULE( resonanceReconstruction, module ) {
   rmatrix::wrapParticle( module );
   rmatrix::wrapParticlePair( module );
   rmatrix::wrapChannelRadii( module );
+  rmatrix::wrapParticleChannels( module );
 }

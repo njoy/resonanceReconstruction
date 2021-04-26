@@ -12,7 +12,8 @@
  *
  *  It is a dimensionless parameter.
  *
- *  @param energy   the energy at which the permeability needs to be evaluated
+ *  @param energy   the energy at which the sommerfeld parameter needs to be
+ *                  evaluated
  */
 double sommerfeldParameter( const Energy& energy ) const {
 

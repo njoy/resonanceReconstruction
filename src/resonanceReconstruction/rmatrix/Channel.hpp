@@ -25,7 +25,22 @@ namespace rmatrix {
  *  @brief A reaction channel
  *
  *  The Channel class is used to used to store or calculate all channel specific
- *  data.
+ *  data such as the incident particle pair, the outgoing particle pair, the
+ *  associated Q-value, etc.
+ *
+ *  The incident and outgoing particle pair identifiers determine the reaction
+ *  to which the channel contributes. For example: 'n,Cl35->n,Cl35' for elastic
+ *  scattering.
+ *
+ *  The channel should always have a unique channel identifier associated to
+ *  it. In most cases, such a unique identifier can be generated from the
+ *  channel's particle pair identifier and (l,s,Jpi) set of quantum numbers,
+ *  for example: 'n,Cl35{0,1,1+}'.
+ *
+ *  Under special cases such as partial fission channels, a user defined
+ *  identifier may be needed since the associated particle pair is the
+ *  same (since they contribute to the same reaction), for example:
+ *  'fission1{0,1,1+}' and 'fission2{0,1,1+}'
  */
 template < typename ChannelType >
 class Channel {
@@ -60,8 +75,8 @@ public:
   const ChannelID& channelID() const { return this->id_; }
 
   /**
-   *  @brief Return the reaction ID fort he reaction to which this channel
-   *         constributes
+   *  @brief Return the identifier of the reaction to which this channel
+   *         contributes
    */
   const ReactionID& reactionID() const { return this->reaction_; }
 
@@ -76,7 +91,7 @@ public:
   const ParticlePair& particlePair() const { return this->pair_; }
 
   /**
-   *  @brief Return the l,s,J,pi quantum numbers of the channel
+   *  @brief Return the (l,s,Jpi) quantum number set of the channel
    */
   const ChannelQuantumNumbers& quantumNumbers() const { return this->numbers_; }
 

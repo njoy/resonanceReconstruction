@@ -12,6 +12,7 @@ using AtomicMass = njoy::resonanceReconstruction::AtomicMass;
 using ElectricalCharge = njoy::resonanceReconstruction::ElectricalCharge;
 using ChannelRadius = njoy::resonanceReconstruction::ChannelRadius;
 using Energy = njoy::resonanceReconstruction::Energy;
+using QValue = njoy::resonanceReconstruction::QValue;
 
 template < typename Unit, typename Magnitude >
 Magnitude removeUnit( const Quantity< Unit, Magnitude >& quantity ) {
@@ -35,6 +36,11 @@ inline ChannelRadius toChannelRadius( double value ) {
 }
 
 inline Energy toEnergy( double value ) {
+
+  return value * dimwits::electronVolt;
+}
+
+inline QValue toQValue( double value ) {
 
   return value * dimwits::electronVolt;
 }
