@@ -11,7 +11,7 @@ namespace python = pybind11;
 
 namespace rmatrix {
 
-void wrapParticle( python::module& module ) {
+void wrapParticle( python::module& module, python::module& ) {
 
   // type aliases
   using Component = njoy::resonanceReconstruction::rmatrix::Particle;

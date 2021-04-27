@@ -12,7 +12,7 @@ namespace python = pybind11;
 namespace rmatrix {
 
 template < typename ChannelType >
-void wrapChannel( const std::string& channel, python::module& module ) {
+void wrapChannel( const std::string& channel, python::module& module, python::module& ) {
 
   // type aliases
   using Component = njoy::resonanceReconstruction::rmatrix::Channel< ChannelType >;
@@ -259,7 +259,7 @@ void wrapChannel( const std::string& channel, python::module& module ) {
   );
 }
 
-void wrapParticleChannels( python::module& module ) {
+void wrapParticleChannels( python::module& module, python::module& viewmodule ) {
 
   // channel types
   using Neutron = njoy::resonanceReconstruction::rmatrix::Neutron;
@@ -268,10 +268,10 @@ void wrapParticleChannels( python::module& module ) {
   using Fission = njoy::resonanceReconstruction::rmatrix::Fission;
 
   // wrap channels
-  wrapChannel< Neutron >( "NeutronChannel", module );
-  wrapChannel< Photon >( "PhotonChannel", module );
-  wrapChannel< ChargedParticle >( "ChargedParticleChannel", module );
-  wrapChannel< Fission >( "FissionChannel", module );
+  wrapChannel< Neutron >( "NeutronChannel", module, viewmodule );
+  wrapChannel< Photon >( "PhotonChannel", module, viewmodule );
+  wrapChannel< ChargedParticle >( "ChargedParticleChannel", module, viewmodule );
+  wrapChannel< Fission >( "FissionChannel", module, viewmodule );
 }
 
 } // namespace rmatrix

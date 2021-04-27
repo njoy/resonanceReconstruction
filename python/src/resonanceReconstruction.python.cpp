@@ -8,11 +8,11 @@ namespace python = pybind11;
 // declarations
 namespace rmatrix {
 
-  void wrapChannelQuantumNumbers( python::module& );
-  void wrapParticle( python::module& );
-  void wrapParticlePair( python::module& );
-  void wrapChannelRadii( python::module& );
-  void wrapParticleChannels( python::module& );
+  void wrapChannelQuantumNumbers( python::module&, python::module& );
+  void wrapParticle( python::module&, python::module& );
+  void wrapParticlePair( python::module&, python::module& );
+  void wrapChannelRadii( python::module&, python::module& );
+  void wrapParticleChannels( python::module&, python::module& );
 }
 
 /**
@@ -23,9 +23,22 @@ namespace rmatrix {
  */
 PYBIND11_MODULE( resonanceReconstruction, module ) {
 
-  rmatrix::wrapChannelQuantumNumbers( module );
-  rmatrix::wrapParticle( module );
-  rmatrix::wrapParticlePair( module );
-  rmatrix::wrapChannelRadii( module );
-  rmatrix::wrapParticleChannels( module );
+  // create the views submodule
+  python::module viewmodule = module.def_submodule(
+
+    "sequence",
+    "sequence - resonance reconstruction sequences (internal use only)"
+  );
+
+  // wrap some basic recurring views
+  // none of these are supposed to be created directly by the user
+  wrapBasicRandomAccessAnyViewOf< double >(
+      viewmodule,
+      "any_view< double, random_access >" );
+
+  rmatrix::wrapChannelQuantumNumbers( module, viewmodule );
+  rmatrix::wrapParticle( module, viewmodule );
+  rmatrix::wrapParticlePair( module, viewmodule );
+  rmatrix::wrapChannelRadii( module, viewmodule );
+  rmatrix::wrapParticleChannels( module, viewmodule );
 }

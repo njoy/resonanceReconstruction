@@ -11,7 +11,7 @@ namespace python = pybind11;
 
 namespace rmatrix {
 
-void wrapChannelRadii( python::module& module ) {
+void wrapChannelRadii( python::module& module, python::module& ) {
 
   // type aliases
   using Component = njoy::resonanceReconstruction::rmatrix::ChannelRadii;

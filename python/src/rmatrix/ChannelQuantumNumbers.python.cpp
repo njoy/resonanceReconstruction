@@ -10,7 +10,7 @@ namespace python = pybind11;
 
 namespace rmatrix {
 
-void wrapChannelQuantumNumbers( python::module& module ) {
+void wrapChannelQuantumNumbers( python::module& module, python::module& ) {
 
   // type aliases
   using Component = njoy::resonanceReconstruction::rmatrix::ChannelQuantumNumbers;

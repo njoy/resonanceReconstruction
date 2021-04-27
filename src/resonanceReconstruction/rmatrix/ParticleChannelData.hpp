@@ -16,7 +16,7 @@ namespace rmatrix {
 
 /**
  *  @class
- *  @brief Single particle channel data
+ *  @brief Data for a single particle channel
  *
  *  This class represent all data related to a single channel; the particle
  *  channel instance, the resonance energies and reduced widths. It provides
