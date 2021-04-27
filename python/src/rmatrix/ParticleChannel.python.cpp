@@ -216,6 +216,46 @@ void wrapChannel( const std::string& channel, python::module& module ) {
     "channel's particle pair and hbar is the Planck constant.\n\n"
     "@param energy   the energy at which the wave number needs to be \n"
     "                evaluated\n"
+  )
+  .def(
+
+    "penetrability",
+    [] ( const Component& self, double energy )
+       { return removeUnit( self.penetrability( toEnergy( energy ) ) ); },
+    python::arg( "energy" ),
+    "Return the penetrability for this channel as a function of energy\n\n"
+    "@param energy   the energy at which the penetrability needs to be \n"
+    "                evaluated\n"
+  )
+  .def(
+
+    "shift_factor",
+    [] ( const Component& self, double energy )
+       { return removeUnit( self.shiftFactor( toEnergy( energy ) ) ); },
+    python::arg( "energy" ),
+    "Return the shift factor for this channel as a function of energy\n\n"
+    "@param energy   the energy at which the shift factor needs to be \n"
+    "                evaluated\n"
+  )
+  .def(
+
+    "phase_shift",
+    [] ( const Component& self, double energy )
+       { return removeUnit( self.phaseShift( toEnergy( energy ) ) ); },
+    python::arg( "energy" ),
+    "Return the phase shift for this channel as a function of energy\n\n"
+    "@param energy   the energy at which the phase shift needs to be \n"
+    "                evaluated\n"
+  )
+  .def(
+
+    "coulomb_phase_shift",
+    [] ( const Component& self, double energy )
+       { return removeUnit( self.phaseShift( toEnergy( energy ) ) ); },
+    python::arg( "energy" ),
+    "Return the coulomb phase shift for this channel as a function of energy\n\n"
+    "@param energy   the energy at which the coulomb phase shift needs to be \n"
+    "                evaluated\n"
   );
 }
 

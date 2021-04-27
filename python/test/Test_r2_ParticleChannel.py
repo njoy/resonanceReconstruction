@@ -108,10 +108,10 @@ class Test_r2_ParticleChannel( unittest.TestCase ) :
 
         self.assertEqual( 0.0, capture.sommerfeld_parameter( energy ) )
         self.assertAlmostEqual( 0.0, capture.wave_number( energy ) )
-        #self.assertAlmostEqual( 1.0, capture.penetrability( energy ) )
-        #self.assertAlmostEqual( 0.0, capture.shift_factor( energy ) )
-        #self.assertAlmostEqual( 0.0, capture.phase_shift( energy ) )
-        #self.assertAlmostEqual( 0.0, capture.coulomb_phase_shift( energy ) )
+        self.assertAlmostEqual( 1.0, capture.penetrability( energy ) )
+        self.assertAlmostEqual( 0.0, capture.shift_factor( energy ) )
+        self.assertAlmostEqual( 0.0, capture.phase_shift( energy ) )
+        self.assertAlmostEqual( 0.0, capture.coulomb_phase_shift( energy ) )
 
         # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         # neutron channel, incident channel, no threshold
@@ -169,10 +169,10 @@ class Test_r2_ParticleChannel( unittest.TestCase ) :
 
         self.assertAlmostEqual( 0.0, elastic.sommerfeld_parameter( energy ) )
         self.assertAlmostEqual( 6.75215238E-06, elastic.wave_number( energy ) )
-        #self.assertAlmostEqual( 3.25603642E-06, elastic.penetrability( energy ) )
-        #self.assertAlmostEqual( 0.0, elastic.shift_factor( energy ) )
-        #self.assertAlmostEqual( 2.47667599E-06, elastic.phase_shift( energy ) )
-        #self.assertAlmostEqual( 0.0, elastic.coulomb_phase_shift( energy ) )
+        self.assertAlmostEqual( 3.25603642E-06, elastic.penetrability( energy ) )
+        self.assertAlmostEqual( 0.0, elastic.shift_factor( energy ) )
+        self.assertAlmostEqual( 2.47667599E-06, elastic.phase_shift( energy ) )
+        self.assertAlmostEqual( 0.0, elastic.coulomb_phase_shift( energy ) )
 
         # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         # neutron channel, not incident channel, threshold
@@ -231,10 +231,10 @@ class Test_r2_ParticleChannel( unittest.TestCase ) :
 
         self.assertAlmostEqual( 0.0, inelastic.sommerfeld_parameter( energy ) )
         self.assertAlmostEqual( 2.39164854E+00, inelastic.wave_number( energy ) )
-        #self.assertAlmostEqual( 1.15330554E+00, inelastic.penetrability( energy ) )
-        #self.assertAlmostEqual( 0.0, inelastic.shift_factor( energy ) )
-        #self.assertAlmostEqual( 8.77251899E-01, inelastic.phase_shift( energy ) )
-        #self.assertAlmostEqual( 0.0, inelastic.coulomb_phase_shift( energy ) )
+        self.assertAlmostEqual( 1.15330554E+00, inelastic.penetrability( energy ) )
+        self.assertAlmostEqual( 0.0, inelastic.shift_factor( energy ) )
+        self.assertAlmostEqual( 8.77251899E-01, inelastic.phase_shift( energy ) )
+        self.assertAlmostEqual( 0.0, inelastic.coulomb_phase_shift( energy ) )
 
         # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         # proton channel, not an incident channel, no threshold
@@ -293,10 +293,10 @@ class Test_r2_ParticleChannel( unittest.TestCase ) :
 
         self.assertAlmostEqual( 3.17996084E+00, protonEmission.sommerfeld_parameter( energy ) )
         self.assertAlmostEqual( 1.69828445E+00, protonEmission.wave_number( energy ) )
-        #self.assertAlmostEqual( 0.000027793, protonEmission.penetrability( energy ) )
-        #self.assertAlmostEqual( -1.8734549658, protonEmission.shift_factor( energy ) )
-        #self.assertAlmostEqual( 0.0000020468, protonEmission.phase_shift( energy ) )
-        #self.assertAlmostEqual( 0.0, protonEmission.coulomb_phase_shift( energy ) )
+        self.assertAlmostEqual( 0.000027793, protonEmission.penetrability( energy ) )
+        self.assertAlmostEqual( -1.8734549658, protonEmission.shift_factor( energy ) )
+        self.assertAlmostEqual( 0.0000020468, protonEmission.phase_shift( energy ) )
+        self.assertAlmostEqual( 0.0, protonEmission.coulomb_phase_shift( energy ) )
 
 if __name__ == '__main__' :
 
