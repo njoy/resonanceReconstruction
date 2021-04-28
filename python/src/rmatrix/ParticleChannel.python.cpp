@@ -221,7 +221,7 @@ void wrapChannel( const std::string& channel, python::module& module, python::mo
 
     "penetrability",
     [] ( const Component& self, double energy )
-       { return removeUnit( self.penetrability( toEnergy( energy ) ) ); },
+       { return self.penetrability( toEnergy( energy ) ); },
     python::arg( "energy" ),
     "Return the penetrability for this channel as a function of energy\n\n"
     "@param energy   the energy at which the penetrability needs to be \n"
@@ -231,7 +231,7 @@ void wrapChannel( const std::string& channel, python::module& module, python::mo
 
     "shift_factor",
     [] ( const Component& self, double energy )
-       { return removeUnit( self.shiftFactor( toEnergy( energy ) ) ); },
+       { return self.shiftFactor( toEnergy( energy ) ); },
     python::arg( "energy" ),
     "Return the shift factor for this channel as a function of energy\n\n"
     "@param energy   the energy at which the shift factor needs to be \n"
@@ -241,7 +241,7 @@ void wrapChannel( const std::string& channel, python::module& module, python::mo
 
     "phase_shift",
     [] ( const Component& self, double energy )
-       { return removeUnit( self.phaseShift( toEnergy( energy ) ) ); },
+       { return self.phaseShift( toEnergy( energy ) ); },
     python::arg( "energy" ),
     "Return the phase shift for this channel as a function of energy\n\n"
     "@param energy   the energy at which the phase shift needs to be \n"
@@ -251,7 +251,7 @@ void wrapChannel( const std::string& channel, python::module& module, python::mo
 
     "coulomb_phase_shift",
     [] ( const Component& self, double energy )
-       { return removeUnit( self.phaseShift( toEnergy( energy ) ) ); },
+       { return self.coulombPhaseShift( toEnergy( energy ) ); },
     python::arg( "energy" ),
     "Return the coulomb phase shift for this channel as a function of energy\n\n"
     "@param energy   the energy at which the coulomb phase shift needs to be \n"

@@ -2,6 +2,9 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
+// internal includes
+#include "views.hpp"
+
 // namespace aliases
 namespace python = pybind11;
 

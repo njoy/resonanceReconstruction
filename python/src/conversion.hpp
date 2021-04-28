@@ -5,6 +5,8 @@
 
 // other includes
 #include "resonanceReconstruction/Quantity.hpp"
+#include "range/v3/range/conversion.hpp"
+#include "range/v3/view/transform.hpp"
 
 template < typename Unit, typename Magnitude >
 using Quantity = dimwits::Quantity< Unit, Magnitude >;
@@ -22,9 +24,12 @@ Magnitude removeUnit( const Quantity< Unit, Magnitude >& quantity ) {
 }
 
 template < typename Unit, typename Magnitude >
-std::vector< double > removeArrayUnit( const std::vector< Quantity< Unit, Magnitude > >& array ) {
+std::vector< Magnitude > removeArrayUnit( const std::vector< Quantity< Unit, Magnitude > >& array ) {
 
-  return quantity.value;
+  return ranges::to< std::vector< Magnitude > >(
+
+    array | ranges::views::transform( [] ( const auto& quantity )
+                                         { return removeUnit( quantity ); } ) );
 }
 
 inline AtomicMass toAtomicMass( double value ) {
@@ -49,7 +54,7 @@ inline Energy toEnergy( double value ) {
 
 inline ReducedWidth toReducedWidth( double value ) {
 
-  return value * dimwits::rootElectronVolt;
+  return value * njoy::resonanceReconstruction::rootElectronVolt;
 }
 
 inline QValue toQValue( double value ) {
@@ -59,24 +64,19 @@ inline QValue toQValue( double value ) {
 
 inline std::vector< Energy > toEnergyArray( const std::vector< double > array ) {
 
-  std::vector< Energy > energies;
-  energies.reserve( array.size() );
-  for ( auto value : array ) {
+  return ranges::to< std::vector< Energy > >(
 
-    energies.push_back( toEnergy( value ) );
-  }
-  return energies;
+    array | ranges::views::transform( [] ( const auto& value )
+                                         { return toEnergy( value ); } ) );
+
 }
 
 inline std::vector< ReducedWidth > toReducedWidthArray( const std::vector< double > array ) {
 
-  std::vector< ReducedWidth > widths;
-  widths.reserve( array.size() );
-  for ( auto value : array ) {
+  return ranges::to< std::vector< ReducedWidth > >(
 
-    widths.push_back( toReducedWidth( value ) );
-  }
-  return widths;
+    array | ranges::views::transform( [] ( const auto& value )
+                                         { return toReducedWidth( value ); } ) );
 }
 
 #endif

@@ -293,9 +293,9 @@ class Test_r2_ParticleChannel( unittest.TestCase ) :
 
         self.assertAlmostEqual( 3.17996084E+00, protonEmission.sommerfeld_parameter( energy ) )
         self.assertAlmostEqual( 1.69828445E+00, protonEmission.wave_number( energy ) )
-        self.assertAlmostEqual( 0.000027793, protonEmission.penetrability( energy ) )
+        self.assertAlmostEqual( 0.00002892276, protonEmission.penetrability( energy ) )
         self.assertAlmostEqual( -1.8734549658, protonEmission.shift_factor( energy ) )
-        self.assertAlmostEqual( 0.0000020468, protonEmission.phase_shift( energy ) )
+        self.assertAlmostEqual( 0.000002163697, protonEmission.phase_shift( energy ) )
         self.assertAlmostEqual( 0.0, protonEmission.coulomb_phase_shift( energy ) )
 
 if __name__ == '__main__' :
