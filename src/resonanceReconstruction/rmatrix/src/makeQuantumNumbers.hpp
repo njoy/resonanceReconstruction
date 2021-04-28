@@ -1,10 +1,10 @@
 std::vector< ChannelQuantumNumbers >
-makeQuantumNumbers( const ParticlePair& incident, unsigned int lmax ) {
+makeQuantumNumbers( const ParticlePair& incident, unsigned int nls ) {
 
   std::vector< ChannelQuantumNumbers > numbers;
   auto channelspins = possibleChannelSpinValues( incident.particle().spin(),
                                                  incident.residual().spin() );
-  for ( unsigned int l = 0; l < lmax; ++l ) {
+  for ( unsigned int l = 0; l < nls; ++l ) {
 
     for ( unsigned int i = 0; i < channelspins.size(); ++i ) {
 
