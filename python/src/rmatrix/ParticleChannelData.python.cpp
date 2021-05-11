@@ -116,6 +116,12 @@ void wrapParticleChannelData( python::module& module, python::module& ) {
   )
   .def_property_readonly(
 
+    "is_eliminated_channel",
+    &Component::isEliminatedChannel,
+    "Return whether or not the channel is an eliminated channel"
+  )
+  .def_property_readonly(
+
     "energies",
     [] ( const Component& self ) -> DoubleRange
        { return removeArrayUnit( self.energies() ); },

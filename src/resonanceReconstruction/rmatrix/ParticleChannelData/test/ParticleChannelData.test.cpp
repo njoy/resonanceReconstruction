@@ -48,7 +48,7 @@ SCENARIO( "ParticleChannelData" ) {
     Channel< Neutron > elastic( in, in, 0. * electronVolt,
                                 { 0, 1.0, 1.0, +1 }, radii );
 
-    // width data
+    // width and energy data
     std::vector< Energy > energies = { 1.2345e+1 * electronVolt,
                                        3500. * electronVolt };
     std::vector< ReducedWidth > widths = { 3.4e-2 * rootElectronVolt,
