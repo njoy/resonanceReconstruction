@@ -15,15 +15,33 @@ namespace rmatrix {
   struct ChargedParticle {};
   struct Fission {};
 
-  // R-matrix boundary condition options
+  // R-matrix boundary condition option types
   struct ShiftFactor {}; // shift factor eliminates the boundary condition
   struct Constant {};    // the boundary condition is constannt
 
-  // R-matrix formalism options
+  // R-matrix boundary condition option enumerator
+
+  enum class Boundary : short {
+
+    ShiftFactor = 0, // shift factor eliminates the boundary condition
+    Constant         // the boundary condition is constannt
+  };
+
+  // R-matrix formalism option types
   struct SingleLevelBreitWigner {};
   struct MultiLevelBreitWigner {};
   struct ReichMoore {};
   struct GeneralRMatrix {};
+
+  // R-matrix formalism option enumerator
+
+  enum class Formalism : short {
+
+    SingleLevelBreitWigner = 0,
+    MultiLevelBreitWigner,
+    ReichMoore,
+    GeneralRMatrix
+  };
 
 } // rmatrix namespace
 } // resonanceReconstruction namespace

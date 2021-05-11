@@ -76,6 +76,8 @@ include_directories( python/src/ )
 pybind11_add_module( resonanceReconstruction.python
     EXCLUDE_FROM_ALL
     python/src/resonanceReconstruction.python.cpp
+    python/src/rmatrix/Boundary.python.cpp
+    python/src/rmatrix/Formalism.python.cpp
     python/src/rmatrix/ChannelQuantumNumbers.python.cpp
     python/src/rmatrix/Particle.python.cpp
     python/src/rmatrix/ParticlePair.python.cpp

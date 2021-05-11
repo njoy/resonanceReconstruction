@@ -44,14 +44,15 @@ void wrapResonanceTable( python::module& module, python::module& viewmodule ) {
 
     python::init< std::vector< ChannelID >&&, std::vector< Resonance >&& >(),
     python::arg( "channels" ), python::arg( "resonances" ),
-    "Initialise the ResonanceTable\n\n"
-    "Arguments:\n"
+    "Initialise the resonance table\n\n"
     "The ResonanceTable class takes the reduced widths for all channels in a\n"
     "spin group. As the channels can differe from case to case, channels are\n"
     "identified using their channel IDs. Data can be extracted from the table\n"
     "using these IDs.\n\n"
-    "@param[in] channels     the channel identifiers\n"
-    "@param[in] resonances   the resolved resonance parameters"
+    "Arguments:\n"
+    "    self         the resonance table\n"
+    "    channels     the channel identifiers\n"
+    "    resonances   the resolved resonance parameters"
   )
   .def_property_readonly(
 

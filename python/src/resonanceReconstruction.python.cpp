@@ -11,6 +11,8 @@ namespace python = pybind11;
 // declarations
 namespace rmatrix {
 
+  void wrapBoundary( python::module&, python::module& );
+  void wrapFormalism( python::module&, python::module& );
   void wrapChannelQuantumNumbers( python::module&, python::module& );
   void wrapParticle( python::module&, python::module& );
   void wrapParticlePair( python::module&, python::module& );
@@ -42,6 +44,8 @@ PYBIND11_MODULE( resonanceReconstruction, module ) {
       viewmodule,
       "any_view< double, random_access >" );
 
+  rmatrix::wrapBoundary( module, viewmodule );
+  rmatrix::wrapFormalism( module, viewmodule );
   rmatrix::wrapChannelQuantumNumbers( module, viewmodule );
   rmatrix::wrapParticle( module, viewmodule );
   rmatrix::wrapParticlePair( module, viewmodule );

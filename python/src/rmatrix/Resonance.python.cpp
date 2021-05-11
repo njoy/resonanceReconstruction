@@ -43,7 +43,7 @@ void wrapResonance( python::module& module, python::module& ) {
                                          toReducedWidth( eliminated ) ); } ),
     python::arg( "energy" ), python::arg( "widths" ),
     python::arg( "eliminated" ) = 0.,
-    "Initialise the Resonance\n\n"
+    "Initialise the resonance\n\n"
     "Both energy values and reduced widths may be negative. When the energy is\n"
     "negative, the penetrability, shift factor, phase shift, etc. are calculated\n"
     "at the absolute value of the energy.\n\n"
@@ -51,9 +51,10 @@ void wrapResonance( python::module& module, python::module& ) {
     "eliminated capture width does not need to be specified (it has a default\n"
     "value of zero).\n\n"
     "Arguments:\n"
-    "energy       the resonance energy (in eV, may be negative)\n"
-    "widths       the reduced widths (in sqrt(eV))\n"
-    "eliminated   the reduced eliminated capture width (in sqrt(eV))"
+    "    self         the resonance\n"
+    "    energy       the resonance energy (in eV, may be negative)\n"
+    "    widths       the reduced widths (in sqrt(eV))\n"
+    "    eliminated   the reduced eliminated capture width (in sqrt(eV))"
   )
   .def_property_readonly(
 
