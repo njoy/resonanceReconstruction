@@ -18,7 +18,7 @@ namespace rmatrix {
 
 /**
  *  @class
- *  @brief Resonance parameters for a specific J,pi value
+ *  @brief Resolved resonance parameters for a specific J,pi value
  */
 class ResonanceTable {
 
@@ -45,7 +45,7 @@ public:
   unsigned int numberResonances() const { return this->widths_.size(); }
 
   /**
-   *  @brief Return the channel IDs
+   *  @brief Return the channel identifiers
    */
   auto channels() const {
 

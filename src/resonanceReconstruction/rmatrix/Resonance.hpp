@@ -17,7 +17,7 @@ namespace rmatrix {
 
 /**
  *  @class
- *  @brief Resolved resonance parameters
+ *  @brief Resolved resonance parameters for a single resonance
  *
  *  The Resonance class contains the reduced widths (given in sqrt(eV)) for a
  *  number of channels. This class is both compatible with the general R matrix

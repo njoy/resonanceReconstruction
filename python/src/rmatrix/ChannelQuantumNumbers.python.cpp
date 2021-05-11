@@ -19,6 +19,8 @@ void wrapChannelQuantumNumbers( python::module& module, python::module& ) {
   using TotalAngularMomentum = njoy::resonanceReconstruction::rmatrix::TotalAngularMomentum;
   using Parity = njoy::resonanceReconstruction::rmatrix::Parity;
 
+  // wrap views created by this component
+
   // create the component
   python::class_< Component > component(
 

@@ -21,6 +21,8 @@ void wrapChannel( const std::string& channel, python::module& module, python::mo
   using ChannelQuantumNumbers = njoy::resonanceReconstruction::rmatrix::ChannelQuantumNumbers;
   using BoundaryCondition = njoy::resonanceReconstruction::rmatrix::BoundaryCondition;
 
+  // wrap views created by this component
+
   // create the component
   python::class_< Component > component(
 

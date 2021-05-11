@@ -18,6 +18,8 @@ void wrapChannelRadii( python::module& module, python::module& ) {
   using ChannelRadiusTable = njoy::resonanceReconstruction::rmatrix::ChannelRadiusTable;
   using Variant = Component::ChannelRadiusVariant;
 
+  // wrap views created by this component
+
   //! @todo the use of a channel radius table is currently not allowed
 
   // create the component

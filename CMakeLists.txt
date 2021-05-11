@@ -82,6 +82,8 @@ pybind11_add_module( resonanceReconstruction.python
     python/src/rmatrix/ChannelRadii.python.cpp
     python/src/rmatrix/ParticleChannel.python.cpp
     python/src/rmatrix/ParticleChannelData.python.cpp
+    python/src/rmatrix/Resonance.python.cpp
+    python/src/rmatrix/ResonanceTable.python.cpp
     )
 target_link_libraries( resonanceReconstruction.python PUBLIC resonanceReconstruction )
 add_dependencies( resonanceReconstruction.python

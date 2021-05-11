@@ -19,6 +19,8 @@ void wrapParticle( python::module& module, python::module& ) {
   using Spin = njoy::resonanceReconstruction::rmatrix::Spin;
   using Parity = njoy::resonanceReconstruction::rmatrix::Parity;
 
+  // wrap views created by this component
+
   // create the component
   python::class_< Component > component(
 

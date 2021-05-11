@@ -18,6 +18,8 @@ void wrapParticlePair( python::module& module, python::module& ) {
   using Particle = njoy::resonanceReconstruction::rmatrix::Particle;
   using ParticlePairID = njoy::elementary::ParticlePairID;
 
+  // wrap views created by this component
+
   // create the component
   python::class_< Component > component(
 

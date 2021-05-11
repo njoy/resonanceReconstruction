@@ -6,17 +6,13 @@
  *  identified using their channel IDs. Data can be extracted from the table
  *  using these IDs.
  *
- *  @param[in] channels   the channel IDs (nc values)
- *  @param[in] energies   the energies for which resonances are defined (ne
- *                        values)
- *  @param[in] widths     the reduced widths for each energy and channel
- *                        (ne arrays of nc values)
+ *  @param[in] channels     the channel identifiers
+ *  @param[in] resonances   the resolved resonance parameters
  */
 ResonanceTable( std::vector< ChannelID >&& channels,
-                std::vector< Resonance >&& widths ) :
+                std::vector< Resonance >&& resonances ) :
     channels_( std::move( channels ) ),
-    widths_( std::move( widths ) ) {
+    widths_( std::move( resonances ) ) {
 
     verifyTable( this->channels_, this->widths_ );
 }
-

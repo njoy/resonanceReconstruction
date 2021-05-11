@@ -17,6 +17,8 @@ namespace rmatrix {
   void wrapChannelRadii( python::module&, python::module& );
   void wrapParticleChannels( python::module&, python::module& );
   void wrapParticleChannelData( python::module&, python::module& );
+  void wrapResonance( python::module&, python::module& );
+  void wrapResonanceTable( python::module&, python::module& );
 }
 
 /**
@@ -46,4 +48,6 @@ PYBIND11_MODULE( resonanceReconstruction, module ) {
   rmatrix::wrapChannelRadii( module, viewmodule );
   rmatrix::wrapParticleChannels( module, viewmodule );
   rmatrix::wrapParticleChannelData( module, viewmodule );
+  rmatrix::wrapResonance( module, viewmodule );
+  rmatrix::wrapResonanceTable( module, viewmodule );
 }

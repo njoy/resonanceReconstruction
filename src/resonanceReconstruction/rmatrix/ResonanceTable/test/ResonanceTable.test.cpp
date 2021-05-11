@@ -14,7 +14,7 @@ SCENARIO( "ResonanceTable" ) {
 
   GIVEN( "valid data for a ResonanceTable" ) {
 
-    // single resonance data
+    // resonance data
     std::vector< ChannelID > channels = { "1", "2" };
     std::vector< Resonance > resonances =
       { Resonance( 6.823616e+4 * electronVolt,
@@ -90,7 +90,7 @@ SCENARIO( "ResonanceTable" ) {
           "contain the right number of widths" ) {
 
       CHECK_THROWS( ResonanceTable( std::move( channels ),
-                                      std::move( resonances ) ) );
+                                    std::move( resonances ) ) );
     } // THEN
   } // GIVEN
 } // SCENARIO
