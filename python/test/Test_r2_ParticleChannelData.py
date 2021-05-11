@@ -83,6 +83,17 @@ class Test_r2_ParticleChannelData( unittest.TestCase ) :
 
         self.assertEqual( 0.0, data.Q )
 
+        self.assertEqual( 0.375, data.statistical_spin_factor )
+
+        self.assertEqual( False, data.below_threshold( energy ) )
+
+        self.assertAlmostEqual( 0.0, data.sommerfeld_parameter( energy ) )
+        self.assertAlmostEqual( 6.75215238E-06, data.wave_number( energy ) )
+        self.assertAlmostEqual( 3.25603642E-06, data.penetrability( energy ) )
+        self.assertAlmostEqual( 0.0, data.shift_factor( energy ) )
+        self.assertAlmostEqual( 2.47667599E-06, data.phase_shift( energy ) )
+        self.assertAlmostEqual( 0.0, data.coulomb_phase_shift( energy ) )
+
         self.assertEqual( 2, len( data.energies ) )
         self.assertAlmostEqual( 12.345, data.energies[0] )
         self.assertAlmostEqual( 3500., data.energies[1] )

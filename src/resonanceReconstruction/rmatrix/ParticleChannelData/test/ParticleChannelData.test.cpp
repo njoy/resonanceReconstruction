@@ -105,6 +105,17 @@ SCENARIO( "ParticleChannelData" ) {
 
       CHECK( 0.0 == Approx( data.Q().value ) );
 
+      CHECK( 0.375 == Approx( data.statisticalSpinFactor() ) );
+
+      CHECK( false == Approx( data.belowThreshold( energy ) ) );
+
+      CHECK( 0.0 == Approx( data.sommerfeldParameter( energy ) ) );
+      CHECK( 6.75215238E-06 == Approx( data.waveNumber( energy ).value ) );
+      CHECK( 3.25603642E-06 == Approx( data.penetrability( energy ) ) );
+      CHECK( 0.0 == Approx( data.shiftFactor( energy ) ) );
+      CHECK( 2.47667599E-06 == Approx( data.phaseShift( energy ) ) );
+      CHECK( 0.0 == Approx( data.coulombPhaseShift( energy ) ) );
+
       // verify width data
       CHECK( 2 == data.energies().size() );
       CHECK( 12.345 == Approx( data.energies()[0].value ) );
