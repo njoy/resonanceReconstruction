@@ -40,7 +40,7 @@ double calculateCoulombPhaseShift( const int, const double ) {
  *  @param[in] l     the oribital angular momentum
  *  @param[in] eta   the value fo the eta parameter to be used
  */
-template <>
+template <> inline
 double calculateCoulombPhaseShift< ChargedParticle >( const int l,
                                                       const double eta ) {
   return ranges::accumulate(

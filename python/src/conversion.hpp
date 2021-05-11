@@ -23,13 +23,12 @@ Magnitude removeUnit( const Quantity< Unit, Magnitude >& quantity ) {
   return quantity.value;
 }
 
-template < typename Unit, typename Magnitude >
-std::vector< Magnitude > removeArrayUnit( const std::vector< Quantity< Unit, Magnitude > >& array ) {
+template < typename Array >
+auto removeArrayUnit( const Array& array ) {
 
-  return ranges::to< std::vector< Magnitude > >(
-
-    array | ranges::views::transform( [] ( const auto& quantity )
-                                         { return removeUnit( quantity ); } ) );
+  return array | ranges::views::transform(
+                     [] ( const auto& quantity )
+                        { return removeUnit( quantity ); } );
 }
 
 inline AtomicMass toAtomicMass( double value ) {
@@ -62,7 +61,8 @@ inline QValue toQValue( double value ) {
   return value * dimwits::electronVolt;
 }
 
-inline std::vector< Energy > toEnergyArray( const std::vector< double > array ) {
+inline std::vector< Energy >
+toEnergyArray( const std::vector< double > array ) {
 
   return ranges::to< std::vector< Energy > >(
 
@@ -71,7 +71,8 @@ inline std::vector< Energy > toEnergyArray( const std::vector< double > array ) 
 
 }
 
-inline std::vector< ReducedWidth > toReducedWidthArray( const std::vector< double > array ) {
+inline std::vector< ReducedWidth >
+toReducedWidthArray( const std::vector< double > array ) {
 
   return ranges::to< std::vector< ReducedWidth > >(
 

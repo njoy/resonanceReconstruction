@@ -129,6 +129,11 @@ public:
                       this->channel_ ); }
 
   /**
+   *  @brief Return whether or not this is an eliminated channel
+   */
+  auto isEliminatedChannel() const { return this->eliminated_; }
+
+  /**
    *  @brief Return the resonance energies
    */
   auto energies() const {
@@ -137,17 +142,12 @@ public:
   }
 
   /**
-   *  @brief Return the resonance widths
+   *  @brief Return the reduced resonance widths
    */
   auto widths() const {
 
     return ranges::cpp20::views::all( this->widths_ );
   }
-
-  /**
-   *  @brief Return whether or not this is an eliminated channel
-   */
-  auto isEliminatedChannel() const { return this->eliminated_; }
 };
 
 } // rmatrix namespace

@@ -34,6 +34,14 @@ Channel( const ChannelID& channelID,
 
 public:
 
+//! @todo pybind11 variant needs default constructor workaround
+#ifdef PYBIND11
+/**
+ *  @brief Default constructor - only enabled for pybind11
+ */
+Channel() = default;
+#endif
+
 /**
  *  @brief Constructor
  *

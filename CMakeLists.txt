@@ -81,15 +81,16 @@ pybind11_add_module( resonanceReconstruction.python
     python/src/rmatrix/ParticlePair.python.cpp
     python/src/rmatrix/ChannelRadii.python.cpp
     python/src/rmatrix/ParticleChannel.python.cpp
+    python/src/rmatrix/ParticleChannelData.python.cpp
     )
 target_link_libraries( resonanceReconstruction.python PUBLIC resonanceReconstruction )
 add_dependencies( resonanceReconstruction.python
     elementary.python
     ENDFtk.python  )
-target_compile_options( resonanceReconstruction.python PUBLIC "-fPIC" )
 target_compile_options( resonanceReconstruction.python PUBLIC "-fvisibility=hidden" )
 set_target_properties( resonanceReconstruction.python PROPERTIES OUTPUT_NAME resonanceReconstruction )
 set_target_properties( resonanceReconstruction.python PROPERTIES COMPILE_DEFINITIONS "PYBIND11" )
+set_target_properties( resonanceReconstruction.python PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 #######################################################################
 # Top-level Only

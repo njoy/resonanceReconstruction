@@ -34,7 +34,7 @@ double calculatePhaseShift( const unsigned int, const double, const double ) {
  *  @param[in] l       the oribital angular momentum
  *  @param[in] ratio   the value of rho = ka
  */
-template <>
+template <> inline
 double calculatePhaseShift< Neutron >( const unsigned int l,
                                        const double ratio,
                                        const double ) {
@@ -77,7 +77,7 @@ double calculatePhaseShift< Neutron >( const unsigned int l,
  *  @param[in] ratio   the value of rho = ka
  *  @param[in] eta     the Sommerfeld parameter
  */
-template <>
+template <> inline
 double calculatePhaseShift< ChargedParticle >( const unsigned int l,
                                                const double ratio,
                                                const double eta ) {

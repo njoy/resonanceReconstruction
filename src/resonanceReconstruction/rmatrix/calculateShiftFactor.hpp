@@ -30,7 +30,7 @@ double calculateShiftFactor( const unsigned int, const double, const double ) {
  *  For a neutron channel, the shift factor is defined using the neutron
  *  hardsphere functions.
  */
-template <>
+template <> inline
 double calculateShiftFactor< Neutron >( const unsigned int l,
                                         const double ratio,
                                         const double ) {
@@ -87,7 +87,7 @@ double calculateShiftFactor< Neutron >( const unsigned int l,
  *  @param[in] ratio   the value of rho = ka
  *  @param[in] eta     the Sommerfeld parameter
  */
-template <>
+template <> inline
 double calculateShiftFactor< ChargedParticle >( const unsigned int l,
                                                 const double ratio,
                                                 const double eta ) {

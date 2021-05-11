@@ -1,3 +1,11 @@
+//! @todo pybind11 variant needs default constructor workaround
+#ifdef PYBIND11
+/**
+ *  @brief Default constructor - only enabled for pybind11
+ */
+ChannelQuantumNumbers() = default;
+#endif
+
 /**
  *  @brief Constructor
  *
@@ -11,4 +19,3 @@ ChannelQuantumNumbers( const OrbitalAngularMomentum& l,
                        const TotalAngularMomentum& J,
                        const Parity& parity ) :
   l_( l ), s_( s ), J_( J ), parity_( parity ) {}
-
