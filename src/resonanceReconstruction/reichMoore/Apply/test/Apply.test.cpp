@@ -71,7 +71,7 @@ resonances(){
 
   auto endfFile = njoy::utility::slurpFileToMemory( "n-013_Al_027.endf" );
 
-  njoy::ENDFtk::tree::Tape< std::string > tape( endfFile );
+  njoy::ENDFtk::tree::Tape tape( endfFile );
 
   auto& material = *( tape.begin() );
 
