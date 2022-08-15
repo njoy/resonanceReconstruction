@@ -54,8 +54,9 @@ public:
   auto energies() const {
 
     return this->resonances()
-             | ranges::view::transform( [] ( const auto& resonance )
-                                           { return resonance.energy(); } );
+             | ranges::cpp20::views::transform(
+                   [] ( const auto& resonance ) -> decltype(auto)
+                      { return resonance.energy(); } );
   }
 };
 

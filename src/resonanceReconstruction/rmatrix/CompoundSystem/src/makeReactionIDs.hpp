@@ -3,15 +3,15 @@ std::vector< ReactionID >
 makeReactionIDs( const std::vector< SpinGroup< Formalism, BoundaryOption > >& groups ) {
 
   std::vector< ReactionID > reactions;
+  for ( const auto& group : groups ) {
 
-  reactions = groups | ranges::view::transform(
-                           [] ( const auto& group )
-                              { return group.reactionIDs(); } )
-                     | ranges::view::join;
+    decltype(auto) groupreactions = group.reactionIDs();
+    reactions.insert( reactions.end(),
+                      groupreactions.begin(), groupreactions.end() );
+  }
 
-  std::sort( reactions.begin(), reactions.end() );
-  reactions.erase( std::unique( reactions.begin(), reactions.end() ),
-                   reactions.end() );
+  ranges::cpp20::sort( reactions );
+  reactions.erase( ranges::cpp20::unique( reactions ), reactions.end() );
 
   return reactions;
 }

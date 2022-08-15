@@ -16,7 +16,7 @@ makeReactionIdentifiers( const Channel< Neutron >& channel,
                        { return resonance.hasFission(); };
 
   // add fission if it exists
-  if ( ranges::count_if( table.resonances(), hasFission ) ) {
+  if ( ranges::cpp20::count_if( table.resonances(), hasFission ) ) {
 
     reactions.push_back( ReactionID{ incident, target, ReactionType( "fission" ) } );
   }

@@ -5,9 +5,9 @@
 
 // other includes
 #include "range/v3/numeric/accumulate.hpp"
-#include "range/v3/view/indices.hpp"
+#include "range/v3/view/iota.hpp"
 #include "range/v3/view/transform.hpp"
-#include "resonanceReconstruction/rmatrix/ChannelType.hpp"
+#include "resonanceReconstruction/rmatrix/options.hpp"
 
 namespace njoy {
 namespace resonanceReconstruction {
@@ -44,8 +44,8 @@ template <>
 double calculateCoulombPhaseShift< ChargedParticle >( const int l,
                                                       const double eta ) {
   return ranges::accumulate(
-             ranges::view::indices( 1, l + 1 )
-               | ranges::view::transform(
+             ranges::cpp20::views::iota( 1, l + 1 )
+               | ranges::cpp20::views::transform(
                      [&] ( int n ) -> double
                          { return 1. / std::tan( eta / n ); } ), 0.0 );
 }

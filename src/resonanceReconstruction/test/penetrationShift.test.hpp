@@ -1,8 +1,8 @@
 SCENARIO( "penetration shift" ){
   auto trial =
-    ranges::view::cartesian_product
-    ( ranges::view::iota(0,5), ranges::view::linear_distribute( 0., 5., 21 ) )
-    | ranges::view::transform
+    ranges::views::cartesian_product
+    ( ranges::views::iota(0,5), ranges::views::linear_distribute( 0., 5., 21 ) )
+    | ranges::views::transform
       ( []( auto&& tuple ){
         return penetrationShift( std::get<0>(tuple), std::get<1>(tuple) ); } );
 
@@ -114,7 +114,7 @@ SCENARIO( "penetration shift" ){
    {{2.5157918867739499, -0.82366800642532489}},
    {{2.8652901048925403, -0.71477297733440914}}};
 
-  for ( const auto pair : ranges::view::zip( trial, reference ) ){
+  for ( const auto pair : ranges::views::zip( trial, reference ) ){
     const auto trial = std::get<0>(pair);
     const auto reference = std::get<1>(pair);
     REQUIRE( trial[0] == Approx( reference[0] ) );
@@ -124,7 +124,7 @@ SCENARIO( "penetration shift" ){
 }
 
 SCENARIO( "penetration shift factory" ){
-  auto channelRatios = ranges::view::linear_distribute( 0., 5., 21 );
+  auto channelRatios = ranges::views::linear_distribute( 0., 5., 21 );
 
   SECTION( "l = 0" ){
     auto ps = penetrationShift( Integer<0>{} );
