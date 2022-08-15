@@ -132,22 +132,35 @@ makeReichMooreChannelData(
         wFission2 | ranges::cpp20::views::transform( toOtherWidth ) );
 
     // see how many channels we have
-    bool bFission1 = not isAllZero( wFission1 );
-    bool bFission2 = not isAllZero( wFission2 );
+    bool hasElastic = not isAllZero( wElastic );
+    bool hasCapture = not isAllZero( wCapture );
+    bool hasFission1 = not isAllZero( wFission1 );
+    bool hasFission2 = not isAllZero( wFission2 );
 
     // add channel data
-    data.emplace_back( cElastic, std::vector< Energy >( energies ),
-                       std::move( rwElastic ) );
-    data.emplace_back( cCapture, std::vector< Energy >( energies ),
-                       std::move( rwCapture ), true );
-    if ( bFission1 ) {
+    if ( hasElastic ) {
+
+      data.emplace_back( cElastic, std::vector< Energy >( energies ),
+                         std::move( rwElastic ) );
+    }
+    else {
+
+      data.emplace_back( cElastic, std::vector< Energy >(),
+                         std::vector< ReducedWidth >() );
+    }
+    if ( hasCapture ) {
+
+      data.emplace_back( cCapture, std::vector< Energy >( energies ),
+                         std::move( rwCapture ), true );
+    }
+    if ( hasFission1 ) {
 
       data.emplace_back( cFission1, std::vector< Energy >( energies ),
                          std::move( rwFission1 ) );
     }
-    if ( bFission2 ) {
+    if ( hasFission2 ) {
 
-      if ( bFission1 ) {
+      if ( hasFission1 ) {
 
         data.emplace_back( cFission2, std::vector< Energy >( energies ),
                            std::move( rwFission2 ) );

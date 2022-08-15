@@ -8,7 +8,7 @@ makeReichMooreCompoundSystem(
     unsigned int naps ) {
 
   // get some information
-  unsigned int nlsc = endfReichMoore.numberLValuesForConvergence();
+  unsigned int nls = endfReichMoore.numberLValues();
   double awri = endfReichMoore.lValues().front().atomicWeightRatio();
   double spin = endfReichMoore.spin();
   double ap = endfReichMoore.scatteringRadius();
@@ -24,7 +24,7 @@ makeReichMooreCompoundSystem(
                                          awri, neutronMass.value );
 
   // create the spin groups and assign the quantum numbers
-  auto required = makeQuantumNumbers( in, nlsc );
+  auto required = makeQuantumNumbers( in, nls );
   auto lvalues = endfReichMoore.lValues();
   std::vector< ParticleChannelData > data;
   for ( const auto& lvalue : lvalues ) {
