@@ -16,7 +16,7 @@ resonances( const std::string& id );
 
 auto test( const std::vector< double >& testData ){
   return [&testData]( auto&& xs ){
-    auto tuples = testData | ranges::view::chunk(4);
+    auto tuples = testData | ranges::views::chunk(4);
     for( const auto tuple : tuples ){
       auto energy = tuple[0] * electronVolts;
       double referenceElastic = tuple[1];
@@ -135,14 +135,14 @@ resonances( const std::string& id ){
 
     auto endfFile = njoy::utility::slurpFileToMemory( id + ".endf" );
 
-    njoy::ENDFtk::tree::Tape< std::string > tape( endfFile );
+    njoy::ENDFtk::tree::Tape tape( endfFile );
 
     auto& material = *( tape.begin() );
 
     auto MAT = material.MAT();
     return material
-           .fileNumber(2)
-           .sectionNumber(151).parse< 2, 151 >();
+           .file(2)
+           .section(151).parse< 2, 151 >();
   };
 
   return std::make_pair( section151(), testData() );

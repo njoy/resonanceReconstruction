@@ -3,8 +3,9 @@ std::vector< ParticleChannel >
 makeChannels( const std::vector< ParticleChannelData >& channels ) {
 
   std::vector< ParticleChannel > result =
-      channels | ranges::view::transform( [] ( const auto& data )
-                                             { return data.channel(); } );
+      ranges::to< std::vector< ParticleChannel > >(
+          channels | ranges::cpp20::views::transform(
+                         [] ( const auto& data ) { return data.channel(); } ) );
 
   auto isEliminated = [] ( const auto& data )
                          { return data.isEliminatedChannel(); };
@@ -12,13 +13,13 @@ makeChannels( const std::vector< ParticleChannelData >& channels ) {
                    { return value == true; };
 
   // there may be at most one eleminated channel
-  auto eliminated = channels | ranges::view::transform( isEliminated );
-  auto indexEliminated = ranges::distance(
-                           ranges::begin( eliminated ),
-                           std::find_if( ranges::begin( eliminated ),
-                                         ranges::end( eliminated ),
+  auto eliminated = channels | ranges::cpp20::views::transform( isEliminated );
+  auto indexEliminated = ranges::cpp20::distance(
+                           ranges::cpp20::begin( eliminated ),
+                           std::find_if( ranges::cpp20::begin( eliminated ),
+                                         ranges::cpp20::end( eliminated ),
                                         isTrue ) );
-  if ( indexEliminated != ranges::distance( channels ) ) {
+  if ( indexEliminated != ranges::cpp20::distance( channels ) ) {
 
     result.erase( result.begin() + indexEliminated );
   }

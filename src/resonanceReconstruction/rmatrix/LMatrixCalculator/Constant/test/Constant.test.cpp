@@ -71,7 +71,7 @@ SCENARIO( "LMatrixCalculator< Constant >" ) {
 
     const auto channels = createChannels();
     const auto penetrabilities = channels
-        | ranges::view::transform(
+        | ranges::views::transform(
             [&] ( const auto& channel )
                 { return std::visit(
                          [&] ( const auto& channel )

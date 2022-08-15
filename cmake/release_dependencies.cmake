@@ -28,12 +28,12 @@ set( BUILD_TESTING CACHE BOOL OFF )
 
 FetchContent_Declare( elementary
     GIT_REPOSITORY  https://github.com/njoy/elementary
-    GIT_TAG         97224cd76b92f174567fdd9259d3b7d8b41ccfae # tag: v0.2.2
+    GIT_TAG         feature/comparison
     )
 
 FetchContent_Declare( ENDFtk
     GIT_REPOSITORY  https://github.com/njoy/ENDFtk
-    GIT_TAG         b6618b396f51e802b7ee19ba529533c27e6ac302 # tag: v0.1.0
+    GIT_TAG         update/ranges
     )
 
 FetchContent_Declare( hana-adapter
@@ -48,7 +48,7 @@ FetchContent_Declare( header-utilities
 
 FetchContent_Declare( interpolation
     GIT_REPOSITORY  https://github.com/njoy/interpolation
-    GIT_TAG         2a76934a148bf379ab594f6cdd2cdf4c8c28e447
+    GIT_TAG         update/ranges
     )
 
 FetchContent_Declare( Log
@@ -56,9 +56,9 @@ FetchContent_Declare( Log
     GIT_TAG         52962b7796afe37ef1d8f7edb4bf9ecb1b868d15
     )
 
-FetchContent_Declare( range-v3-adapter
-    GIT_REPOSITORY  https://github.com/njoy/range-v3-adapter
-    GIT_TAG         252679d4737c8f755d87c0e1eed6c37394a2ec59
+FetchContent_Declare( range-v3
+    GIT_REPOSITORY  https://github.com/ericniebler/range-v3
+    GIT_TAG         0.11.0
     )
 
 FetchContent_Declare( spdlog
@@ -82,6 +82,6 @@ FetchContent_MakeAvailable(
     header-utilities
     interpolation
     Log
-    range-v3-adapter
+    range-v3
     spdlog
     )

@@ -8,9 +8,9 @@ void evaluate( const Energy& energy,
                Map< ReactionID, CrossSection >& result ) {
 
   // accumulate over each spin group
-  ranges::for_each( this->groups_,
-                    [&] ( auto& group )
-                        { group.evaluate( energy, result ); } );
+  ranges::cpp20::for_each( this->groups_,
+                           [&] ( auto& group )
+                               { group.evaluate( energy, result ); } );
 
   // calculate potential scattering
   const auto channel = this->groups_.front().incidentChannel();

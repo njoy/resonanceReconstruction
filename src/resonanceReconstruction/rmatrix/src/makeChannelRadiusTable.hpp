@@ -6,13 +6,17 @@ makeChannelRadiusTable( const std::optional< endf::ScatteringRadius >& radius ) 
     auto makeTable = [] ( auto&& region, int interpolant )
       -> TableVariant< Energy, ChannelRadius > {
 
-      auto toEnergy = [] ( const auto& value ) { return value * electronVolt; };
-      auto toRadius = [] ( const auto& value ) { return value * rootBarn; };
+      const auto toEnergy = [] ( const auto& value ) -> Energy
+                               { return value * electronVolt; };
+      const auto toRadius = [] ( const auto& value ) -> ChannelRadius
+                               { return value * rootBarn; };
 
       std::vector< Energy > energies =
-          region.first | ranges::view::transform( toEnergy );
+          ranges::to< std::vector< Energy > >(
+              region.first | ranges::cpp20::views::transform( toEnergy ) );
       std::vector< ChannelRadius > radii =
-          region.second | ranges::view::transform( toRadius );
+          ranges::to< std::vector< ChannelRadius > >(
+              region.second | ranges::cpp20::views::transform( toRadius ) );
 
       switch( interpolant ) {
 
@@ -51,7 +55,8 @@ makeChannelRadiusTable( const std::optional< endf::ScatteringRadius >& radius ) 
     const auto regions = radius->regions();
     const auto interpolants = radius->interpolants();
     std::vector< TableVariant< Energy, ChannelRadius > > tables =
-      ranges::view::zip_with( makeTable, regions, interpolants );
+      ranges::to< std::vector< TableVariant< Energy, ChannelRadius > > >(
+        ranges::views::zip_with( makeTable, regions, interpolants ) );
 
     ChannelRadiusTable table(
         MultiRegionTable< Energy, ChannelRadius >( std::move( tables ) ) );
