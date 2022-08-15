@@ -24,6 +24,7 @@ FetchContent_Declare( eigen
     GIT_REPOSITORY  https://gitlab.com/libeigen/eigen.git
     GIT_TAG         dc252fbf00079ccab57948a164b1421703fe4361 # tag: 3.3.8
     )
+set( BUILD_TESTING CACHE BOOL OFF )
 
 FetchContent_Declare( elementary
     GIT_REPOSITORY  https://github.com/njoy/elementary
