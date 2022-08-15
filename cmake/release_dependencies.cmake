@@ -22,18 +22,18 @@ FetchContent_Declare( disco
 
 FetchContent_Declare( eigen
     GIT_REPOSITORY  https://gitlab.com/libeigen/eigen.git
-    GIT_TAG         3.3.8
+    GIT_TAG         dc252fbf00079ccab57948a164b1421703fe4361 # tag: 3.3.8
     )
 set( BUILD_TESTING CACHE BOOL OFF )
 
 FetchContent_Declare( elementary
     GIT_REPOSITORY  https://github.com/njoy/elementary
-    GIT_TAG         feature/python-extension
+    GIT_TAG         db67804bf8fe2d1e68880e61a9bf899efc9ce7db
     )
 
 FetchContent_Declare( ENDFtk
     GIT_REPOSITORY  https://github.com/njoy/ENDFtk
-    GIT_TAG         feature/python-extension
+    GIT_TAG         e3b1e9b9b52d9f0a40b26df0cbd1b3393298c920
     )
 
 FetchContent_Declare( hana-adapter
@@ -48,7 +48,7 @@ FetchContent_Declare( header-utilities
 
 FetchContent_Declare( interpolation
     GIT_REPOSITORY  https://github.com/njoy/interpolation
-    GIT_TAG         update/ranges
+    GIT_TAG         32375a9ae0ff346cecf69d5acd32dbc0092e7d7a
     )
 
 FetchContent_Declare( Log
@@ -56,9 +56,14 @@ FetchContent_Declare( Log
     GIT_TAG         52962b7796afe37ef1d8f7edb4bf9ecb1b868d15
     )
 
+FetchContent_Declare( pybind11
+    GIT_REPOSITORY  https://github.com/pybind/pybind11
+    GIT_TAG         f1abf5d9159b805674197f6bc443592e631c9130 # tag: v2.6.1
+    )
+
 FetchContent_Declare( range-v3
     GIT_REPOSITORY  https://github.com/ericniebler/range-v3
-    GIT_TAG         0.11.0
+    GIT_TAG         4989f3e9ff2efee1852942bb9328ef121369ba02 # tag: 0.11.0
     )
 
 FetchContent_Declare( spdlog
@@ -66,11 +71,6 @@ FetchContent_Declare( spdlog
     GIT_TAG         a51b4856377a71f81b6d74b9af459305c4c644f8
     )
 set( SPDLOG_BUILD_TESTING CACHE BOOL OFF )
-
-FetchContent_Declare( pybind11
-    GIT_REPOSITORY  https://github.com/pybind/pybind11
-    GIT_TAG         v2.6.1
-    )
 
 #######################################################################
 # Load dependencies
@@ -87,6 +87,7 @@ FetchContent_MakeAvailable(
     header-utilities
     interpolation
     Log
+    pybind11
     range-v3
     spdlog
     )

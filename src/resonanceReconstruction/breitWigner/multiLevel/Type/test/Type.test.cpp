@@ -115,7 +115,7 @@ resonances( const std::string& id ){
 
     auto endfFile = njoy::utility::slurpFileToMemory( id + ".endf" );
 
-    njoy::ENDFtk::tree::Tape< std::string > tape( endfFile );
+    njoy::ENDFtk::tree::Tape tape( endfFile );
 
     auto& material = *( tape.begin() );
 
