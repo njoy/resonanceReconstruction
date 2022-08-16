@@ -1,4 +1,5 @@
 std::string Fe54();
+std::string Fe57();
 std::string Ca40();
 std::string Cl35();
 
@@ -23,6 +24,10 @@ SCENARIO( "fromENDF" ) {
       CHECK( false == resonances.isUnresolved() );
       CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
       CHECK( 1.036e+6 == Approx( resonances.upperEnergy().value ) );
+      CHECK( false == bool( resonances.interpolation() ) );
+      CHECK( 2 == resonances.reactionIDs().size() );
+      CHECK( "n,Fe54->capture" == resonances.reactionIDs()[0].symbol() );
+      CHECK( "n,Fe54->n,Fe54" == resonances.reactionIDs()[1].symbol() );
 
       auto compoundsystem = std::get< CompoundSystem< ReichMoore, ShiftFactor > >( resonances.compoundSystem() );
 
@@ -57,7 +62,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident00.particle().spin() ) );
       CHECK( +1 == incident00.particle().parity() );
       CHECK( 53.47624 * 1.008664 == Approx( incident00.residual().mass().value ) );
-      CHECK( 26.0 * 1.602e-19 == Approx( incident00.residual().charge().value ) );
+      CHECK( 26.0 * 1.60217662e-19 == Approx( incident00.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident00.residual().spin() ) );
       CHECK( +1 == incident00.residual().parity() );
       CHECK( "n,Fe54" == incident00.pairID().symbol() );
@@ -69,7 +74,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( pair00.particle().spin() ) );
       CHECK( +1 == pair00.particle().parity() );
       CHECK( 53.47624 * 1.008664 == Approx( pair00.residual().mass().value ) );
-      CHECK( 26.0 * 1.602e-19 == Approx( pair00.residual().charge().value ) );
+      CHECK( 26.0 * 1.60217662e-19 == Approx( pair00.residual().charge().value ) );
       CHECK( 0.0 == Approx( pair00.residual().spin() ) );
       CHECK( +1 == pair00.residual().parity() );
       CHECK( "n,Fe54" == pair00.pairID().symbol() );
@@ -94,6 +99,28 @@ SCENARIO( "fromENDF" ) {
       // Q value
       CHECK( 0.0 == Approx( channel00.Q().value ) );
 
+      // resonance table
+      auto table0 = spingroup0.resonanceTable();
+
+      CHECK( 1 == table0.numberChannels() ); // 1 normal channel + 1 eliminated
+      CHECK( 176 == table0.numberResonances() );
+
+      auto energies0 = table0.energies();
+      CHECK( 51520 == Approx( energies0.front().value ) );
+      CHECK( 1.470900e+6 == Approx( energies0.back().value ) );
+
+      auto resonances0 = table0.resonances();
+      CHECK( 51520 == Approx( resonances0.front().energy().value ) );
+      CHECK( 1.470900e+6 == Approx( resonances0.back().energy().value ) );
+      CHECK( 1 == resonances0.front().widths().size() );
+      CHECK( 1 == resonances0.back().widths().size() );
+      CHECK( std::sqrt( 16.002 / 2. / channel00.penetrability( 51520 * electronVolt ) )
+             == Approx( resonances0.front().widths().front().value ) );
+      CHECK( std::sqrt( 1.946542e+3 / 2. / channel00.penetrability( 1.470900e+6 * electronVolt ) )
+             == Approx( resonances0.back().widths().front().value ) );
+      CHECK( std::sqrt( 0.36 / 2. ) == Approx( resonances0.front().eliminatedWidth().value ) );
+      CHECK( std::sqrt( 0.7 / 2. ) == Approx( resonances0.back().eliminatedWidth().value ) );
+
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // spin group 1
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -117,7 +144,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident10.particle().spin() ) );
       CHECK( +1 == incident10.particle().parity() );
       CHECK( 53.47624 * 1.008664 == Approx( incident10.residual().mass().value ) );
-      CHECK( 26.0 * 1.602e-19 == Approx( incident10.residual().charge().value ) );
+      CHECK( 26.0 * 1.60217662e-19 == Approx( incident10.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident10.residual().spin() ) );
       CHECK( +1 == incident10.residual().parity() );
       CHECK( "n,Fe54" == incident10.pairID().symbol() );
@@ -129,7 +156,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( pair10.particle().spin() ) );
       CHECK( +1 == pair10.particle().parity() );
       CHECK( 53.47624 * 1.008664 == Approx( pair10.residual().mass().value ) );
-      CHECK( 26.0 * 1.602e-19 == Approx( pair10.residual().charge().value ) );
+      CHECK( 26.0 * 1.60217662e-19 == Approx( pair10.residual().charge().value ) );
       CHECK( 0.0 == Approx( pair10.residual().spin() ) );
       CHECK( +1 == pair10.residual().parity() );
       CHECK( "n,Fe54" == pair10.pairID().symbol() );
@@ -199,7 +226,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident20.particle().spin() ) );
       CHECK( +1 == incident20.particle().parity() );
       CHECK( 53.47624 * 1.008664 == Approx( incident20.residual().mass().value ) );
-      CHECK( 26.0 * 1.602e-19 == Approx( incident20.residual().charge().value ) );
+      CHECK( 26.0 * 1.60217662e-19 == Approx( incident20.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident20.residual().spin() ) );
       CHECK( +1 == incident20.residual().parity() );
       CHECK( "n,Fe54" == incident20.pairID().symbol() );
@@ -211,7 +238,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( pair20.particle().spin() ) );
       CHECK( +1 == pair20.particle().parity() );
       CHECK( 53.47624 * 1.008664 == Approx( pair20.residual().mass().value ) );
-      CHECK( 26.0 * 1.602e-19 == Approx( pair20.residual().charge().value ) );
+      CHECK( 26.0 * 1.60217662e-19 == Approx( pair20.residual().charge().value ) );
       CHECK( 0.0 == Approx( pair20.residual().spin() ) );
       CHECK( +1 == pair20.residual().parity() );
       CHECK( "n,Fe54" == pair20.pairID().symbol() );
@@ -259,7 +286,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident30.particle().spin() ) );
       CHECK( +1 == incident30.particle().parity() );
       CHECK( 53.47624 * 1.008664 == Approx( incident30.residual().mass().value ) );
-      CHECK( 26.0 * 1.602e-19 == Approx( incident30.residual().charge().value ) );
+      CHECK( 26.0 * 1.60217662e-19 == Approx( incident30.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident30.residual().spin() ) );
       CHECK( +1 == incident30.residual().parity() );
       CHECK( "n,Fe54" == incident30.pairID().symbol() );
@@ -271,7 +298,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( pair30.particle().spin() ) );
       CHECK( +1 == pair30.particle().parity() );
       CHECK( 53.47624 * 1.008664 == Approx( pair30.residual().mass().value ) );
-      CHECK( 26.0 * 1.602e-19 == Approx( pair30.residual().charge().value ) );
+      CHECK( 26.0 * 1.60217662e-19 == Approx( pair30.residual().charge().value ) );
       CHECK( 0.0 == Approx( pair30.residual().spin() ) );
       CHECK( +1 == pair30.residual().parity() );
       CHECK( "n,Fe54" == pair30.pairID().symbol() );
@@ -319,7 +346,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident40.particle().spin() ) );
       CHECK( +1 == incident40.particle().parity() );
       CHECK( 53.47624 * 1.008664 == Approx( incident40.residual().mass().value ) );
-      CHECK( 26.0 * 1.602e-19 == Approx( incident40.residual().charge().value ) );
+      CHECK( 26.0 * 1.60217662e-19 == Approx( incident40.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident40.residual().spin() ) );
       CHECK( +1 == incident40.residual().parity() );
       CHECK( "n,Fe54" == incident40.pairID().symbol() );
@@ -331,7 +358,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( pair40.particle().spin() ) );
       CHECK( +1 == pair40.particle().parity() );
       CHECK( 53.47624 * 1.008664 == Approx( pair40.residual().mass().value ) );
-      CHECK( 26.0 * 1.602e-19 == Approx( pair40.residual().charge().value ) );
+      CHECK( 26.0 * 1.60217662e-19 == Approx( pair40.residual().charge().value ) );
       CHECK( 0.0 == Approx( pair40.residual().spin() ) );
       CHECK( +1 == pair40.residual().parity() );
       CHECK( "n,Fe54" == pair40.pairID().symbol() );
@@ -367,7 +394,7 @@ SCENARIO( "fromENDF" ) {
 
       ReactionID elas( "n,Fe54->n,Fe54" );
       ReactionID capt( "n,Fe54->capture" );
-      std::map< ReactionID, CrossSection > xs;
+      Map< ReactionID, CrossSection > xs;
 
       xs = resonances( 1e-5 * electronVolt );
       CHECK( 2 == xs.size() );
@@ -431,6 +458,578 @@ SCENARIO( "fromENDF" ) {
     } // THEN
   } // GIVEN
 
+  GIVEN( "valid ENDF data for Fe57" ) {
+
+    std::string string = Fe57();
+    auto begin = string.begin();
+    auto end = string.end();
+    long lineNumber = 1;
+
+    njoy::ENDFtk::HeadRecord head( begin, end, lineNumber );
+    njoy::ENDFtk::section::Type< 2, 151 > endf( head, begin, end, lineNumber, 2634 );
+    ResonanceRange endfResonanceRange = endf.isotopes().front().resonanceRanges().front();
+
+    auto resonances = fromENDF( endfResonanceRange, neutronMass, elementaryCharge, ParticleID( "n" ), ParticleID( "Fe57" ) );
+
+    THEN( "the appropriate CompoundSystem is returned" ) {
+
+      CHECK( true == resonances.isResolved() );
+      CHECK( false == resonances.isUnresolved() );
+      CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
+      CHECK( 1.9e+5 == Approx( resonances.upperEnergy().value ) );
+      CHECK( false == bool( resonances.interpolation() ) );
+      CHECK( 3 == resonances.reactionIDs().size() );
+      CHECK( "n,Fe57->capture" == resonances.reactionIDs()[0].symbol() );
+      CHECK( "n,Fe57->n,Fe57" == resonances.reactionIDs()[1].symbol() );
+      CHECK( "n,Fe57->n,Fe57_e1" == resonances.reactionIDs()[2].symbol() );
+
+      auto compoundsystem = std::get< CompoundSystem< ReichMoore, ShiftFactor > >( resonances.compoundSystem() );
+
+      // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+      // content verification
+      // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+      // spin groups
+      auto spingroups = compoundsystem.spinGroups();
+      CHECK( 5 == spingroups.size() );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 0
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      auto spingroup0 = spingroups[0];
+
+      // channels
+      auto channels0 = spingroup0.channels();
+
+      CHECK( 1 == channels0.size() ); // 1 normal channel + 1 eliminated
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 0, channel 0: elastic
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel00 = std::get< Channel< Neutron > >( channels0[0] );
+
+      // incident particle pair
+      const auto incident00 = channel00.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident00.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident00.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident00.particle().spin() ) );
+      CHECK( +1 == incident00.particle().parity() );
+      CHECK( 56.44629 * 1.008664 == Approx( incident00.residual().mass().value ) );
+      CHECK( 26.0 * 1.60217662e-19 == Approx( incident00.residual().charge().value ) );
+      CHECK( 0.5 == Approx( incident00.residual().spin() ) );
+      CHECK( -1 == incident00.residual().parity() );
+      CHECK( "n,Fe57" == incident00.pairID().symbol() );
+
+      // particle pairs
+      const auto pair00 = channel00.particlePair();
+      CHECK( 1.008664 == Approx( pair00.particle().mass().value ) );
+      CHECK( 0.0 == Approx( pair00.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair00.particle().spin() ) );
+      CHECK( +1 == pair00.particle().parity() );
+      CHECK( 56.44629 * 1.008664 == Approx( pair00.residual().mass().value ) );
+      CHECK( 26.0 * 1.60217662e-19 == Approx( pair00.residual().charge().value ) );
+      CHECK( 0.5 == Approx( pair00.residual().spin() ) );
+      CHECK( -1 == pair00.residual().parity() );
+      CHECK( "n,Fe57" == pair00.pairID().symbol() );
+
+      // quantum numbers
+      const auto numbers00 = channel00.quantumNumbers();
+      CHECK( 0 == numbers00.orbitalAngularMomentum() );
+      CHECK( 0. == numbers00.spin() );
+      CHECK( 0. == numbers00.totalAngularMomentum() );
+      CHECK( -1 == numbers00.parity() );
+      CHECK( "{0,0,0-}" == numbers00.toString() );
+
+      // radii
+      const auto radii00 = channel00.radii();
+      CHECK( .63 == Approx( radii00.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .63 == Approx( radii00.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .63 == Approx( radii00.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel00.boundaryCondition() );
+
+      // Q value
+      CHECK( 0.0 == Approx( channel00.Q().value ) );
+
+      // resonance table
+      auto table0 = spingroup0.resonanceTable();
+
+      CHECK( 1 == table0.numberChannels() ); // 1 normal channel + 1 eliminated
+      CHECK( 12 == table0.numberResonances() );
+
+      auto energies0 = table0.energies();
+      CHECK( 3.955000e+3 == Approx( energies0.front().value ) );
+      CHECK( 2.001000e+5 == Approx( energies0.back().value ) );
+
+      auto resonances0 = table0.resonances();
+      CHECK( 3.955000e+3 == Approx( resonances0.front().energy().value ) );
+      CHECK( 2.001000e+5 == Approx( resonances0.back().energy().value ) );
+      CHECK( 1 == resonances0.front().widths().size() );
+      CHECK( 1 == resonances0.back().widths().size() );
+      CHECK( std::sqrt( 214. / 2. / channel00.penetrability( 3.955000e+3 * electronVolt ) )
+             == Approx( resonances0.front().widths().front().value ) );
+      CHECK( std::sqrt( 700. / 2. / channel00.penetrability( 2.001000e+5 * electronVolt ) )
+             == Approx( resonances0.back().widths().front().value ) );
+      CHECK( std::sqrt( 1.1 / 2. ) == Approx( resonances0.front().eliminatedWidth().value ) );
+      CHECK( std::sqrt( 0.99 / 2. ) == Approx( resonances0.back().eliminatedWidth().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 1
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      auto spingroup1 = spingroups[1];
+
+      // channels
+      auto channels1 = spingroup1.channels();
+
+      CHECK( 1 == channels1.size() ); // 1 normal channel + 1 eliminated
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 1, channel 0: elastic
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel10 = std::get< Channel< Neutron > >( channels1[0] );
+
+      // incident particle pair
+      const auto incident10 = channel10.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident10.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident10.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident10.particle().spin() ) );
+      CHECK( +1 == incident10.particle().parity() );
+      CHECK( 56.44629 * 1.008664 == Approx( incident10.residual().mass().value ) );
+      CHECK( 26.0 * 1.60217662e-19 == Approx( incident10.residual().charge().value ) );
+      CHECK( 0.5 == Approx( incident10.residual().spin() ) );
+      CHECK( -1 == incident10.residual().parity() );
+      CHECK( "n,Fe57" == incident10.pairID().symbol() );
+
+      // particle pair
+      const auto pair10 = channel10.particlePair();
+      CHECK( 1.008664 == Approx( pair10.particle().mass().value ) );
+      CHECK( 0.0 == Approx( pair10.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair10.particle().spin() ) );
+      CHECK( +1 == pair10.particle().parity() );
+      CHECK( 56.44629 * 1.008664 == Approx( pair10.residual().mass().value ) );
+      CHECK( 26.0 * 1.60217662e-19 == Approx( pair10.residual().charge().value ) );
+      CHECK( 0.5 == Approx( pair10.residual().spin() ) );
+      CHECK( -1 == pair10.residual().parity() );
+      CHECK( "n,Fe57" == pair10.pairID().symbol() );
+
+      // quantum numbers
+      const auto numbers10 = channel10.quantumNumbers();
+      CHECK( 1 == numbers10.orbitalAngularMomentum() );
+      CHECK( 1. == numbers10.spin() );
+      CHECK( 0. == numbers10.totalAngularMomentum() );
+      CHECK( +1 == numbers10.parity() );
+      CHECK( "{1,1,0+}" == numbers10.toString() );
+
+      // radii
+      const auto radii10 = channel10.radii();
+      CHECK( .63 == Approx( radii10.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .63 == Approx( radii10.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .63 == Approx( radii10.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel10.boundaryCondition() );
+
+      // Q value
+      CHECK( 0.0 == Approx( channel10.Q().value ) );
+
+      // resonance table
+      auto table1 = spingroup1.resonanceTable();
+
+      CHECK( 1 == table1.numberChannels() ); // 1 normal channel + 1 eliminated
+      CHECK( 6 == table1.numberResonances() );
+
+      auto energies1 = table1.energies();
+      CHECK( 1.280000e+4 == Approx( energies1.front().value ) );
+      CHECK( 1.076000e+5 == Approx( energies1.back().value ) );
+
+      auto resonances1 = table1.resonances();
+      CHECK( 1.280000e+4 == Approx( resonances1.front().energy().value ) );
+      CHECK( 1.076000e+5 == Approx( resonances1.back().energy().value ) );
+      CHECK( 1 == resonances1.front().widths().size() );
+      CHECK( 1 == resonances1.back().widths().size() );
+      CHECK( std::sqrt( 5.2 / 2. / channel10.penetrability( 1.280000e+4 * electronVolt ) )
+             == Approx( resonances1.front().widths().front().value ) );
+      CHECK( std::sqrt( .12 / 2. / channel10.penetrability( 1.076000e+5 * electronVolt ) )
+             == Approx( resonances1.back().widths().front().value ) );
+      CHECK( std::sqrt( 2.280000e-1 / 2. ) == Approx( resonances1.front().eliminatedWidth().value ) );
+      CHECK( std::sqrt( .65 / 2. ) == Approx( resonances1.back().eliminatedWidth().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 2
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      auto spingroup2 = spingroups[2];
+
+      // channels
+      auto channels2 = spingroup2.channels();
+
+      CHECK( 3 == channels2.size() ); // 3 normal channel + 1 eliminated
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 2, channel 0: elastic (non-empty)
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel20 = std::get< Channel< Neutron > >( channels2[0] );
+
+      // incident particle pair
+      const auto incident20 = channel20.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident20.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident20.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident20.particle().spin() ) );
+      CHECK( +1 == incident20.particle().parity() );
+      CHECK( 56.44629 * 1.008664 == Approx( incident20.residual().mass().value ) );
+      CHECK( 26.0 * 1.60217662e-19 == Approx( incident20.residual().charge().value ) );
+      CHECK( 0.5 == Approx( incident20.residual().spin() ) );
+      CHECK( -1 == incident20.residual().parity() );
+      CHECK( "n,Fe57" == incident20.pairID().symbol() );
+
+      // particle pairs
+      const auto pair20 = channel20.particlePair();
+      CHECK( 1.008664 == Approx( pair20.particle().mass().value ) );
+      CHECK( 0.0 == Approx( pair20.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair20.particle().spin() ) );
+      CHECK( +1 == pair20.particle().parity() );
+      CHECK( 56.44629 * 1.008664 == Approx( pair20.residual().mass().value ) );
+      CHECK( 26.0 * 1.60217662e-19 == Approx( pair20.residual().charge().value ) );
+      CHECK( 0.5 == Approx( pair20.residual().spin() ) );
+      CHECK( -1 == pair20.residual().parity() );
+      CHECK( "n,Fe57" == pair20.pairID().symbol() );
+
+      // quantum numbers
+      const auto numbers20 = channel20.quantumNumbers();
+      CHECK( 0 == numbers20.orbitalAngularMomentum() );
+      CHECK( 1. == numbers20.spin() );
+      CHECK( 1.0 == numbers20.totalAngularMomentum() );
+      CHECK( -1 == numbers20.parity() );
+      CHECK( "{0,1,1-}" == numbers20.toString() );
+
+      // radii
+      const auto radii20 = channel20.radii();
+      CHECK( .63 == Approx( radii20.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .63 == Approx( radii20.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .63 == Approx( radii20.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel20.boundaryCondition() );
+
+      // Q value
+      CHECK( 0.0 == Approx( channel20.Q().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 2, channel 1: elastic (empty)
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel21 = std::get< Channel< Neutron > >( channels2[1] );
+
+      // incident particle pair
+      const auto incident21 = channel21.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident21.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident21.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident21.particle().spin() ) );
+      CHECK( +1 == incident21.particle().parity() );
+      CHECK( 56.44629 * 1.008664 == Approx( incident21.residual().mass().value ) );
+      CHECK( 26.0 * 1.60217662e-19 == Approx( incident21.residual().charge().value ) );
+      CHECK( 0.5 == Approx( incident21.residual().spin() ) );
+      CHECK( -1 == incident21.residual().parity() );
+      CHECK( "n,Fe57" == incident21.pairID().symbol() );
+
+      // particle pairs
+      const auto pair21 = channel21.particlePair();
+      CHECK( 1.008664 == Approx( pair21.particle().mass().value ) );
+      CHECK( 0.0 == Approx( pair21.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair21.particle().spin() ) );
+      CHECK( +1 == pair21.particle().parity() );
+      CHECK( 56.44629 * 1.008664 == Approx( pair21.residual().mass().value ) );
+      CHECK( 26.0 * 1.60217662e-19 == Approx( pair21.residual().charge().value ) );
+      CHECK( 0.5 == Approx( pair21.residual().spin() ) );
+      CHECK( -1 == pair21.residual().parity() );
+      CHECK( "n,Fe57" == pair21.pairID().symbol() );
+
+      // quantum numbers
+      const auto numbers21 = channel21.quantumNumbers();
+      CHECK( 2 == numbers21.orbitalAngularMomentum() );
+      CHECK( 1. == numbers21.spin() );
+      CHECK( 1.0 == numbers21.totalAngularMomentum() );
+      CHECK( -1 == numbers21.parity() );
+      CHECK( "{2,1,1-}" == numbers21.toString() );
+
+      // radii
+      const auto radii21 = channel21.radii();
+      CHECK( .63 == Approx( radii21.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .63 == Approx( radii21.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .63 == Approx( radii21.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel21.boundaryCondition() );
+
+      // Q value
+      CHECK( 0.0 == Approx( channel21.Q().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 2, channel 2: inelastic
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel22 = std::get< Channel< Neutron > >( channels2[2] );
+
+      // incident particle pair
+      const auto incident22 = channel22.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident22.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident22.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident22.particle().spin() ) );
+      CHECK( +1 == incident22.particle().parity() );
+      CHECK( 56.44629 * 1.008664 == Approx( incident22.residual().mass().value ) );
+      CHECK( 26.0 * 1.60217662e-19 == Approx( incident22.residual().charge().value ) );
+      CHECK( 0.5 == Approx( incident22.residual().spin() ) );
+      CHECK( -1 == incident22.residual().parity() );
+      CHECK( "n,Fe57" == incident22.pairID().symbol() );
+
+      // particle pairs
+      const auto pair22 = channel22.particlePair();
+      CHECK( 1.008664 == Approx( pair22.particle().mass().value ) );
+      CHECK( 0.0 == Approx( pair22.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair22.particle().spin() ) );
+      CHECK( +1 == pair22.particle().parity() );
+      CHECK( 56.44631 * 1.008664 == Approx( pair22.residual().mass().value ) );
+      CHECK( 26.0 * 1.60217662e-19 == Approx( pair22.residual().charge().value ) );
+      CHECK( 1.5 == Approx( pair22.residual().spin() ) );
+      CHECK( -1 == pair22.residual().parity() );
+      CHECK( "n,Fe57_e1" == pair22.pairID().symbol() );
+
+      // quantum numbers
+      const auto numbers22 = channel22.quantumNumbers();
+      CHECK( 0 == numbers22.orbitalAngularMomentum() );
+      CHECK( 1. == numbers22.spin() );
+      CHECK( 1.0 == numbers22.totalAngularMomentum() );
+      CHECK( -1 == numbers22.parity() );
+      CHECK( "{0,1,1-}" == numbers22.toString() );
+
+      // radii
+      const auto radii22 = channel22.radii();
+      CHECK( .63 == Approx( radii22.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .63 == Approx( radii22.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .63 == Approx( radii22.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel22.boundaryCondition() );
+
+      // Q value
+      CHECK( -1.441300e+4 == Approx( channel22.Q().value ) );
+
+      // resonance table
+      auto table2 = spingroup2.resonanceTable();
+
+      CHECK( 3 == table2.numberChannels() ); // 3 normal channel + 1 eliminated
+      CHECK( 21 == table2.numberResonances() );
+
+      auto energies2 = table2.energies();
+      CHECK( -2330. == Approx( energies2.front().value ) );
+      CHECK( 185000. == Approx( energies2.back().value ) );
+
+      auto resonances2 = table2.resonances();
+      CHECK( -2330. == Approx( resonances2.front().energy().value ) );
+      CHECK( 185000. == Approx( resonances2.back().energy().value ) );
+      CHECK( 3 == resonances2.front().widths().size() );
+      CHECK( 3 == resonances2.back().widths().size() );
+      CHECK( std::sqrt( 64.89 / 2. / channel20.penetrability( -2330. * electronVolt ) )
+             == Approx( resonances2.front().widths().front().value ) );
+      CHECK( std::sqrt( 4800. / 2. / channel20.penetrability( 185000. * electronVolt ) )
+             == Approx( resonances2.back().widths().front().value ) );
+      CHECK( 0.0 == Approx( resonances2.front().widths()[1].value ) );
+      CHECK( 0.0 == Approx( resonances2.back().widths()[1].value ) );
+      CHECK( 0.0 == Approx( resonances2.front().widths().back().value ) );
+      CHECK( std::sqrt( 400. / 2. / channel22.penetrability( 185000. * electronVolt ) )
+             == Approx( resonances2.back().widths().back().value ) );
+      CHECK( std::sqrt( 1.73 / 2. ) == Approx( resonances2.front().eliminatedWidth().value ) );
+      CHECK( std::sqrt( 3. / 2. ) == Approx( resonances2.back().eliminatedWidth().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 3
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      auto spingroup3 = spingroups[3];
+
+      // channels
+      auto channels3 = spingroup3.channels();
+
+      CHECK( 1 == channels3.size() ); // 1 normal channel + 1 eliminated
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 3, channel 0: elastic
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel30 = std::get< Channel< Neutron > >( channels3[0] );
+
+      // incident particle pair
+      const auto incident30 = channel30.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident30.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident30.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident30.particle().spin() ) );
+      CHECK( +1 == incident30.particle().parity() );
+      CHECK( 56.44629 * 1.008664 == Approx( incident30.residual().mass().value ) );
+      CHECK( 26.0 * 1.60217662e-19 == Approx( incident30.residual().charge().value ) );
+      CHECK( 0.5 == Approx( incident30.residual().spin() ) );
+      CHECK( -1 == incident30.residual().parity() );
+      CHECK( "n,Fe57" == incident30.pairID().symbol() );
+
+      // particle pairs
+      const auto pair30 = channel30.particlePair();
+      CHECK( 1.008664 == Approx( pair30.particle().mass().value ) );
+      CHECK( 0.0 == Approx( pair30.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair30.particle().spin() ) );
+      CHECK( +1 == pair30.particle().parity() );
+      CHECK( 56.44629 * 1.008664 == Approx( pair30.residual().mass().value ) );
+      CHECK( 26.0 * 1.60217662e-19 == Approx( pair30.residual().charge().value ) );
+      CHECK( 0.5 == Approx( pair30.residual().spin() ) );
+      CHECK( -1 == pair30.residual().parity() );
+      CHECK( "n,Fe57" == pair30.pairID().symbol() );
+
+      // quantum numbers
+      const auto numbers30 = channel30.quantumNumbers();
+      CHECK( 1 == numbers30.orbitalAngularMomentum() );
+      CHECK( 0. == numbers30.spin() );
+      CHECK( 1. == numbers30.totalAngularMomentum() );
+      CHECK( +1 == numbers30.parity() );
+      CHECK( "{1,0,1+}" == numbers30.toString() );
+
+      // radii
+      const auto radii30 = channel30.radii();
+      CHECK( .63 == Approx( radii30.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .63 == Approx( radii30.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .63 == Approx( radii30.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel30.boundaryCondition() );
+
+      // Q value
+      CHECK( 0.0 == Approx( channel30.Q().value ) );
+
+      // resonance table
+      auto table3 = spingroup3.resonanceTable();
+
+      CHECK( 1 == table3.numberChannels() ); // 1 normal channel + 1 eliminated
+      CHECK( 35 == table3.numberResonances() );
+
+      auto energies3 = table3.energies();
+      CHECK( 4.750e+3 == Approx( energies3.front().value ) );
+      CHECK( 1.872e+5 == Approx( energies3.back().value ) );
+
+      auto resonances3 = table3.resonances();
+      CHECK( 4.750e+3 == Approx( resonances3.front().energy().value ) );
+      CHECK( 1.872e+5 == Approx( resonances3.back().energy().value ) );
+      CHECK( 1 == resonances3.front().widths().size() );
+      CHECK( 1 == resonances3.back().widths().size() );
+      CHECK( std::sqrt( 6.266666e-2 / 2. / channel30.penetrability( 4.750e+3 * electronVolt ) )
+             == Approx( resonances3.front().widths().front().value ) );
+      CHECK( std::sqrt( 1.4 / 2. / channel30.penetrability( 1.872e+5 * electronVolt ) )
+             == Approx( resonances3.back().widths().front().value ) );
+      CHECK( std::sqrt( .65 / 2. ) == Approx( resonances3.front().eliminatedWidth().value ) );
+      CHECK( std::sqrt( .65 / 2. ) == Approx( resonances3.back().eliminatedWidth().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 4
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      auto spingroup4 = spingroups[4];
+
+      // channels
+      auto channels4 = spingroup4.channels();
+
+      CHECK( 1 == channels4.size() ); // 1 normal channel + 1 eliminated
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 4, channel 0: elastic
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel40 = std::get< Channel< Neutron > >( channels4[0] );
+
+      // incident particle pair
+      const auto incident40 = channel40.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident40.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident40.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident40.particle().spin() ) );
+      CHECK( +1 == incident40.particle().parity() );
+      CHECK( 56.44629 * 1.008664 == Approx( incident40.residual().mass().value ) );
+      CHECK( 26.0 * 1.60217662e-19 == Approx( incident40.residual().charge().value ) );
+      CHECK( 0.5 == Approx( incident40.residual().spin() ) );
+      CHECK( -1 == incident40.residual().parity() );
+      CHECK( "n,Fe57" == incident40.pairID().symbol() );
+
+      // particle pairs
+      const auto pair40 = channel40.particlePair();
+      CHECK( 1.008664 == Approx( pair40.particle().mass().value ) );
+      CHECK( 0.0 == Approx( pair40.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair40.particle().spin() ) );
+      CHECK( +1 == pair40.particle().parity() );
+      CHECK( 56.44629 * 1.008664 == Approx( pair40.residual().mass().value ) );
+      CHECK( 26.0 * 1.60217662e-19 == Approx( pair40.residual().charge().value ) );
+      CHECK( 0.5 == Approx( pair40.residual().spin() ) );
+      CHECK( -1 == pair40.residual().parity() );
+      CHECK( "n,Fe57" == pair40.pairID().symbol() );
+
+      // quantum numbers
+      const auto numbers40 = channel40.quantumNumbers();
+      CHECK( 1 == numbers40.orbitalAngularMomentum() );
+      CHECK( 1. == numbers40.spin() );
+      CHECK( 2. == numbers40.totalAngularMomentum() );
+      CHECK( +1 == numbers40.parity() );
+      CHECK( "{1,1,2+}" == numbers40.toString() );
+
+      // radii
+      const auto radii40 = channel40.radii();
+      CHECK( .63 == Approx( radii40.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .63 == Approx( radii40.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .63 == Approx( radii40.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel40.boundaryCondition() );
+
+      // Q value
+      CHECK( 0.0 == Approx( channel40.Q().value ) );
+
+      // resonance table
+      auto table4 = spingroup4.resonanceTable();
+
+      CHECK( 1 == table4.numberChannels() ); // 1 normal channel + 1 eliminated
+      CHECK( 49 == table4.numberResonances() );
+
+      auto energies4 = table4.energies();
+      CHECK( 1.630e+3 == Approx( energies4.front().value ) );
+      CHECK( 1.868e+5 == Approx( energies4.back().value ) );
+
+      auto resonances4 = table4.resonances();
+      CHECK( 1.630e+3 == Approx( resonances4.front().energy().value ) );
+      CHECK( 1.868e+5 == Approx( resonances4.back().energy().value ) );
+      CHECK( 1 == resonances4.front().widths().size() );
+      CHECK( 1 == resonances4.back().widths().size() );
+      CHECK( std::sqrt( 0.044 / 2. / channel40.penetrability( 1.630e+3 * electronVolt ) )
+             == Approx( resonances4.front().widths().front().value ) );
+      CHECK( std::sqrt( 2.3 / 2. / channel40.penetrability( 1.868e+5 * electronVolt ) )
+             == Approx( resonances4.back().widths().front().value ) );
+      CHECK( std::sqrt( 1. / 2. ) == Approx( resonances4.front().eliminatedWidth().value ) );
+      CHECK( std::sqrt( .65 / 2. ) == Approx( resonances4.back().eliminatedWidth().value ) );
+    } // THEN
+
+    THEN( "cross sections can be reconstructed" ) {
+
+      // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+      // resonance reconstruction verification
+      // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+      // values taken from NJOY2016 PENDF tape for ENDF/B-VIII.0 Fe54
+
+      ReactionID elas( "n,Fe57->n,Fe57" );
+      ReactionID inel( "n,Fe57->n,Fe57_e1" );
+      ReactionID capt( "n,Fe57->capture" );
+      Map< ReactionID, CrossSection > xs;
+
+      xs = resonances( 1e-5 * electronVolt );
+      CHECK( 3 == xs.size() );
+      CHECK( .6038186 == Approx( xs[ elas ].value ) );
+      CHECK( 0.0 == Approx( xs[ inel ].value ) );
+      CHECK( 124.7945 == Approx( xs[ capt ].value ) );
+    } // THEN
+  } // GIVEN
+
   GIVEN( "valid ENDF data for Ca40" ) {
 
     std::string string = Ca40();
@@ -450,6 +1049,12 @@ SCENARIO( "fromENDF" ) {
       CHECK( false == resonances.isUnresolved() );
       CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
       CHECK( 1.5e+6 == Approx( resonances.upperEnergy().value ) );
+      CHECK( false == bool( resonances.interpolation() ) );
+      CHECK( 4 == resonances.reactionIDs().size() );
+      CHECK( "n,Ca40->capture" == resonances.reactionIDs()[0].symbol() );
+      CHECK( "n,Ca40->he4,Ar37" == resonances.reactionIDs()[1].symbol() );
+      CHECK( "n,Ca40->n,Ca40" == resonances.reactionIDs()[2].symbol() );
+      CHECK( "n,Ca40->p,K40" == resonances.reactionIDs()[3].symbol() );
 
       auto compoundsystem = std::get< CompoundSystem< ReichMoore, ShiftFactor > >( resonances.compoundSystem() );
 
@@ -484,7 +1089,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident00.particle().spin() ) );
       CHECK( +1 == incident00.particle().parity() );
       CHECK( 39.61929 * 1.008664 == Approx( incident00.residual().mass().value ) );
-      CHECK( 20.0 * 1.602e-19 == Approx( incident00.residual().charge().value ) );
+      CHECK( 20.0 * 1.60217662e-19 == Approx( incident00.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident00.residual().spin() ) );
       CHECK( +1 == incident00.residual().parity() );
       CHECK( "n,Ca40" == incident00.pairID().symbol() );
@@ -496,7 +1101,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( pair00.particle().spin() ) );
       CHECK( +1 == pair00.particle().parity() );
       CHECK( 39.61929 * 1.008664 == Approx( pair00.residual().mass().value ) );
-      CHECK( 20.0 * 1.602e-19 == Approx( pair00.residual().charge().value ) );
+      CHECK( 20.0 * 1.60217662e-19 == Approx( pair00.residual().charge().value ) );
       CHECK( 0.0 == Approx( pair00.residual().spin() ) );
       CHECK( +1 == pair00.residual().parity() );
       CHECK( "n,Ca40" == pair00.pairID().symbol() );
@@ -534,7 +1139,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident01.particle().spin() ) );
       CHECK( +1 == incident01.particle().parity() );
       CHECK( 39.61929 * 1.008664 == Approx( incident01.residual().mass().value ) );
-      CHECK( 20.0 * 1.602e-19 == Approx( incident01.residual().charge().value ) );
+      CHECK( 20.0 * 1.60217662e-19 == Approx( incident01.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident01.residual().spin() ) );
       CHECK( +1 == incident01.residual().parity() );
       CHECK( "n,Ca40" == incident01.pairID().symbol() );
@@ -542,11 +1147,11 @@ SCENARIO( "fromENDF" ) {
       // particle pair
       const auto pair01 = channel01.particlePair();
       CHECK( 3.967131 * 1.008664 == Approx( pair01.particle().mass().value ) );
-      CHECK( 2.0 * 1.602e-19 == Approx( pair01.particle().charge().value ) );
+      CHECK( 2.0 * 1.60217662e-19 == Approx( pair01.particle().charge().value ) );
       CHECK( 0.0 == Approx( pair01.particle().spin() ) );
       CHECK( +1 == pair01.particle().parity() );
       CHECK( 36.64921 * 1.008664 == Approx( pair01.residual().mass().value ) );
-      CHECK( 18.0 * 1.602e-19 == Approx( pair01.residual().charge().value ) );
+      CHECK( 18.0 * 1.60217662e-19 == Approx( pair01.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair01.residual().spin() ) );
       CHECK( +1 == pair01.residual().parity() );
       CHECK( "he4,Ar37" == pair01.pairID().symbol() );
@@ -620,7 +1225,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident10.particle().spin() ) );
       CHECK( +1 == incident10.particle().parity() );
       CHECK( 39.61929 * 1.008664 == Approx( incident10.residual().mass().value ) );
-      CHECK( 20.0 * 1.602e-19 == Approx( incident10.residual().charge().value ) );
+      CHECK( 20.0 * 1.60217662e-19 == Approx( incident10.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident10.residual().spin() ) );
       CHECK( +1 == incident10.residual().parity() );
       CHECK( "n,Ca40" == incident10.pairID().symbol() );
@@ -632,7 +1237,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( pair10.particle().spin() ) );
       CHECK( +1 == pair10.particle().parity() );
       CHECK( 39.61929 * 1.008664 == Approx( pair10.residual().mass().value ) );
-      CHECK( 20.0 * 1.602e-19 == Approx( pair10.residual().charge().value ) );
+      CHECK( 20.0 * 1.60217662e-19 == Approx( pair10.residual().charge().value ) );
       CHECK( 0.0 == Approx( pair10.residual().spin() ) );
       CHECK( +1 == pair10.residual().parity() );
       CHECK( "n,Ca40" == pair10.pairID().symbol() );
@@ -670,7 +1275,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident11.particle().spin() ) );
       CHECK( +1 == incident11.particle().parity() );
       CHECK( 39.61929 * 1.008664 == Approx( incident11.residual().mass().value ) );
-      CHECK( 20.0 * 1.602e-19 == Approx( incident11.residual().charge().value ) );
+      CHECK( 20.0 * 1.60217662e-19 == Approx( incident11.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident11.residual().spin() ) );
       CHECK( +1 == incident11.residual().parity() );
       CHECK( "n,Ca40" == incident11.pairID().symbol() );
@@ -678,11 +1283,11 @@ SCENARIO( "fromENDF" ) {
       // particle pair
       const auto pair11 = channel11.particlePair();
       CHECK( 3.967131 * 1.008664 == Approx( pair11.particle().mass().value ) );
-      CHECK( 2.0 * 1.602e-19 == Approx( pair11.particle().charge().value ) );
+      CHECK( 2.0 * 1.60217662e-19 == Approx( pair11.particle().charge().value ) );
       CHECK( 0.0 == Approx( pair11.particle().spin() ) );
       CHECK( +1 == pair11.particle().parity() );
       CHECK( 36.64921 * 1.008664 == Approx( pair11.residual().mass().value ) );
-      CHECK( 18.0 * 1.602e-19 == Approx( pair11.residual().charge().value ) );
+      CHECK( 18.0 * 1.60217662e-19 == Approx( pair11.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair11.residual().spin() ) );
       CHECK( +1 == pair11.residual().parity() );
       CHECK( "he4,Ar37" == pair11.pairID().symbol() );
@@ -756,7 +1361,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident20.particle().spin() ) );
       CHECK( +1 == incident20.particle().parity() );
       CHECK( 39.61929 * 1.008664 == Approx( incident20.residual().mass().value ) );
-      CHECK( 20.0 * 1.602e-19 == Approx( incident20.residual().charge().value ) );
+      CHECK( 20.0 * 1.60217662e-19 == Approx( incident20.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident20.residual().spin() ) );
       CHECK( +1 == incident20.residual().parity() );
       CHECK( "n,Ca40" == incident20.pairID().symbol() );
@@ -768,7 +1373,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( pair20.particle().spin() ) );
       CHECK( +1 == pair20.particle().parity() );
       CHECK( 39.61929 * 1.008664 == Approx( pair20.residual().mass().value ) );
-      CHECK( 20.0 * 1.602e-19 == Approx( pair20.residual().charge().value ) );
+      CHECK( 20.0 * 1.60217662e-19 == Approx( pair20.residual().charge().value ) );
       CHECK( 0.0 == Approx( pair20.residual().spin() ) );
       CHECK( +1 == pair20.residual().parity() );
       CHECK( "n,Ca40" == pair20.pairID().symbol() );
@@ -806,7 +1411,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident21.particle().spin() ) );
       CHECK( +1 == incident21.particle().parity() );
       CHECK( 39.61929 * 1.008664 == Approx( incident21.residual().mass().value ) );
-      CHECK( 20.0 * 1.602e-19 == Approx( incident21.residual().charge().value ) );
+      CHECK( 20.0 * 1.60217662e-19 == Approx( incident21.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident21.residual().spin() ) );
       CHECK( +1 == incident21.residual().parity() );
       CHECK( "n,Ca40" == incident21.pairID().symbol() );
@@ -814,11 +1419,11 @@ SCENARIO( "fromENDF" ) {
       // particle pair
       const auto pair21 = channel21.particlePair();
       CHECK( 9.986235e-1 * 1.008664 == Approx( pair21.particle().mass().value ) );
-      CHECK( 1.0 * 1.602e-19 == Approx( pair21.particle().charge().value ) );
+      CHECK( 1.0 * 1.60217662e-19 == Approx( pair21.particle().charge().value ) );
       CHECK( 0.5 == Approx( pair21.particle().spin() ) );
       CHECK( +1 == pair21.particle().parity() );
       CHECK( 39.62069 * 1.008664 == Approx( pair21.residual().mass().value ) );
-      CHECK( 19.0 * 1.602e-19 == Approx( pair21.residual().charge().value ) );
+      CHECK( 19.0 * 1.60217662e-19 == Approx( pair21.residual().charge().value ) );
       CHECK( 4.0 == Approx( pair21.residual().spin() ) );
       CHECK( -1 == pair21.residual().parity() );
       CHECK( "p,K40" == pair21.pairID().symbol() );
@@ -856,7 +1461,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident22.particle().spin() ) );
       CHECK( +1 == incident22.particle().parity() );
       CHECK( 39.61929 * 1.008664 == Approx( incident22.residual().mass().value ) );
-      CHECK( 20.0 * 1.602e-19 == Approx( incident22.residual().charge().value ) );
+      CHECK( 20.0 * 1.60217662e-19 == Approx( incident22.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident22.residual().spin() ) );
       CHECK( +1 == incident22.residual().parity() );
       CHECK( "n,Ca40" == incident22.pairID().symbol() );
@@ -864,11 +1469,11 @@ SCENARIO( "fromENDF" ) {
       // particle pair
       const auto pair22 = channel22.particlePair();
       CHECK( 3.967131 * 1.008664 == Approx( pair22.particle().mass().value ) );
-      CHECK( 2.0 * 1.602e-19 == Approx( pair22.particle().charge().value ) );
+      CHECK( 2.0 * 1.60217662e-19 == Approx( pair22.particle().charge().value ) );
       CHECK( 0.0 == Approx( pair22.particle().spin() ) );
       CHECK( +1 == pair22.particle().parity() );
       CHECK( 36.64921 * 1.008664 == Approx( pair22.residual().mass().value ) );
-      CHECK( 18.0 * 1.602e-19 == Approx( pair22.residual().charge().value ) );
+      CHECK( 18.0 * 1.60217662e-19 == Approx( pair22.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair22.residual().spin() ) );
       CHECK( +1 == pair22.residual().parity() );
       CHECK( "he4,Ar37" == pair22.pairID().symbol() );
@@ -946,7 +1551,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident30.particle().spin() ) );
       CHECK( +1 == incident30.particle().parity() );
       CHECK( 39.61929 * 1.008664 == Approx( incident30.residual().mass().value ) );
-      CHECK( 20.0 * 1.602e-19 == Approx( incident30.residual().charge().value ) );
+      CHECK( 20.0 * 1.60217662e-19 == Approx( incident30.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident30.residual().spin() ) );
       CHECK( +1 == incident30.residual().parity() );
       CHECK( "n,Ca40" == incident30.pairID().symbol() );
@@ -958,7 +1563,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( pair30.particle().spin() ) );
       CHECK( +1 == pair30.particle().parity() );
       CHECK( 39.61929 * 1.008664 == Approx( pair30.residual().mass().value ) );
-      CHECK( 20.0 * 1.602e-19 == Approx( pair30.residual().charge().value ) );
+      CHECK( 20.0 * 1.60217662e-19 == Approx( pair30.residual().charge().value ) );
       CHECK( 0.0 == Approx( pair30.residual().spin() ) );
       CHECK( +1 == pair30.residual().parity() );
       CHECK( "n,Ca40" == pair30.pairID().symbol() );
@@ -996,7 +1601,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident31.particle().spin() ) );
       CHECK( +1 == incident31.particle().parity() );
       CHECK( 39.61929 * 1.008664 == Approx( incident31.residual().mass().value ) );
-      CHECK( 20.0 * 1.602e-19 == Approx( incident31.residual().charge().value ) );
+      CHECK( 20.0 * 1.60217662e-19 == Approx( incident31.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident31.residual().spin() ) );
       CHECK( +1 == incident31.residual().parity() );
       CHECK( "n,Ca40" == incident31.pairID().symbol() );
@@ -1004,11 +1609,11 @@ SCENARIO( "fromENDF" ) {
       // particle pair
       const auto pair31 = channel31.particlePair();
       CHECK( 3.967131 * 1.008664 == Approx( pair31.particle().mass().value ) );
-      CHECK( 2.0 * 1.602e-19 == Approx( pair31.particle().charge().value ) );
+      CHECK( 2.0 * 1.60217662e-19 == Approx( pair31.particle().charge().value ) );
       CHECK( 0.0 == Approx( pair31.particle().spin() ) );
       CHECK( +1 == pair31.particle().parity() );
       CHECK( 36.64921 * 1.008664 == Approx( pair31.residual().mass().value ) );
-      CHECK( 18.0 * 1.602e-19 == Approx( pair31.residual().charge().value ) );
+      CHECK( 18.0 * 1.60217662e-19 == Approx( pair31.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair31.residual().spin() ) );
       CHECK( +1 == pair31.residual().parity() );
       CHECK( "he4,Ar37" == pair31.pairID().symbol() );
@@ -1046,7 +1651,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident32.particle().spin() ) );
       CHECK( +1 == incident32.particle().parity() );
       CHECK( 39.61929 * 1.008664 == Approx( incident32.residual().mass().value ) );
-      CHECK( 20.0 * 1.602e-19 == Approx( incident32.residual().charge().value ) );
+      CHECK( 20.0 * 1.60217662e-19 == Approx( incident32.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident32.residual().spin() ) );
       CHECK( +1 == incident32.residual().parity() );
       CHECK( "n,Ca40" == incident32.pairID().symbol() );
@@ -1054,11 +1659,11 @@ SCENARIO( "fromENDF" ) {
       // particle pair
       const auto pair32 = channel32.particlePair();
       CHECK( 3.967131 * 1.008664 == Approx( pair32.particle().mass().value ) );
-      CHECK( 2.0 * 1.602e-19 == Approx( pair32.particle().charge().value ) );
+      CHECK( 2.0 * 1.60217662e-19 == Approx( pair32.particle().charge().value ) );
       CHECK( 0.0 == Approx( pair32.particle().spin() ) );
       CHECK( +1 == pair32.particle().parity() );
       CHECK( 36.64921 * 1.008664 == Approx( pair32.residual().mass().value ) );
-      CHECK( 18.0 * 1.602e-19 == Approx( pair32.residual().charge().value ) );
+      CHECK( 18.0 * 1.60217662e-19 == Approx( pair32.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair32.residual().spin() ) );
       CHECK( +1 == pair32.residual().parity() );
       CHECK( "he4,Ar37" == pair32.pairID().symbol() );
@@ -1136,7 +1741,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident40.particle().spin() ) );
       CHECK( +1 == incident40.particle().parity() );
       CHECK( 39.61929 * 1.008664 == Approx( incident40.residual().mass().value ) );
-      CHECK( 20.0 * 1.602e-19 == Approx( incident40.residual().charge().value ) );
+      CHECK( 20.0 * 1.60217662e-19 == Approx( incident40.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident40.residual().spin() ) );
       CHECK( +1 == incident40.residual().parity() );
       CHECK( "n,Ca40" == incident40.pairID().symbol() );
@@ -1148,7 +1753,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( pair40.particle().spin() ) );
       CHECK( +1 == pair40.particle().parity() );
       CHECK( 39.61929 * 1.008664 == Approx( pair40.residual().mass().value ) );
-      CHECK( 20.0 * 1.602e-19 == Approx( pair40.residual().charge().value ) );
+      CHECK( 20.0 * 1.60217662e-19 == Approx( pair40.residual().charge().value ) );
       CHECK( 0.0 == Approx( pair40.residual().spin() ) );
       CHECK( +1 == pair40.residual().parity() );
       CHECK( "n,Ca40" == pair40.pairID().symbol() );
@@ -1186,7 +1791,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident41.particle().spin() ) );
       CHECK( +1 == incident41.particle().parity() );
       CHECK( 39.61929 * 1.008664 == Approx( incident41.residual().mass().value ) );
-      CHECK( 20.0 * 1.602e-19 == Approx( incident41.residual().charge().value ) );
+      CHECK( 20.0 * 1.60217662e-19 == Approx( incident41.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident41.residual().spin() ) );
       CHECK( +1 == incident41.residual().parity() );
       CHECK( "n,Ca40" == incident41.pairID().symbol() );
@@ -1194,11 +1799,11 @@ SCENARIO( "fromENDF" ) {
       // particle pair
       const auto pair41 = channel41.particlePair();
       CHECK( 9.986235e-1 * 1.008664 == Approx( pair41.particle().mass().value ) );
-      CHECK( 1.0 * 1.602e-19 == Approx( pair41.particle().charge().value ) );
+      CHECK( 1.0 * 1.60217662e-19 == Approx( pair41.particle().charge().value ) );
       CHECK( 0.5 == Approx( pair41.particle().spin() ) );
       CHECK( +1 == pair41.particle().parity() );
       CHECK( 39.62069 * 1.008664 == Approx( pair41.residual().mass().value ) );
-      CHECK( 19.0 * 1.602e-19 == Approx( pair41.residual().charge().value ) );
+      CHECK( 19.0 * 1.60217662e-19 == Approx( pair41.residual().charge().value ) );
       CHECK( 4.0 == Approx( pair41.residual().spin() ) );
       CHECK( -1 == pair41.residual().parity() );
       CHECK( "p,K40" == pair41.pairID().symbol() );
@@ -1236,7 +1841,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident42.particle().spin() ) );
       CHECK( +1 == incident42.particle().parity() );
       CHECK( 39.61929 * 1.008664 == Approx( incident42.residual().mass().value ) );
-      CHECK( 20.0 * 1.602e-19 == Approx( incident42.residual().charge().value ) );
+      CHECK( 20.0 * 1.60217662e-19 == Approx( incident42.residual().charge().value ) );
       CHECK( 0.0 == Approx( incident42.residual().spin() ) );
       CHECK( +1 == incident42.residual().parity() );
       CHECK( "n,Ca40" == incident42.pairID().symbol() );
@@ -1244,11 +1849,11 @@ SCENARIO( "fromENDF" ) {
       // particle pair
       const auto pair42 = channel42.particlePair();
       CHECK( 3.967131 * 1.008664 == Approx( pair42.particle().mass().value ) );
-      CHECK( 2.0 * 1.602e-19 == Approx( pair42.particle().charge().value ) );
+      CHECK( 2.0 * 1.60217662e-19 == Approx( pair42.particle().charge().value ) );
       CHECK( 0.0 == Approx( pair42.particle().spin() ) );
       CHECK( +1 == pair42.particle().parity() );
       CHECK( 36.64921 * 1.008664 == Approx( pair42.residual().mass().value ) );
-      CHECK( 18.0 * 1.602e-19 == Approx( pair42.residual().charge().value ) );
+      CHECK( 18.0 * 1.60217662e-19 == Approx( pair42.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair42.residual().spin() ) );
       CHECK( +1 == pair42.residual().parity() );
       CHECK( "he4,Ar37" == pair42.pairID().symbol() );
@@ -1310,7 +1915,7 @@ SCENARIO( "fromENDF" ) {
       ReactionID prot( "n,Ca40->h1,K40" );
       ReactionID alph( "n,Ca40->he4,Ar37" );
       ReactionID capt( "n,Ca40->capture" );
-      std::map< ReactionID, CrossSection > xs;
+      Map< ReactionID, CrossSection > xs;
 
       // this value previously produced NaN cross section values
       xs = resonances( 542087 * electronVolt );
@@ -1341,6 +1946,11 @@ SCENARIO( "fromENDF" ) {
       CHECK( false == resonances.isUnresolved() );
       CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
       CHECK( 1.2e+6 == Approx( resonances.upperEnergy().value ) );
+      CHECK( false == bool( resonances.interpolation() ) );
+      CHECK( 3 == resonances.reactionIDs().size() );
+      CHECK( "n,Cl35->capture" == resonances.reactionIDs()[0].symbol() );
+      CHECK( "n,Cl35->n,Cl35" == resonances.reactionIDs()[1].symbol() );
+      CHECK( "n,Cl35->p,S35" == resonances.reactionIDs()[2].symbol() );
 
       auto compoundsystem = std::get< CompoundSystem< ReichMoore, ShiftFactor > >( resonances.compoundSystem() );
 
@@ -1375,7 +1985,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident00.particle().spin() ) );
       CHECK( +1 == incident00.particle().parity() );
       CHECK( 34.66845 * 1.008664 == Approx( incident00.residual().mass().value ) );
-      CHECK( 17.0 * 1.602e-19 == Approx( incident00.residual().charge().value ) );
+      CHECK( 17.0 * 1.60217662e-19 == Approx( incident00.residual().charge().value ) );
       CHECK( 1.5 == Approx( incident00.residual().spin() ) );
       CHECK( +1 == incident00.residual().parity() );
       CHECK( "n,Cl35" == incident00.pairID().symbol() );
@@ -1387,7 +1997,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( pair00.particle().spin() ) );
       CHECK( +1 == pair00.particle().parity() );
       CHECK( 34.66845 * 1.008664 == Approx( pair00.residual().mass().value ) );
-      CHECK( 17.0 * 1.602e-19 == Approx( pair00.residual().charge().value ) );
+      CHECK( 17.0 * 1.60217662e-19 == Approx( pair00.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair00.residual().spin() ) );
       CHECK( +1 == pair00.residual().parity() );
       CHECK( "n,Cl35" == pair00.pairID().symbol() );
@@ -1457,7 +2067,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident10.particle().spin() ) );
       CHECK( +1 == incident10.particle().parity() );
       CHECK( 34.66845 * 1.008664 == Approx( incident10.residual().mass().value ) );
-      CHECK( 17.0 * 1.602e-19 == Approx( incident10.residual().charge().value ) );
+      CHECK( 17.0 * 1.60217662e-19 == Approx( incident10.residual().charge().value ) );
       CHECK( 1.5 == Approx( incident10.residual().spin() ) );
       CHECK( +1 == incident10.residual().parity() );
       CHECK( "n,Cl35" == incident10.pairID().symbol() );
@@ -1469,7 +2079,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( pair10.particle().spin() ) );
       CHECK( +1 == pair10.particle().parity() );
       CHECK( 34.66845 * 1.008664 == Approx( pair10.residual().mass().value ) );
-      CHECK( 17.0 * 1.602e-19 == Approx( pair10.residual().charge().value ) );
+      CHECK( 17.0 * 1.60217662e-19 == Approx( pair10.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair10.residual().spin() ) );
       CHECK( +1 == pair10.residual().parity() );
       CHECK( "n,Cl35" == pair10.pairID().symbol() );
@@ -1507,7 +2117,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident11.particle().spin() ) );
       CHECK( +1 == incident11.particle().parity() );
       CHECK( 34.66845 * 1.008664 == Approx( incident11.residual().mass().value ) );
-      CHECK( 17.0 * 1.602e-19 == Approx( incident11.residual().charge().value ) );
+      CHECK( 17.0 * 1.60217662e-19 == Approx( incident11.residual().charge().value ) );
       CHECK( 1.5 == Approx( incident11.residual().spin() ) );
       CHECK( +1 == incident11.residual().parity() );
       CHECK( "n,Cl35" == incident11.pairID().symbol() );
@@ -1515,11 +2125,11 @@ SCENARIO( "fromENDF" ) {
       // particle pair
       const auto pair11 = channel11.particlePair();
       CHECK( 0.9986235 * 1.008664 == Approx( pair11.particle().mass().value ) );
-      CHECK( 1.0 * 1.602e-19 == Approx( pair11.particle().charge().value ) );
+      CHECK( 1.0 * 1.60217662e-19 == Approx( pair11.particle().charge().value ) );
       CHECK( 0.5 == Approx( pair11.particle().spin() ) );
       CHECK( +1 == pair11.particle().parity() );
       CHECK( 34.66863 * 1.008664 == Approx( pair11.residual().mass().value ) );
-      CHECK( 16.0 * 1.602e-19 == Approx( pair11.residual().charge().value ) );
+      CHECK( 16.0 * 1.60217662e-19 == Approx( pair11.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair11.residual().spin() ) );
       CHECK( +1 == pair11.residual().parity() );
       CHECK( "p,S35" == pair11.pairID().symbol() );
@@ -1557,7 +2167,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident12.particle().spin() ) );
       CHECK( +1 == incident12.particle().parity() );
       CHECK( 34.66845 * 1.008664 == Approx( incident12.residual().mass().value ) );
-      CHECK( 17.0 * 1.602e-19 == Approx( incident12.residual().charge().value ) );
+      CHECK( 17.0 * 1.60217662e-19 == Approx( incident12.residual().charge().value ) );
       CHECK( 1.5 == Approx( incident12.residual().spin() ) );
       CHECK( +1 == incident12.residual().parity() );
       CHECK( "n,Cl35" == incident12.pairID().symbol() );
@@ -1569,7 +2179,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( pair12.particle().spin() ) );
       CHECK( +1 == pair12.particle().parity() );
       CHECK( 34.66845 * 1.008664 == Approx( pair12.residual().mass().value ) );
-      CHECK( 17.0 * 1.602e-19 == Approx( pair12.residual().charge().value ) );
+      CHECK( 17.0 * 1.60217662e-19 == Approx( pair12.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair12.residual().spin() ) );
       CHECK( +1 == pair12.residual().parity() );
       CHECK( "n,Cl35" == pair12.pairID().symbol() );
@@ -1607,7 +2217,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident13.particle().spin() ) );
       CHECK( +1 == incident13.particle().parity() );
       CHECK( 34.66845 * 1.008664 == Approx( incident13.residual().mass().value ) );
-      CHECK( 17.0 * 1.602e-19 == Approx( incident13.residual().charge().value ) );
+      CHECK( 17.0 * 1.60217662e-19 == Approx( incident13.residual().charge().value ) );
       CHECK( 1.5 == Approx( incident13.residual().spin() ) );
       CHECK( +1 == incident13.residual().parity() );
       CHECK( "n,Cl35" == incident13.pairID().symbol() );
@@ -1615,11 +2225,11 @@ SCENARIO( "fromENDF" ) {
       // particle pair
       const auto pair13 = channel13.particlePair();
       CHECK( 0.9986235 * 1.008664 == Approx( pair13.particle().mass().value ) );
-      CHECK( 1.0 * 1.602e-19 == Approx( pair13.particle().charge().value ) );
+      CHECK( 1.0 * 1.60217662e-19 == Approx( pair13.particle().charge().value ) );
       CHECK( 0.5 == Approx( pair13.particle().spin() ) );
       CHECK( +1 == pair13.particle().parity() );
       CHECK( 34.66863 * 1.008664 == Approx( pair13.residual().mass().value ) );
-      CHECK( 16.0 * 1.602e-19 == Approx( pair13.residual().charge().value ) );
+      CHECK( 16.0 * 1.60217662e-19 == Approx( pair13.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair13.residual().spin() ) );
       CHECK( +1 == pair13.residual().parity() );
       CHECK( "p,S35" == pair13.pairID().symbol() );
@@ -1696,7 +2306,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident20.particle().spin() ) );
       CHECK( +1 == incident20.particle().parity() );
       CHECK( 34.66845 * 1.008664 == Approx( incident20.residual().mass().value ) );
-      CHECK( 17.0 * 1.602e-19 == Approx( incident20.residual().charge().value ) );
+      CHECK( 17.0 * 1.60217662e-19 == Approx( incident20.residual().charge().value ) );
       CHECK( 1.5 == Approx( incident20.residual().spin() ) );
       CHECK( +1 == incident20.residual().parity() );
       CHECK( "n,Cl35" == incident20.pairID().symbol() );
@@ -1708,7 +2318,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( pair20.particle().spin() ) );
       CHECK( +1 == pair20.particle().parity() );
       CHECK( 34.66845 * 1.008664 == Approx( pair20.residual().mass().value ) );
-      CHECK( 17.0 * 1.602e-19 == Approx( pair20.residual().charge().value ) );
+      CHECK( 17.0 * 1.60217662e-19 == Approx( pair20.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair20.residual().spin() ) );
       CHECK( +1 == pair20.residual().parity() );
       CHECK( "n,Cl35" == pair20.pairID().symbol() );
@@ -1746,7 +2356,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident21.particle().spin() ) );
       CHECK( +1 == incident21.particle().parity() );
       CHECK( 34.66845 * 1.008664 == Approx( incident21.residual().mass().value ) );
-      CHECK( 17.0 * 1.602e-19 == Approx( incident21.residual().charge().value ) );
+      CHECK( 17.0 * 1.60217662e-19 == Approx( incident21.residual().charge().value ) );
       CHECK( 1.5 == Approx( incident21.residual().spin() ) );
       CHECK( +1 == incident21.residual().parity() );
       CHECK( "n,Cl35" == incident21.pairID().symbol() );
@@ -1754,11 +2364,11 @@ SCENARIO( "fromENDF" ) {
       // particle pair
       const auto pair21 = channel21.particlePair();
       CHECK( 0.9986235 * 1.008664 == Approx( pair21.particle().mass().value ) );
-      CHECK( 1.0 * 1.602e-19 == Approx( pair21.particle().charge().value ) );
+      CHECK( 1.0 * 1.60217662e-19 == Approx( pair21.particle().charge().value ) );
       CHECK( 0.5 == Approx( pair21.particle().spin() ) );
       CHECK( +1 == pair21.particle().parity() );
       CHECK( 34.66863 * 1.008664 == Approx( pair21.residual().mass().value ) );
-      CHECK( 16.0 * 1.602e-19 == Approx( pair21.residual().charge().value ) );
+      CHECK( 16.0 * 1.60217662e-19 == Approx( pair21.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair21.residual().spin() ) );
       CHECK( +1 == pair21.residual().parity() );
       CHECK( "p,S35" == pair21.pairID().symbol() );
@@ -1834,7 +2444,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident30.particle().spin() ) );
       CHECK( +1 == incident30.particle().parity() );
       CHECK( 34.66845 * 1.008664 == Approx( incident30.residual().mass().value ) );
-      CHECK( 17.0 * 1.602e-19 == Approx( incident30.residual().charge().value ) );
+      CHECK( 17.0 * 1.60217662e-19 == Approx( incident30.residual().charge().value ) );
       CHECK( 1.5 == Approx( incident30.residual().spin() ) );
       CHECK( +1 == incident30.residual().parity() );
       CHECK( "n,Cl35" == incident30.pairID().symbol() );
@@ -1846,7 +2456,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( pair30.particle().spin() ) );
       CHECK( +1 == pair30.particle().parity() );
       CHECK( 34.66845 * 1.008664 == Approx( pair30.residual().mass().value ) );
-      CHECK( 17.0 * 1.602e-19 == Approx( pair30.residual().charge().value ) );
+      CHECK( 17.0 * 1.60217662e-19 == Approx( pair30.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair30.residual().spin() ) );
       CHECK( +1 == pair30.residual().parity() );
       CHECK( "n,Cl35" == pair30.pairID().symbol() );
@@ -1884,7 +2494,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident31.particle().spin() ) );
       CHECK( +1 == incident31.particle().parity() );
       CHECK( 34.66845 * 1.008664 == Approx( incident31.residual().mass().value ) );
-      CHECK( 17.0 * 1.602e-19 == Approx( incident31.residual().charge().value ) );
+      CHECK( 17.0 * 1.60217662e-19 == Approx( incident31.residual().charge().value ) );
       CHECK( 1.5 == Approx( incident31.residual().spin() ) );
       CHECK( +1 == incident31.residual().parity() );
       CHECK( "n,Cl35" == incident31.pairID().symbol() );
@@ -1892,11 +2502,11 @@ SCENARIO( "fromENDF" ) {
       // particle pair
       const auto pair31 = channel31.particlePair();
       CHECK( 0.9986235 * 1.008664 == Approx( pair31.particle().mass().value ) );
-      CHECK( 1.0 * 1.602e-19 == Approx( pair31.particle().charge().value ) );
+      CHECK( 1.0 * 1.60217662e-19 == Approx( pair31.particle().charge().value ) );
       CHECK( 0.5 == Approx( pair31.particle().spin() ) );
       CHECK( +1 == pair31.particle().parity() );
       CHECK( 34.66863 * 1.008664 == Approx( pair31.residual().mass().value ) );
-      CHECK( 16.0 * 1.602e-19 == Approx( pair31.residual().charge().value ) );
+      CHECK( 16.0 * 1.60217662e-19 == Approx( pair31.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair31.residual().spin() ) );
       CHECK( +1 == pair31.residual().parity() );
       CHECK( "p,S35" == pair31.pairID().symbol() );
@@ -1934,7 +2544,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident32.particle().spin() ) );
       CHECK( +1 == incident32.particle().parity() );
       CHECK( 34.66845 * 1.008664 == Approx( incident32.residual().mass().value ) );
-      CHECK( 17.0 * 1.602e-19 == Approx( incident32.residual().charge().value ) );
+      CHECK( 17.0 * 1.60217662e-19 == Approx( incident32.residual().charge().value ) );
       CHECK( 1.5 == Approx( incident32.residual().spin() ) );
       CHECK( +1 == incident32.residual().parity() );
       CHECK( "n,Cl35" == incident32.pairID().symbol() );
@@ -1946,7 +2556,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( pair32.particle().spin() ) );
       CHECK( +1 == pair32.particle().parity() );
       CHECK( 34.66845 * 1.008664 == Approx( pair32.residual().mass().value ) );
-      CHECK( 17.0 * 1.602e-19 == Approx( pair32.residual().charge().value ) );
+      CHECK( 17.0 * 1.60217662e-19 == Approx( pair32.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair32.residual().spin() ) );
       CHECK( +1 == pair32.residual().parity() );
       CHECK( "n,Cl35" == pair32.pairID().symbol() );
@@ -1984,7 +2594,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident33.particle().spin() ) );
       CHECK( +1 == incident33.particle().parity() );
       CHECK( 34.66845 * 1.008664 == Approx( incident33.residual().mass().value ) );
-      CHECK( 17.0 * 1.602e-19 == Approx( incident33.residual().charge().value ) );
+      CHECK( 17.0 * 1.60217662e-19 == Approx( incident33.residual().charge().value ) );
       CHECK( 1.5 == Approx( incident33.residual().spin() ) );
       CHECK( +1 == incident33.residual().parity() );
       CHECK( "n,Cl35" == incident33.pairID().symbol() );
@@ -1992,11 +2602,11 @@ SCENARIO( "fromENDF" ) {
       // particle pair
       const auto pair33 = channel33.particlePair();
       CHECK( 0.9986235 * 1.008664 == Approx( pair33.particle().mass().value ) );
-      CHECK( 1.0 * 1.602e-19 == Approx( pair33.particle().charge().value ) );
+      CHECK( 1.0 * 1.60217662e-19 == Approx( pair33.particle().charge().value ) );
       CHECK( 0.5 == Approx( pair33.particle().spin() ) );
       CHECK( +1 == pair33.particle().parity() );
       CHECK( 34.66863 * 1.008664 == Approx( pair33.residual().mass().value ) );
-      CHECK( 16.0 * 1.602e-19 == Approx( pair33.residual().charge().value ) );
+      CHECK( 16.0 * 1.60217662e-19 == Approx( pair33.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair33.residual().spin() ) );
       CHECK( +1 == pair33.residual().parity() );
       CHECK( "p,S35" == pair33.pairID().symbol() );
@@ -2072,7 +2682,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident40.particle().spin() ) );
       CHECK( +1 == incident40.particle().parity() );
       CHECK( 34.66845 * 1.008664 == Approx( incident40.residual().mass().value ) );
-      CHECK( 17.0 * 1.602e-19 == Approx( incident40.residual().charge().value ) );
+      CHECK( 17.0 * 1.60217662e-19 == Approx( incident40.residual().charge().value ) );
       CHECK( 1.5 == Approx( incident40.residual().spin() ) );
       CHECK( +1 == incident40.residual().parity() );
       CHECK( "n,Cl35" == incident40.pairID().symbol() );
@@ -2084,7 +2694,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( pair40.particle().spin() ) );
       CHECK( +1 == pair40.particle().parity() );
       CHECK( 34.66845 * 1.008664 == Approx( pair40.residual().mass().value ) );
-      CHECK( 17.0 * 1.602e-19 == Approx( pair40.residual().charge().value ) );
+      CHECK( 17.0 * 1.60217662e-19 == Approx( pair40.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair40.residual().spin() ) );
       CHECK( +1 == pair40.residual().parity() );
       CHECK( "n,Cl35" == pair40.pairID().symbol() );
@@ -2122,7 +2732,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident41.particle().spin() ) );
       CHECK( +1 == incident41.particle().parity() );
       CHECK( 34.66845 * 1.008664 == Approx( incident41.residual().mass().value ) );
-      CHECK( 17.0 * 1.602e-19 == Approx( incident41.residual().charge().value ) );
+      CHECK( 17.0 * 1.60217662e-19 == Approx( incident41.residual().charge().value ) );
       CHECK( 1.5 == Approx( incident41.residual().spin() ) );
       CHECK( +1 == incident41.residual().parity() );
       CHECK( "n,Cl35" == incident41.pairID().symbol() );
@@ -2130,11 +2740,11 @@ SCENARIO( "fromENDF" ) {
       // particle pair
       const auto pair41 = channel41.particlePair();
       CHECK( 0.9986235 * 1.008664 == Approx( pair41.particle().mass().value ) );
-      CHECK( 1.0 * 1.602e-19 == Approx( pair41.particle().charge().value ) );
+      CHECK( 1.0 * 1.60217662e-19 == Approx( pair41.particle().charge().value ) );
       CHECK( 0.5 == Approx( pair41.particle().spin() ) );
       CHECK( +1 == pair41.particle().parity() );
       CHECK( 34.66863 * 1.008664 == Approx( pair41.residual().mass().value ) );
-      CHECK( 16.0 * 1.602e-19 == Approx( pair41.residual().charge().value ) );
+      CHECK( 16.0 * 1.60217662e-19 == Approx( pair41.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair41.residual().spin() ) );
       CHECK( +1 == pair41.residual().parity() );
       CHECK( "p,S35" == pair41.pairID().symbol() );
@@ -2208,7 +2818,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident50.particle().spin() ) );
       CHECK( +1 == incident50.particle().parity() );
       CHECK( 34.66845 * 1.008664 == Approx( incident50.residual().mass().value ) );
-      CHECK( 17.0 * 1.602e-19 == Approx( incident50.residual().charge().value ) );
+      CHECK( 17.0 * 1.60217662e-19 == Approx( incident50.residual().charge().value ) );
       CHECK( 1.5 == Approx( incident50.residual().spin() ) );
       CHECK( +1 == incident50.residual().parity() );
       CHECK( "n,Cl35" == incident50.pairID().symbol() );
@@ -2220,7 +2830,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( pair50.particle().spin() ) );
       CHECK( +1 == pair50.particle().parity() );
       CHECK( 34.66845 * 1.008664 == Approx( pair50.residual().mass().value ) );
-      CHECK( 17.0 * 1.602e-19 == Approx( pair50.residual().charge().value ) );
+      CHECK( 17.0 * 1.60217662e-19 == Approx( pair50.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair50.residual().spin() ) );
       CHECK( +1 == pair50.residual().parity() );
       CHECK( "n,Cl35" == pair50.pairID().symbol() );
@@ -2258,7 +2868,7 @@ SCENARIO( "fromENDF" ) {
       CHECK( 0.5 == Approx( incident51.particle().spin() ) );
       CHECK( +1 == incident51.particle().parity() );
       CHECK( 34.66845 * 1.008664 == Approx( incident51.residual().mass().value ) );
-      CHECK( 17.0 * 1.602e-19 == Approx( incident51.residual().charge().value ) );
+      CHECK( 17.0 * 1.60217662e-19 == Approx( incident51.residual().charge().value ) );
       CHECK( 1.5 == Approx( incident51.residual().spin() ) );
       CHECK( +1 == incident51.residual().parity() );
       CHECK( "n,Cl35" == incident51.pairID().symbol() );
@@ -2266,11 +2876,11 @@ SCENARIO( "fromENDF" ) {
       // particle pair
       const auto pair51 = channel51.particlePair();
       CHECK( 0.9986235 * 1.008664 == Approx( pair51.particle().mass().value ) );
-      CHECK( 1.0 * 1.602e-19 == Approx( pair51.particle().charge().value ) );
+      CHECK( 1.0 * 1.60217662e-19 == Approx( pair51.particle().charge().value ) );
       CHECK( 0.5 == Approx( pair51.particle().spin() ) );
       CHECK( +1 == pair51.particle().parity() );
       CHECK( 34.66863 * 1.008664 == Approx( pair51.residual().mass().value ) );
-      CHECK( 16.0 * 1.602e-19 == Approx( pair51.residual().charge().value ) );
+      CHECK( 16.0 * 1.60217662e-19 == Approx( pair51.residual().charge().value ) );
       CHECK( 1.5 == Approx( pair51.residual().spin() ) );
       CHECK( +1 == pair51.residual().parity() );
       CHECK( "p,S35" == pair51.pairID().symbol() );
@@ -2326,7 +2936,7 @@ SCENARIO( "fromENDF" ) {
       ReactionID elas( "n,Cl35->n,Cl35" );
       ReactionID prot( "n,Cl35->h1,S35" );
       ReactionID capt( "n,Cl35->capture" );
-      std::map< ReactionID, CrossSection > xs;
+      Map< ReactionID, CrossSection > xs;
 
       xs = resonances( 1e-5 * electronVolt );
       CHECK( 3 == xs.size() );
@@ -3111,6 +3721,176 @@ std::string Fe54() {
     " 0.000000+0 0.000000+0          0          0          0          02625 2  0     \n";
 }
 
+std::string Fe57() {
+
+  // Fe57 ENDF/B-VIII.0 LRF=7 resonance evaluation
+
+  return
+    " 26057.0000 56.4462900          0          0          1          02634 2151     \n"
+    " 2.605700+4 1.000000+0          0          0          1          02634 2151     \n"
+    " 1.000000-5 1.900000+5          1          7          0          02634 2151     \n"
+    " 0.000000+0 0.000000+0          0          3          5          02634 2151     \n"
+    " 0.000000+0 0.000000+0          3          0         36          62634 2151     \n"
+    " 0.000000+0 5.743560+1 0.000000+0 2.600000+1 1.000000+0 0.000000+02634 2151     \n"
+    " 0.000000+0 0.000000+0 0.000000+0 1.020000+2 0.000000+0 1.000000+02634 2151     \n"
+    " 1.000000+0 5.644629+1 0.000000+0 2.600000+1 5.000000-1-5.000000-12634 2151     \n"
+    " 0.000000+0 1.000000+0 0.000000+0 2.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.000000+0 5.644631+1 0.000000+0 2.600000+1 5.000000-1-1.500000+02634 2151     \n"
+    "-1.441300+4 1.000000+0 0.000000+0 5.100000+1 0.000000+0 0.000000+02634 2151     \n"
+    " 0.000000+0-1.000000+0          0          0         12          22634 2151     \n"
+    " 1.000000+0 0.000000+0 1.000000+0 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 2.000000+0 0.000000+0 0.000000+0 0.000000+0 6.300000-1 6.300000-12634 2151     \n"
+    " 0.000000+0 0.000000+0          0         12         72         122634 2151     \n"
+    " 3.955000+3 1.100000+0 2.140000+2 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 5.581000+4 2.400000+0 1.000000+4 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.260000+5 1.200000+0 2.500000+3 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.345000+5 3.800000+0 3.300000+3 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.407000+5 1.400000+0 1.500000+3 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.693100+5 1.380000+0 1.800000+3 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.763000+5 1.200000+0 5.000000+2 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.895000+5 1.500000+0 4.200000+3 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.942500+5 3.550000+0 7.000000+2 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.973000+5 2.570000+0 7.000000+2 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.989000+5 1.180000+0 7.000000+2 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 2.001000+5 9.900000-1 7.000000+2 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 0.000000+0 1.000000+0          0          0         18          32634 2151     \n"
+    " 1.000000+0 1.000000+0 1.000000+0 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 2.000000+0 1.000000+0 1.000000+0 0.000000+0 6.300000-1 6.300000-12634 2151     \n"
+    " 3.000000+0 1.000000+0 1.000000+0 0.000000+0 6.300000-1 6.300000-12634 2151     \n"
+    " 0.000000+0 0.000000+0          0          6         36          62634 2151     \n"
+    " 1.280000+4 2.280000-1 5.200000+0 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.806000+4 6.500000-1 1.440000+0 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.871000+4 6.500000-1 1.600000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 2.105000+4 6.000000-1 7.600000+0 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 9.134000+4 6.500000-1 2.400000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.076000+5 6.500000-1 1.200000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    "-1.000000+0 0.000000+0          0          0         30          52634 2151     \n"
+    " 1.000000+0 0.000000+0 1.000000+0 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 2.000000+0 0.000000+0 1.000000+0 0.000000+0 6.300000-1 6.300000-12634 2151     \n"
+    " 2.000000+0 2.000000+0 1.000000+0 0.000000+0 6.300000-1 6.300000-12634 2151     \n"
+    " 3.000000+0 0.000000+0 1.000000+0 0.000000+0 6.300000-1 6.300000-12634 2151     \n"
+    " 3.000000+0 2.000000+0 2.000000+0 0.000000+0 6.300000-1 6.300000-12634 2151     \n"
+    " 0.000000+0 0.000000+0          0         21        126         212634 2151     \n"
+    "-2.330000+3 1.730000+0 6.489000+1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 6.220000+3 1.150000+0 3.800000+2 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.395000+4 1.000000+0 1.333333+1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.824000+4 1.080000+0 6.400000+0 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 2.129000+4 1.160000+0 5.333333+0 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 2.863000+4 8.900000-1 5.466667+0 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 2.905000+4 3.530000+0 3.450000+3 0.000000+0 5.130000+2 0.000000+02634 2151     \n"
+    " 3.938000+4 9.300000-1 1.066667+1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 4.140000+4 4.730000+0 1.000000+3 0.000000+0 1.833000+3 0.000000+02634 2151     \n"
+    " 4.705000+4 1.130000+0 4.500000+2 0.000000+0 4.800000+1 0.000000+02634 2151     \n"
+    " 5.288000+4 8.800000-1 2.133333+1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 6.105000+4 2.270000+0 3.700000+3 0.000000+0 3.000000+2 0.000000+02634 2151     \n"
+    " 7.690000+4 1.270000+0 1.950000+3 0.000000+0 7.510000+2 0.000000+02634 2151     \n"
+    " 9.370000+4 4.700000-1 2.000000+2 0.000000+0 3.000000+2 0.000000+02634 2151     \n"
+    " 1.094000+5 3.000000+0 2.300000+3 0.000000+0 2.000000+2 0.000000+02634 2151     \n"
+    " 1.102000+5 1.000000+0 1.200000+3 0.000000+0 1.551000+3 0.000000+02634 2151     \n"
+    " 1.250000+5 1.830000+0 1.500000+3 0.000000+0 1.000000+3 0.000000+02634 2151     \n"
+    " 1.295000+5 3.000000+0 4.200000+3 0.000000+0 8.000000+3 0.000000+02634 2151     \n"
+    " 1.670000+5 1.490000+0 1.100000+3 0.000000+0 9.000000+2 0.000000+02634 2151     \n"
+    " 1.690000+5 2.000000+0 1.700000+3 0.000000+0 1.200000+4 0.000000+02634 2151     \n"
+    " 1.850000+5 3.000000+0 4.800000+3 0.000000+0 4.000000+2 0.000000+02634 2151     \n"
+    " 1.000000+0 0.000000+0          0          0         18          32634 2151     \n"
+    " 1.000000+0 1.000000+0 1.000000+0 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 2.000000+0 1.000000+0 0.000000+0 0.000000+0 6.300000-1 6.300000-12634 2151     \n"
+    " 3.000000+0 1.000000+0 1.000000+0 0.000000+0 6.300000-1 6.300000-12634 2151     \n"
+    " 0.000000+0 0.000000+0          0         35        210         352634 2151     \n"
+    " 4.750000+3 6.500000-1 6.266666-2 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 8.527000+3 6.500000-1 1.066667-2 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 9.207000+3 6.500000-1 4.000000-2 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.331000+4 6.500000-1 1.333333-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 3.711000+4 7.100000-1 6.000000+0 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 3.789000+4 6.500000-1 2.266667-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 3.980000+4 6.500000-1 1.466667-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 4.235000+4 6.500000-1 6.666667-2 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 4.358000+4 6.500000-1 2.266667-2 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 4.993000+4 2.600000-1 1.933333+0 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 5.270000+4 6.500000-1 1.600000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 5.893000+4 6.500000-1 3.200000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 6.225000+4 6.500000-1 6.800000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 6.422000+4 6.500000-1 1.300000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 6.807000+4 6.500000-1 1.200000+0 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 7.430000+4 6.500000-1 1.700000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 8.030000+4 6.500000-1 8.100000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 8.315000+4 6.500000-1 9.333333-2 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 9.470000+4 6.500000-1 6.300000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 9.885000+4 6.500000-1 3.900000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 9.987000+4 6.500000-1 3.800000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.018000+5 6.500000-1 1.733333+1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.052100+5 6.500000-1 6.300000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.058700+5 6.500000-1 2.900000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.111000+5 6.500000-1 2.100000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.240000+5 6.500000-1 3.800000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.253000+5 6.500000-1 1.700000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.267000+5 6.500000-1 7.600000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.318000+5 1.300000+0 1.200000+0 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.352800+5 6.500000-1 2.900000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.502500+5 6.500000-1 2.900000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.665300+5 6.500000-1 2.900000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.688000+5 6.500000-1 4.500000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.693100+5 6.500000-1 4.200000+0 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.872000+5 6.500000-1 1.400000+0 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 2.000000+0 0.000000+0          0          0         30          52634 2151     \n"
+    " 1.000000+0 1.000000+0 1.000000+0 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 2.000000+0 1.000000+0 1.000000+0 0.000000+0 6.300000-1 6.300000-12634 2151     \n"
+    " 3.000000+0 1.000000+0 1.000000+0 0.000000+0 6.300000-1 6.300000-12634 2151     \n"
+    " 3.000000+0 3.000000+0 2.000000+0 0.000000+0 6.300000-1 6.300000-12634 2151     \n"
+    " 3.000000+0 1.000000+0 2.000000+0 0.000000+0 6.300000-1 6.300000-12634 2151     \n"
+    " 0.000000+0 0.000000+0          0         49        294         492634 2151     \n"
+    " 1.630000+3 1.000000+0 4.400000-2 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 7.220000+3 1.560000+0 6.800000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 7.944000+3 6.500000-1 1.840000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.209000+4 6.500000-1 1.040000-2 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.414000+4 6.500000-1 3.200000-3 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 2.137000+4 6.500000-1 9.100000-2 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 2.579000+4 6.500000-1 1.120000-2 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 2.720000+4 6.500000-1 9.600000-2 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 3.194000+4 6.500000-1 3.280000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 3.519000+4 6.500000-1 1.300000+0 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 4.194000+4 6.500000-1 3.200000+0 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 5.092000+4 6.500000-1 3.900000+0 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 5.617000+4 6.500000-1 2.400000+0 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 5.882000+4 6.500000-1 3.200000-2 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 6.200000+4 6.500000-1 4.000000-2 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 6.298000+4 6.500000-1 1.200000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 6.395000+4 6.500000-1 6.300000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 6.675000+4 6.500000-1 2.240000+0 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 7.145000+4 6.500000-1 4.900000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 7.270000+4 6.500000-1 4.500000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 8.447000+4 6.500000-1 2.400000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 8.724000+4 6.500000-1 4.800000-2 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 8.828000+4 6.500000-1 3.800000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 8.998000+4 6.500000-1 2.300000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 9.339000+4 1.300000+0 1.030000+0 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 9.397000+4 1.300000+0 2.100000+0 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 9.630000+4 1.300000+0 1.100000+0 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 9.810000+4 6.500000-1 5.600000-2 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.011000+5 6.500000-1 9.500000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.039700+5 6.500000-1 2.600000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.068300+5 1.300000+0 3.800000+0 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.081000+5 6.500000-1 8.100000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.128000+5 1.300000+0 1.400000+0 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.135800+5 6.500000-1 3.200000-2 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.145000+5 6.500000-1 1.300000+0 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.192000+5 6.500000-1 1.680000+1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.215000+5 6.500000-1 5.700000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.250800+5 1.300000+0 3.500000+0 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.305000+5 6.500000-1 6.000000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.341000+5 6.500000-1 7.000000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.488000+5 6.500000-1 9.400000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.507000+5 6.500000-1 6.300000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.549700+5 6.500000-1 2.900000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.583000+5 6.500000-1 8.000000-2 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.599000+5 6.500000-1 6.300000-1 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.648000+5 6.500000-1 7.200000-2 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.673000+5 6.500000-1 1.000000+0 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.803500+5 6.500000-1 1.800000+0 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    " 1.868000+5 6.500000-1 2.300000+0 0.000000+0 0.000000+0 0.000000+02634 2151     \n"
+    "                                                                  2634 2  0     \n";
+}
+
 std::string Ca40() {
 
   // Ca40 ENDF/B-VIII.0 LRF=7 resonance evaluation
@@ -3405,7 +4185,6 @@ std::string Ca40() {
     " 1.530000+6 1.000000+0 4.500000+1 1.500000-4 1.000000-3 0.000000+02025 2151     \n"
     " 0.000000+0 0.000000+0          0          0          0          02025 2  0     \n";
 }
-
 
 std::string Cl35() {
 

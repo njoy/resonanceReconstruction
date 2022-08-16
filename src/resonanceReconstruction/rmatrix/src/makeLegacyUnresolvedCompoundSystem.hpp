@@ -1,5 +1,5 @@
 template < typename Unresolved >
-std::vector< double > getEnergies( const Unresolved& unresolved,
+std::vector< double > getEnergies( const Unresolved&,
                                    double lower, double upper ) {
 
   return { lower, upper };
@@ -8,9 +8,44 @@ std::vector< double > getEnergies( const Unresolved& unresolved,
 template <> std::vector< double >
 getEnergies(
   const endf::UnresolvedEnergyDependentFissionWidths& unresolved,
-  double lower, double upper ) {
+  double, double ) {
 
-  return unresolved.energies();
+  return ranges::to< std::vector< double > >( unresolved.energies() );
+}
+
+template < typename Unresolved >
+int getUnresolvedInterpolation( const Unresolved& ) { return 5; }
+
+template <>
+int getUnresolvedInterpolation(
+        const endf::UnresolvedEnergyDependent& unresolved ) {
+
+  const auto verifyInterpolation = [] ( const auto& interpolants ) {
+
+    int interpolation = interpolants[0];
+    if ( ranges::cpp20::count( interpolants, interpolation )
+           != ranges::cpp20::distance( interpolants ) ) {
+
+      throw std::runtime_error( "Different interpolation schemes for "
+                                "unresolved l,J values are currently not "
+                                "implemented" );
+    }
+    return interpolation;
+  };
+
+  const auto getInterpolation = [&] ( const auto& values ) {
+
+    return verifyInterpolation(
+               values | ranges::cpp20::views::transform(
+                            [] ( const auto& jvalue )
+                               { return jvalue.INT(); } ) );
+  };
+
+  return verifyInterpolation(
+             unresolved.lValues()
+                 | ranges::cpp20::views::transform(
+                       [&] ( const auto& lvalue )
+                           { return getInterpolation( lvalue.jValues() ); } ) );
 }
 
 template < typename Unresolved >
@@ -18,7 +53,6 @@ legacy::unresolved::CompoundSystem
 makeLegacyUnresolvedCompoundSystem(
     const Unresolved& unresolved,
     const AtomicMass& neutronMass,
-    const ElectricalCharge& elementaryCharge,
     const ParticleID& incident,
     const ParticleID& target,
     const std::optional< ChannelRadiusTable >& nro,
@@ -42,20 +76,27 @@ makeLegacyUnresolvedCompoundSystem(
   ChannelRadii radii = makeChannelRadii( ap, nro, naps,
                                          awri, neutronMass.value );
 
+  // interpolation parameter
+  auto interpolation = getUnresolvedInterpolation( unresolved );
+
   // some magic magic
   auto lvalues = unresolved.lValues();
-  auto repeatPair = ranges::view::repeat_n( in, nls );
-  auto repeatRadii = ranges::view::repeat_n( radii, nls );
-  auto repeatEnergies = ranges::view::repeat_n(
+  auto repeatPair = ranges::views::repeat_n( in, nls );
+  auto repeatRadii = ranges::views::repeat_n( radii, nls );
+  auto repeatEnergies = ranges::views::repeat_n(
                             getEnergies( unresolved, lower, upper ), nls );
-  std::vector< std::vector< legacy::unresolved::SpinGroup > > groups =
-      ranges::view::zip_with(
-          makeLegacyUnresolvedSpinGroups< typename Unresolved::LValue >,
-          lvalues,
-          repeatPair,
-          repeatRadii,
-          repeatEnergies );
 
-  return legacy::unresolved::CompoundSystem(
-             std::move( groups | ranges::view::join ) );
+  std::vector< legacy::unresolved::SpinGroup > groups;
+  auto data = ranges::views::zip_with(
+                  makeLegacyUnresolvedSpinGroups< typename Unresolved::LValue >,
+                  lvalues,
+                  repeatPair,
+                  repeatRadii,
+                  repeatEnergies );
+  for ( const auto& entry : data ) {
+
+    groups.insert( groups.end(), entry.begin(), entry.end() );
+  }
+
+  return legacy::unresolved::CompoundSystem( std::move( groups ), interpolation );
 }

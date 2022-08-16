@@ -57,7 +57,7 @@ add_library( resonanceReconstruction INTERFACE
 target_include_directories( resonanceReconstruction INTERFACE src/ )
 target_link_libraries( resonanceReconstruction
     INTERFACE ENDFtk
-    INTERFACE eigen-adapter
+    INTERFACE eigen
     INTERFACE interpolation
     INTERFACE dimwits
     INTERFACE elementary

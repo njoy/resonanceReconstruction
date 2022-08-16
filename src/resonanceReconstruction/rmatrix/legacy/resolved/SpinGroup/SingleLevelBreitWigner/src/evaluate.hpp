@@ -5,15 +5,11 @@
  *  @param[in,out] result   a map containing the accumulated cross sections
  */
 void evaluate( const Energy& energy,
-               std::map< ReactionID, CrossSection >& result ) {
+               Map< ReactionID, CrossSection >& result ) {
 
-  // data we need: k, P, phi, rho, g_J
-  const auto channel = this->incidentChannel();
+  // data we need
+  decltype(auto) channel = this->incidentChannel();
   const auto waveNumber = channel.waveNumber( energy );
-  const auto qx = this->QX();
-  const auto p = channel.penetrability( energy );
-  const auto q = qx.value != 0. ? channel.penetrability( energy - qx ) : p;
-  const auto s = channel.shiftFactor( energy );
   const auto phaseShift = channel.phaseShift( energy );
   const auto spinFactor = channel.statisticalSpinFactor();
   const auto sinphi = std::sin( phaseShift );
@@ -41,7 +37,7 @@ void evaluate( const Energy& energy,
 
   // accumulate the cross section components
   const Data< double > components =
-    ranges::accumulate( ranges::view::zip_with(
+    ranges::accumulate( ranges::views::zip_with(
                             calculate,
                             this->elastic(), this->capture(), this->fission(),
                             this->total(), this->delta(), this->denominator() ),
@@ -50,7 +46,7 @@ void evaluate( const Energy& energy,
   // calculate the resulting cross sections
   result[ this->elasticID() ] += factor * components.elastic;
   result[ this->captureID() ] += factor * components.capture;
-  if ( components.hasFission() ) {
+  if ( this->hasFission() ) {
 
     result[ this->fissionID() ] += factor * components.fission;
   }

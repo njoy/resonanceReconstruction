@@ -64,7 +64,7 @@ static auto lvalues( const endf::ReichMoore& rm,
                      bool useAPL ){
   return
     rm.lValues()
-    | ranges::view::transform
+    | ranges::views::transform
     ( [&]( auto&& lstate ){ return lvalue( lstate, k, r, g, useAPL ); } )
     | ranges::to_vector;
 }

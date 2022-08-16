@@ -1,4 +1,4 @@
-std::string Pu239LRF3();
+std::string Pu239LRF3( bool useNLS1 = true );
 std::string Si29();
 
 SCENARIO( "fromENDF - LRF3" ) {
@@ -22,6 +22,437 @@ SCENARIO( "fromENDF - LRF3" ) {
       CHECK( false == resonances.isUnresolved() );
       CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
       CHECK( 2500. == Approx( resonances.upperEnergy().value ) );
+      CHECK( false == bool( resonances.interpolation() ) );
+      CHECK( 3 == resonances.reactionIDs().size() );
+      CHECK( "n,Pu239->capture" == resonances.reactionIDs()[0].symbol() );
+      CHECK( "n,Pu239->fission" == resonances.reactionIDs()[1].symbol() );
+      CHECK( "n,Pu239->n,Pu239" == resonances.reactionIDs()[2].symbol() );
+
+      auto compoundsystem = std::get< CompoundSystem< ReichMoore, ShiftFactor > >( resonances.compoundSystem() );
+
+      // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+      // content verification
+      // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+      // spin groups
+      auto spingroups = compoundsystem.spinGroups();
+      CHECK( 2 == spingroups.size() );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 0
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      auto spingroup0 = spingroups[0];
+
+      // channels
+      auto channels0 = spingroup0.channels();
+
+      CHECK( 3 == channels0.size() ); // 3 normal channel + 1 eliminated
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 0, channel 0: elastic
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel00 = std::get< Channel< Neutron > >( channels0[0] );
+      CHECK( "n,Pu239->n,Pu239" == channel00.reactionID().symbol() );
+
+      // incident particle pair
+      const auto incident00 = channel00.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident00.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident00.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident00.particle().spin() ) );
+      CHECK( +1 == incident00.particle().parity() );
+      CHECK( 236.9986 * 1.008664 == Approx( incident00.residual().mass().value ) );
+      CHECK( 94.0 * 1.602e-19 == Approx( incident00.residual().charge().value ) );
+      CHECK( 0.5 == Approx( incident00.residual().spin() ) );
+      CHECK( +1 == incident00.residual().parity() );
+      CHECK( "n,Pu239" == incident00.pairID().symbol() );
+
+      // particle pair
+      const auto pair00 = channel00.particlePair();
+      CHECK( 1.008664 == Approx( pair00.particle().mass().value ) );
+      CHECK( 0.0 == Approx( pair00.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair00.particle().spin() ) );
+      CHECK( +1 == pair00.particle().parity() );
+      CHECK( 236.9986 * 1.008664 == Approx( pair00.residual().mass().value ) );
+      CHECK( 94.0 * 1.602e-19 == Approx( pair00.residual().charge().value ) );
+      CHECK( 0.5 == Approx( pair00.residual().spin() ) );
+      CHECK( +1 == pair00.residual().parity() );
+      CHECK( "n,Pu239" == pair00.pairID().symbol() );
+
+      // quantum numbers
+      const auto numbers00 = channel00.quantumNumbers();
+      CHECK( 0 == numbers00.orbitalAngularMomentum() );
+      CHECK( 0.0 == numbers00.spin() );
+      CHECK( 0.0 == numbers00.totalAngularMomentum() );
+      CHECK( +1 == numbers00.parity() );
+      CHECK( "{0,0,0+}" == numbers00.toString() );
+
+      // radii
+      const auto radii00 = channel00.radii();
+      CHECK( .9410000 == Approx( radii00.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .9410000 == Approx( radii00.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .9410000 == Approx( radii00.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel00.boundaryCondition() );
+
+      // Q value
+      CHECK( 0.0 == Approx( channel00.Q().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 0, channel 1: fission1
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel01 = std::get< Channel< Fission > >( channels0[1] );
+      CHECK( "n,Pu239->fission" == channel01.reactionID().symbol() );
+
+      // incident particle pair
+      const auto incident01 = channel01.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident01.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident01.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident01.particle().spin() ) );
+      CHECK( +1 == incident01.particle().parity() );
+      CHECK( 236.9986 * 1.008664 == Approx( incident01.residual().mass().value ) );
+      CHECK( 94.0 * 1.602e-19 == Approx( incident01.residual().charge().value ) );
+      CHECK( 0.5 == Approx( incident01.residual().spin() ) );
+      CHECK( +1 == incident01.residual().parity() );
+      CHECK( "n,Pu239" == incident01.pairID().symbol() );
+
+      // quantum numbers
+      const auto numbers01 = channel01.quantumNumbers();
+      CHECK( 0 == numbers01.orbitalAngularMomentum() );
+      CHECK( 0.0 == numbers01.spin() );
+      CHECK( 0.0 == numbers01.totalAngularMomentum() );
+      CHECK( +1 == numbers01.parity() );
+      CHECK( "{0,0,0+}" == numbers01.toString() );
+
+      // radii
+      const auto radii01 = channel01.radii();
+      CHECK( .9410000 == Approx( radii01.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .9410000 == Approx( radii01.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .9410000 == Approx( radii01.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel01.boundaryCondition() );
+
+      // Q value
+      CHECK( 0.0 == Approx( channel01.Q().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 0, channel 2: fission2
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel02 = std::get< Channel< Fission > >( channels0[2] );
+      CHECK( "n,Pu239->fission" == channel02.reactionID().symbol() );
+
+      // incident particle pair
+      const auto incident02 = channel02.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident02.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident02.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident02.particle().spin() ) );
+      CHECK( +1 == incident02.particle().parity() );
+      CHECK( 236.9986 * 1.008664 == Approx( incident02.residual().mass().value ) );
+      CHECK( 94.0 * 1.602e-19 == Approx( incident02.residual().charge().value ) );
+      CHECK( 0.5 == Approx( incident02.residual().spin() ) );
+      CHECK( +1 == incident02.residual().parity() );
+      CHECK( "n,Pu239" == incident02.pairID().symbol() );
+
+      // quantum numbers
+      const auto numbers02 = channel02.quantumNumbers();
+      CHECK( 0 == numbers02.orbitalAngularMomentum() );
+      CHECK( 0.0 == numbers02.spin() );
+      CHECK( 0.0 == numbers02.totalAngularMomentum() );
+      CHECK( +1 == numbers02.parity() );
+      CHECK( "{0,0,0+}" == numbers02.toString() );
+
+      // radii
+      const auto radii02 = channel02.radii();
+      CHECK( .9410000 == Approx( radii02.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .9410000 == Approx( radii02.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .9410000 == Approx( radii02.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel02.boundaryCondition() );
+
+      // Q value
+      CHECK( 0.0 == Approx( channel02.Q().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 0, resonance table
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      auto table0 = spingroup0.resonanceTable();
+
+      CHECK( 3 == table0.numberChannels() ); // 1 normal channel + 1 eliminated
+      CHECK( 231 == table0.numberResonances() );
+
+      auto energies0 = table0.energies();
+      CHECK( -6.908700 == Approx( energies0.front().value ) );
+      CHECK( 2.511660e+3 == Approx( energies0.back().value ) );
+
+      auto resonances0 = table0.resonances();
+      CHECK( -6.908700 == Approx( resonances0.front().energy().value ) );
+      CHECK( 2.511660e+3 == Approx( resonances0.back().energy().value ) );
+      CHECK( 3 == resonances0.front().widths().size() );
+      CHECK( 3 == resonances0.back().widths().size() );
+      CHECK( std::sqrt( 1.805854e-2 / 2. / channel00.penetrability( -6.908700 * electronVolt ) )
+             == Approx( resonances0.front().widths()[0].value ) );
+      CHECK( std::sqrt( 3.123558e-1 / 2. / channel00.penetrability( 2.511660e+3 * electronVolt ) )
+             == Approx( resonances0.back().widths()[0].value ) );
+      CHECK( -std::sqrt( 9.235517e-1 / 2. )
+             == Approx( resonances0.front().widths()[1].value ) );
+      CHECK( std::sqrt( 1.002582 / 2. )
+             == Approx( resonances0.back().widths()[1].value ) );
+      CHECK( std::sqrt( 3.464891e-1 / 2. )
+             == Approx( resonances0.front().widths()[2].value ) );
+      CHECK( std::sqrt( 1.971943e-2 / 2. )
+             == Approx( resonances0.back().widths()[2].value ) );
+      CHECK( std::sqrt( 6.012769e-2 / 2. ) == Approx( resonances0.front().eliminatedWidth().value ) );
+      CHECK( std::sqrt( 3.926596e-2 / 2. ) == Approx( resonances0.back().eliminatedWidth().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 1
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      auto spingroup1 = spingroups[1];
+
+      // channels
+      auto channels1 = spingroup1.channels();
+
+      CHECK( 2 == channels1.size() ); // 2 normal channel + 1 eliminated
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 1, channel 0: elastic
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel10 = std::get< Channel< Neutron > >( channels1[0] );
+      CHECK( "n,Pu239->n,Pu239" == channel10.reactionID().symbol() );
+
+      // incident particle pair
+      const auto incident10 = channel10.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident10.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident10.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident10.particle().spin() ) );
+      CHECK( +1 == incident10.particle().parity() );
+      CHECK( 236.9986 * 1.008664 == Approx( incident10.residual().mass().value ) );
+      CHECK( 94.0 * 1.602e-19 == Approx( incident10.residual().charge().value ) );
+      CHECK( 0.5 == Approx( incident10.residual().spin() ) );
+      CHECK( +1 == incident10.residual().parity() );
+      CHECK( "n,Pu239" == incident10.pairID().symbol() );
+
+      // particle pair
+      const auto pair10 = channel10.particlePair();
+      CHECK( 1.008664 == Approx( pair10.particle().mass().value ) );
+      CHECK( 0.0 == Approx( pair10.particle().charge().value ) );
+      CHECK( 0.5 == Approx( pair10.particle().spin() ) );
+      CHECK( +1 == pair10.particle().parity() );
+      CHECK( 236.9986 * 1.008664 == Approx( pair10.residual().mass().value ) );
+      CHECK( 94.0 * 1.602e-19 == Approx( pair10.residual().charge().value ) );
+      CHECK( 0.5 == Approx( pair10.residual().spin() ) );
+      CHECK( +1 == pair10.residual().parity() );
+      CHECK( "n,Pu239" == pair10.pairID().symbol() );
+
+      // quantum numbers
+      const auto numbers10 = channel10.quantumNumbers();
+      CHECK( 0 == numbers10.orbitalAngularMomentum() );
+      CHECK( 1.0 == numbers10.spin() );
+      CHECK( 1.0 == numbers10.totalAngularMomentum() );
+      CHECK( +1 == numbers10.parity() );
+      CHECK( "{0,1,1+}" == numbers10.toString() );
+
+      // radii
+      const auto radii10 = channel10.radii();
+      CHECK( .9410000 == Approx( radii10.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .9410000 == Approx( radii10.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .9410000 == Approx( radii10.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel10.boundaryCondition() );
+
+      // Q value
+      CHECK( 0.0 == Approx( channel10.Q().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 1, channel 1: fission1
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      const auto channel11 = std::get< Channel< Fission > >( channels1[1] );
+      CHECK( "n,Pu239->fission" == channel11.reactionID().symbol() );
+
+      // incident particle pair
+      const auto incident11 = channel11.incidentParticlePair();
+      CHECK( 1.008664 == Approx( incident11.particle().mass().value ) );
+      CHECK( 0.0 == Approx( incident11.particle().charge().value ) );
+      CHECK( 0.5 == Approx( incident11.particle().spin() ) );
+      CHECK( +1 == incident11.particle().parity() );
+      CHECK( 236.9986 * 1.008664 == Approx( incident11.residual().mass().value ) );
+      CHECK( 94.0 * 1.602e-19 == Approx( incident11.residual().charge().value ) );
+      CHECK( 0.5 == Approx( incident11.residual().spin() ) );
+      CHECK( +1 == incident11.residual().parity() );
+      CHECK( "n,Pu239" == incident11.pairID().symbol() );
+
+      // quantum numbers
+      const auto numbers11 = channel11.quantumNumbers();
+      CHECK( 0 == numbers11.orbitalAngularMomentum() );
+      CHECK( 0.0 == numbers11.spin() );
+      CHECK( 1.0 == numbers11.totalAngularMomentum() );
+      CHECK( +1 == numbers11.parity() );
+      CHECK( "{0,0,1+}" == numbers11.toString() );
+
+      // radii
+      const auto radii11 = channel11.radii();
+      CHECK( .9410000 == Approx( radii11.penetrabilityRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .9410000 == Approx( radii11.shiftFactorRadius( 1e-5 * electronVolt ).value ) );
+      CHECK( .9410000 == Approx( radii11.phaseShiftRadius( 1e-5 * electronVolt ).value ) );
+
+      // boundary conditions
+      CHECK( 0. == channel11.boundaryCondition() );
+
+      // Q value
+      CHECK( 0.0 == Approx( channel11.Q().value ) );
+
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      // spin group 1, resonance table
+      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+      auto table1 = spingroup1.resonanceTable();
+
+      CHECK( 2 == table1.numberChannels() ); // 2 normal channel + 1 eliminated
+      CHECK( 812 == table1.numberResonances() );
+
+      auto energies1 = table1.energies();
+      CHECK( -1.500200e+2 == Approx( energies1.front().value ) );
+      CHECK( 2.523800e+3 == Approx( energies1.back().value ) );
+
+      auto resonances1 = table1.resonances();
+      CHECK( -1.500200e+2 == Approx( resonances1.front().energy().value ) );
+      CHECK( 2.523800e+3 == Approx( resonances1.back().energy().value ) );
+      CHECK( 2 == resonances1.front().widths().size() );
+      CHECK( 2 == resonances1.back().widths().size() );
+      CHECK( std::sqrt( .3726588 / 2. / channel10.penetrability( -1.500200e+2 * electronVolt ) )
+             == Approx( resonances1.front().widths()[0].value ) );
+      CHECK( std::sqrt( .1829061 / 2. / channel10.penetrability( 2.523800e+3 * electronVolt ) )
+             == Approx( resonances1.back().widths()[0].value ) );
+      CHECK( std::sqrt( 1.352425e-1 / 2. )
+             == Approx( resonances1.front().widths()[1].value ) );
+      CHECK( std::sqrt( 4.074383e-1 / 2. )
+             == Approx( resonances1.back().widths()[1].value ) );
+      CHECK( std::sqrt( 4.685986e-2 / 2. ) == Approx( resonances1.front().eliminatedWidth().value ) );
+      CHECK( std::sqrt( 3.926666e-2 / 2. ) == Approx( resonances1.back().eliminatedWidth().value ) );
+    } // THEN
+
+    THEN( "cross sections can be reconstructed" ) {
+
+      // values taken from NJOY2016 PENDF tape for ENDF/B-VIII.0 Pu239
+
+      ReactionID elas( "n,Pu239->n,Pu239" );
+      ReactionID fiss( "n,Pu239->fission" );
+      ReactionID capt( "n,Pu239->capture" );
+      Map< ReactionID, CrossSection > xs;
+
+      xs = resonances( 1e-5 * electronVolt );
+      CHECK( 3 == xs.size() );
+      CHECK( 8.152130 == Approx( xs[ elas ].value ) );
+      CHECK( 3.456462e+4 == Approx( xs[ fiss ].value ) );
+      CHECK( 1.284211e+4 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1e-4 * electronVolt );
+      CHECK( 3 == xs.size() );
+      CHECK( 8.151873 == Approx( xs[ elas ].value ) );
+      CHECK( 1.093649e+4 == Approx( xs[ fiss ].value ) );
+      CHECK( 4.060599e+3 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1e-3 * electronVolt );
+      CHECK( 3 == xs.size() );
+      CHECK( 8.149338 == Approx( xs[ elas ].value ) );
+      CHECK( 3.477441e+3 == Approx( xs[ fiss ].value ) );
+      CHECK( 1.282863e+3 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1e-2 * electronVolt );
+      CHECK( 3 == xs.size() );
+      CHECK( 8.120662 == Approx( xs[ elas ].value ) );
+      CHECK( 1.144071e+3 == Approx( xs[ fiss ].value ) );
+      CHECK( 4.072596e+2 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 0.0253 * electronVolt );
+      CHECK( 3 == xs.size() );
+      CHECK( 8.055773 == Approx( xs[ elas ].value ) );
+      CHECK( 7.469471e+2 == Approx( xs[ fiss ].value ) );
+      CHECK( 2.697482e+2 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1e-1 * electronVolt );
+      CHECK( 3 == xs.size() );
+      CHECK( 7.542244 == Approx( xs[ elas ].value ) );
+      CHECK( 4.771902e+2 == Approx( xs[ fiss ].value ) );
+      CHECK( 2.320353e+2 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1. * electronVolt );
+      CHECK( 3 == xs.size() );
+      CHECK( 1.015843e+1 == Approx( xs[ elas ].value ) );
+      CHECK( 3.948663e+1 == Approx( xs[ fiss ].value ) );
+      CHECK( 7.661602 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 7.81580 * electronVolt );
+      CHECK( 3 == xs.size() );
+      CHECK( 3.078505e+1 == Approx( xs[ elas ].value ) );
+      CHECK( 1.286856e+3 == Approx( xs[ fiss ].value ) );
+      CHECK( 1.109709e+3 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 10. * electronVolt );
+      CHECK( 3 == xs.size() );
+      CHECK( 6.422677 == Approx( xs[ elas ].value ) );
+      CHECK( 1.080674e+1 == Approx( xs[ fiss ].value ) );
+      CHECK( 4.830660 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 10.928 * electronVolt );
+      CHECK( 3 == xs.size() );
+      CHECK( 2.126328e+1 == Approx( xs[ elas ].value ) );
+      CHECK( 1.353841e+3 == Approx( xs[ fiss ].value ) );
+      CHECK( 3.245726e+2 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 100. * electronVolt );
+      CHECK( 3 == xs.size() );
+      CHECK( 1.085331e+1 == Approx( xs[ elas ].value ) );
+      CHECK( 1.786214e+1 == Approx( xs[ fiss ].value ) );
+      CHECK( 3.802623e-1 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1000. * electronVolt );
+      CHECK( 3 == xs.size() );
+      CHECK( 1.813166e+1 == Approx( xs[ elas ].value ) );
+      CHECK( 2.852688 == Approx( xs[ fiss ].value ) );
+      CHECK( 6.884886e-1 == Approx( xs[ capt ].value ) );
+
+      xs = resonances( 1.960508e+3 * electronVolt );
+      CHECK( 3 == xs.size() );
+      CHECK( 3.428219e+1 == Approx( xs[ elas ].value ) );
+      CHECK( 7.707020e+1 == Approx( xs[ fiss ].value ) );
+      CHECK( 5.625787e+1 == Approx( xs[ capt ].value ) );
+    } // THEN
+  } // GIVEN
+
+  GIVEN( "valid ENDF data for Pu239 - empty spin groups for l = 1 to l = 3" ) {
+
+    std::string string = Pu239LRF3( false );
+    auto begin = string.begin();
+    auto end = string.end();
+    long lineNumber = 1;
+
+    njoy::ENDFtk::HeadRecord head( begin, end, lineNumber );
+    njoy::ENDFtk::section::Type< 2, 151 > endf( head, begin, end, lineNumber, 9437 );
+    ResonanceRange endfResonanceRange = endf.isotopes().front().resonanceRanges().front();
+
+    auto resonances = fromENDF( endfResonanceRange, neutronMass, elementaryCharge, ParticleID( "n" ), ParticleID( "Pu239" ) );
+
+    THEN( "the appropriate CompoundSystem is returned" ) {
+
+      CHECK( true == resonances.isResolved() );
+      CHECK( false == resonances.isUnresolved() );
+      CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
+      CHECK( 2500. == Approx( resonances.upperEnergy().value ) );
+      CHECK( false == bool( resonances.interpolation() ) );
+      CHECK( 3 == resonances.reactionIDs().size() );
+      CHECK( "n,Pu239->capture" == resonances.reactionIDs()[0].symbol() );
+      CHECK( "n,Pu239->fission" == resonances.reactionIDs()[1].symbol() );
+      CHECK( "n,Pu239->n,Pu239" == resonances.reactionIDs()[2].symbol() );
 
       auto compoundsystem = std::get< CompoundSystem< ReichMoore, ShiftFactor > >( resonances.compoundSystem() );
 
@@ -618,11 +1049,11 @@ SCENARIO( "fromENDF - LRF3" ) {
 
       // quantum numbers
       const auto numbers40 = channel40.quantumNumbers();
-      CHECK( 1 == numbers40.orbitalAngularMomentum() );
+      CHECK( 3 == numbers40.orbitalAngularMomentum() );
       CHECK( 1.0 == numbers40.spin() );
       CHECK( 2.0 == numbers40.totalAngularMomentum() );
       CHECK( -1 == numbers40.parity() );
-      CHECK( "{1,1,2-}" == numbers40.toString() );
+      CHECK( "{3,1,2-}" == numbers40.toString() );
 
       // radii
       const auto radii40 = channel40.radii();
@@ -669,11 +1100,11 @@ SCENARIO( "fromENDF - LRF3" ) {
 
       // quantum numbers
       const auto numbers41 = channel41.quantumNumbers();
-      CHECK( 3 == numbers41.orbitalAngularMomentum() );
+      CHECK( 1 == numbers41.orbitalAngularMomentum() );
       CHECK( 1.0 == numbers41.spin() );
       CHECK( 2.0 == numbers41.totalAngularMomentum() );
       CHECK( -1 == numbers41.parity() );
-      CHECK( "{3,1,2-}" == numbers41.toString() );
+      CHECK( "{1,1,2-}" == numbers41.toString() );
 
       // radii
       const auto radii41 = channel41.radii();
@@ -1086,7 +1517,7 @@ SCENARIO( "fromENDF - LRF3" ) {
       ReactionID elas( "n,Pu239->n,Pu239" );
       ReactionID fiss( "n,Pu239->fission" );
       ReactionID capt( "n,Pu239->capture" );
-      std::map< ReactionID, CrossSection > xs;
+      Map< ReactionID, CrossSection > xs;
 
       xs = resonances( 1e-5 * electronVolt );
       CHECK( 3 == xs.size() );
@@ -1187,6 +1618,10 @@ SCENARIO( "fromENDF - LRF3" ) {
       CHECK( false == resonances.isUnresolved() );
       CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
       CHECK( 1.3e+6 == Approx( resonances.upperEnergy().value ) );
+      CHECK( false == bool( resonances.interpolation() ) );
+      CHECK( 2 == resonances.reactionIDs().size() );
+      CHECK( "n,Si29->capture" == resonances.reactionIDs()[0].symbol() );
+      CHECK( "n,Si29->n,Si29" == resonances.reactionIDs()[1].symbol() );
 
       auto compoundsystem = std::get< CompoundSystem< ReichMoore, ShiftFactor > >( resonances.compoundSystem() );
 
@@ -1916,7 +2351,7 @@ SCENARIO( "fromENDF - LRF3" ) {
 
       ReactionID elas( "n,Si29->n,Si29" );
       ReactionID capt( "n,Si29->capture" );
-      std::map< ReactionID, CrossSection > xs;
+      Map< ReactionID, CrossSection > xs;
 
       xs = resonances( 1e-5 * electronVolt );
       CHECK( 2 == xs.size() );
@@ -1986,15 +2421,29 @@ SCENARIO( "fromENDF - LRF3" ) {
   } // GIVEN
 } // SCENARIO
 
-std::string Pu239LRF3() {
+std::string Pu239LRF3( bool useNLS1 ) {
 
   // Pu239 ENDF/B-VIII.0 LRF=3 resonance evaluation
 
-  return
+  std::string section =
     " 9.423900+4 2.369986+2          0          0          1          09437 2151     \n"
     " 9.423900+4 1.000000+0          0          1          1          09437 2151     \n"
-    " 1.000000-5 2.500000+3          1          3          0          19437 2151     \n"
-    " 5.000000-1 9.410000-1          1          0          1          49437 2151     \n"
+    " 1.000000-5 2.500000+3          1          3          0          19437 2151     \n";
+
+  if ( useNLS1 ) {
+
+    // NLS = 1: only one l value list will be read
+    section += std::string(
+    " 5.000000-1 9.410000-1          1          0          1          49437 2151     \n" );
+  }
+  else {
+
+    // NLS = 4: four l value lists will be read
+    section += std::string(
+    " 5.000000-1 9.410000-1          1          0          4          49437 2151     \n" );
+  }
+
+  section += std::string(
     " 2.369986+2 9.410000-1          0          0       6258       10439437 2151     \n"
     "-1.500200+2 1.000000+0 3.726588-1 4.685986-2 1.352425-1 0.000000+09437 2151     \n"
     "-8.068561+0 1.000000+0 1.474790-4 4.963603-2-1.528359-3 0.000000+09437 2151     \n"
@@ -2436,7 +2885,9 @@ std::string Pu239LRF3() {
     " 1.075984+3 1.000000+0 1.063645-2 2.984706-2-7.343807-3 0.000000+09437 2151     \n"
     " 1.077492+3 0.000000+0 2.274203-3 3.953940-2 9.995465-8-5.533000-29437 2151     \n"
     " 1.079573+3 1.000000+0 1.583330-3 1.962183-2 4.594267-3 0.000000+09437 2151     \n"
-    " 1.082616+3 1.000000+0 4.763651-3 3.119178-2 8.718702-4 0.000000+09437 2151     \n"
+    " 1.082616+3 1.000000+0 4.763651-3 3.119178-2 8.718702-4 0.000000+09437 2151     \n" );
+
+  section += std::string(
     " 1.085933+3 1.000000+0 2.277898-2 3.369031-2 3.269608-3 0.000000+09437 2151     \n"
     " 1.089352+3 1.000000+0 1.188682-2 5.466009-2 2.601755-2 0.000000+09437 2151     \n"
     " 1.091579+3 0.000000+0 5.795018-2 4.321113-2-1.149973-2 8.929000+09437 2151     \n"
@@ -3038,8 +3489,24 @@ std::string Pu239LRF3() {
     " 2.516520+3 1.000000+0 1.436018-1 3.926556-2 3.888109-2 0.000000+09437 2151     \n"
     " 2.518950+3 1.000000+0 1.662716-1 3.926594-2 2.224877-1 0.000000+09437 2151     \n"
     " 2.521380+3 1.000000+0 1.600835-1 3.926564-2 8.565578-2 0.000000+09437 2151     \n"
-    " 2.523800+3 1.000000+0 1.829061-1 3.926666-2 4.074383-1 0.000000+09437 2151     \n"
-    "                                                                  9437 2  0     \n";
+    " 2.523800+3 1.000000+0 1.829061-1 3.926666-2 4.074383-1 0.000000+09437 2151     \n" );
+
+  if ( !useNLS1 ) {
+
+    // add 3 dummy empty l value lists
+    section += std::string(
+    " 2.369986+2 9.410000-1          1          0          6          19437 2151     \n"
+    " 0.000000+0 0.000000+0 0.000000+0 0.000000+0 0.000000+0 0.000000+09437 2151     \n"
+    " 2.369986+2 9.410000-1          2          0          6          19437 2151     \n"
+    " 0.000000+0 1.000000+0 0.000000+0 0.000000+0 0.000000+0 0.000000+09437 2151     \n"
+    " 2.369986+2 9.410000-1          3          0          6          19437 2151     \n"
+    " 0.000000+0 2.000000+0 0.000000+0 0.000000+0 0.000000+0 0.000000+09437 2151     \n" );
+  }
+
+  section += std::string(
+    "                                                                  9437 2  0     \n" );
+
+  return section;
 }
 
 std::string Si29() {

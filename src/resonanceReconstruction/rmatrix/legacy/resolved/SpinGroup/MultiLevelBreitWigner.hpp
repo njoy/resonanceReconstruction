@@ -20,6 +20,8 @@ public:
   using SpinGroup< SingleLevelBreitWigner >::resonanceTable;
   using SpinGroup< SingleLevelBreitWigner >::QX;
   using SpinGroup< SingleLevelBreitWigner >::grid;
+  using SpinGroup< SingleLevelBreitWigner >::reactionIDs;
+  using SpinGroup< SingleLevelBreitWigner >::hasFission;
 
   #include "resonanceReconstruction/rmatrix/legacy/resolved/SpinGroup/MultiLevelBreitWigner/src/evaluate.hpp"
 };

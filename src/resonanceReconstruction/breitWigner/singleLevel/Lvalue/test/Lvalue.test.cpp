@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
 
 #include "catch.hpp"
-#include "resonanceReconstruction.hpp"
+#include "resonanceReconstruction/breitWigner.hpp"
 
 #include "range/v3/view/linear_distribute.hpp"
 
@@ -62,8 +62,8 @@ breitWigner::lvalue::Type makeLvalue( int l ){
   };
 
   auto resonances = resonanceBlock
-                    | ranges::view::chunk( 6 )
-                    | ranges::view::transform( processResonance )
+                    | ranges::views::chunk( 6 )
+                    | ranges::views::transform( processResonance )
                     | ranges::to_vector;
 
   return { std::move(resonances), l, 0.0 };

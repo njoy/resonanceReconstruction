@@ -45,6 +45,13 @@ SCENARIO( "CompoundSystem" ) {
 
       CHECK( 1 == system.spinGroups().size() );
 
+      // check the reaction identifiers
+      auto reactions = system.reactionIDs();
+
+      CHECK( 2 == reactions.size() );
+      CHECK( "n,Rh105->capture" == reactions[0].symbol() );
+      CHECK( "n,Rh105->n,Rh105" == reactions[1].symbol() );
+
       // group 1 - l,J = 0,1
       auto group = system.spinGroups()[0];
 

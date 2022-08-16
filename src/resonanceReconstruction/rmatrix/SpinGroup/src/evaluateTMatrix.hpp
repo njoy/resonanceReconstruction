@@ -11,7 +11,7 @@
  */
 void evaluateTMatrix(
          const Energy& energy,
-         std::map< ReactionChannelID, std::complex< double > >& result ) {
+         Map< ReactionChannelID, std::complex< double > >& result ) {
 
   // penetrability, sqrt(P) and channel identifiers for each channel
   const auto penetrabilities = this->penetrabilities( energy );
@@ -19,17 +19,17 @@ void evaluateTMatrix(
   const auto channels = this->channelIDs();
 
   // calculate the R_L = ( 1 - RL )^-1 R matrix
-  auto rlmatrix = this->rlmatrix_( energy,
-                                   this->resonanceTable(),
-                                   penetrabilities,
-                                   this->channels() );
+  decltype(auto) rlmatrix = this->rlmatrix_( energy,
+                                             this->resonanceTable(),
+                                             penetrabilities,
+                                             this->channels() );
 
   // a lambda to process each channel
   const unsigned int size = channels.size();
   auto processChannel = [&] ( const unsigned int c ) {
 
     // the elements of the R_L = ( 1 - RL )^-1 R matrix for the current channel
-    const auto row = ranges::make_iterator_range(
+    const auto row = ranges::make_subrange(
                         rlmatrix.data() + c * size,
                         rlmatrix.data() + ( c + 1 ) * size );
 
@@ -40,7 +40,7 @@ void evaluateTMatrix(
     // S = U = Omega W Omega
     const auto currentSqrtP = diagonalSqrtPMatrix[c];
     const auto elements =
-        ranges::view::zip_with(
+        ranges::views::zip_with(
             [&] ( const auto tValue, const auto sqrtP )
                 { return currentSqrtP * tValue * sqrtP; },
             row, diagonalSqrtPMatrix );
@@ -49,18 +49,19 @@ void evaluateTMatrix(
     const auto current = channels[c];
     const auto identifiers =
         channels
-          | ranges::view::transform(
+          | ranges::cpp20::views::transform(
                 [&] ( const auto& id )
                     { return ReactionChannelID( current + "->" + id ); } );
 
     // assign into the map
-    ranges::for_each(
-      ranges::view::zip( identifiers, elements ),
+    ranges::cpp20::for_each(
+      ranges::views::zip( identifiers, elements ),
       [&] ( const auto& pair ) -> void
           { result[ std::get< 0 >( pair ) ] = std::get< 1 >( pair ); } );
   };
 
   // process the channels
   const unsigned int start = 0;
-  ranges::for_each( ranges::view::indices( start, size ), processChannel );
+  ranges::cpp20::for_each( ranges::cpp20::views::iota( start, size ),
+                           processChannel );
 }

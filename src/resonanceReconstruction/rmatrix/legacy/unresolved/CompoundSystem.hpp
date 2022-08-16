@@ -1,3 +1,24 @@
+#ifndef NJOY_R2_RMATRIX_LEGACY_UNRESOLVED_COMPOUNDSYSTEM
+#define NJOY_R2_RMATRIX_LEGACY_UNRESOLVED_COMPOUNDSYSTEM
+
+// system includes
+
+// other includes
+#include "range/v3/range/conversion.hpp"
+#include "range/v3/action/sort.hpp"
+#include "range/v3/action/unique.hpp"
+#include "resonanceReconstruction/rmatrix/identifiers.hpp"
+#include "resonanceReconstruction/rmatrix/options.hpp"
+#include "resonanceReconstruction/rmatrix/Map.hpp"
+#include "resonanceReconstruction/rmatrix/legacy/CompoundSystemBase.hpp"
+#include "resonanceReconstruction/rmatrix/legacy/unresolved/SpinGroup.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+namespace legacy {
+namespace unresolved {
+
 /**
  *  @class
  *  @brief The legacy unresolved compound system
@@ -9,14 +30,30 @@
  */
 class CompoundSystem : protected CompoundSystemBase< unresolved::SpinGroup > {
 
+  int interpolation_;
+
 public:
 
   /* constructor */
-  using CompoundSystemBase::CompoundSystemBase;
+  #include "resonanceReconstruction/rmatrix/legacy/unresolved/CompoundSystem/src/ctor.hpp"
 
   /* methods */
   using CompoundSystemBase::spinGroups;
   using CompoundSystemBase::evaluate;
+  using CompoundSystemBase::reactionIDs;
+
+  /**
+   *  @brief Return the interpolation scheme to be applied
+   */
+  int interpolation() const { return this->interpolation_; }
 
   #include "resonanceReconstruction/rmatrix/legacy/unresolved/CompoundSystem/src/grid.hpp"
 };
+
+} // unresolved namespace
+} // legacy namespace
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

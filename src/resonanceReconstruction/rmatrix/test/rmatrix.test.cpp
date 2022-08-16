@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
 
 #include "catch.hpp"
-#include "resonanceReconstruction.hpp"
+#include "resonanceReconstruction/rmatrix.hpp"
 
 using namespace njoy::resonanceReconstruction;
 using namespace njoy::resonanceReconstruction::rmatrix;
@@ -12,7 +12,7 @@ using Spin = rmatrix::Spin;
 using ResonanceRange = endf::ResonanceRange;
 
 constexpr AtomicMass neutronMass = 1.008664 * daltons;
-constexpr ElectricalCharge elementaryCharge = 1.602e-19 * coulomb;
+constexpr ElectricalCharge elementaryCharge = dimwits::constant::elementaryCharge;
 
 #include "resonanceReconstruction/rmatrix/test/possibleChannelTotalAngularMomentumValues.test.hpp"
 #include "resonanceReconstruction/rmatrix/test/possibleChannelSpinValues.test.hpp"

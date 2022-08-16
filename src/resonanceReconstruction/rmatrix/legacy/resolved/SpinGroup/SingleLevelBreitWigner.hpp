@@ -8,10 +8,6 @@
 template <>
 class SpinGroup< SingleLevelBreitWigner > : protected SpinGroupBase< resolved::ResonanceTable > {
 
-  /* aliases */
-  using EnergySquared = decltype( std::declval< Energy >() *
-                                  std::declval< Energy >() );
-
   /* fields */
   Energy qx_;
 
@@ -31,12 +27,12 @@ protected:
   using SpinGroupBase::captureID;
   using SpinGroupBase::fissionID;
 
-  auto elastic() const { return ranges::view::all( this->elastic_ ); }
-  auto capture() const { return ranges::view::all( this->capture_ ); }
-  auto fission() const { return ranges::view::all( this->fission_ ); }
-  auto total() const { return ranges::view::all( this->total_ ); }
-  auto delta() const { return ranges::view::all( this->delta_ ); }
-  auto denominator() const { return ranges::view::all( this->denominator_ ); }
+  auto elastic() const { return ranges::cpp20::views::all( this->elastic_ ); }
+  auto capture() const { return ranges::cpp20::views::all( this->capture_ ); }
+  auto fission() const { return ranges::cpp20::views::all( this->fission_ ); }
+  auto total() const { return ranges::cpp20::views::all( this->total_ ); }
+  auto delta() const { return ranges::cpp20::views::all( this->delta_ ); }
+  auto denominator() const { return ranges::cpp20::views::all( this->denominator_ ); }
 
 public:
 
@@ -49,6 +45,8 @@ public:
   using SpinGroupBase::orbitalAngularMomentum;
   using SpinGroupBase::totalAngularMomentum;
   using SpinGroupBase::resonanceTable;
+  using SpinGroupBase::reactionIDs;
+  using SpinGroupBase::hasFission;
 
   /**
    *  @brief Return competitive Q value

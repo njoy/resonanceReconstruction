@@ -13,7 +13,6 @@ operator()( const Energy&,
             const Penetrabilities& penetrabilities,
             const Channels& ) {
 
-  this->lmatrix_.setZero();
   for ( unsigned int i = 0; i < penetrabilities.size(); ++i ) {
 
     this->lmatrix_.diagonal()[i] =

@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
 
 #include "catch.hpp"
-#include "resonanceReconstruction.hpp"
+#include "resonanceReconstruction/reichMoore.hpp"
 
 #include "header-utilities/slurpFileToMemory.hpp"
 #include "ENDFtk/tree/Tape.hpp"
@@ -71,12 +71,12 @@ resonances(){
 
   auto endfFile = njoy::utility::slurpFileToMemory( "n-013_Al_027.endf" );
 
-  njoy::ENDFtk::tree::Tape< std::string > tape( endfFile );
+  njoy::ENDFtk::tree::Tape tape( endfFile );
 
   auto& material = *( tape.begin() );
 
   auto MAT = material.MAT();
   return material
-         .fileNumber(2)
-         .sectionNumber(151).parse< 2, 151 >();
+         .file(2)
+         .section(151).parse< 2, 151 >();
 }

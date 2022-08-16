@@ -25,12 +25,20 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
       CHECK( true == resonances.isUnresolved() );
       CHECK( 15000. == Approx( resonances.lowerEnergy().value ) );
       CHECK( 100000. == Approx( resonances.upperEnergy().value ) );
+      CHECK( true == bool( resonances.interpolation() ) );
+      CHECK( 2 == resonances.interpolation().value() );
+      CHECK( 2 == resonances.reactionIDs().size() );
+      CHECK( "n,Na22->capture" == resonances.reactionIDs()[0].symbol() );
+      CHECK( "n,Na22->n,Na22" == resonances.reactionIDs()[1].symbol() );
 
       auto compoundsystem = std::get< legacy::unresolved::CompoundSystem >( resonances.compoundSystem() );
 
       // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
       // content verification
       // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+      // interpolation
+      CHECK( 2 == compoundsystem.interpolation() );
 
       // spin groups
       auto spingroups = compoundsystem.spinGroups();
@@ -441,7 +449,7 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
 
       ReactionID elas( "n,Na22->n,Na22" );
       ReactionID capt( "n,Na22->capture" );
-      std::map< ReactionID, CrossSection > xs;
+      Map< ReactionID, CrossSection > xs;
 
       xs = resonances( 1.5e+4 * electronVolt );
       CHECK( 2 == xs.size() );
@@ -514,12 +522,21 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
       CHECK( true == resonances.isUnresolved() );
       CHECK( 2500. == Approx( resonances.lowerEnergy().value ) );
       CHECK( 30000. == Approx( resonances.upperEnergy().value ) );
+      CHECK( true == bool( resonances.interpolation() ) );
+      CHECK( 2 == resonances.interpolation().value() );
+      CHECK( 3 == resonances.reactionIDs().size() );
+      CHECK( "n,Pu239->capture" == resonances.reactionIDs()[0].symbol() );
+      CHECK( "n,Pu239->fission" == resonances.reactionIDs()[1].symbol() );
+      CHECK( "n,Pu239->n,Pu239" == resonances.reactionIDs()[2].symbol() );
 
       auto compoundsystem = std::get< legacy::unresolved::CompoundSystem >( resonances.compoundSystem() );
 
       // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
       // content verification
       // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+      // interpolation
+      CHECK( 2 == compoundsystem.interpolation() );
 
       // spin groups
       auto spingroups = compoundsystem.spinGroups();
@@ -765,7 +782,7 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
       ReactionID elas( "n,Pu239->n,Pu239" );
       ReactionID capt( "n,Pu239->capture" );
       ReactionID fiss( "n,Pu239->fission" );
-      std::map< ReactionID, CrossSection > xs;
+      Map< ReactionID, CrossSection > xs;
 
       xs = resonances( 2500. * electronVolt );
       CHECK( 3 == xs.size() );
@@ -1210,11 +1227,24 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
 
     THEN( "the appropriate CompoundSystem is returned" ) {
 
+      CHECK( false == resonances.isResolved() );
+      CHECK( true == resonances.isUnresolved() );
+      CHECK( 1750. == Approx( resonances.lowerEnergy().value ) );
+      CHECK( 10000. == Approx( resonances.upperEnergy().value ) );
+      CHECK( true == bool( resonances.interpolation() ) );
+      CHECK( 5 == resonances.interpolation().value() );
+      CHECK( 2 == resonances.reactionIDs().size() );
+      CHECK( "n,Er167->capture" == resonances.reactionIDs()[0].symbol() );
+      CHECK( "n,Er167->n,Er167" == resonances.reactionIDs()[1].symbol() );
+
       auto compoundsystem = std::get< legacy::unresolved::CompoundSystem >( resonances.compoundSystem() );
 
       // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
       // content verification
       // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+      // interpolation
+      CHECK( 5 == compoundsystem.interpolation() );
 
       // spin groups
       auto spingroups = compoundsystem.spinGroups();
@@ -1431,7 +1461,7 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
 
       ReactionID elas( "n,Er167->n,Er167" );
       ReactionID capt( "n,Er167->capture" );
-      std::map< ReactionID, CrossSection > xs;
+      Map< ReactionID, CrossSection > xs;
 
       xs = resonances( 1750. * electronVolt );
       CHECK( 2 == xs.size() );
@@ -1505,11 +1535,24 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
 
     THEN( "the appropriate CompoundSystem is returned" ) {
 
+      CHECK( false == resonances.isResolved() );
+      CHECK( true == resonances.isUnresolved() );
+      CHECK( 2000. == Approx( resonances.lowerEnergy().value ) );
+      CHECK( 100000. == Approx( resonances.upperEnergy().value ) );
+      CHECK( true == bool( resonances.interpolation() ) );
+      CHECK( 2 == resonances.interpolation().value() );
+      CHECK( 2 == resonances.reactionIDs().size() );
+      CHECK( "n,Au197->capture" == resonances.reactionIDs()[0].symbol() );
+      CHECK( "n,Au197->n,Au197" == resonances.reactionIDs()[1].symbol() );
+
       auto compoundsystem = std::get< legacy::unresolved::CompoundSystem >( resonances.compoundSystem() );
 
       // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
       // content verification
       // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+      // interpolation
+      CHECK( 2 == compoundsystem.interpolation() );
 
       // spin groups
       auto spingroups = compoundsystem.spinGroups();
@@ -1975,7 +2018,7 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
 
       ReactionID elas( "n,Au197->n,Au197" );
       ReactionID capt( "n,Au197->capture" );
-      std::map< ReactionID, CrossSection > xs;
+      Map< ReactionID, CrossSection > xs;
 
       xs = resonances( 2.000000e+3 * electronVolt );
       CHECK( 2 == xs.size() );
@@ -2496,7 +2539,7 @@ SCENARIO( "fromENDF - legacy unresolved resonances" ) {
 
       ReactionID elas( "n,Ag107->n,Ag107" );
       ReactionID capt( "n,Ag107->capture" );
-      std::map< ReactionID, CrossSection > xs;
+      Map< ReactionID, CrossSection > xs;
 
       xs = resonances( 6.500000e+3 * electronVolt );
       CHECK( 2 == xs.size() );
@@ -3169,6 +3212,7 @@ std::string Au197() {
   // Au197 ENDF/B-VIII.0 LRU=2 resonance evaluation - energy dependent radius
 
   return
+  std::string(
     " 7.919700+4 1.952740+2          0          0          1          07925 2151     \n"
     " 7.919700+4 1.000000+0          0          0          1          07925 2151     \n"
     " 2.000000+3 1.000000+5          2          2          1          07925 2151     \n"
@@ -3695,7 +3739,8 @@ std::string Au197() {
     " 7.200000+4 2.169109+1 0.000000+0 1.230788-3 4.309053-2 0.000000+07925 2151     \n"
     " 7.400000+4 2.163024+1 0.000000+0 1.229210-3 4.311998-2 0.000000+07925 2151     \n"
     " 7.500000+4 2.159988+1 0.000000+0 1.228415-3 4.313471-2 0.000000+07925 2151     \n"
-    " 7.775000+4 2.151662+1 0.000000+0 1.226207-3 4.317521-2 0.000000+07925 2151     \n"
+    " 7.775000+4 2.151662+1 0.000000+0 1.226207-3 4.317521-2 0.000000+07925 2151     \n" )
+  + std::string(
     " 7.779600+4 2.151523+1 0.000000+0 1.226170-3 4.317589-2 0.000000+07925 2151     \n"
     " 7.781000+4 2.151481+1 1.807520-7 1.226158-3 4.317609-2 0.000000+07925 2151     \n"
     " 7.783000+4 2.151420+1 6.840395-7 1.226142-3 4.317639-2 0.000000+07925 2151     \n"
@@ -4334,7 +4379,7 @@ std::string Au197() {
     " 9.500000+4 1.322029+1 0.000000+0 4.530439-3 1.334783-1 0.000000+07925 2151     \n"
     " 9.750000+4 1.317370+1 0.000000+0 4.509926-3 1.335915-1 0.000000+07925 2151     \n"
     " 1.000000+5 1.312728+1 0.000000+0 4.489419-3 1.337047-1 0.000000+07925 2151     \n"
-    "                                                                  7925 2  0     \n";
+    "                                                                  7925 2  0     \n" );
 }
 
 std::string Ag107() {

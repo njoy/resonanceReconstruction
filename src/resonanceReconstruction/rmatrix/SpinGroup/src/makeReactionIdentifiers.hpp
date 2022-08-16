@@ -10,10 +10,12 @@ makeReactionIdentifiers( const std::vector< ParticleChannel >& channels,
                     [] ( const auto& channel )
                        { return channel.incidentParticlePair().pairID(); },
                     channels.front() );
-  return ranges::view::concat(
-             channels
-               | ranges::view::transform(
-                     [&] ( const auto& channel )
-                         { return std::visit( reactionID, channel ); } ),
-             ranges::view::single( ReactionID( in, ParticlePairID( "capture" ) ) ) );
+  return ranges::to< std::vector< ReactionID > >(
+             ranges::views::concat(
+                 channels
+                   | ranges::cpp20::views::transform(
+                         [&] ( const auto& channel )
+                             { return std::visit( reactionID, channel ); } ),
+                 ranges::cpp20::views::single(
+                     ReactionID( in, ParticlePairID( "capture" ) ) ) ) );
 }

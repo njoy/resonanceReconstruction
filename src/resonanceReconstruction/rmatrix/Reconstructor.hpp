@@ -1,3 +1,33 @@
+#ifndef NJOY_R2_RMATRIX_RECONSTRUCTOR
+#define NJOY_R2_RMATRIX_RECONSTRUCTOR
+
+// system includes
+#include <variant>
+#include <vector>
+
+// other includes
+#include "range/v3/view/filter.hpp"
+#include "resonanceReconstruction/Quantity.hpp"
+#include "resonanceReconstruction/rmatrix/identifiers.hpp"
+#include "resonanceReconstruction/rmatrix/options.hpp"
+#include "resonanceReconstruction/rmatrix/Map.hpp"
+#include "resonanceReconstruction/rmatrix/CompoundSystem.hpp"
+#include "resonanceReconstruction/rmatrix/legacy/resolved/CompoundSystem.hpp"
+#include "resonanceReconstruction/rmatrix/legacy/unresolved/CompoundSystem.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+
+using CompoundSystemVariant =
+    std::variant< legacy::resolved::CompoundSystem< SingleLevelBreitWigner >,
+                  legacy::resolved::CompoundSystem< MultiLevelBreitWigner >,
+                  CompoundSystem< ReichMoore, ShiftFactor >,
+                  CompoundSystem< ReichMoore, Constant >,
+                  //CompoundSystem< GeneralRMatrix, ShiftFactor >,
+                  //CompoundSystem< GeneralRMatrix, Constant >,
+                  legacy::unresolved::CompoundSystem >;
+
 /**
  *  @class
  *  @brief Class used to reconstruct cross sections from ENDF resonances
@@ -50,6 +80,16 @@ public:
   const Energy& upperEnergy() const { return this->upper_; }
 
   /**
+   *  @brief Return the reaction identifiers for this reconstructor
+   */
+  auto reactionIDs() {
+
+    return std::visit( [] ( const auto& system ) -> decltype(auto)
+                          { return system.reactionIDs(); },
+                       this->compoundSystem() );
+  }
+
+  /**
    *  @brief Return the minimal energy grid derived from the resonance
    *         parameters
    */
@@ -61,24 +101,51 @@ public:
              ( energy <= this->upperEnergy() );
     };
 
-    auto energies = std::visit( [&] ( auto& system ) { return system.grid(); },
+    auto energies = std::visit( [&] ( auto& system ) -> decltype(auto)
+                                    { return system.grid(); },
                                 this->system_ );
-    return energies | ranges::view::filter( filter );
+    return ranges::to< std::vector< Energy > >(
+               energies | ranges::cpp20::views::filter( filter ) );
   }
 
   /**
    *  @brief Reconstruct the cross sections at the given energy
+   *
+   *  @param[in] energy   the energy for which cross sections are to be
+   *                      calculated
    */
-  std::map< ReactionID, CrossSection > operator()( const Energy& energy ) {
+  Map< ReactionID, CrossSection > operator()( const Energy& energy ) {
 
-    std::map< ReactionID, CrossSection > result;
+    Map< ReactionID, CrossSection > result;
     if ( ( energy >= this->lowerEnergy() ) and
          ( energy <= this->upperEnergy() ) ) {
 
-      std::visit( [&] ( auto& system )
+      std::visit( [&] ( auto& system ) -> void
                       { system.evaluate( energy, result ); },
                   this->system_ );
     }
     return result;
   }
+
+  /**
+   *  @brief Return the interpolation scheme
+   */
+  std::optional< int > interpolation() const {
+
+    return std::visit(
+             njoy::utility::overload{
+                 [&] ( const legacy::unresolved::CompoundSystem& system )
+                     -> std::optional< int >
+                     { return std::make_optional( system.interpolation() ); },
+                 [&] ( const auto& )
+                     -> std::optional< int >
+                     { return std::nullopt; } },
+             this->system_ );
+  }
 };
+
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

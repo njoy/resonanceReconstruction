@@ -1,13 +1,24 @@
+private:
+
+/**
+ *  @brief Private constructor
+ */
+CompoundSystem( std::vector< ReactionID >&& reactions,
+                std::vector< SpinGroup< Formalism, BoundaryOption > >&& groups ) :
+  groups_( std::move( groups ) ), reactions_( std::move( reactions ) ) {
+
+  verifySpinGroups( this->groups_ );
+}
+
+public:
+
 /**
  *  @brief Constructor
  *
  *  @param[in] groups   the different spin groups in the compound system
  */
 CompoundSystem( std::vector< SpinGroup< Formalism, BoundaryOption > >&& groups ) :
-  groups_( std::move( groups ) ) {
-
-  verifySpinGroups( this->groups_ );
-}
+  CompoundSystem( makeReactionIDs( groups ), std::move( groups ) ) {}
 
 /**
  *  @brief Constructor

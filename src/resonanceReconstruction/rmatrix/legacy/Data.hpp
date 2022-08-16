@@ -1,3 +1,15 @@
+#ifndef NJOY_R2_RMATRIX_LEGACY_DATA
+#define NJOY_R2_RMATRIX_LEGACY_DATA
+
+// system includes
+
+// other includes
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+namespace legacy {
+
 /**
  *  @class
  *  @brief Generic data helper class for legacy resolved and unresolved data
@@ -50,3 +62,10 @@ struct Data {
   bool hasFission() const { return this->fission != Quantity(); }
   bool hasCompetition() const { return this->competition != Quantity(); }
 };
+
+} // legacy namespace
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

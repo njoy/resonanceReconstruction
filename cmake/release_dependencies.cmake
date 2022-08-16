@@ -20,19 +20,20 @@ FetchContent_Declare( disco
     GIT_TAG         a1a7ddb2c0f69465524d8640ee29988b714a881e
     )
 
-FetchContent_Declare( eigen-adapter
-    GIT_REPOSITORY  https://github.com/njoy/eigen-adapter
-    GIT_TAG         9a05ff66b5afb6c493d6aeca6926ebb07e47013b
+FetchContent_Declare( eigen
+    GIT_REPOSITORY  https://gitlab.com/libeigen/eigen.git
+    GIT_TAG         dc252fbf00079ccab57948a164b1421703fe4361 # tag: 3.3.8
     )
+set( BUILD_TESTING CACHE BOOL OFF )
 
 FetchContent_Declare( elementary
     GIT_REPOSITORY  https://github.com/njoy/elementary
-    GIT_TAG         97224cd76b92f174567fdd9259d3b7d8b41ccfae # tag: v0.2.2
+    GIT_TAG         db67804bf8fe2d1e68880e61a9bf899efc9ce7db
     )
 
 FetchContent_Declare( ENDFtk
     GIT_REPOSITORY  https://github.com/njoy/ENDFtk
-    GIT_TAG         b6618b396f51e802b7ee19ba529533c27e6ac302 # tag: v0.1.0
+    GIT_TAG         7c18e78be56511183cb239a386d52c132ef5fe03
     )
 
 FetchContent_Declare( hana-adapter
@@ -47,7 +48,7 @@ FetchContent_Declare( header-utilities
 
 FetchContent_Declare( interpolation
     GIT_REPOSITORY  https://github.com/njoy/interpolation
-    GIT_TAG         2a76934a148bf379ab594f6cdd2cdf4c8c28e447
+    GIT_TAG         32375a9ae0ff346cecf69d5acd32dbc0092e7d7a
     )
 
 FetchContent_Declare( Log
@@ -55,9 +56,14 @@ FetchContent_Declare( Log
     GIT_TAG         52962b7796afe37ef1d8f7edb4bf9ecb1b868d15
     )
 
-FetchContent_Declare( range-v3-adapter
-    GIT_REPOSITORY  https://github.com/njoy/range-v3-adapter
-    GIT_TAG         252679d4737c8f755d87c0e1eed6c37394a2ec59
+FetchContent_Declare( pybind11
+    GIT_REPOSITORY  https://github.com/pybind/pybind11
+    GIT_TAG         f1abf5d9159b805674197f6bc443592e631c9130 # tag: v2.6.1
+    )
+
+FetchContent_Declare( range-v3
+    GIT_REPOSITORY  https://github.com/ericniebler/range-v3
+    GIT_TAG         4989f3e9ff2efee1852942bb9328ef121369ba02 # tag: 0.11.0
     )
 
 FetchContent_Declare( spdlog
@@ -74,13 +80,14 @@ FetchContent_MakeAvailable(
     catch-adapter
     dimwits
     disco
-    eigen-adapter
+    eigen
     elementary
     ENDFtk
     hana-adapter
     header-utilities
     interpolation
     Log
-    range-v3-adapter
+    pybind11
+    range-v3
     spdlog
     )

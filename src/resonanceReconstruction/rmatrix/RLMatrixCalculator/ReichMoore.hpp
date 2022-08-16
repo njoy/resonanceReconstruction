@@ -21,7 +21,11 @@ public:
   RLMatrixCalculator( const ResonanceTable& table ) :
     lmatrix_( table.numberChannels() ),
     rmatrix_( table.numberChannels(), table.numberChannels() ),
-    rlmatrix_( table.numberChannels(), table.numberChannels() ) {};
+    rlmatrix_( table.numberChannels(), table.numberChannels() ) {
+
+    this->rmatrix_.setZero();
+    this->rlmatrix_.setZero();
+  };
 
   /**
    *  @brief Return the L = S - B + iP matrix

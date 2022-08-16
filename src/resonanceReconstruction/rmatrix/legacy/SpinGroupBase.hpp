@@ -1,3 +1,20 @@
+#ifndef NJOY_R2_RMATRIX_LEGACY_SPINGROUPBASE
+#define NJOY_R2_RMATRIX_LEGACY_SPINGROUPBASE
+
+// system includes
+
+// other includes
+#include "resonanceReconstruction/rmatrix/options.hpp"
+#include "resonanceReconstruction/rmatrix/identifiers.hpp"
+#include "resonanceReconstruction/rmatrix/Channel.hpp"
+#include "range/v3/algorithm/count_if.hpp"
+#include "range/v3/view/all.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+namespace legacy {
+
 /**
  *  @class
  *  @brief Base interface for a legacy l,J spin group
@@ -7,7 +24,10 @@ template < typename ResonanceTableType > class SpinGroupBase {
   /* fields */
   Channel< Neutron > incident_;
   ResonanceTableType table_;
-  std::array< ReactionID, 3 > reactions_;
+  std::vector< ReactionID > reactions_;
+
+  /* auxiliary functions */
+  #include "resonanceReconstruction/rmatrix/legacy/SpinGroupBase/src/makeReactionIdentifiers.hpp"
 
 protected:
 
@@ -18,25 +38,7 @@ protected:
 public:
 
   /* constructor */
-
-  /**
-   *  @brief Constructor
-   *
-   *  @param[in] incident   the incident channel data for this l,J pair
-   *  @param[in] table      the table of resonance parameters for this l,J pair
-   */
-  SpinGroupBase( Channel< Neutron >&& incident, ResonanceTableType&& table ) :
-    incident_( std::move( incident ) ),
-    table_( std::move( table ) ),
-    reactions_(
-      [] ( const auto& channel ) -> std::array< ReactionID, 3 > {
-
-        auto incident = channel.particlePair().particle().particleID();
-        auto target = channel.particlePair().residual().particleID();
-        return {{ ReactionID{ incident, target, ReactionType( "elastic" ) },
-                  ReactionID{ incident, target, ReactionType( "capture" ) },
-                  ReactionID{ incident, target, ReactionType( "fission" ) } }};
-      }( incident ) ) {}
+  #include "resonanceReconstruction/rmatrix/legacy/SpinGroupBase/src/ctor.hpp"
 
   /* methods */
 
@@ -69,4 +71,24 @@ public:
    *  @brief Return the resonance table
    */
   const ResonanceTableType& resonanceTable() const { return this->table_; }
+
+  /**
+   *  @brief Return the reactions defined here
+   */
+  auto reactionIDs() const {
+
+    return ranges::cpp20::views::all( this->reactions_ );
+  }
+
+  /**
+   *  @brief Return whether or not the spin group has fission or not
+   */
+  bool hasFission() const { return this->reactions_.size() == 3; }
 };
+
+} // legacy namespace
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

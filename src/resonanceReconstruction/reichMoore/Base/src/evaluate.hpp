@@ -9,7 +9,7 @@ auto evaluate( const Quantity<ElectronVolts> energy,
   auto dispatch = [&]( auto tag ){
     const auto crossSections =
       this->lvalues
-      | ranges::view::transform
+      | ranges::views::transform
         ( Inspector< decltype( tag ) >
           { energy, waveNumber, channelRatio, scatteringRatio } );
 

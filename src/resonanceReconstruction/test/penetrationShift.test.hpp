@@ -1,8 +1,8 @@
 SCENARIO( "penetration shift" ){
   auto trial =
-    ranges::view::cartesian_product
-    ( ranges::view::iota(0,5), ranges::view::linear_distribute( 0., 5., 21 ) )
-    | ranges::view::transform
+    ranges::views::cartesian_product
+    ( ranges::views::iota(0,5), ranges::views::linear_distribute( 0., 5., 21 ) )
+    | ranges::views::transform
       ( []( auto&& tuple ){
         return penetrationShift( std::get<0>(tuple), std::get<1>(tuple) ); } );
 
@@ -114,7 +114,7 @@ SCENARIO( "penetration shift" ){
    {{2.5157918867739499, -0.82366800642532489}},
    {{2.8652901048925403, -0.71477297733440914}}};
 
-  for ( const auto& pair : ranges::view::zip( trial, reference ) ){
+  for ( const auto pair : ranges::views::zip( trial, reference ) ){
     const auto trial = std::get<0>(pair);
     const auto reference = std::get<1>(pair);
     REQUIRE( trial[0] == Approx( reference[0] ) );
@@ -124,11 +124,11 @@ SCENARIO( "penetration shift" ){
 }
 
 SCENARIO( "penetration shift factory" ){
-  auto channelRatios = ranges::view::linear_distribute( 0., 5., 21 );
+  auto channelRatios = ranges::views::linear_distribute( 0., 5., 21 );
 
   SECTION( "l = 0" ){
     auto ps = penetrationShift( Integer<0>{} );
-    for ( const auto& channelRatio : channelRatios ){
+    for ( const auto channelRatio : channelRatios ){
       njoy::Log::debug("{}", channelRatio );
       auto trial = ps( channelRatio );
       auto reference = penetrationShift( 0, channelRatio );
@@ -139,7 +139,7 @@ SCENARIO( "penetration shift factory" ){
 
   SECTION( "l = 1" ){
     auto ps = penetrationShift( Integer<1>{} );
-    for ( const auto& channelRatio : channelRatios ){
+    for ( const auto channelRatio : channelRatios ){
       auto trial = ps( channelRatio );
       auto reference = penetrationShift( 1, channelRatio );
       REQUIRE( trial[0] == Approx( reference[0] ) );
@@ -149,7 +149,7 @@ SCENARIO( "penetration shift factory" ){
 
   SECTION( "l = 2" ){
     auto ps = penetrationShift( Integer<2>{} );
-    for ( const auto& channelRatio : channelRatios ){
+    for ( const auto channelRatio : channelRatios ){
       auto trial = ps( channelRatio );
       auto reference = penetrationShift( 2, channelRatio );
       REQUIRE( trial[0] == Approx( reference[0] ) );
@@ -159,7 +159,7 @@ SCENARIO( "penetration shift factory" ){
 
   SECTION( "l = 3" ){
     auto ps = penetrationShift( Integer<3>{} );
-    for ( const auto& channelRatio : channelRatios ){
+    for ( const auto channelRatio : channelRatios ){
       auto trial = ps( channelRatio );
       auto reference = penetrationShift( 3, channelRatio );
       REQUIRE( trial[0] == Approx( reference[0] ) );
@@ -169,7 +169,7 @@ SCENARIO( "penetration shift factory" ){
 
   SECTION( "l = 4" ){
     auto ps = penetrationShift( Integer<4>{} );
-    for ( const auto& channelRatio : channelRatios ){
+    for ( const auto channelRatio : channelRatios ){
       auto trial = ps( channelRatio );
       auto reference = penetrationShift( 4, channelRatio );
       REQUIRE( trial[0] == Approx( reference[0] ) );

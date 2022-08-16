@@ -1,3 +1,24 @@
+#ifndef NJOY_R2_RMATRIX_LEGACY_UNRESOLVED_RESONANCETABLE
+#define NJOY_R2_RMATRIX_LEGACY_UNRESOLVED_RESONANCETABLE
+
+// system includes
+#include <vector>
+
+// other includes
+#include "Log.hpp"
+#include "range/v3/range/conversion.hpp"
+#include "resonanceReconstruction/Quantity.hpp"
+#include "resonanceReconstruction/rmatrix/Table.hpp"
+#include "resonanceReconstruction/rmatrix/legacy/ResonanceTableBase.hpp"
+#include "resonanceReconstruction/rmatrix/legacy/unresolved/Degrees.hpp"
+#include "resonanceReconstruction/rmatrix/legacy/unresolved/Resonance.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+namespace legacy {
+namespace unresolved {
+
 /**
  *  @class
  *  @brief Unresolved resonance parameters for a specific l,J value
@@ -7,7 +28,7 @@
  *  at any energy in the unresolved resonance region.
  *
  *  @todo since C++17 does not allow us to decltype() something using lambdas,
- *        a ranges::view::transformed table cannot be created and stored as
+ *        a ranges::views::transformed table cannot be created and stored as
  *        a member of the class. It could be done in the call function but then
  *        the interpolation table would be created every time.
  *
@@ -50,3 +71,11 @@ public:
   /* constructor */
   #include "resonanceReconstruction/rmatrix/legacy/unresolved/ResonanceTable/src/ctor.hpp"
 };
+
+} // unresolved namespace
+} // legacy namespace
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

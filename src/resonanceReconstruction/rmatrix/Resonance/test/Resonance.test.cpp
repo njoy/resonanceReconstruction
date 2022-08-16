@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
 
 #include "catch.hpp"
-#include "resonanceReconstruction.hpp"
+#include "resonanceReconstruction/rmatrix/Resonance.hpp"
 
 using namespace njoy::resonanceReconstruction;
 
@@ -9,4 +9,3 @@ using namespace njoy::resonanceReconstruction;
 using Resonance = rmatrix::Resonance;
 
 #include "../src/resonanceReconstruction/rmatrix/Resonance/test/Resonance.test.hpp"
-#include "../src/resonanceReconstruction/rmatrix/Resonance/test/rmatrix.test.hpp"

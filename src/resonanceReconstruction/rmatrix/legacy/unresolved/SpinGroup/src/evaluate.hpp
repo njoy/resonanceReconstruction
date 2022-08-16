@@ -5,12 +5,10 @@
  *  @param[in,out] result   a map containing the accumulated cross sections
  */
 void evaluate( const Energy& energy,
-               std::map< ReactionID, CrossSection >& result ) {
+               Map< ReactionID, CrossSection >& result ) {
 
   // data we need: k, P, phi, rho, g_J
-  const auto channel = this->incidentChannel();
-  const auto incident = channel.particlePair().particle().particleID();
-  const auto target = channel.particlePair().residual().particleID();
+  decltype(auto) channel = this->incidentChannel();
   const auto waveNumber = channel.waveNumber( energy );
   const auto penetrability = channel.penetrability( energy );
   const auto phaseShift = channel.phaseShift( energy );
@@ -45,7 +43,7 @@ void evaluate( const Energy& energy,
   result[ this->captureID() ] +=
     factor * spinFactor / spacing *
     ( widths.elastic * widths.capture * integrals.capture );
-  if ( widths.hasFission() ) {
+  if ( this->hasFission() ) {
 
     result[ this->fissionID() ] +=
       factor * spinFactor / spacing *

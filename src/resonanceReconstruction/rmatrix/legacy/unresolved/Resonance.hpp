@@ -1,3 +1,17 @@
+#ifndef NJOY_R2_RMATRIX_LEGACY_UNRESOLVED_RESONANCE
+#define NJOY_R2_RMATRIX_LEGACY_UNRESOLVED_RESONANCE
+
+// system includes
+
+// other includes
+#include "resonanceReconstruction/Quantity.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+namespace legacy {
+namespace unresolved {
+
 /**
  *  @class
  *  @brief Unresolved resonance parameters for a given energy
@@ -49,7 +63,20 @@ public:
   const Width& fission() const { return this->fission_; }
 
   /**
+   *  @brief Return whether or not the resonance has fission or not
+   */
+  bool hasFission() const { return this->fission_.value != 0.0; }
+
+  /**
    *  @brief Return the competitive width (given in eV)
    */
   const Width& competition() const { return this->competition_; }
 };
+
+} // unresolved namespace
+} // legacy namespace
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

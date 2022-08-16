@@ -1,9 +1,9 @@
 SCENARIO("phase shift"){
 
   auto trial =
-    ranges::view::cartesian_product
-    ( ranges::view::iota(0,5), ranges::view::linear_distribute( 0., 5., 21 ) )
-    | ranges::view::transform
+    ranges::views::cartesian_product
+    ( ranges::views::iota(0,5), ranges::views::linear_distribute( 0., 5., 21 ) )
+    | ranges::views::transform
       ( []( auto&& tuple ){
           return phaseShift( std::get<0>(tuple), std::get<1>(tuple) ); } );
 
@@ -45,7 +45,7 @@ SCENARIO("phase shift"){
       3.36539892e+00,   3.45021214e+00,   3.54996339e+00,
       3.66366906e+00,   3.79012636e+00,   3.92806707e+00 };
 
-  for ( const auto& pair : ranges::view::zip( trial, reference ) ){
+  for ( const auto pair : ranges::views::zip( trial, reference ) ){
     const auto trial = std::get<0>(pair);
     const auto reference = std::get<1>(pair);
     REQUIRE( trial == Approx( reference ) );

@@ -5,7 +5,7 @@ struct Peak : public lvalue::Type {
 static auto order( std::vector< lvalue::Type > lvalues ){
   auto peaks =
     lvalues
-    | ranges::view::transform
+    | ranges::views::transform
       ( []( auto& lvalue ) -> std::vector< resonance::Type >&
         { return static_cast< Peak& >( lvalue ).resonances; } );
 

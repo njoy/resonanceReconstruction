@@ -1,3 +1,15 @@
+#ifndef NJOY_R2_RMATRIX_POSSIBLEJVALUES
+#define NJOY_R2_RMATRIX_POSSIBLEJVALUES
+
+// system includes
+
+// other includes
+#include "resonanceReconstruction/rmatrix/QuantumNumbers.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+
 /**
  *  @brief Calculate possible values for a channel's total angular momentum J
  *
@@ -12,7 +24,6 @@
  *
  *  @return the possible values for the total angular momentum of the channel
  */
-//template < typename Spin >
 auto
 possibleChannelTotalAngularMomentumValues( const OrbitalAngularMomentum& l,
                                            const Spin& i,
@@ -54,3 +65,9 @@ possibleChannelTotalAngularMomentumValues( const OrbitalAngularMomentum& l,
   }
   return values;
 }
+
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

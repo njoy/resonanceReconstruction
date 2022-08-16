@@ -7,19 +7,20 @@ include( FetchContent )
 
 FetchContent_Declare( ENDFtk
     GIT_REPOSITORY  https://github.com/njoy/ENDFtk
-    GIT_TAG         origin/master
+    GIT_TAG         develop
     GIT_SHALLOW     TRUE
     )
 
-FetchContent_Declare( eigen-adapter
-    GIT_REPOSITORY  https://github.com/njoy/eigen-adapter
-    GIT_TAG         origin/master
+FetchContent_Declare( eigen
+    GIT_REPOSITORY  https://gitlab.com/libeigen/eigen.git
+    GIT_TAG         3.3.8
     GIT_SHALLOW     TRUE
     )
+set( BUILD_TESTING CACHE BOOL OFF )
 
 FetchContent_Declare( interpolation
     GIT_REPOSITORY  https://github.com/njoy/interpolation
-    GIT_TAG         origin/master
+    GIT_TAG         develop
     GIT_SHALLOW     TRUE
     )
 
@@ -31,7 +32,7 @@ FetchContent_Declare( dimwits
 
 FetchContent_Declare( elementary
     GIT_REPOSITORY  https://github.com/njoy/elementary
-    GIT_TAG         origin/master
+    GIT_TAG         develop
     GIT_SHALLOW     TRUE
     )
 
@@ -41,7 +42,7 @@ FetchContent_Declare( elementary
 
 FetchContent_MakeAvailable(
     ENDFtk
-    eigen-adapter
+    eigen
     interpolation
     dimwits
     elementary

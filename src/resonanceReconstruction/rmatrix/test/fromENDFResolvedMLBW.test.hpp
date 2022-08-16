@@ -27,6 +27,10 @@ SCENARIO( "fromENDF - LRF2" ) {
       CHECK( false == resonances.isUnresolved() );
       CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
       CHECK( 7.5 == Approx( resonances.upperEnergy().value ) );
+      CHECK( false == bool( resonances.interpolation() ) );
+      CHECK( 2 == resonances.reactionIDs().size() );
+      CHECK( "n,Rh105->capture" == resonances.reactionIDs()[0].symbol() );
+      CHECK( "n,Rh105->n,Rh105" == resonances.reactionIDs()[1].symbol() );
 
       auto compoundsystem = std::get< legacy::resolved::CompoundSystem< MultiLevelBreitWigner > >( resonances.compoundSystem() );
 
@@ -135,7 +139,7 @@ SCENARIO( "fromENDF - LRF2" ) {
 
       ReactionID elas( "n,Rh105->n,Rh105" );
       ReactionID capt( "n,Rh105->capture" );
-      std::map< ReactionID, CrossSection > xs;
+      Map< ReactionID, CrossSection > xs;
 
       xs = resonances( 1e-5 * electronVolt );
       CHECK( 2 == xs.size() );
@@ -185,7 +189,7 @@ SCENARIO( "fromENDF - LRF2" ) {
   } // GIVEN
 
   GIVEN( "valid ENDF data for Ag107" ) {
-std::cout << "Ag107" << std::endl;
+
     std::string string = resolvedAg107();
     auto begin = string.begin();
     auto end = string.end();
@@ -196,7 +200,6 @@ std::cout << "Ag107" << std::endl;
     ResonanceRange endfResonanceRange = endf.isotopes().front().resonanceRanges().front();
 
     auto resonances = fromENDF( endfResonanceRange, neutronMass, elementaryCharge, ParticleID( "n" ), ParticleID( "Ag107" ) );
-std::cout << "Ag107 - done" << std::endl;
 
     double a = 0.123 * std::pow( 105.987 * 1.008664, 1. / 3. ) + 0.08;
 
@@ -206,6 +209,10 @@ std::cout << "Ag107 - done" << std::endl;
       CHECK( false == resonances.isUnresolved() );
       CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
       CHECK( 6500. == Approx( resonances.upperEnergy().value ) );
+      CHECK( false == bool( resonances.interpolation() ) );
+      CHECK( 2 == resonances.reactionIDs().size() );
+      CHECK( "n,Ag107->capture" == resonances.reactionIDs()[0].symbol() );
+      CHECK( "n,Ag107->n,Ag107" == resonances.reactionIDs()[1].symbol() );
 
       auto compoundsystem = std::get< legacy::resolved::CompoundSystem< MultiLevelBreitWigner > >( resonances.compoundSystem() );
 
@@ -643,7 +650,7 @@ std::cout << "Ag107 - done" << std::endl;
 
       ReactionID elas( "n,Ag107->n,Ag107" );
       ReactionID capt( "n,Ag107->capture" );
-      std::map< ReactionID, CrossSection > xs;
+      Map< ReactionID, CrossSection > xs;
 
       xs = resonances( 1e-5 * electronVolt );
       CHECK( 2 == xs.size() );
@@ -718,6 +725,10 @@ std::cout << "Ag107 - done" << std::endl;
       CHECK( false == resonances.isUnresolved() );
       CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
       CHECK( 3.2 == Approx( resonances.upperEnergy().value ) );
+      CHECK( false == bool( resonances.interpolation() ) );
+      CHECK( 2 == resonances.reactionIDs().size() );
+      CHECK( "n,Tm168->capture" == resonances.reactionIDs()[0].symbol() );
+      CHECK( "n,Tm168->n,Tm168" == resonances.reactionIDs()[1].symbol() );
 
       auto compoundsystem = std::get< legacy::resolved::CompoundSystem< MultiLevelBreitWigner > >( resonances.compoundSystem() );
 
@@ -823,7 +834,7 @@ std::cout << "Ag107 - done" << std::endl;
 
       ReactionID elas( "n,Tm168->n,Tm168" );
       ReactionID capt( "n,Tm168->capture" );
-      std::map< ReactionID, CrossSection > xs;
+      Map< ReactionID, CrossSection > xs;
 
       xs = resonances( 1e-5 * electronVolt );
       CHECK( 2 == xs.size() );
@@ -888,6 +899,10 @@ std::cout << "Ag107 - done" << std::endl;
       CHECK( false == resonances.isUnresolved() );
       CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
       CHECK( 2008. == Approx( resonances.upperEnergy().value ) );
+      CHECK( false == bool( resonances.interpolation() ) );
+      CHECK( 2 == resonances.reactionIDs().size() );
+      CHECK( "n,Dy160->capture" == resonances.reactionIDs()[0].symbol() );
+      CHECK( "n,Dy160->n,Dy160" == resonances.reactionIDs()[1].symbol() );
 
       auto compoundsystem = std::get< legacy::resolved::CompoundSystem< MultiLevelBreitWigner > >( resonances.compoundSystem() );
 
@@ -993,7 +1008,7 @@ std::cout << "Ag107 - done" << std::endl;
 
       ReactionID elas( "n,Dy160->n,Dy160" );
       ReactionID capt( "n,Dy160->capture" );
-      std::map< ReactionID, CrossSection > xs;
+      Map< ReactionID, CrossSection > xs;
 
       xs = resonances( 1e-5 * electronVolt );
       CHECK( 2 == xs.size() );
@@ -1068,6 +1083,10 @@ std::cout << "Ag107 - done" << std::endl;
       CHECK( false == resonances.isUnresolved() );
       CHECK( 1e-5 == Approx( resonances.lowerEnergy().value ) );
       CHECK( 4845. == Approx( resonances.upperEnergy().value ) );
+      CHECK( false == bool( resonances.interpolation() ) );
+      CHECK( 2 == resonances.reactionIDs().size() );
+      CHECK( "n,Dy162->capture" == resonances.reactionIDs()[0].symbol() );
+      CHECK( "n,Dy162->n,Dy162" == resonances.reactionIDs()[1].symbol() );
 
       auto compoundsystem = std::get< legacy::resolved::CompoundSystem< MultiLevelBreitWigner > >( resonances.compoundSystem() );
 
@@ -1339,7 +1358,7 @@ std::cout << "Ag107 - done" << std::endl;
 
       ReactionID elas( "n,Dy162->n,Dy162" );
       ReactionID capt( "n,Dy162->capture" );
-      std::map< ReactionID, CrossSection > xs;
+      Map< ReactionID, CrossSection > xs;
 
       xs = resonances( 1e-5 * electronVolt );
       CHECK( 2 == xs.size() );

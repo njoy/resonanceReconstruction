@@ -1,3 +1,43 @@
+#ifndef NJOY_R2_RMATRIX_SPINGROUP
+#define NJOY_R2_RMATRIX_SPINGROUP
+
+// system includes
+#include <algorithm>
+#include <complex>
+#include <vector>
+
+// other includes
+#include "Log.hpp"
+#include "range/v3/range/conversion.hpp"
+#include "range/v3/iterator/operations.hpp"
+#include "range/v3/action/sort.hpp"
+#include "range/v3/action/unique.hpp"
+#include "range/v3/algorithm/count_if.hpp"
+#include "range/v3/algorithm/for_each.hpp"
+#include "range/v3/algorithm/find_if.hpp"
+#include "range/v3/view/subrange.hpp"
+#include "range/v3/numeric/accumulate.hpp"
+#include "range/v3/view/all.hpp"
+#include "range/v3/view/concat.hpp"
+#include "range/v3/view/filter.hpp"
+#include "range/v3/view/repeat_n.hpp"
+#include "range/v3/view/single.hpp"
+#include "range/v3/view/transform.hpp"
+#include "range/v3/view/zip_with.hpp"
+#include "range/v3/view/zip.hpp"
+#include "resonanceReconstruction/Quantity.hpp"
+#include "resonanceReconstruction/rmatrix/identifiers.hpp"
+#include "resonanceReconstruction/rmatrix/options.hpp"
+#include "resonanceReconstruction/rmatrix/Map.hpp"
+#include "resonanceReconstruction/rmatrix/ParticleChannel.hpp"
+#include "resonanceReconstruction/rmatrix/ParticleChannelData.hpp"
+#include "resonanceReconstruction/rmatrix/ResonanceTable.hpp"
+#include "resonanceReconstruction/rmatrix/RLMatrixCalculator.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+
 /**
  *  @class
  *  @brief A spin group corresponding to a Jpi quantum number set
@@ -38,24 +78,39 @@ public:
   /**
    *  @brief Return the channels in the spin group
    */
-  auto channels() const { return ranges::view::all( this->channels_ ); }
+  auto channels() const {
+
+    return ranges::cpp20::views::all( this->channels_ );
+  }
 
   /**
    *  @brief Return the current incident channels in the spin group
    */
   auto incidentChannels() const {
 
-    return ranges::view::all( this->incident_ )
-             | ranges::view::transform( [&] ( const unsigned int i )
-                                            { return this->channels_[i]; } ); }
+    const auto isIncidentChannel = [] ( const auto& channel ) {
+
+      return channel.isIncidentChannel();
+    };
+
+    const auto visit = [&] ( const auto& channel ) {
+
+      return std::visit( isIncidentChannel, channel );
+    };
+
+    return this->channels_ | ranges::cpp20::views::filter( visit );
+  }
 
   /**
    *  @brief Return the current incident particle pair
    */
-  const ParticlePair incidentPair() const {
+  const ParticlePair& incidentPair() const {
 
-    auto incidentParticlePair = [] ( const auto& channel )
-                                   { return channel.incidentParticlePair(); };
+    const auto incidentParticlePair =
+    [] ( const auto& channel ) -> decltype(auto) {
+
+      return channel.incidentParticlePair();
+    };
 
     return std::visit( incidentParticlePair, this->channels_.front() );
   }
@@ -70,13 +125,17 @@ public:
    */
   auto channelIDs() const {
 
-    auto channelID = [] ( const auto& channel )
-                        { return channel.channelID(); };
+    const auto channelID = [] ( const auto& channel ) -> decltype(auto) {
 
-    return this->channels()
-             | ranges::view::transform(
-                   [=] ( const auto& channel )
-                       { return std::visit( channelID, channel ); } );
+      return channel.channelID();
+    };
+
+    const auto visit = [&] ( const auto& channel ) -> decltype(auto) {
+
+      return std::visit( channelID, channel );
+    };
+
+    return this->channels() | ranges::cpp20::views::transform( visit );
   }
 
   /**
@@ -87,7 +146,10 @@ public:
    *  same reactions (e.g. multiple fission channels). The order in which these
    *  are given equals the order of the channels in the spin group.
    */
-  auto reactionIDs() const { return ranges::view::all( this->reactions_ ); }
+  auto reactionIDs() const {
+
+    return ranges::cpp20::views::all( this->reactions_ );
+  }
 
   /**
    *  @brief Return the resonance table
@@ -99,3 +161,9 @@ public:
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/evaluateTMatrix.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/grid.hpp"
 };
+
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

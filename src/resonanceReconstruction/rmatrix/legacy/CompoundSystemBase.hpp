@@ -1,3 +1,25 @@
+#ifndef NJOY_R2_RMATRIX_LEGACY_COMPOUNDSYSTEMBASE
+#define NJOY_R2_RMATRIX_LEGACY_COMPOUNDSYSTEMBASE
+
+// system includes
+#include <vector>
+
+// other includes
+#include "range/v3/algorithm/for_each.hpp"
+#include "range/v3/algorithm/count_if.hpp"
+#include "range/v3/view/all.hpp"
+#include "range/v3/view/transform.hpp"
+#include "range/v3/view/join.hpp"
+#include "resonanceReconstruction/Quantity.hpp"
+#include "resonanceReconstruction/rmatrix/identifiers.hpp"
+#include "resonanceReconstruction/rmatrix/Map.hpp"
+#include "resonanceReconstruction/rmatrix/calculatePhaseShift.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+namespace legacy {
+
 /**
  *  @class
  *  @brief The base interface for a legacy compound system
@@ -10,9 +32,11 @@ class CompoundSystemBase {
 
   /* fields */
   std::vector< SpinGroupType > groups_;
+  std::vector< ReactionID > reactions_;
   unsigned int lmax_;
 
   /* auxiliary functions */
+  #include "resonanceReconstruction/rmatrix/legacy/CompoundSystemBase/src/makeReactionIDs.hpp"
   #include "resonanceReconstruction/rmatrix/legacy/CompoundSystemBase/src/getLMax.hpp"
   #include "resonanceReconstruction/rmatrix/legacy/CompoundSystemBase/src/verifySpinGroups.hpp"
 
@@ -24,7 +48,25 @@ public:
   /**
    *  @brief Return the l,J data
    */
-  auto spinGroups() const { return ranges::view::all( this->groups_ ); }
+  auto spinGroups() const {
+
+    return ranges::cpp20::views::all( this->groups_ );
+  }
+
+  /**
+   *  @brief Return the reactions defined in the compound system
+   */
+  auto reactionIDs() const {
+
+    return ranges::cpp20::views::all( this->reactions_ );
+  }
 
   #include "resonanceReconstruction/rmatrix/legacy/CompoundSystemBase/src/evaluate.hpp"
 };
+
+} // legacy namespace
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

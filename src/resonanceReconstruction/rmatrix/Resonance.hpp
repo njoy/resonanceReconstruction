@@ -1,3 +1,20 @@
+#ifndef NJOY_R2_RMATRIX_RESONANCE
+#define NJOY_R2_RMATRIX_RESONANCE
+
+// system includes
+#include <complex>
+#include <vector>
+
+// other includes
+#include "range/v3/view/cartesian_product.hpp"
+#include "range/v3/view/chunk.hpp"
+#include "range/v3/view/transform.hpp"
+#include "resonanceReconstruction/Quantity.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+
 /**
  *  @class
  *  @brief Resolved resonance parameters
@@ -33,7 +50,16 @@ public:
   /**
    *  @brief Return the reduced widths for this resonance (in sqrt(eV))
    */
-  auto widths() const { return ranges::view::all( this->widths_ ); }
+  auto widths() const {
+
+    return ranges::cpp20::views::all( this->widths_ );
+  }
 
   #include "resonanceReconstruction/rmatrix/Resonance/src/rmatrix.hpp"
 };
+
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

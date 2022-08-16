@@ -1,9 +1,24 @@
+#ifndef NJOY_R2_RMATRIX_PARTICLE
+#define NJOY_R2_RMATRIX_PARTICLE
+
+// system includes
+
+// other includes
+#include "Log.hpp"
+#include "resonanceReconstruction/Quantity.hpp"
+#include "resonanceReconstruction/rmatrix/identifiers.hpp"
+#include "resonanceReconstruction/rmatrix/QuantumNumbers.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+
 /**
  *  @class
  *  @brief Particle information
  *
  *  The Particle class contains specific information for a particle as used
- *  during resonance reconstruction. The Particle has an atomic mass, an 
+ *  during resonance reconstruction. The Particle has an atomic mass, an
  *  electrical charge, a spin and a parity (either + or -).
  *
  *  These variables are used to calculate quantities like the wave number k for
@@ -51,3 +66,9 @@ public:
    */
   const Parity& parity() const { return this->parity_; }
 };
+
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

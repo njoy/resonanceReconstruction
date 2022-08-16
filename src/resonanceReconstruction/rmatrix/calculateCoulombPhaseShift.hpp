@@ -1,10 +1,25 @@
+#ifndef NJOY_R2_RMATRIX_CALCULATEW
+#define NJOY_R2_RMATRIX_CALCULATEW
+
+// system includes
+
+// other includes
+#include "range/v3/numeric/accumulate.hpp"
+#include "range/v3/view/iota.hpp"
+#include "range/v3/view/transform.hpp"
+#include "resonanceReconstruction/rmatrix/options.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+
 /**
  *  @brief Default value for the Coulomb phase shift
  *
  *  For all channel types except for charged particle channels, the Coulomb
  *  phase shift is 0.0.
  */
-template < typename Type >
+template < typename ChannelType >
 double calculateCoulombPhaseShift( const int, const double ) {
   return 0.0;
 }
@@ -29,8 +44,14 @@ template <>
 double calculateCoulombPhaseShift< ChargedParticle >( const int l,
                                                       const double eta ) {
   return ranges::accumulate(
-             ranges::view::indices( 1, l + 1 )
-               | ranges::view::transform(
+             ranges::cpp20::views::iota( 1, l + 1 )
+               | ranges::cpp20::views::transform(
                      [&] ( int n ) -> double
                          { return 1. / std::tan( eta / n ); } ), 0.0 );
 }
+
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif

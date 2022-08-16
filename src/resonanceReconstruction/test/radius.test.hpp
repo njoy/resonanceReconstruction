@@ -2,15 +2,15 @@ SCENARIO("radius"){
   SECTION("double overload"){
     const double AP = 10.0;
 
-    auto reference = ranges::view::repeat_n( AP * rootBarns, 10 );
+    auto reference = ranges::views::repeat_n( AP * rootBarns, 10 );
 
-    auto trial = ranges::view::linear_distribute( -10, 30, 40 )
-      | ranges::view::transform( []( double d ){ return std::pow( 2.0, d ); } )
-      | ranges::view::transform( []( double d ){ return d * electronVolts ; } )
-      | ranges::view::transform
+    auto trial = ranges::views::linear_distribute( -10, 30, 40 )
+      | ranges::views::transform( []( double d ){ return std::pow( 2.0, d ); } )
+      | ranges::views::transform( []( double d ){ return d * electronVolts ; } )
+      | ranges::views::transform
         ( [ ap = radius( AP ) ]( auto&& e ){ return ap( e ); } );
 
-    for ( const auto& pair : ranges::view::zip( trial, reference ) ){
+    for ( const auto pair : ranges::views::zip( trial, reference ) ){
       const auto trial = std::get<0>(pair);
       const auto reference = std::get<1>(pair);
       REQUIRE( trial == reference );
@@ -30,9 +30,9 @@ SCENARIO("radius"){
                                      std::move( radii ) );
     }();
 
-    auto trial = ranges::view::linear_distribute( 1.0, 6.0, 11 )
-      | ranges::view::transform( []( double e ){ return e * electronVolts; } )
-      | ranges::view::transform
+    auto trial = ranges::views::linear_distribute( 1.0, 6.0, 11 )
+      | ranges::views::transform( []( double e ){ return e * electronVolts; } )
+      | ranges::views::transform
         ( [ ape = radius( tab1 ) ]( auto&& e ){ return ape( e ); } );
 
     std::vector< Quantity<RootBarn> > reference = { 3.0 * rootBarn,
@@ -47,7 +47,7 @@ SCENARIO("radius"){
                                                     7.5 * rootBarn,
                                                     8.0 * rootBarn };
 
-    for ( const auto& pair : ranges::view::zip( trial, reference ) ){
+    for ( const auto pair : ranges::views::zip( trial, reference ) ){
       const auto trial = std::get<0>(pair);
       const auto reference = std::get<1>(pair);
       REQUIRE( trial.value == Approx(reference.value) );

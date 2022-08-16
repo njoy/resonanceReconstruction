@@ -1,10 +1,10 @@
 std::vector< ChannelQuantumNumbers >
-makeQuantumNumbers( const ParticlePair& incident, unsigned int lmax ) {
+makeQuantumNumbers( const ParticlePair& incident, unsigned int nls ) {
 
   std::vector< ChannelQuantumNumbers > numbers;
   auto channelspins = possibleChannelSpinValues( incident.particle().spin(),
                                                  incident.residual().spin() );
-  for ( unsigned int l = 0; l < lmax; ++l ) {
+  for ( unsigned int l = 0; l < nls; ++l ) {
 
     for ( unsigned int i = 0; i < channelspins.size(); ++i ) {
 
@@ -39,9 +39,9 @@ retrieveQuantumNumber( unsigned int l, double j,
        [l,j] ( const auto& number )
              { return ( number.orbitalAngularMomentum() == l ) and
                       ( number.totalAngularMomentum() == std::abs( j ) ); };
-  auto filtered = available | ranges::view::filter( filter );
+  auto filtered = available | ranges::cpp20::views::filter( filter );
 
-  auto found = ranges::distance( filtered );
+  auto found = ranges::cpp20::distance( filtered );
   if ( found > 0 ) {
 
     // retrieve the one we need and erase it from the available numbers

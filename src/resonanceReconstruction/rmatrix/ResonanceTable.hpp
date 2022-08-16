@@ -1,3 +1,21 @@
+#ifndef NJOY_R2_RMATRIX_RESONANCETABLE
+#define NJOY_R2_RMATRIX_RESONANCETABLE
+
+// system includes
+#include <vector>
+
+// other includes
+#include "Log.hpp"
+#include "range/v3/algorithm/for_each.hpp"
+#include "range/v3/view/all.hpp"
+#include "resonanceReconstruction/Quantity.hpp"
+#include "resonanceReconstruction/rmatrix/identifiers.hpp"
+#include "resonanceReconstruction/rmatrix/Resonance.hpp"
+
+namespace njoy {
+namespace resonanceReconstruction {
+namespace rmatrix {
+
 /**
  *  @class
  *  @brief Resonance parameters for a specific J,pi value
@@ -29,20 +47,33 @@ public:
   /**
    *  @brief Return the channel IDs
    */
-  auto channels() const { return ranges::view::all( this->channels_ ); }
+  auto channels() const {
+
+    return ranges::cpp20::views::all( this->channels_ );
+  }
 
   /**
    *  @brief Return the resonances
    */
-  auto resonances() const { return ranges::view::all( this->widths_ ); }
+  auto resonances() const {
+
+    return ranges::cpp20::views::all( this->widths_ );
+  }
 
   /**
    *  @brief Return the resonance energies
    */
   auto energies() const {
-    
+
     return this->resonances()
-             | ranges::view::transform( [] ( const auto& resonance )
-                                           { return resonance.energy(); } );
+             | ranges::cpp20::views::transform(
+                   [] ( const auto& resonance ) -> decltype(auto)
+                      { return resonance.energy(); } );
   }
 };
+
+} // rmatrix namespace
+} // resonanceReconstruction namespace
+} // njoy namespace
+
+#endif
