@@ -13,7 +13,7 @@ class RLMatrixCalculator< GeneralRMatrix, BoundaryOption > {
   Matrix< std::complex< double > > rlmatrix_;
 
   /* fields */
-  #include "resonanceReconstruction/rmatrix/RLMatrixCalculator/src/makeGMatrix.hpp"
+  #include "resonanceReconstruction/rmatrix/RLMatrixCalculator/GeneralRMatrix/src/makeGMatrix.hpp"
 
 public:
 

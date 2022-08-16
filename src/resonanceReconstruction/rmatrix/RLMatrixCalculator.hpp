@@ -21,6 +21,7 @@ template < typename Formalism, typename BoundaryOption >
 class RLMatrixCalculator;
 
 #include "resonanceReconstruction/rmatrix/RLMatrixCalculator/ReichMoore.hpp"
+#include "resonanceReconstruction/rmatrix/RLMatrixCalculator/GeneralRMatrix.hpp"
 
 } // rmatrix namespace
 } // resonanceReconstruction namespace
