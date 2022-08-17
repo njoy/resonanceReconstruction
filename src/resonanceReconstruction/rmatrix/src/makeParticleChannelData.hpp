@@ -133,14 +133,16 @@ makeParticleChannelData(
 
     if ( reducedWidthsFlag ) {
 
-      return widths | ranges::cpp20::views::transform( toReducedWidth );
+      return ranges::to< std::vector< ReducedWidth > >(
+                 widths | ranges::cpp20::views::transform( toReducedWidth ) );
     }
 
-    return ranges::views::zip_with(
+    return ranges::to< std::vector< ReducedWidth > >(
+             ranges::views::zip_with(
                calculateReducedWidth,
                energies,
                widths,
-               ranges::views::repeat_n( channel, energies.size() ) );
+               ranges::views::repeat_n( channel, energies.size() ) ) );
   };
 
   std::vector< ParticleChannel > channels =
@@ -158,18 +160,16 @@ makeParticleChannelData(
                        | ranges::cpp20::views::transform(
                              [i] ( const auto& widths ) -> decltype(auto)
                                  { return widths[i]; } ) );
-      auto nonzero = pairs | ranges::views::filter( nonZero );
+      auto nonzero = pairs | ranges::cpp20::views::filter( nonZero );
 
       // only add the channel if there are resonances
       if ( ranges::cpp20::distance( nonzero ) != 0 ) {
 
-        std::vector< Energy > energies =
-          ranges::to< std::vector< Energy > >(
-            nonzero | ranges::cpp20::views::transform( first )
-                    | ranges::cpp20::views::transform( toEnergy ) );
-        std::vector< ReducedWidth > widths =
-          ranges::to< std::vector< ReducedWidth > >(
-            nonzero | ranges::cpp20::views::transform( second ) );
+        auto energies = nonzero | ranges::cpp20::views::transform( first )
+                                | ranges::cpp20::views::transform( toEnergy )
+                                | ranges::to_vector;
+        auto widths = nonzero | ranges::cpp20::views::transform( second )
+                              | ranges::to_vector;
         auto reduced = toReducedWidths( channels[i], energies, widths );
         data.emplace_back( channels[i], std::move( energies ),
                            std::move( reduced ), false );
@@ -308,6 +308,7 @@ makeParticleChannelData(
                                  { return widths[i]; } ) );
       auto nonzero = pairs | ranges::cpp20::views::filter( nonZero );
 
+      // only add the channel if there are resonances
       if ( ranges::cpp20::distance( nonzero ) != 0 ) {
 
         auto energies = nonzero | ranges::cpp20::views::transform( first )

@@ -136,15 +136,23 @@ fromENDF( const endf::ResonanceRange& endfResonanceRange,
 
               if ( shiftFactorBoundary ) {
 
-                return makeCompoundSystem( endfRMatrix,
-                                           neutronMass, elementaryCharge,
-                                           GeneralRMatrix(), ShiftFactor() );
+                return Reconstructor(
+                           lower * electronVolt,
+                           upper * electronVolt,
+                           makeCompoundSystem( endfRMatrix,
+                                               neutronMass, elementaryCharge,
+                                               incident, target,
+                                               GeneralRMatrix(), ShiftFactor() ) );
               }
               else {
 
-                return makeCompoundSystem( endfRMatrix,
-                                           neutronMass, elementaryCharge,
-                                           GeneralRMatrix(), Constant() );
+                return Reconstructor(
+                           lower * electronVolt,
+                           upper * electronVolt,
+                           makeCompoundSystem( endfRMatrix,
+                                               neutronMass, elementaryCharge,
+                                               incident, target,
+                                               GeneralRMatrix(), Constant() ) );
               }
             }
             // SLBW and MLBW

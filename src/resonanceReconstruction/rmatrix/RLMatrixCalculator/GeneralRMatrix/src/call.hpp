@@ -5,7 +5,6 @@
  *  @param[in] table             the resonance table
  *  @param[in] penetrabilities   the channel penetrabilities
  *  @param[in] channels          the channels
- *  @param[in] belowThreshold    which channels are below the threshold
  *
  *  @return The resulting ( I - RL )^-1 R matrix
  */
