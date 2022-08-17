@@ -9,13 +9,12 @@
  *
  *  @return The resulting ( I - RL )^-1 R matrix
  */
-template < typename Penetrabilities, typename Channels, typename BelowThreshold >
+template < typename Penetrabilities, typename Channels >
 const Matrix< std::complex< double > >&
 operator()( const Energy& energy,
             const ResonanceTable& table,
             const Penetrabilities& penetrabilities,
-            const Channels& channels,
-            const BelowThreshold& belowThreshold ) {
+            const Channels& channels ) {
 
   //! @todo handle threshold reactions?
 
@@ -29,13 +28,12 @@ operator()( const Energy& energy,
   this->amatrix_ = Matrix< std::complex< double > >::Zero( numberResonances,
                                                            numberResonances );
   for ( unsigned int lambda = 0; lambda < numberResonances; ++lambda ) {
-    this->amatrix_( lambda, lambda ) = energies[lambda] - energy;
+    this->amatrix_( lambda, lambda ) = ( energies[lambda] - energy ) / electronVolt;
     for ( unsigned int mu = 0; mu < numberResonances; ++mu ) {
       for ( unsigned int c = 0; c < numberChannels; ++c ) {
         this->amatrix_( lambda, mu ) -= this->gmatrix_( c, lambda ) *
-                                        this->lmatrix_.diagonal()[c] *
-                                        this->gmatrix_( c, mu ) /
-                                        electronVolt;
+                                        this->lmatrix_.matrix().diagonal()[c] *
+                                        this->gmatrix_( c, mu );
       }
     }
   }

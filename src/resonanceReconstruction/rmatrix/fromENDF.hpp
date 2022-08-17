@@ -134,7 +134,7 @@ fromENDF( const endf::ResonanceRange& endfResonanceRange,
             // general R-matrix
             case 4 : {
 
-              /*if ( shiftFactorBoundary ) {
+              if ( shiftFactorBoundary ) {
 
                 return makeCompoundSystem( endfRMatrix,
                                            neutronMass, elementaryCharge,
@@ -145,10 +145,7 @@ fromENDF( const endf::ResonanceRange& endfResonanceRange,
                 return makeCompoundSystem( endfRMatrix,
                                            neutronMass, elementaryCharge,
                                            GeneralRMatrix(), Constant() );
-              }*/
-              throw std::runtime_error( "fromENDF is not implemented for "
-                                        "general R-matrix in the R-matrix limited "
-                                        "resolved resonances" );
+              }
             }
             // SLBW and MLBW
             default : {
