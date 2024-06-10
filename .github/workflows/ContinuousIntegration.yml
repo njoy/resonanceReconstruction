@@ -1,8 +1,11 @@
-# GitHub workflow to enable continuous integratoin
+# GitHub workflow to enable continuous integration
 name: Continuous Integration
 
 # This workflow is triggered on pushes and pull requests to the repository.
+# This workflow will also run each Monday on the default branch (i.e. master)
 on:
+  schedule:
+    - cron: '0 0 * * 1'
   push:
     branches: '**'
   pull_request:
@@ -13,7 +16,7 @@ jobs:
     runs-on: ${{matrix.os}}
     strategy:
       matrix:
-        os: [ ubuntu-18.04, macos-10.15 ]
+        os: [ ubuntu-20.04, macos-11 ]
         cxx: [ clang++, g++-9 ]
         build_type: [ Debug, Release ]
 
@@ -22,14 +25,14 @@ jobs:
       run: |
         which ${{matrix.cxx}}
         ${{matrix.cxx}} --version
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: mkdir bin
       run: mkdir bin
     - name: cmake
-      run: cmake -D CMAKE_CXX_COMPILER=`which ${{matrix.cxx}}` -D CMAKE_BUILD_TYPE=${{matrix.build_type}} ..
+      run: cmake -DPYTHON_EXECUTABLE=$(which python3) -D CMAKE_CXX_COMPILER=`which ${{matrix.cxx}}` -D CMAKE_BUILD_TYPE=${{matrix.build_type}} -D resonanceReconstruction.tests=ON ..
       working-directory: ./bin
     - name: make
-      run: make
+      run: make -j2
       working-directory: ./bin
     - name: ctest
       run: ctest -j2

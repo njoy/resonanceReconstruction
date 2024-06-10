@@ -17,12 +17,12 @@ FetchContent_Declare( dimwits
 
 FetchContent_Declare( disco
     GIT_REPOSITORY  https://github.com/njoy/disco
-    GIT_TAG         a1a7ddb2c0f69465524d8640ee29988b714a881e
+    GIT_TAG         2606933a854bb0269c4ec37143e1236797e27838
     )
 
 FetchContent_Declare( eigen
     GIT_REPOSITORY  https://gitlab.com/libeigen/eigen.git
-    GIT_TAG         dc252fbf00079ccab57948a164b1421703fe4361 # tag: 3.3.8
+    GIT_TAG         3147391d946bb4b6c68edd901f2add6ac1f31f8c # tag: 3.4.0
     )
 set( BUILD_TESTING CACHE BOOL OFF )
 
@@ -33,8 +33,9 @@ FetchContent_Declare( elementary
 
 FetchContent_Declare( ENDFtk
     GIT_REPOSITORY  https://github.com/njoy/ENDFtk
-    GIT_TAG         7c18e78be56511183cb239a386d52c132ef5fe03
+    GIT_TAG         6b79cc3ad2cfdc14517246e26e66aa3ae6335947
     )
+set( ENDFtk.python CACHE BOOL OFF )
 
 FetchContent_Declare( hana-adapter
     GIT_REPOSITORY  https://github.com/njoy/hana-adapter
@@ -48,7 +49,7 @@ FetchContent_Declare( header-utilities
 
 FetchContent_Declare( interpolation
     GIT_REPOSITORY  https://github.com/njoy/interpolation
-    GIT_TAG         32375a9ae0ff346cecf69d5acd32dbc0092e7d7a
+    GIT_TAG         cb975c3cc58ccbc948b6750231056f7a98ad2ac9
     )
 
 FetchContent_Declare( Log
@@ -58,7 +59,7 @@ FetchContent_Declare( Log
 
 FetchContent_Declare( pybind11
     GIT_REPOSITORY  https://github.com/pybind/pybind11
-    GIT_TAG         f1abf5d9159b805674197f6bc443592e631c9130 # tag: v2.6.1
+    GIT_TAG         80dc998efced8ceb2be59756668a7e90e8bef917 # tag: v2.10.1
     )
 
 FetchContent_Declare( range-v3

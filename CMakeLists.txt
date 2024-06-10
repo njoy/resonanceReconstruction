@@ -1,7 +1,6 @@
 ########################################################################
 # Preamble
 ########################################################################
-
 cmake_minimum_required( VERSION 3.14 )
 project( resonanceReconstruction LANGUAGES CXX )
 
@@ -13,9 +12,7 @@ project( resonanceReconstruction LANGUAGES CXX )
 set( CMAKE_CXX_STANDARD 17 )
 set( CMAKE_CXX_STANDARD_REQUIRED YES )
 
-option( resonanceReconstruction_unit_tests
-    "Compile the resonanceReconstruction unit tests and integrate with ctest" ON
-    )
+option( resonanceReconstruction.tests "Build the resonanceReconstruction unit tests" OFF )
 option( strict_compile
     "Treat all warnings as errors." ON
     )
@@ -52,8 +49,13 @@ endif()
 # Project targets
 ########################################################################
 
-add_library( resonanceReconstruction INTERFACE
-    )
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# ENDFtk : library
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+include_directories( src/ )
+
+add_library( resonanceReconstruction INTERFACE )
 target_include_directories( resonanceReconstruction INTERFACE src/ )
 target_link_libraries( resonanceReconstruction
     INTERFACE ENDFtk
@@ -69,10 +71,7 @@ target_link_libraries( resonanceReconstruction
 #######################################################################
 
 if( CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR )
-
-    # unit testing
-    if( resonanceReconstruction_unit_tests )
-        include( cmake/unit_testing.cmake )
-    endif()
-
+  if( resonanceReconstruction.tests )
+    include( cmake/unit_testing.cmake )
+  endif()
 endif()
