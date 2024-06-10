@@ -150,33 +150,33 @@ SCENARIO( "evaluate" ) {
       RLMatrixCalculator< ReichMoore, Constant > calculator3( single );
       RLMatrixCalculator< ReichMoore, Constant > calculator4( multiple );
 
-      CHECK( 2 == calculator1.matrix().rows() );
-      CHECK( 2 == calculator1.matrix().cols() );
-      CHECK( 0.0 == calculator1.matrix()(0,0) );
-      CHECK( 0.0 == calculator1.matrix()(0,1) );
-      CHECK( 0.0 == calculator1.matrix()(1,0) );
-      CHECK( 0.0 == calculator1.matrix()(1,1) );
+      CHECK( 2 == calculator1.rlmatrix().rows() );
+      CHECK( 2 == calculator1.rlmatrix().cols() );
+      CHECK( 0.0 == calculator1.rlmatrix()(0,0) );
+      CHECK( 0.0 == calculator1.rlmatrix()(0,1) );
+      CHECK( 0.0 == calculator1.rlmatrix()(1,0) );
+      CHECK( 0.0 == calculator1.rlmatrix()(1,1) );
 
-      CHECK( 2 == calculator2.matrix().rows() );
-      CHECK( 2 == calculator2.matrix().cols() );
-      CHECK( 0.0 == calculator2.matrix()(0,0) );
-      CHECK( 0.0 == calculator2.matrix()(0,1) );
-      CHECK( 0.0 == calculator2.matrix()(1,0) );
-      CHECK( 0.0 == calculator2.matrix()(1,1) );
+      CHECK( 2 == calculator2.rlmatrix().rows() );
+      CHECK( 2 == calculator2.rlmatrix().cols() );
+      CHECK( 0.0 == calculator2.rlmatrix()(0,0) );
+      CHECK( 0.0 == calculator2.rlmatrix()(0,1) );
+      CHECK( 0.0 == calculator2.rlmatrix()(1,0) );
+      CHECK( 0.0 == calculator2.rlmatrix()(1,1) );
 
-      CHECK( 2 == calculator3.matrix().rows() );
-      CHECK( 2 == calculator3.matrix().cols() );
-      CHECK( 0.0 == calculator3.matrix()(0,0) );
-      CHECK( 0.0 == calculator3.matrix()(0,1) );
-      CHECK( 0.0 == calculator3.matrix()(1,0) );
-      CHECK( 0.0 == calculator3.matrix()(1,1) );
+      CHECK( 2 == calculator3.rlmatrix().rows() );
+      CHECK( 2 == calculator3.rlmatrix().cols() );
+      CHECK( 0.0 == calculator3.rlmatrix()(0,0) );
+      CHECK( 0.0 == calculator3.rlmatrix()(0,1) );
+      CHECK( 0.0 == calculator3.rlmatrix()(1,0) );
+      CHECK( 0.0 == calculator3.rlmatrix()(1,1) );
 
-      CHECK( 2 == calculator4.matrix().rows() );
-      CHECK( 2 == calculator4.matrix().cols() );
-      CHECK( 0.0 == calculator4.matrix()(0,0) );
-      CHECK( 0.0 == calculator4.matrix()(0,1) );
-      CHECK( 0.0 == calculator4.matrix()(1,0) );
-      CHECK( 0.0 == calculator4.matrix()(1,1) );
+      CHECK( 2 == calculator4.rlmatrix().rows() );
+      CHECK( 2 == calculator4.rlmatrix().cols() );
+      CHECK( 0.0 == calculator4.rlmatrix()(0,0) );
+      CHECK( 0.0 == calculator4.rlmatrix()(0,1) );
+      CHECK( 0.0 == calculator4.rlmatrix()(1,0) );
+      CHECK( 0.0 == calculator4.rlmatrix()(1,1) );
     } // THEN
 
     THEN( "R_L = ( I - RL )^-1 R can be calculated" ) {

@@ -7,8 +7,7 @@
 SpinGroup( std::vector< ParticleChannel >&& channels,
            ResonanceTable&& table ) :
   rlmatrix_( table ),
-  reactions_( makeReactionIdentifiers( channels,
-                                       Formalism() ) ),
+  reactions_( makeReactionIdentifiers( channels, Formalism() ) ),
   incident_( determineIncidentChannels( channels ) ),
   channels_( std::move( channels ) ),
   parameters_( std::move( table ) ) {

@@ -3,19 +3,37 @@ std::vector< ReactionID >
 makeReactionIdentifiers( const std::vector< ParticleChannel >& channels,
                          ReichMoore ) {
 
-  auto reactionID = [] ( const auto& channel )
-                       { return channel.reactionID(); };
+  std::vector< ReactionID > identifiers;
+  for ( const auto& channel : channels ) {
+
+    identifiers.emplace_back(
+        std::visit( [] ( const auto& channel )
+                       { return channel.reactionID(); },
+                    channel ) );
+  }
 
   const auto in = std::visit(
                     [] ( const auto& channel )
                        { return channel.incidentParticlePair().pairID(); },
                     channels.front() );
-  return ranges::to< std::vector< ReactionID > >(
-             ranges::views::concat(
-                 channels
-                   | ranges::cpp20::views::transform(
-                         [&] ( const auto& channel )
-                             { return std::visit( reactionID, channel ); } ),
-                 ranges::cpp20::views::single(
-                     ReactionID( in, ParticlePairID( "capture" ) ) ) ) );
+
+  identifiers.emplace_back( ReactionID( in, ParticlePairID( "capture" ) ) );
+
+  return identifiers;
+}
+
+static
+std::vector< ReactionID >
+makeReactionIdentifiers( const std::vector< ParticleChannel >& channels,
+                         GeneralRMatrix ) {
+
+  std::vector< ReactionID > identifiers;
+  for ( const auto& channel : channels ) {
+
+    identifiers.emplace_back(
+        std::visit( [] ( const auto& channel )
+                       { return channel.reactionID(); },
+                    channel ) );
+  }
+  return identifiers;
 }

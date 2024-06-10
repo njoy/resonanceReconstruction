@@ -24,6 +24,7 @@ namespace resonanceReconstruction {
   using ElectronVoltSeconds = ElectronVoltSecond;
   using ElectronVoltSquared = decltype( ElectronVolts() * ElectronVolts() );
   using FaradPerMeter = decltype( farad / meter );
+  using MeterPerSecond = decltype( Meters() / Seconds() );
   using CoulombSquaredSecondPerMeter = decltype( Coulomb() * Coulomb() *
                                                  Seconds() / Meters() );
 
@@ -33,6 +34,7 @@ namespace resonanceReconstruction {
   // constants - taken from 2014 CODATA
   constexpr Quantity< ElectronVoltSecond > hbar = 6.582119514e-16 * electronVolt * second;
   constexpr Quantity< FaradPerMeter > epsilon0 = 8.854187817e-12 * farad / meter;
+  constexpr Quantity< MeterPerSecond > c = 299792458 * meter / second;
 
   // unit variables
   constexpr Quantity< RootBarn > rootBarn = 1.0E-12 * centi(meter);

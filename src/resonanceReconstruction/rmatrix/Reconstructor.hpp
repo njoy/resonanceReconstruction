@@ -24,8 +24,8 @@ using CompoundSystemVariant =
                   legacy::resolved::CompoundSystem< MultiLevelBreitWigner >,
                   CompoundSystem< ReichMoore, ShiftFactor >,
                   CompoundSystem< ReichMoore, Constant >,
-                  //CompoundSystem< GeneralRMatrix, ShiftFactor >,
-                  //CompoundSystem< GeneralRMatrix, Constant >,
+                  CompoundSystem< GeneralRMatrix, ShiftFactor >,
+                  CompoundSystem< GeneralRMatrix, Constant >,
                   legacy::unresolved::CompoundSystem >;
 
 /**

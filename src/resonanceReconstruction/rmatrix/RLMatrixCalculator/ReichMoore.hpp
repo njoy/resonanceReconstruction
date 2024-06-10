@@ -43,7 +43,7 @@ public:
    *  @brief Return the ( I - RL )^-1 R matrix
    */
   const Matrix< std::complex< double > >&
-  matrix() const { return this->rlmatrix_; }
+  rlmatrix() const { return this->rlmatrix_; }
 
   #include "resonanceReconstruction/rmatrix/RLMatrixCalculator/ReichMoore/src/call.hpp"
 };
