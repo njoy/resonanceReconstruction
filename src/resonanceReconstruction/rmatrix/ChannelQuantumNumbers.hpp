@@ -2,6 +2,7 @@
 #define NJOY_R2_RMATRIX_CHANNELQUANTUMNUMBERS
 
 // system includes
+#include <cmath>
 
 // other includes
 #include "resonanceReconstruction/rmatrix/QuantumNumbers.hpp"

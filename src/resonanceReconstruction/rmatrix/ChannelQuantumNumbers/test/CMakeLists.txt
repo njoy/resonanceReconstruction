@@ -1,3 +1,1 @@
-add_executable( resonanceReconstruction.rmatrix.ChannelQuantumNumbers.test ChannelQuantumNumbers.test.cpp )
-target_link_libraries( resonanceReconstruction.rmatrix.ChannelQuantumNumbers.test PUBLIC resonanceReconstruction ) 
-add_test( NAME resonanceReconstruction.rmatrix.ChannelQuantumNumbers COMMAND resonanceReconstruction.rmatrix.ChannelQuantumNumbers.test )
+add_cpp_test( rmatrix.ChannelQuantumNumbers ChannelQuantumNumbers.test.cpp )

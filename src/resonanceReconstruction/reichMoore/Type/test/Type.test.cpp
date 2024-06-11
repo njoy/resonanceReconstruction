@@ -1,9 +1,12 @@
-#define CATCH_CONFIG_MAIN
+// include Catch2
+#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch_approx.hpp>
+using Catch::Approx;
+
+// what we are testing
+#include "resonanceReconstruction/reichMoore.hpp"
 
 #include <chrono>
-
-#include "catch.hpp"
-#include "resonanceReconstruction/reichMoore.hpp"
 
 #include "header-utilities/slurpFileToMemory.hpp"
 #include "ENDFtk/tree/Tape.hpp"

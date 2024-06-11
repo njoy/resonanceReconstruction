@@ -20,11 +20,11 @@ FetchContent_Declare( disco
     GIT_TAG         2606933a854bb0269c4ec37143e1236797e27838
     )
 
+
 FetchContent_Declare( eigen
     GIT_REPOSITORY  https://gitlab.com/libeigen/eigen.git
-    GIT_TAG         3147391d946bb4b6c68edd901f2add6ac1f31f8c # tag: 3.4.0
+    GIT_TAG         d0bfdc1658ca0b4c659fd3702c351d2c2cdc876c # 3.4.1 branch on July 26, 2023
     )
-set( BUILD_TESTING CACHE BOOL OFF )
 
 FetchContent_Declare( elementary
     GIT_REPOSITORY  https://github.com/njoy/elementary
@@ -73,12 +73,16 @@ FetchContent_Declare( spdlog
     )
 set( SPDLOG_BUILD_TESTING CACHE BOOL OFF )
 
+FetchContent_Declare( Catch2
+    GIT_REPOSITORY  https://github.com/catchorg/Catch2
+    GIT_TAG         3f0283de7a9c43200033da996ff9093be3ac84dc # tag: v3.3.2
+    )
+
 #######################################################################
 # Load dependencies
 #######################################################################
 
 FetchContent_MakeAvailable(
-    catch-adapter
     dimwits
     disco
     eigen
@@ -88,7 +92,6 @@ FetchContent_MakeAvailable(
     header-utilities
     interpolation
     Log
-    pybind11
     range-v3
     spdlog
     )

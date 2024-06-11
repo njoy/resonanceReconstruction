@@ -1,6 +1,9 @@
-#define CATCH_CONFIG_MAIN
+// include Catch2
+#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch_approx.hpp>
+using Catch::Approx;
 
-#include "catch.hpp"
+// what we are testing
 #include "resonanceReconstruction/rmatrix/ChannelQuantumNumbers.hpp"
 
 using namespace njoy::resonanceReconstruction;
