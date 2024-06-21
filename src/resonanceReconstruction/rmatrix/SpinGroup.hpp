@@ -156,6 +156,14 @@ public:
    */
   const ResonanceTable& resonanceTable() const { return this->parameters_; }
 
+  /** 
+   *  @brief Return the RLMatrixCalculator 
+   * 
+   * This allows access to the intermediate matrices in the calculation, such
+   * as the A-matrix, L-matrix, etc.
+  */
+  const RLMatrixCalculator< Formalism, BoundaryOption >& matrixCalculator() const { return this->rlmatrix_; }
+  
   //#include "resonanceReconstruction/rmatrix/SpinGroup/src/switchIncidentPair.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/evaluate.hpp"
   #include "resonanceReconstruction/rmatrix/SpinGroup/src/evaluateTMatrix.hpp"
